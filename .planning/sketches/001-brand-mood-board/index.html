@@ -462,17 +462,22 @@
     }
     .col-icon svg { width: 12px; height: 12px; }
     body[data-theme="util"] .col-icon {
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      width: 24px; height: 24px;
-      border-radius: 6px;
-      font-size: 12px;
-      line-height: 1;
+      background: var(--ico-bg, var(--color-bg));
+      border: 1px solid var(--ico-border, var(--color-border));
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      color: var(--ico-fg, var(--color-text-muted));
     }
-    body[data-theme="util"] .col-icon svg { display: none; }
-    .col-emoji { display: none; }
-    body[data-theme="util"] .col-emoji { display: inline; }
-    body:not([data-theme="util"]) .col-emoji { display: none; }
+    body[data-theme="util"] .col-icon svg { display: block; width: 13px; height: 13px; }
+    .col-emoji { display: none !important; }
+    body[data-theme="util"] .col[data-col="inbox"] { --ico-bg: #fff4e8; --ico-border: #f5d0a8; --ico-fg: #c2410c; --col-tint: #fffaf5; }
+    body[data-theme="util"] .col[data-col="notes"] { --ico-bg: #edf3ec; --ico-border: #c9dcc8; --ico-fg: #346538; --col-tint: #f7faf7; }
+    body[data-theme="util"] .col[data-col="links"] { --ico-bg: #e1f3fe; --ico-border: #b6ddf5; --ico-fg: #1f6c9f; --col-tint: #f5fafd; }
+    body[data-theme="util"] .col[data-col="tasks"] { --ico-bg: #fbf3db; --ico-border: #ead9a0; --ico-fg: #956400; --col-tint: #fbfaf4; }
+    body[data-theme="util"] .col[data-col="events"] { --ico-bg: #fdebec; --ico-border: #f0c4c6; --ico-fg: #9f2f2d; --col-tint: #fdf7f7; }
+    body[data-theme="util"] .col {
+      background: var(--col-tint, var(--color-surface)) !important;
+    }
     .col-h h3 {
       margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
       color: var(--color-text-muted); font-weight: 700; font-style: normal;
@@ -504,8 +509,20 @@
     body[data-theme="util"] .card {
       box-shadow: none;
       border-radius: 8px;
-      background: var(--color-surface-soft);
+      background: #fff;
+      border-color: color-mix(in srgb, var(--card-accent, #eaeaea) 28%, #eaeaea);
     }
+    body[data-theme="util"] .card .ico-inline {
+      display: inline-grid;
+      place-items: center;
+      width: 14px; height: 14px;
+      vertical-align: -2px;
+      margin-right: 4px;
+      color: inherit;
+    }
+    body[data-theme="util"] .card .ico-inline svg { width: 12px; height: 12px; }
+    .ico-inline { display: none; }
+    body[data-theme="util"] .ico-inline { display: inline-grid; }
     @media (hover: hover) and (pointer: fine) {
       .card:hover {
         border-color: var(--color-border-strong);
@@ -611,7 +628,33 @@
       text-transform: uppercase;
       letter-spacing: 0.07em;
       color: var(--color-text-muted);
+      display: flex; align-items: center; gap: 8px;
     }
+    .util-rail h3 svg {
+      width: 14px; height: 14px;
+      color: #1f6c9f;
+    }
+    .live-ico {
+      width: 18px; height: 18px;
+      border-radius: 5px;
+      display: grid; place-items: center;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      margin-top: 1px;
+    }
+    .live-ico svg { width: 11px; height: 11px; }
+    body[data-theme="util"] .live-item {
+      background: #fff;
+      border-color: #eaeaea;
+    }
+    body[data-theme="util"] .live-item.hot {
+      border-color: #b6ddf5;
+      background: #f5fafd;
+      box-shadow: 0 0 0 2px rgba(31, 108, 159, 0.08);
+    }
+    body[data-theme="util"] .rail-dot { display: none; }
+    .chip .ico-inline { margin-right: 5px; }
     .util-rail .feed { display: flex; flex-direction: column; gap: 8px; }
     .progress > i {
       display: block; height: 100%; width: 0;
@@ -685,18 +728,27 @@
         <div class="meta-row">
           <span class="kbd" id="util-stat-items">0 items</span>
           <span class="kbd" id="util-stat-auto">0 saved</span>
-          <span class="kbd">⏱ 30s</span>
+          <span class="kbd">
+            <svg style="width:10px;height:10px;vertical-align:-1px;margin-right:3px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 4.5v4l2.5 1.5"/></svg>
+            30s
+          </span>
         </div>
         <div class="actions">
           <button class="btn btn-ghost" type="button" data-act="empty">Empty</button>
           <button class="btn btn-ghost" type="button" data-act="populate">Populate</button>
-          <button class="btn btn-primary" type="button" data-act="capture">✦ Capture</button>
+          <button class="btn btn-primary" type="button" data-act="capture">
+            <svg style="width:12px;height:12px;margin-right:6px;vertical-align:-1px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10"/></svg>
+            Capture
+          </button>
         </div>
       </div>
     </header>
 
     <section class="util-rail" aria-label="Live capture">
-      <h3>✦ Live · zuletzt erfasst</h3>
+      <h3>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/></svg>
+        Live · zuletzt erfasst
+      </h3>
       <div class="feed" id="util-feed"></div>
     </section>
 
@@ -780,21 +832,25 @@
 
   <script>
     const ICONS = {
-      inbox: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h12v8H2z"/><path d="M2 6h4l1 2h2l1-2h4"/></svg>',
-      notes: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 2h8v12H4z"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>',
-      links: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.5 9.5l3-3"/><path d="M7 5.5l1.2-1.2a2.5 2.5 0 013.5 3.5L10.5 9"/><path d="M9 10.5l-1.2 1.2a2.5 2.5 0 01-3.5-3.5L5.5 7"/></svg>',
-      tasks: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8l3 3 7-7"/></svg>',
-      events: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="3.5" width="11" height="10" rx="1"/><path d="M2.5 6.5h11M6 2v3M10 2v3"/></svg>',
+      inbox: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h11v7a1 1 0 01-1 1h-9a1 1 0 01-1-1v-7z"/><path d="M2.5 5.5l1.8-2.2h7.4l1.8 2.2"/><path d="M2.5 5.5h3.2l.9 1.6h3l.9-1.6h3.2"/></svg>',
+      notes: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round"><path d="M4 2.5h6.5L12.5 5v8.5H4z"/><path d="M10.5 2.5V5H13"/><path d="M6 7.5h4M6 10h4M6 12.5h2.5"/></svg>',
+      links: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round"><path d="M6.8 9.2l2.4-2.4"/><path d="M7.2 5.2l1-1a2.6 2.6 0 013.7 3.7l-1 1"/><path d="M8.8 10.8l-1 1a2.6 2.6 0 01-3.7-3.7l1-1"/></svg>',
+      tasks: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.2l2.8 2.8 6.2-6.5"/></svg>',
+      events: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2.2v2.6M10.5 2.2v2.6"/><path d="M5.5 9.5h2M9.5 9.5h1.5"/></svg>',
+      pulse: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.55"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/></svg>',
+      clock: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.55"><circle cx="8" cy="8" r="6"/><path d="M8 4.5v4l2.5 1.5"/></svg>',
+      plus: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>',
     };
 
-    document.querySelectorAll('[data-ico]').forEach(el => {
-      const svg = ICONS[el.dataset.ico] || '';
-      const emoji = el.querySelector('.col-emoji');
-      const emojiHtml = emoji ? emoji.outerHTML : '';
-      el.innerHTML = svg + emojiHtml;
-    });
+    const TYPE_ICO = { Notiz: 'notes', Link: 'links', Task: 'tasks', Termin: 'events' };
 
-    const TYPE_EMOJI = { Notiz: '📝', Link: '🔗', Task: '✅', Termin: '📅' };
+    function ico(name, cls = 'ico-inline') {
+      return `<span class="${cls}" aria-hidden="true">${ICONS[name] || ''}</span>`;
+    }
+
+    document.querySelectorAll('[data-ico]').forEach(el => {
+      el.innerHTML = ICONS[el.dataset.ico] || '';
+    });
 
     const SEED = [
       { col: 'inbox', title: 'Voice nach dem Standup', summary: 'Filter + Milch, Spike-Termin verschieben.', type: 'Notiz', status: 'pending', p: 25, accent: 'var(--color-signal)', ts: '00:28' },
@@ -831,7 +887,7 @@
         desc: '',
         line: 'C · warm bone · charcoal · flat workbench',
         boardTitle: 'Board',
-        boardSub: 'Hairline · Pastel · leichter Puls · dezente Emojis',
+        boardSub: 'SVG icons · soft column tints · pastel chips · mehr Detail',
       },
     };
 
@@ -893,11 +949,11 @@
 
     function renderLive() {
       const recent = [...items].slice(0, 3);
-      const htmlEmpty = '<div class="live-item"><span class="rail-dot"></span><div><strong>Wartet auf Capture</strong><span>Nachricht → Bestätigung → Board</span></div><time>—</time></div>';
+      const htmlEmpty = `<div class="live-item"><span class="live-ico">${ICONS.pulse}</span><div><strong>Wartet auf Capture</strong><span>Nachricht → Bestätigung → Board</span></div><time>—</time></div>`;
       const htmlItems = recent.length ? recent.map((i, idx) => `
         <div class="live-item ${idx === hotIdx % recent.length ? 'hot' : ''}" style="animation-delay:${idx * 40}ms">
-          <span class="rail-dot"></span>
-          <div><strong>${TYPE_EMOJI[i.type] || '✦'} ${i.title}</strong><span>${i.col} · ${i.type}</span></div>
+          <span class="live-ico" style="color:var(--color-text-muted)">${ICONS[TYPE_ICO[i.type] || 'notes']}</span>
+          <div><strong>${i.title}</strong><span>${i.col} · ${i.type}</span></div>
           <time>${i.ts || 'now'}</time>
         </div>
       `).join('') : htmlEmpty;
@@ -939,14 +995,14 @@
             <div class="card-accent"></div>
             <div class="card-body">
               <div class="card-top">
-                <span class="chip ${typeClass(i.type)}"><span class="type-emoji">${TYPE_EMOJI[i.type] || ''}</span>${i.type}</span>
-                <span style="font-size:10.5px;color:var(--color-text-muted);font-family:var(--font-mono)">${i.ts || ''}</span>
+                <span class="chip ${typeClass(i.type)}">${ico(TYPE_ICO[i.type] || 'notes')}${i.type}</span>
+                <span style="font-size:10.5px;color:var(--color-text-muted);font-family:var(--font-mono)">${ico('clock')}${i.ts || ''}</span>
               </div>
               <h4>${i.title}</h4>
               <p>${i.summary}</p>
-              <div class="meta">${statusChip(i.status)}</div>
+              <div class="meta">${statusChip(i.status)}<span class="chip">${ico(i.col === 'inbox' ? 'inbox' : TYPE_ICO[i.type] || 'notes')}${i.col}</span></div>
               <div class="progress"><i data-p="${i.p || 0}"></i></div>
-              <div class="card-foot"><span>${i.col}</span><span>${i.p || 0}%</span></div>
+              <div class="card-foot"><span>${ico('pulse')} via Hermes</span><span>${i.p || 0}% ready</span></div>
             </div>
           </article>
         `).join('');
@@ -1003,7 +1059,14 @@
     function flyCapture(fromBtn, toCol) {
       const fly = document.createElement('div');
       fly.className = 'fly-card';
-      fly.textContent = current === 'c' ? '✦ Capture' : 'Milch & Filter';
+        fly.textContent = '';
+      fly.innerHTML = (current === 'c' ? ICONS.plus + ' Capture' : 'Milch & Filter');
+      if (current === 'c') {
+        fly.style.display = 'flex';
+        fly.style.alignItems = 'center';
+        fly.style.gap = '6px';
+        fly.querySelector('svg')?.setAttribute('style', 'width:12px;height:12px');
+      }
       const a = fromBtn.getBoundingClientRect();
       const b = toCol.getBoundingClientRect();
       fly.style.left = a.left + 'px';
