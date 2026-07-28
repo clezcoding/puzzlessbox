@@ -78,7 +78,7 @@
 
 ## Session Continuity
 
-- **Last action:** 2026-07-28 — Quick task 260728-8an: Private GitHub-Repo `clezcoding/puzzlessbox` erstellt, `origin` gesetzt, `main` gepusht.
+- **Last action:** 2026-07-28 — Session pausiert. Quick task 260728-8an (GitHub-Repo) abgeschlossen. Handoff: `.planning/.continue-here.md`
 - **Next recommended action:** `/gsd-discuss-phase 0` (Branding-Entscheidungen interaktiv klären) oder direkt `/gsd-plan-phase 0`.
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
