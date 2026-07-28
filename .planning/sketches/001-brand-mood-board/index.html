@@ -43,13 +43,16 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    /* C: kill carnival atmosphere */
+    /* C: quiet atmosphere — light drift, not carnival */
     body[data-theme="util"]::before {
-      animation: none;
-      background: radial-gradient(800px 400px at 50% -10%, rgba(0,0,0,0.025), transparent 60%);
+      background:
+        radial-gradient(700px 360px at 30% 0%, rgba(31, 108, 159, 0.05), transparent 55%),
+        radial-gradient(600px 320px at 80% 10%, rgba(149, 100, 0, 0.04), transparent 50%),
+        linear-gradient(180deg, #fbfbfa, transparent 200px);
+      animation: washDrift 22s var(--ease-in-out) infinite alternate;
       opacity: 1;
     }
-    body[data-theme="util"]::after { opacity: 0.02; }
+    body[data-theme="util"]::after { opacity: 0.025; }
 
     .shell, #variant-nav, #sketch-tools, .toast, .fly-layer { position: relative; z-index: 1; }
 
@@ -213,8 +216,6 @@
       color: #fff; font-family: 'Syne', var(--font-display); font-weight: 800; font-size: 17px;
       box-shadow: var(--shadow-md);
       position: relative;
-    }
-    body:not([data-theme="util"]) .mark {
       animation: markBreathe 3.2s var(--ease-in-out) infinite;
     }
     body[data-theme="util"] .mark {
@@ -223,6 +224,11 @@
       font-family: var(--font-sans);
       font-weight: 700;
       font-size: 14px;
+      animation: markBreatheUtil 4s var(--ease-in-out) infinite;
+    }
+    @keyframes markBreatheUtil {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-1px); }
     }
     @keyframes markBreathe {
       0%, 100% { transform: translateY(0); }
@@ -234,7 +240,10 @@
       width: 7px; height: 7px; border-radius: 2px;
       background: rgba(255,255,255,0.85);
     }
-    body[data-theme="util"] .mark::after { display: none; }
+    body[data-theme="util"] .mark::after {
+      width: 5px; height: 5px; right: 5px; bottom: 5px; border-radius: 1px;
+      opacity: 0.7;
+    }
     .brand h1 {
       margin: 0; font-family: var(--font-display); font-size: 1.25rem;
       font-style: normal; letter-spacing: -0.03em;
@@ -317,12 +326,20 @@
       width: 8px; height: 8px; border-radius: 50%; margin-top: 5px;
       background: var(--color-primary);
     }
-    body:not([data-theme="util"]) .rail-dot {
+    .rail-dot {
       animation: sonar 2s var(--ease-out) infinite;
+    }
+    body[data-theme="util"] .rail-dot {
+      animation: sonarUtil 2.8s var(--ease-out) infinite;
     }
     @keyframes sonar {
       0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 40%, transparent); }
       70% { box-shadow: 0 0 0 8px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
+    @keyframes sonarUtil {
+      0% { box-shadow: 0 0 0 0 rgba(17, 17, 17, 0.2); }
+      70% { box-shadow: 0 0 0 6px transparent; }
       100% { box-shadow: 0 0 0 0 transparent; }
     }
     .live-item strong { display: block; font-size: 13px; margin-bottom: 2px; font-style: normal; }
@@ -381,7 +398,17 @@
       backdrop-filter: none;
     }
     body[data-theme="util"] .col:last-child { border-right: none; }
-    body[data-theme="util"] .col::before { display: none; }
+    body[data-theme="util"] .col::before {
+      display: block;
+      height: 2px;
+      left: 10px; right: 10px;
+      opacity: 0.55;
+      animation: utilLine 4.5s var(--ease-in-out) infinite;
+    }
+    @keyframes utilLine {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 0.75; }
+    }
     @media (max-width: 980px) { .board { grid-template-columns: repeat(5, 230px); } }
 
     .col {
@@ -435,8 +462,17 @@
     }
     .col-icon svg { width: 12px; height: 12px; }
     body[data-theme="util"] .col-icon {
-      background: transparent; border: none; width: 16px; height: 16px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1;
     }
+    body[data-theme="util"] .col-icon svg { display: none; }
+    .col-emoji { display: none; }
+    body[data-theme="util"] .col-emoji { display: inline; }
+    body:not([data-theme="util"]) .col-emoji { display: none; }
     .col-h h3 {
       margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
       color: var(--color-text-muted); font-weight: 700; font-style: normal;
@@ -495,7 +531,12 @@
       height: 2px;
       background: var(--card-accent, var(--color-primary));
     }
-    body[data-theme="util"] .card-accent { display: none; }
+    body[data-theme="util"] .card-accent {
+      display: block;
+      height: 2px;
+      opacity: 0.7;
+      background: linear-gradient(90deg, var(--card-accent, var(--color-primary)), transparent 90%);
+    }
     .card-body { padding: 11px 12px 12px; }
     .card-top {
       display: flex; justify-content: space-between; gap: 8px; align-items: center;
@@ -531,7 +572,47 @@
       margin-top: 10px; height: 2px; border-radius: 2px;
       background: var(--color-border); overflow: hidden;
     }
-    body[data-theme="util"] .progress { display: none; }
+    body[data-theme="util"] .progress {
+      display: block;
+      height: 2px;
+      margin-top: 12px;
+      background: #ebebeb;
+    }
+    body[data-theme="util"] .progress > i {
+      background: linear-gradient(90deg, #111, #1f6c9f);
+    }
+    .card-foot {
+      display: none;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--color-border);
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-family: var(--font-mono);
+    }
+    body[data-theme="util"] .card-foot { display: flex; justify-content: space-between; gap: 8px; }
+    .type-emoji { margin-right: 2px; }
+
+    /* C live strip under masthead */
+    .util-rail {
+      display: none;
+      margin: -8px 0 22px;
+      padding: 12px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: var(--color-surface);
+      animation: riseIn var(--dur-long) var(--ease-out) 0.08s both;
+    }
+    .layout-util .util-rail { display: block; }
+    .layout-craft .util-rail { display: none; }
+    .util-rail h3 {
+      margin: 0 0 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--color-text-muted);
+    }
+    .util-rail .feed { display: flex; flex-direction: column; gap: 8px; }
     .progress > i {
       display: block; height: 100%; width: 0;
       background: var(--color-primary);
@@ -599,20 +680,25 @@
       <p class="kicker">Workbench · Capture Board</p>
       <h1>Puzzlessbox</h1>
       <div class="rule" aria-hidden="true"></div>
-      <p class="deck" id="util-deck">Nachrichten landen kategorisiert. Kein Spektakel — Struktur, Typo, ruhige Motion.</p>
+      <p class="deck" id="util-deck">Nachrichten landen kategorisiert. Struktur zuerst — mit leichtem Puls und ein paar Emojis.</p>
       <div class="bar">
         <div class="meta-row">
           <span class="kbd" id="util-stat-items">0 items</span>
           <span class="kbd" id="util-stat-auto">0 saved</span>
-          <span class="kbd">30s window</span>
+          <span class="kbd">⏱ 30s</span>
         </div>
         <div class="actions">
           <button class="btn btn-ghost" type="button" data-act="empty">Empty</button>
           <button class="btn btn-ghost" type="button" data-act="populate">Populate</button>
-          <button class="btn btn-primary" type="button" data-act="capture">Capture</button>
+          <button class="btn btn-primary" type="button" data-act="capture">✦ Capture</button>
         </div>
       </div>
     </header>
+
+    <section class="util-rail" aria-label="Live capture">
+      <h3>✦ Live · zuletzt erfasst</h3>
+      <div class="feed" id="util-feed"></div>
+    </section>
 
     <!-- A/B hero -->
     <div class="hero">
@@ -656,23 +742,23 @@
 
     <div class="board" id="board">
       <section class="col" data-col="inbox" id="col-inbox">
-        <div class="col-h"><div class="left"><span class="col-icon" data-ico="inbox"></span><h3>Inbox</h3></div><span class="count" data-count>0</span></div>
+        <div class="col-h"><div class="left"><span class="col-icon" data-ico="inbox"><span class="col-emoji">📥</span></span><h3>Inbox</h3></div><span class="count" data-count>0</span></div>
         <div class="cards"></div>
       </section>
       <section class="col" data-col="notes">
-        <div class="col-h"><div class="left"><span class="col-icon" data-ico="notes"></span><h3>Notizen</h3></div><span class="count" data-count>0</span></div>
+        <div class="col-h"><div class="left"><span class="col-icon" data-ico="notes"><span class="col-emoji">📝</span></span><h3>Notizen</h3></div><span class="count" data-count>0</span></div>
         <div class="cards"></div>
       </section>
       <section class="col" data-col="links">
-        <div class="col-h"><div class="left"><span class="col-icon" data-ico="links"></span><h3>Links</h3></div><span class="count" data-count>0</span></div>
+        <div class="col-h"><div class="left"><span class="col-icon" data-ico="links"><span class="col-emoji">🔗</span></span><h3>Links</h3></div><span class="count" data-count>0</span></div>
         <div class="cards"></div>
       </section>
       <section class="col" data-col="tasks">
-        <div class="col-h"><div class="left"><span class="col-icon" data-ico="tasks"></span><h3>Tasks</h3></div><span class="count" data-count>0</span></div>
+        <div class="col-h"><div class="left"><span class="col-icon" data-ico="tasks"><span class="col-emoji">✅</span></span><h3>Tasks</h3></div><span class="count" data-count>0</span></div>
         <div class="cards"></div>
       </section>
       <section class="col" data-col="events">
-        <div class="col-h"><div class="left"><span class="col-icon" data-ico="events"></span><h3>Termine</h3></div><span class="count" data-count>0</span></div>
+        <div class="col-h"><div class="left"><span class="col-icon" data-ico="events"><span class="col-emoji">📅</span></span><h3>Termine</h3></div><span class="count" data-count>0</span></div>
         <div class="cards"></div>
       </section>
     </div>
@@ -702,8 +788,13 @@
     };
 
     document.querySelectorAll('[data-ico]').forEach(el => {
-      el.innerHTML = ICONS[el.dataset.ico] || '';
+      const svg = ICONS[el.dataset.ico] || '';
+      const emoji = el.querySelector('.col-emoji');
+      const emojiHtml = emoji ? emoji.outerHTML : '';
+      el.innerHTML = svg + emojiHtml;
     });
+
+    const TYPE_EMOJI = { Notiz: '📝', Link: '🔗', Task: '✅', Termin: '📅' };
 
     const SEED = [
       { col: 'inbox', title: 'Voice nach dem Standup', summary: 'Filter + Milch, Spike-Termin verschieben.', type: 'Notiz', status: 'pending', p: 25, accent: 'var(--color-signal)', ts: '00:28' },
@@ -740,7 +831,7 @@
         desc: '',
         line: 'C · warm bone · charcoal · flat workbench',
         boardTitle: 'Board',
-        boardSub: 'Hairline columns · pastel tags · quiet motion (Emil/Hallmark)',
+        boardSub: 'Hairline · Pastel · leichter Puls · dezente Emojis',
       },
     };
 
@@ -802,18 +893,17 @@
 
     function renderLive() {
       const recent = [...items].slice(0, 3);
-      const feed = document.getElementById('live-feed');
-      if (!recent.length) {
-        feed.innerHTML = '<div class="live-item"><span class="rail-dot"></span><div><strong>Wartet auf Capture</strong><span>Nachricht → Bestätigung → Board</span></div><time>—</time></div>';
-        return;
-      }
-      feed.innerHTML = recent.map((i, idx) => `
+      const htmlEmpty = '<div class="live-item"><span class="rail-dot"></span><div><strong>Wartet auf Capture</strong><span>Nachricht → Bestätigung → Board</span></div><time>—</time></div>';
+      const htmlItems = recent.length ? recent.map((i, idx) => `
         <div class="live-item ${idx === hotIdx % recent.length ? 'hot' : ''}" style="animation-delay:${idx * 40}ms">
           <span class="rail-dot"></span>
-          <div><strong>${i.title}</strong><span>${i.col} · ${i.type}</span></div>
+          <div><strong>${TYPE_EMOJI[i.type] || '✦'} ${i.title}</strong><span>${i.col} · ${i.type}</span></div>
           <time>${i.ts || 'now'}</time>
         </div>
-      `).join('');
+      `).join('') : htmlEmpty;
+      document.getElementById('live-feed').innerHTML = htmlItems;
+      const utilFeed = document.getElementById('util-feed');
+      if (utilFeed) utilFeed.innerHTML = htmlItems;
     }
 
     function bump(id) {
@@ -849,13 +939,14 @@
             <div class="card-accent"></div>
             <div class="card-body">
               <div class="card-top">
-                <span class="chip ${typeClass(i.type)}">${i.type}</span>
+                <span class="chip ${typeClass(i.type)}"><span class="type-emoji">${TYPE_EMOJI[i.type] || ''}</span>${i.type}</span>
                 <span style="font-size:10.5px;color:var(--color-text-muted);font-family:var(--font-mono)">${i.ts || ''}</span>
               </div>
               <h4>${i.title}</h4>
               <p>${i.summary}</p>
               <div class="meta">${statusChip(i.status)}</div>
               <div class="progress"><i data-p="${i.p || 0}"></i></div>
+              <div class="card-foot"><span>${i.col}</span><span>${i.p || 0}%</span></div>
             </div>
           </article>
         `).join('');
@@ -863,7 +954,7 @@
       bindDrag();
       renderLive();
       renderStats();
-      if (animateProgress && current !== 'c') {
+      if (animateProgress) {
         requestAnimationFrame(() => {
           document.querySelectorAll('.progress > i').forEach(bar => {
             bar.style.width = '0';
@@ -910,33 +1001,31 @@
     }
 
     function flyCapture(fromBtn, toCol) {
-      if (current === 'c') return; // util: quieter — no fly particle
       const fly = document.createElement('div');
       fly.className = 'fly-card';
-      fly.textContent = 'Milch & Filter';
+      fly.textContent = current === 'c' ? '✦ Capture' : 'Milch & Filter';
       const a = fromBtn.getBoundingClientRect();
       const b = toCol.getBoundingClientRect();
       fly.style.left = a.left + 'px';
       fly.style.top = a.top + 'px';
       fly.style.setProperty('--dx', (b.left + 40 - a.left) + 'px');
       fly.style.setProperty('--dy', (b.top + 60 - a.top) + 'px');
+      if (current === 'c') fly.style.opacity = '0.9';
       document.getElementById('fly-layer').appendChild(fly);
-      setTimeout(() => fly.remove(), 680);
+      setTimeout(() => fly.remove(), current === 'c' ? 480 : 680);
     }
 
     function capture(e) {
       const btn = e.currentTarget;
       const rect = btn.getBoundingClientRect();
-      if (current !== 'c') {
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
-        const size = Math.max(rect.width, rect.height);
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = ((e.offsetX ?? rect.width / 2) - size / 2) + 'px';
-        ripple.style.top = ((e.offsetY ?? rect.height / 2) - size / 2) + 'px';
-        btn.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 550);
-      }
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = ((e.offsetX ?? rect.width / 2) - size / 2) + 'px';
+      ripple.style.top = ((e.offsetY ?? rect.height / 2) - size / 2) + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 550);
       const prev = btn.textContent;
       btn.textContent = '…';
       btn.disabled = true;
@@ -954,8 +1043,8 @@
         render({ landId: id });
         btn.textContent = prev;
         btn.disabled = false;
-        toast('Capture → Inbox');
-      }, current === 'c' ? 180 : 620);
+        toast(current === 'c' ? '✦ Capture → Inbox' : 'Capture → Inbox');
+      }, current === 'c' ? 380 : 620);
     }
 
     function setViewport(mode) {
@@ -980,10 +1069,10 @@
     };
 
     setInterval(() => {
-      if (!items.length || current === 'c') return;
+      if (!items.length) return;
       hotIdx += 1;
       renderLive();
-    }, 2200);
+    }, 2400);
 
     populate();
     showVariant('c');
