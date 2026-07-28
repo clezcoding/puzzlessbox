@@ -1,30 +1,30 @@
-/* Puzzlessbox sketch theme — warm-first / adult-playful
-   Avoid: purple glow, cream+terracotta+serif cliché, broadsheet sterile */
+/* Puzzlessbox sketch theme — restrained adult (post-001 feedback)
+   Dial back: warmth, chroma, play. Keep soft structure, one quiet accent. */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap');
 
 :root {
-  /* Colors — Honey Mist (default / Variant A base) */
-  --color-bg: #fff6ef;
-  --color-bg-wash: #ffe8d6;
+  /* Quiet Stone — default / Variant A */
+  --color-bg: #f5f5f4;
+  --color-bg-wash: #ecebe8;
   --color-surface: #ffffff;
-  --color-surface-soft: #fffaf6;
-  --color-border: #f0d9c4;
+  --color-surface-soft: #fafaf9;
+  --color-border: #e7e5e4;
   --color-text: #1c1917;
   --color-text-muted: #78716c;
-  --color-primary: #e07a3d;
-  --color-primary-hover: #c9652a;
-  --color-accent: #2a9d8f;
-  --color-accent-soft: #d8f3ef;
+  --color-primary: #44403c;
+  --color-primary-hover: #292524;
+  --color-accent: #0f766e;
+  --color-accent-soft: #ccfbf1;
   --color-danger: #e11d48;
-  --color-success: #16a34a;
-  --color-column-inbox: #ffe4cc;
-  --color-column-notes: #e8f5e9;
-  --color-column-links: #e0f2fe;
-  --color-column-tasks: #fef3c7;
-  --color-column-events: #fce7f3;
+  --color-success: #15803d;
+  /* columns: near-neutral, tiny tint only */
+  --color-column-inbox: #f5f5f4;
+  --color-column-notes: #f5f5f4;
+  --color-column-links: #f5f5f4;
+  --color-column-tasks: #f5f5f4;
+  --color-column-events: #f5f5f4;
 
-  /* Typography */
   --font-display: 'Syne', system-ui, sans-serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', monospace;
@@ -36,7 +36,6 @@
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
 
-  /* Spacing */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -45,56 +44,54 @@
   --space-8: 32px;
   --space-12: 48px;
 
-  /* Shapes — soft but not pill-everywhere */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-full: 9999px;
 
-  /* Shadows — soft, warm-tinted, no neon glow */
-  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.05);
-  --shadow-md: 0 6px 16px rgba(224, 122, 61, 0.1);
-  --shadow-lg: 0 12px 32px rgba(28, 25, 23, 0.08);
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.06);
+  --shadow-lg: 0 10px 24px rgba(28, 25, 23, 0.07);
 }
 
-/* Theme: Sage Play */
-[data-theme="sage"] {
-  --color-bg: #eef5f0;
-  --color-bg-wash: #d8ebe0;
+/* Cool Mist — blue-gray, one teal accent */
+[data-theme="cool"] {
+  --color-bg: #f1f5f9;
+  --color-bg-wash: #e2e8f0;
   --color-surface: #ffffff;
-  --color-surface-soft: #f7fbf8;
-  --color-border: #c5d9cc;
-  --color-text: #14231c;
-  --color-text-muted: #5c7266;
-  --color-primary: #ff6b4a;
-  --color-primary-hover: #e85533;
-  --color-accent: #1b7f6e;
-  --color-accent-soft: #cff1ea;
-  --color-column-inbox: #ffe8e0;
-  --color-column-notes: #d9f0e4;
-  --color-column-links: #d6eaf8;
-  --color-column-tasks: #fff0c9;
-  --color-column-events: #f5d9ec;
-  --shadow-md: 0 6px 16px rgba(255, 107, 74, 0.12);
-}
-
-/* Theme: Ocean Honey — slate + honey, no purple */
-[data-theme="ink"] {
-  --color-bg: #eef3f7;
-  --color-bg-wash: #d9e6f0;
-  --color-surface: #ffffff;
-  --color-surface-soft: #f7fafc;
-  --color-border: #c5d4e0;
+  --color-surface-soft: #f8fafc;
+  --color-border: #e2e8f0;
   --color-text: #0f172a;
   --color-text-muted: #64748b;
-  --color-primary: #f59e0b;
-  --color-primary-hover: #d97706;
-  --color-accent: #0ea5e9;
-  --color-accent-soft: #e0f2fe;
-  --color-column-inbox: #fde68a;
-  --color-column-notes: #bbf7d0;
-  --color-column-links: #bae6fd;
-  --color-column-tasks: #fed7aa;
-  --color-column-events: #fbcfe8;
-  --shadow-md: 0 6px 16px rgba(245, 158, 11, 0.14);
+  --color-primary: #334155;
+  --color-primary-hover: #1e293b;
+  --color-accent: #0e7490;
+  --color-accent-soft: #cffafe;
+  --color-column-inbox: #f1f5f9;
+  --color-column-notes: #f1f5f9;
+  --color-column-links: #f1f5f9;
+  --color-column-tasks: #f1f5f9;
+  --color-column-events: #f1f5f9;
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+/* Soft Ember — mostly neutral; single warm CTA only */
+[data-theme="ember"] {
+  --color-bg: #fafafa;
+  --color-bg-wash: #f4f4f5;
+  --color-surface: #ffffff;
+  --color-surface-soft: #fafafa;
+  --color-border: #e4e4e7;
+  --color-text: #18181b;
+  --color-text-muted: #71717a;
+  --color-primary: #c2410c;
+  --color-primary-hover: #9a3412;
+  --color-accent: #57534e;
+  --color-accent-soft: #f5f5f4;
+  --color-column-inbox: #fafafa;
+  --color-column-notes: #fafafa;
+  --color-column-links: #fafafa;
+  --color-column-tasks: #fafafa;
+  --color-column-events: #fafafa;
+  --shadow-md: 0 4px 12px rgba(24, 24, 27, 0.05);
 }

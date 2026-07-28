@@ -2,7 +2,9 @@
 
 ## Design Direction
 
-Puzzlessbox is **warm-first / adult-playful**: inviting capture box with humor and soft illustration character, Clean only as structure. Subtle box/puzzle metaphor — no mascot. Explicitly not AI-slop (no purple glow), not childish/toy, not cold enterprise. Design DNA must read on the Kanban board and in Hermes confirmation cards.
+**Pivot after Sketch 001 v1:** User rejected warm / colorful / playful board. New direction = **restrained adult** — neutral surfaces, minimal chroma, one quiet accent, no mascot blobs, no rainbow columns. Subtle box metaphor may remain in the logo mark only. Still not cold-enterprise sterile, not AI-slop purple.
+
+Discuss Stil-Balance (`warm-first` / `verspielt`) is **under revision** — wait for Sketch 001 v2 winner before locking.
 
 ## Reference Points
 
