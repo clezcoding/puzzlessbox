@@ -1,0 +1,10 @@
+.env
+.cursor/*
+!.cursor/hooks/
+!.cursor/hooks/**
+!.cursor/hooks.json
+!.cursor/rules/
+.cursor/rules/*
+.agents/*
+# .planning/ tracked (commit_docs=true) — ignore only bulky review artifacts
+.planning/ui-reviews/
