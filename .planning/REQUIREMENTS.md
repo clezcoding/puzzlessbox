@@ -102,12 +102,39 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (pending roadmap) | — | Pending |
+| BRAND-01 | Phase 0 | Pending |
+| BRAND-02 | Phase 0 | Pending |
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| CAP-01 | Phase 1 | Pending |
+| CAP-03 | Phase 1 | Pending |
+| LINK-01 | Phase 1 | Pending |
+| LINK-02 | Phase 1 | Pending |
+| CAL-02 | Phase 1 | Pending |
+| CAL-03 | Phase 1 | Pending |
+| MCP-01 | Phase 2 | Pending |
+| MCP-02 | Phase 2 | Pending |
+| CAP-02 | Phase 3 | Pending |
+| CAP-04 | Phase 3 | Pending |
+| MCP-03 | Phase 3 | Pending |
+| MCP-04 | Phase 3 | Pending |
+| BOARD-01 | Phase 4 | Pending |
+| BOARD-02 | Phase 4 | Pending |
+| BOARD-03 | Phase 4 | Pending |
+| BOARD-04 | Phase 4 | Pending |
+| CAP-05 | Phase 4 | Pending |
+| CAL-01 | Phase 4 | Pending |
+| OPS-01 | Phase 5 | Pending |
+| OPS-02 | Phase 5 | Pending |
+| OPS-03 | Phase 5 | Pending |
+| OPS-04 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 28 total
-- Mapped to phases: 0
-- Unmapped: 28 ⚠️
+- Mapped to phases: 28 ✓
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-07-28*
