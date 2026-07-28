@@ -8,3 +8,5 @@
 .agents/*
 # .planning/ tracked (commit_docs=true) — ignore only bulky review artifacts
 .planning/ui-reviews/
+
+.planning/research/.cache/
