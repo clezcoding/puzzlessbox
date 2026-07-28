@@ -1,6 +1,6 @@
 # State: Puzzlessbox
 
-**Last updated:** 2026-07-28
+**Last updated:** 2026-07-28 (quick task 260728-8an)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -70,9 +70,15 @@
 
 (none)
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260728-8an | GitHub-Repo puzzlessbox (privat) erstellen und einrichten | 2026-07-28 | 369af29 | [260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi](./quick/260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi/) |
+
 ## Session Continuity
 
-- **Last action:** Roadmap erstellt, 28/28 Requirements gemappt, STATE.md initialisiert.
+- **Last action:** 2026-07-28 — Quick task 260728-8an: Private GitHub-Repo `clezcoding/puzzlessbox` erstellt, `origin` gesetzt, `main` gepusht.
 - **Next recommended action:** `/gsd-discuss-phase 0` (Branding-Entscheidungen interaktiv klären) oder direkt `/gsd-plan-phase 0`.
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
