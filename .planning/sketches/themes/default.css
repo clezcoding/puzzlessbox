@@ -1,33 +1,32 @@
-/* Puzzlessbox sketch theme — restrained adult (post-001 feedback)
-   Dial back: warmth, chroma, play. Keep soft structure, one quiet accent. */
+/* Puzzlessbox sketch theme v3 — restrained base + craft excitement
+   Not: rainbow columns, blobs, AI purple. Yes: depth, signal, detail. */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Syne:wght@600;700;800&display=swap');
 
 :root {
-  /* Quiet Stone — default / Variant A */
-  --color-bg: #f5f5f4;
-  --color-bg-wash: #ecebe8;
-  --color-surface: #ffffff;
-  --color-surface-soft: #fafaf9;
-  --color-border: #e7e5e4;
-  --color-text: #1c1917;
-  --color-text-muted: #78716c;
-  --color-primary: #44403c;
-  --color-primary-hover: #292524;
-  --color-accent: #0f766e;
+  /* A: Editorial Signal */
+  --color-bg: #f3f1ec;
+  --color-bg-wash: #e8e4db;
+  --color-surface: #fffcf7;
+  --color-surface-soft: #f7f4ee;
+  --color-border: #ddd6c8;
+  --color-border-strong: #c4bba8;
+  --color-text: #1a1814;
+  --color-text-muted: #6f6a60;
+  --color-primary: #0d9488;
+  --color-primary-hover: #0f766e;
+  --color-signal: #ea580c;
+  --color-accent: #0d9488;
   --color-accent-soft: #ccfbf1;
   --color-danger: #e11d48;
   --color-success: #15803d;
-  /* columns: near-neutral, tiny tint only */
-  --color-column-inbox: #f5f5f4;
-  --color-column-notes: #f5f5f4;
-  --color-column-links: #f5f5f4;
-  --color-column-tasks: #f5f5f4;
-  --color-column-events: #f5f5f4;
+  --color-ink-bar: #1a1814;
 
   --font-display: 'Syne', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', monospace;
+
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -44,54 +43,55 @@
   --space-8: 32px;
   --space-12: 48px;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 5px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
-  --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.06);
-  --shadow-lg: 0 10px 24px rgba(28, 25, 23, 0.07);
+  --shadow-sm: 0 1px 2px rgba(26, 24, 20, 0.05);
+  --shadow-md: 0 8px 20px rgba(26, 24, 20, 0.07);
+  --shadow-lg: 0 18px 40px rgba(26, 24, 20, 0.1);
+  --shadow-glow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent);
 }
 
-/* Cool Mist — blue-gray, one teal accent */
-[data-theme="cool"] {
-  --color-bg: #f1f5f9;
-  --color-bg-wash: #e2e8f0;
-  --color-surface: #ffffff;
-  --color-surface-soft: #f8fafc;
-  --color-border: #e2e8f0;
-  --color-text: #0f172a;
-  --color-text-muted: #64748b;
-  --color-primary: #334155;
-  --color-primary-hover: #1e293b;
-  --color-accent: #0e7490;
-  --color-accent-soft: #cffafe;
-  --color-column-inbox: #f1f5f9;
-  --color-column-notes: #f1f5f9;
-  --color-column-links: #f1f5f9;
-  --color-column-tasks: #f1f5f9;
-  --color-column-events: #f1f5f9;
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+/* B: Night Craft — dark with electric teal signal */
+[data-theme="night"] {
+  --color-bg: #0c0f14;
+  --color-bg-wash: #151a22;
+  --color-surface: #141a22;
+  --color-surface-soft: #1a222d;
+  --color-border: #2a3340;
+  --color-border-strong: #3d4a5c;
+  --color-text: #e8edf5;
+  --color-text-muted: #8b97a8;
+  --color-primary: #2dd4bf;
+  --color-primary-hover: #5eead4;
+  --color-signal: #fbbf24;
+  --color-accent: #2dd4bf;
+  --color-accent-soft: #134e4a;
+  --color-ink-bar: #2dd4bf;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 0 3px rgba(45, 212, 191, 0.25);
 }
 
-/* Soft Ember — mostly neutral; single warm CTA only */
-[data-theme="ember"] {
-  --color-bg: #fafafa;
-  --color-bg-wash: #f4f4f5;
+/* C: Precision Blue — cool tool, bold indigo accent (not purple glow) */
+[data-theme="precision"] {
+  --color-bg: #eef2f6;
+  --color-bg-wash: #dde5ee;
   --color-surface: #ffffff;
-  --color-surface-soft: #fafafa;
-  --color-border: #e4e4e7;
-  --color-text: #18181b;
-  --color-text-muted: #71717a;
-  --color-primary: #c2410c;
-  --color-primary-hover: #9a3412;
-  --color-accent: #57534e;
-  --color-accent-soft: #f5f5f4;
-  --color-column-inbox: #fafafa;
-  --color-column-notes: #fafafa;
-  --color-column-links: #fafafa;
-  --color-column-tasks: #fafafa;
-  --color-column-events: #fafafa;
-  --shadow-md: 0 4px 12px rgba(24, 24, 27, 0.05);
+  --color-surface-soft: #f7f9fb;
+  --color-border: #d5dee8;
+  --color-border-strong: #b8c5d4;
+  --color-text: #0b1220;
+  --color-text-muted: #5b6b7c;
+  --color-primary: #1d4ed8;
+  --color-primary-hover: #1e40af;
+  --color-signal: #f97316;
+  --color-accent: #1d4ed8;
+  --color-accent-soft: #dbeafe;
+  --color-ink-bar: #1d4ed8;
+  --shadow-md: 0 8px 22px rgba(29, 78, 216, 0.1);
+  --shadow-glow: 0 0 0 3px rgba(29, 78, 216, 0.18);
 }
