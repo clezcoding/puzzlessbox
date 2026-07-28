@@ -2,9 +2,9 @@
 
 ## Design Direction
 
-**Pivot after Sketch 001 v1:** User rejected warm / colorful / playful board. New direction = **restrained adult** — neutral surfaces, minimal chroma, one quiet accent, no mascot blobs, no rainbow columns. Subtle box metaphor may remain in the logo mark only. Still not cold-enterprise sterile, not AI-slop purple.
+**After Sketch 001 iterations:** Reject carnival-warm (v1) and flat-neutral boredom (v2). Target = **restrained base + crafted excitement** — atmosphere, typography contrast, live rail, card craft (accent bar / meta / progress), thin column signals. One primary + one signal color. No rainbow fills, no mascot blobs, no AI purple glow.
 
-Discuss Stil-Balance (`warm-first` / `verspielt`) is **under revision** — wait for Sketch 001 v2 winner before locking.
+Stil-Balance still open until v3 winner picked.
 
 ## Reference Points
 
@@ -16,5 +16,5 @@ Discuss Stil-Balance (`warm-first` / `verspielt`) is **under revision** — wait
 
 | # | Name | Design Question | Winner | Tags |
 |---|------|----------------|--------|------|
-| 001 | brand-mood-board | Does warm-first + adult-playful feel right on the real Kanban? | null | brand, mood, board, palette |
+| 001 | brand-mood-board | Restrained craft + motion — A Editorial / B Night shortlist | null (shortlist A+B) | brand, mood, board, motion |
 | 002 | logo-mark-context | Lettermark vs box-hint vs abstract — what reads as Puzzlessbox? | null | logo, brand, header |

@@ -1,36 +1,38 @@
 ---
 sketch: 001
 name: brand-mood-board
-question: "Restrained base + crafted excitement — detail without carnival?"
+question: "A Editorial + B Night with richer motion — which light mode wins?"
 winner: null
-tags: [brand, mood, board, craft, detail]
-round: 3
+shortlist: ["A", "B"]
+tags: [brand, mood, board, craft, motion]
+round: "3.1"
 ---
 
-# Sketch 001: Brand Mood Board (v3 Craft)
+# Sketch 001: Brand Mood Board (v3.1 Motion · A/B)
 
 ## Design Question
-v1 zu bunt/verspielt · v2 zu langweilig → Wirkt **restrained + crafted excitement**?
+User shortlist: **A Editorial Signal** + **B Night Craft**. Braucht mehr Animationen.
 
 ## How to View
 ```bash
 open .planning/sketches/001-brand-mood-board/index.html
 ```
 
-## Variants (v3)
-- **A: Editorial Signal** — warm paper wash, Teal primary, Orange nur als Signal; Serif-Lede, Live-Rail, Card-Progress
-- **B: Night Craft** — dunkle Bühne, electric Teal + Amber; Spannung ohne Disco
-- **C: Precision Blue** — kühles Tooling, bold Blue CTA, Orange nur Warn
+## Shortlist
+- **A: Editorial Signal ★** — warm paper, teal + orange signal
+- **B: Night Craft ★** — dark stage, electric teal + amber
 
-## Craft details (all variants)
-- Atmosphere: soft radial wash + grain
-- Hero: eyebrow + serif lede + stats
-- Live Capture Rail
-- Cards: accent bar, type chip, timestamp, status, progress
-- Columns: thin top accent line (not rainbow fills)
-- Capture button pulse
+## Motion added
+- Wash drift (background)
+- Mark breathe, badge pulse, tab pop
+- Hero shimmer + accent bar flow
+- Column stagger + line scan
+- Live-rail sonar dots + hot cycle
+- Stat/count bump
+- Progress fill animate
+- Capture ripple + fly-to-inbox + card land
+- `↻ Replay entrances` button
+- `prefers-reduced-motion` respected
 
-## History
-- v1 Honey/Sage/Ocean — rejected (too warm/colorful/playful)
-- v2 Quiet/Cool/Ember — better but boring
-- v3 — more detail & energy on restrained base
+## Still open
+Light (A) vs Night (B) as default — or dual theme for product?

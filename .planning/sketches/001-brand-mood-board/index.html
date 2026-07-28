@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sketch 001 — Brand Mood Board (v3 craft)</title>
+  <title>Sketch 001 — A/B + Motion (v3.1)</title>
   <link rel="stylesheet" href="../themes/default.css" />
   <style>
     * { box-sizing: border-box; }
@@ -14,18 +14,25 @@
       background: var(--color-bg);
       min-height: 100vh;
       padding-top: 56px;
-      transition: background 0.25s ease, color 0.2s ease;
+      transition: background 0.45s ease, color 0.35s ease;
       position: relative;
+      overflow-x: hidden;
     }
-    /* atmosphere layers */
+
+    /* drifting atmosphere */
     body::before {
       content: "";
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      position: fixed; inset: -20%; pointer-events: none; z-index: 0;
       background:
-        radial-gradient(900px 480px at 8% -5%, color-mix(in srgb, var(--color-primary) 14%, transparent), transparent 55%),
-        radial-gradient(700px 420px at 95% 10%, color-mix(in srgb, var(--color-signal) 10%, transparent), transparent 50%),
-        linear-gradient(180deg, var(--color-bg-wash), transparent 220px);
-      opacity: 0.95;
+        radial-gradient(900px 480px at 20% 10%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 55%),
+        radial-gradient(700px 420px at 80% 20%, color-mix(in srgb, var(--color-signal) 12%, transparent), transparent 50%),
+        linear-gradient(180deg, var(--color-bg-wash), transparent 240px);
+      animation: washDrift 14s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes washDrift {
+      from { transform: translate3d(-2%, -1%, 0) scale(1); }
+      to { transform: translate3d(3%, 2%, 0) scale(1.05); }
     }
     body::after {
       content: "";
@@ -33,9 +40,11 @@
       opacity: 0.035;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
-    .shell, #variant-nav, #sketch-tools, .toast { position: relative; z-index: 1; }
+    .shell, #variant-nav, #sketch-tools, .toast, .fly-layer { position: relative; z-index: 1; }
 
-    button, .card, .chip, .rail-dot, .pulse-ring { transition: all 0.18s ease; }
+    button, .card, .chip, .rail-dot, .stat, .col, .mark {
+      transition: transform 0.22s cubic-bezier(.2,.8,.2,1), box-shadow 0.22s ease, border-color 0.2s ease, background 0.35s ease, color 0.3s ease, opacity 0.25s ease;
+    }
 
     #variant-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 9998;
@@ -61,6 +70,12 @@
       border-color: var(--color-primary);
       color: #fff;
       box-shadow: var(--shadow-glow);
+      animation: tabPop 0.35s ease;
+    }
+    @keyframes tabPop {
+      0% { transform: scale(0.96); }
+      60% { transform: scale(1.04); }
+      100% { transform: scale(1); }
     }
     .nav-label { font-size: 12px; color: var(--color-text-muted); margin-right: 4px; }
     .badge {
@@ -69,13 +84,17 @@
       color: var(--color-signal);
       border: 1px solid color-mix(in srgb, var(--color-signal) 35%, var(--color-border));
       padding: 3px 7px; border-radius: 4px;
+      animation: badgePulse 2.4s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
     }
 
     .shell { max-width: 1320px; margin: 0 auto; padding: 22px 24px 48px; }
     .shell.viewport-phone { max-width: 375px; }
     .shell.viewport-tablet { max-width: 768px; }
 
-    /* hero strip */
     .hero {
       display: grid;
       grid-template-columns: 1.3fr 0.9fr;
@@ -92,12 +111,38 @@
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
+      animation: riseIn 0.55s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .hero-side { animation-delay: 0.08s; }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.985); }
+      to { opacity: 1; transform: none; }
     }
     .hero-main::before {
       content: "";
       position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
       background: linear-gradient(180deg, var(--color-primary), var(--color-signal));
+      background-size: 100% 200%;
+      animation: barFlow 3.5s linear infinite;
     }
+    @keyframes barFlow {
+      from { background-position: 0 0; }
+      to { background-position: 0 200%; }
+    }
+    /* shimmer sweep */
+    .hero-main::after {
+      content: "";
+      position: absolute; top: 0; left: -40%; width: 35%; height: 100%;
+      background: linear-gradient(100deg, transparent, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent);
+      animation: shimmer 5.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes shimmer {
+      0%, 20% { transform: translateX(0); opacity: 0; }
+      35% { opacity: 1; }
+      55%, 100% { transform: translateX(380%); opacity: 0; }
+    }
+
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
       gap: 14px; flex-wrap: wrap; margin-bottom: 10px;
@@ -110,6 +155,11 @@
       color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 17px;
       box-shadow: var(--shadow-md);
       position: relative;
+      animation: markBreathe 3.2s ease-in-out infinite;
+    }
+    @keyframes markBreathe {
+      0%, 100% { transform: translateY(0) scale(1); box-shadow: var(--shadow-md); }
+      50% { transform: translateY(-2px) scale(1.04); box-shadow: var(--shadow-lg); }
     }
     .mark::after {
       content: "";
@@ -120,9 +170,7 @@
     .brand h1 {
       margin: 0; font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.03em;
     }
-    .brand .sub {
-      margin: 2px 0 0; font-size: 12px; color: var(--color-text-muted);
-    }
+    .brand .sub { margin: 2px 0 0; font-size: 12px; color: var(--color-text-muted); }
     .eyebrow {
       font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--color-primary); margin: 0 0 6px;
@@ -135,38 +183,45 @@
       letter-spacing: -0.01em;
       max-width: 28ch;
     }
-    .lede em { font-style: italic; color: var(--color-signal); }
+    .lede em {
+      font-style: italic; color: var(--color-signal);
+      display: inline-block;
+      animation: emKick 2.8s ease-in-out infinite;
+    }
+    @keyframes emKick {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-1px); }
+    }
 
     .actions { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn {
       border: none; border-radius: var(--radius-md);
       padding: 10px 14px; font-weight: 650; font-size: 13px; cursor: pointer;
-      font-family: var(--font-sans); position: relative;
+      font-family: var(--font-sans); position: relative; overflow: hidden;
     }
     .btn-primary {
       background: var(--color-primary); color: #fff;
       box-shadow: var(--shadow-md);
     }
-    .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
-    .btn-primary.pulse::before {
-      content: "";
-      position: absolute; inset: -3px; border-radius: inherit;
-      border: 2px solid var(--color-primary);
-      animation: ring 1s ease-out;
+    .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0) scale(0.98); }
+    .btn-primary.busy { pointer-events: none; }
+    .btn-primary .ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      transform: scale(0); animation: ripple 0.6s ease-out;
+      pointer-events: none;
     }
-    @keyframes ring {
-      from { opacity: 0.7; transform: scale(0.96); }
-      to { opacity: 0; transform: scale(1.08); }
+    @keyframes ripple {
+      to { transform: scale(2.6); opacity: 0; }
     }
     .btn-ghost {
       background: transparent; color: var(--color-text);
       border: 1px solid var(--color-border);
     }
-    .btn-ghost:hover { border-color: var(--color-border-strong); background: var(--color-surface-soft); }
+    .btn-ghost:hover { border-color: var(--color-border-strong); background: var(--color-surface-soft); transform: translateY(-1px); }
 
-    .live {
-      display: flex; flex-direction: column; gap: 10px; height: 100%;
-    }
+    .live { display: flex; flex-direction: column; gap: 10px; height: 100%; }
     .live h3 {
       margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em;
       color: var(--color-text-muted); font-weight: 700;
@@ -176,41 +231,69 @@
       padding: 10px; border-radius: var(--radius-md);
       background: var(--color-surface-soft);
       border: 1px solid var(--color-border);
-      animation: slideIn 0.35s ease;
+      animation: slideIn 0.4s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .live-item.hot {
+      border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+      box-shadow: var(--shadow-glow);
+      transform: translateX(2px);
     }
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateX(12px); }
       to { opacity: 1; transform: none; }
     }
     .rail-dot {
       width: 10px; height: 10px; border-radius: 50%; margin-top: 4px;
       background: var(--color-primary);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 25%, transparent);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 45%, transparent);
+      animation: sonar 2s ease-out infinite;
     }
-    .rail-dot.warn { background: var(--color-signal); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-signal) 25%, transparent); }
+    .rail-dot.warn {
+      background: var(--color-signal);
+      animation-name: sonarWarn;
+    }
+    @keyframes sonar {
+      0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 45%, transparent); }
+      70% { box-shadow: 0 0 0 10px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
+    @keyframes sonarWarn {
+      0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-signal) 45%, transparent); }
+      70% { box-shadow: 0 0 0 10px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
     .live-item strong { display: block; font-size: 13px; margin-bottom: 2px; }
     .live-item span { font-size: 11.5px; color: var(--color-text-muted); }
     .live-item time { font-size: 11px; color: var(--color-text-muted); font-family: var(--font-mono); }
 
-    .stats {
-      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px;
-    }
+    .stats { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
     .stat {
       flex: 1; min-width: 90px;
       padding: 10px 12px;
       border-radius: var(--radius-md);
       border: 1px solid var(--color-border);
       background: var(--color-surface-soft);
+      animation: riseIn 0.5s ease both;
     }
+    .stat:nth-child(1) { animation-delay: 0.12s; }
+    .stat:nth-child(2) { animation-delay: 0.18s; }
+    .stat:nth-child(3) { animation-delay: 0.24s; }
+    .stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
     .stat b {
       display: block; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: -0.03em;
     }
+    .stat.bump b { animation: countBump 0.35s ease; }
+    @keyframes countBump {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.18); color: var(--color-primary); }
+      100% { transform: scale(1); }
+    }
     .stat small { color: var(--color-text-muted); font-size: 11px; }
 
-    /* board */
     .board-head {
       display: flex; align-items: end; justify-content: space-between;
       gap: 12px; margin: 8px 0 12px; flex-wrap: wrap;
+      animation: riseIn 0.45s ease 0.15s both;
     }
     .board-head h2 {
       margin: 0; font-family: var(--font-display); font-size: 1rem; letter-spacing: -0.02em;
@@ -234,13 +317,34 @@
       min-height: 440px;
       backdrop-filter: blur(6px);
       position: relative;
+      animation: colIn 0.5s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .col:nth-child(1) { animation-delay: 0.05s; }
+    .col:nth-child(2) { animation-delay: 0.1s; }
+    .col:nth-child(3) { animation-delay: 0.15s; }
+    .col:nth-child(4) { animation-delay: 0.2s; }
+    .col:nth-child(5) { animation-delay: 0.25s; }
+    @keyframes colIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: none; }
     }
     .col::before {
       content: "";
       position: absolute; top: 0; left: 14px; right: 14px; height: 2px;
       border-radius: 2px;
-      background: var(--col-accent, var(--color-primary));
-      opacity: 0.85;
+      background: linear-gradient(90deg, transparent, var(--col-accent, var(--color-primary)), transparent);
+      background-size: 200% 100%;
+      animation: lineScan 3.2s ease-in-out infinite;
+      opacity: 0.9;
+    }
+    @keyframes lineScan {
+      0%, 100% { background-position: 100% 0; opacity: 0.55; }
+      50% { background-position: 0 0; opacity: 1; }
+    }
+    .col.drop-target {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+      border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
     }
     .col[data-col="inbox"] { --col-accent: var(--color-signal); }
     .col[data-col="notes"] { --col-accent: var(--color-primary); }
@@ -272,6 +376,7 @@
       border-radius: var(--radius-full);
       padding: 2px 7px;
     }
+    .count.pop { animation: countBump 0.35s ease; }
 
     .card {
       background: var(--color-surface);
@@ -282,24 +387,34 @@
       cursor: grab;
       overflow: hidden;
       box-shadow: var(--shadow-sm);
-      animation: cardIn 0.4s ease both;
+      animation: cardIn 0.45s cubic-bezier(.2,.8,.2,1) both;
     }
-    .card:nth-child(1) { animation-delay: 0.02s; }
-    .card:nth-child(2) { animation-delay: 0.06s; }
-    .card:nth-child(3) { animation-delay: 0.1s; }
     @keyframes cardIn {
-      from { opacity: 0; transform: translateY(8px) scale(0.98); }
+      from { opacity: 0; transform: translateY(12px) scale(0.96); }
       to { opacity: 1; transform: none; }
     }
     .card:hover {
       border-color: var(--color-border-strong);
       box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.01);
     }
-    .card.dragging { opacity: 0.4; transform: rotate(1deg); }
+    .card.dragging {
+      opacity: 0.35;
+      transform: rotate(2deg) scale(0.98);
+    }
+    .card.just-added {
+      animation: cardLand 0.55s cubic-bezier(.2,.8,.2,1);
+    }
+    @keyframes cardLand {
+      0% { opacity: 0; transform: translateY(-24px) scale(0.9); }
+      70% { opacity: 1; transform: translateY(3px) scale(1.02); }
+      100% { transform: none; }
+    }
     .card-accent {
       height: 3px;
-      background: linear-gradient(90deg, var(--card-accent, var(--color-primary)), transparent 80%);
+      background: linear-gradient(90deg, var(--card-accent, var(--color-primary)), transparent 85%);
+      background-size: 200% 100%;
+      animation: lineScan 4s ease-in-out infinite;
     }
     .card-body { padding: 11px 12px 12px; }
     .card-top {
@@ -335,18 +450,38 @@
       overflow: hidden;
     }
     .progress > i {
-      display: block; height: 100%; width: var(--p, 40%);
+      display: block; height: 100%; width: 0;
       background: linear-gradient(90deg, var(--color-primary), var(--color-signal));
       border-radius: 3px;
+      transition: width 0.7s cubic-bezier(.2,.8,.2,1);
     }
-    .ts { font-size: 10.5px; color: var(--color-text-muted); font-family: var(--font-mono); }
+
+    /* flying capture particle */
+    .fly-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9990; }
+    .fly-card {
+      position: fixed;
+      min-width: 140px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-primary);
+      box-shadow: var(--shadow-lg);
+      font-size: 12px; font-weight: 650;
+      animation: flyToInbox 0.7s cubic-bezier(.2,.7,.2,1) forwards;
+      z-index: 9991;
+    }
+    @keyframes flyToInbox {
+      0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0); }
+      70% { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.55) rotate(-8deg); }
+    }
 
     .toast {
       position: fixed; left: 50%; bottom: 72px; transform: translateX(-50%) translateY(20px);
       background: var(--color-text); color: var(--color-surface);
       padding: 10px 16px; border-radius: var(--radius-md);
       font-size: 13px; opacity: 0; pointer-events: none;
-      transition: all 0.2s ease; z-index: 10000;
+      transition: all 0.25s cubic-bezier(.2,.8,.2,1); z-index: 10000;
       box-shadow: var(--shadow-lg);
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -363,15 +498,24 @@
     #sketch-tools select, #sketch-tools button {
       font-size: 11px; border-radius: 4px; border: none; padding: 4px 6px; cursor: pointer;
     }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="variant-nav">
     <span class="nav-label">Sketch 001 · Mood</span>
-    <span class="badge">v3 CRAFT</span>
-    <button class="variant-tab active" data-v="a" onclick="showVariant('a')">A: Editorial Signal</button>
-    <button class="variant-tab" data-v="b" onclick="showVariant('b')">B: Night Craft</button>
-    <button class="variant-tab" data-v="c" onclick="showVariant('c')">C: Precision Blue</button>
+    <span class="badge">v3.1 MOTION · A/B</span>
+    <button class="variant-tab active" data-v="a" onclick="showVariant('a')">A: Editorial Signal ★</button>
+    <button class="variant-tab" data-v="b" onclick="showVariant('b')">B: Night Craft ★</button>
+    <button class="btn-ghost" type="button" id="btn-replay" style="margin-left:8px;border:1px solid var(--color-border);background:var(--color-surface);border-radius:6px;padding:7px 10px;font-size:12px;font-weight:650;cursor:pointer;color:var(--color-text)">↻ Replay entrances</button>
   </div>
 
   <div class="shell" id="viewport">
@@ -382,7 +526,7 @@
             <div class="mark" aria-hidden="true">P</div>
             <div>
               <h1>Puzzlessbox</h1>
-              <p class="sub" id="mood-line">Restrained base · crafted excitement</p>
+              <p class="sub" id="mood-line">A/B shortlist · motion pass</p>
             </div>
           </div>
           <div class="actions">
@@ -392,10 +536,10 @@
           </div>
         </div>
         <p class="eyebrow" id="mood-title">Editorial Signal</p>
-        <p class="lede" id="mood-desc">Ruhige Fläche. <em>Ein Signal</em> das zündet. Details statt Kirmes.</p>
+        <p class="lede" id="mood-desc">Ruhige Fläche. <em>Ein Signal</em> das zündet — jetzt mit Motion.</p>
         <div class="stats">
-          <div class="stat"><b id="stat-items">0</b><small>Items heute</small></div>
-          <div class="stat"><b id="stat-auto">0</b><small>auto_saved</small></div>
+          <div class="stat" id="stat-box-items"><b id="stat-items">0</b><small>Items heute</small></div>
+          <div class="stat" id="stat-box-auto"><b id="stat-auto">0</b><small>auto_saved</small></div>
           <div class="stat"><b>30s</b><small>Confirm window</small></div>
         </div>
       </section>
@@ -411,12 +555,12 @@
     <div class="board-head">
       <div>
         <h2>Kategorien-Board</h2>
-        <p>Dünne Accent-Lines statt bunter Spalten-Fills · Cards mit Progress & Meta</p>
+        <p>Mehr Motion: Wash-Drift · Sonar-Dots · Card-Land · Capture-Fly · Progress-Fill</p>
       </div>
     </div>
 
     <div class="board" id="board">
-      <section class="col" data-col="inbox">
+      <section class="col" data-col="inbox" id="col-inbox">
         <div class="col-h"><div class="left"><span class="col-icon">📥</span><h3>Inbox</h3></div><span class="count" data-count>0</span></div>
         <div class="cards"></div>
       </section>
@@ -439,13 +583,13 @@
     </div>
   </div>
 
+  <div class="fly-layer" id="fly-layer"></div>
   <div class="toast" id="toast"></div>
 
   <div id="sketch-tools">
     <select id="theme-switcher">
-      <option value="">Editorial</option>
-      <option value="night">Night Craft</option>
-      <option value="precision">Precision</option>
+      <option value="">Editorial A</option>
+      <option value="night">Night B</option>
     </select>
     <button type="button" onclick="setViewport('phone')">375</button>
     <button type="button" onclick="setViewport('tablet')">768</button>
@@ -466,26 +610,21 @@
       a: {
         theme: '',
         title: 'Editorial Signal',
-        desc: 'Ruhige Fläche. <em>Ein Signal</em> das zündet. Details statt Kirmes.',
-        line: 'Warm paper · teal primary · orange signal',
+        desc: 'Ruhige Fläche. <em>Ein Signal</em> das zündet — jetzt mit Motion.',
+        line: 'A · warm paper · teal · orange signal · motion',
       },
       b: {
         theme: 'night',
         title: 'Night Craft',
-        desc: 'Dunkle Bühne. <em>Teal + Amber</em> als Spannung. Tool, nicht Disco.',
-        line: 'Night surface · electric teal · amber spark',
-      },
-      c: {
-        theme: 'precision',
-        title: 'Precision Blue',
-        desc: 'Kühles Tooling. <em>Bold Blue</em> für Fokus. Orange nur als Alarm.',
-        line: 'Cool slate · indigo CTA · orange warn',
+        desc: 'Dunkle Bühne. <em>Teal + Amber</em> als Spannung — Motion hält den Puls.',
+        line: 'B · night · electric teal · amber · motion',
       },
     };
 
     let items = [];
     let dragId = null;
     let nextId = 100;
+    let hotIdx = 0;
 
     function toast(msg) {
       const el = document.getElementById('toast');
@@ -501,14 +640,26 @@
     }
 
     function showVariant(id) {
-      document.querySelectorAll('.variant-tab').forEach(t => t.classList.toggle('active', t.dataset.v === id));
+      document.querySelectorAll('.variant-tab').forEach(t => {
+        if (t.dataset.v) t.classList.toggle('active', t.dataset.v === id);
+      });
       const m = MOOD[id];
       applyTheme(m.theme);
       document.getElementById('mood-title').textContent = m.title;
       document.getElementById('mood-desc').innerHTML = m.desc;
       document.getElementById('mood-line').textContent = m.line;
       document.getElementById('theme-switcher').value = m.theme;
-      toast('v3 · ' + m.title);
+      replayEntrances();
+      toast((id === 'a' ? 'A' : 'B') + ' · ' + m.title);
+    }
+
+    function replayEntrances() {
+      document.querySelectorAll('.hero-main, .hero-side, .col, .stat, .board-head').forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+      });
+      render({ animateProgress: true, land: false });
     }
 
     function statusChip(s) {
@@ -525,7 +676,7 @@
         return;
       }
       feed.innerHTML = recent.map((i, idx) => `
-        <div class="live-item">
+        <div class="live-item ${idx === hotIdx % recent.length ? 'hot' : ''}" style="animation-delay:${idx * 0.06}s">
           <span class="rail-dot ${i.status === 'warn' || i.status === 'pending' ? 'warn' : ''}"></span>
           <div><strong>${i.title}</strong><span>${i.col} · ${i.type}</span></div>
           <time>${i.ts || 'now'}</time>
@@ -533,33 +684,55 @@
       `).join('');
     }
 
-    function renderStats() {
-      document.getElementById('stat-items').textContent = items.length;
-      document.getElementById('stat-auto').textContent = items.filter(i => i.status === 'ok').length;
+    function bumpStat(id) {
+      const box = document.getElementById(id);
+      if (!box) return;
+      box.classList.remove('bump');
+      void box.offsetWidth;
+      box.classList.add('bump');
     }
 
-    function render() {
+    function renderStats() {
+      const itemsEl = document.getElementById('stat-items');
+      const autoEl = document.getElementById('stat-auto');
+      const prevI = itemsEl.textContent;
+      const prevA = autoEl.textContent;
+      itemsEl.textContent = items.length;
+      autoEl.textContent = items.filter(i => i.status === 'ok').length;
+      if (prevI !== itemsEl.textContent) bumpStat('stat-box-items');
+      if (prevA !== autoEl.textContent) bumpStat('stat-box-auto');
+    }
+
+    function render(opts = {}) {
+      const { animateProgress = true, landId = null } = opts;
       document.querySelectorAll('.col').forEach(col => {
         const key = col.dataset.col;
         const list = items.filter(i => i.col === key);
-        col.querySelector('[data-count]').textContent = list.length;
+        const countEl = col.querySelector('[data-count]');
+        const prev = countEl.textContent;
+        countEl.textContent = list.length;
+        if (prev !== String(list.length)) {
+          countEl.classList.remove('pop');
+          void countEl.offsetWidth;
+          countEl.classList.add('pop');
+        }
         const wrap = col.querySelector('.cards');
         if (!list.length) {
           wrap.innerHTML = '<p style="font-size:12px;color:var(--color-text-muted);padding:10px 6px;border:1px dashed var(--color-border);border-radius:8px;text-align:center">Drop zone</p>';
           return;
         }
-        wrap.innerHTML = list.map(i => `
-          <article class="card" draggable="true" data-id="${i.id}" style="--card-accent:${i.accent || 'var(--color-primary)'}">
+        wrap.innerHTML = list.map((i, idx) => `
+          <article class="card ${landId === i.id ? 'just-added' : ''}" draggable="true" data-id="${i.id}" style="--card-accent:${i.accent || 'var(--color-primary)'};animation-delay:${idx * 0.05}s">
             <div class="card-accent"></div>
             <div class="card-body">
               <div class="card-top">
                 <span class="chip">${i.type}</span>
-                <span class="ts">${i.ts || ''}</span>
+                <span class="ts" style="font-size:10.5px;color:var(--color-text-muted);font-family:var(--font-mono)">${i.ts || ''}</span>
               </div>
               <h4>${i.title}</h4>
               <p>${i.summary}</p>
               <div class="meta">${statusChip(i.status)}</div>
-              <div class="progress" title="${i.p || 0}%"><i style="--p:${i.p || 0}%"></i></div>
+              <div class="progress" title="${i.p || 0}%"><i data-p="${i.p || 0}"></i></div>
             </div>
           </article>
         `).join('');
@@ -567,6 +740,14 @@
       bindDrag();
       renderLive();
       renderStats();
+      if (animateProgress) {
+        requestAnimationFrame(() => {
+          document.querySelectorAll('.progress > i').forEach(bar => {
+            bar.style.width = '0';
+            requestAnimationFrame(() => { bar.style.width = (bar.dataset.p || 0) + '%'; });
+          });
+        });
+      }
     }
 
     function bindDrag() {
@@ -581,16 +762,16 @@
       document.querySelectorAll('.col').forEach(col => {
         col.addEventListener('dragover', e => {
           e.preventDefault();
-          col.style.boxShadow = 'var(--shadow-glow)';
+          col.classList.add('drop-target');
         });
-        col.addEventListener('dragleave', () => { col.style.boxShadow = ''; });
+        col.addEventListener('dragleave', () => col.classList.remove('drop-target'));
         col.addEventListener('drop', e => {
           e.preventDefault();
-          col.style.boxShadow = '';
+          col.classList.remove('drop-target');
           const item = items.find(i => String(i.id) === String(dragId));
           if (!item) return;
           item.col = col.dataset.col;
-          render();
+          render({ landId: item.id });
           toast('Moved → ' + col.dataset.col);
         });
       });
@@ -598,7 +779,8 @@
 
     function populate() {
       items = SEED.map((s, i) => ({ ...s, id: i + 1 }));
-      render();
+      render({ animateProgress: true });
+      toast('Board befüllt');
     }
 
     function emptyBoard() {
@@ -607,14 +789,42 @@
       toast('Empty board');
     }
 
-    function capture() {
+    function flyCapture(fromBtn, toCol) {
+      const layer = document.getElementById('fly-layer');
+      const fly = document.createElement('div');
+      fly.className = 'fly-card';
+      fly.textContent = 'Milch & Filter';
+      const a = fromBtn.getBoundingClientRect();
+      const b = toCol.getBoundingClientRect();
+      fly.style.left = a.left + 'px';
+      fly.style.top = a.top + 'px';
+      fly.style.setProperty('--dx', (b.left + 40 - a.left) + 'px');
+      fly.style.setProperty('--dy', (b.top + 60 - a.top) + 'px');
+      layer.appendChild(fly);
+      setTimeout(() => fly.remove(), 720);
+    }
+
+    function capture(e) {
       const btn = document.getElementById('btn-capture');
-      btn.classList.add('pulse');
+      const rect = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = ((e?.offsetX ?? rect.width / 2) - size / 2) + 'px';
+      ripple.style.top = ((e?.offsetY ?? rect.height / 2) - size / 2) + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+
+      btn.classList.add('busy');
       btn.textContent = 'Capturing…';
-      btn.disabled = true;
+      const inbox = document.getElementById('col-inbox');
+      flyCapture(btn, inbox);
+
       setTimeout(() => {
+        const id = nextId++;
         items.unshift({
-          id: nextId++,
+          id,
           col: 'inbox',
           title: 'Frisch: „Milch & Filter“',
           summary: 'Bestätigung 30s · landet auto_saved in Inbox.',
@@ -624,12 +834,11 @@
           accent: 'var(--color-signal)',
           ts: 'jetzt',
         });
-        render();
+        render({ landId: id });
         btn.textContent = '+ Capture';
-        btn.disabled = false;
-        btn.classList.remove('pulse');
+        btn.classList.remove('busy');
         toast('Capture → Inbox · auto_saved');
-      }, 550);
+      }, 650);
     }
 
     function setViewport(mode) {
@@ -642,11 +851,19 @@
     document.getElementById('btn-populate').onclick = populate;
     document.getElementById('btn-empty').onclick = emptyBoard;
     document.getElementById('btn-capture').onclick = capture;
+    document.getElementById('btn-replay').onclick = () => { replayEntrances(); toast('Entrances replayed'); };
     document.getElementById('theme-switcher').onchange = (e) => {
       const entry = Object.entries(MOOD).find(([, m]) => m.theme === e.target.value);
       if (entry) showVariant(entry[0]);
       else applyTheme(e.target.value);
     };
+
+    // cycle live-rail highlight
+    setInterval(() => {
+      if (!items.length) return;
+      hotIdx += 1;
+      renderLive();
+    }, 2200);
 
     populate();
     showVariant('a');
