@@ -1,38 +1,38 @@
 ---
 sketch: 001
 name: brand-mood-board
-question: "A Editorial + B Night with richer motion — which light mode wins?"
+question: "A Editorial / B Night / C Utilitarian Workbench — which DNA?"
 winner: null
 shortlist: ["A", "B"]
-tags: [brand, mood, board, craft, motion]
-round: "3.1"
+tags: [brand, mood, board, hallmark, minimalist, motion]
+round: "3.2"
 ---
 
-# Sketch 001: Brand Mood Board (v3.1 Motion · A/B)
+# Sketch 001 v3.2 — A/B + C Utilitarian
 
-## Design Question
-User shortlist: **A Editorial Signal** + **B Night Craft**. Braucht mehr Animationen.
+## Inferences (Hallmark gate)
+- **Audience** · Solo-User, Capture via Hermes → Board
+- **Use** · Board scannen & Items handeln
+- **Tone C** · utilitarian editorial (warm monochrome, flat)
+
+## Variants
+| | DNA | Skills touch |
+|---|---|---|
+| **A Editorial** | Warm paper · teal · orange signal · craft motion | premium craft |
+| **B Night** | Dark · electric teal · amber | premium atmospheric |
+| **C Utilitarian ★** | Warm bone · charcoal CTA · hairline columns · pastel tags · serif masthead · quiet Emil motion | Hallmark Workbench + minimalist-ui + emil-design-eng |
+
+## C specifics
+- Macrostructure: Workbench (not craft hero)
+- No emoji icons (SVG)
+- No italic headers (Hallmark gate 38a)
+- Pastel semantic chips only
+- Flat / near-zero shadow
+- Capture without fly particle (calmer)
+- `prefers-reduced-motion` respected
 
 ## How to View
 ```bash
 open .planning/sketches/001-brand-mood-board/index.html
 ```
-
-## Shortlist
-- **A: Editorial Signal ★** — warm paper, teal + orange signal
-- **B: Night Craft ★** — dark stage, electric teal + amber
-
-## Motion added
-- Wash drift (background)
-- Mark breathe, badge pulse, tab pop
-- Hero shimmer + accent bar flow
-- Column stagger + line scan
-- Live-rail sonar dots + hot cycle
-- Stat/count bump
-- Progress fill animate
-- Capture ripple + fly-to-inbox + card land
-- `↻ Replay entrances` button
-- `prefers-reduced-motion` respected
-
-## Still open
-Light (A) vs Night (B) as default — or dual theme for product?
+Opens on **C** by default for comparison.

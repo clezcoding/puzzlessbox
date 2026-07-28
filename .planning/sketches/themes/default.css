@@ -1,9 +1,23 @@
-/* Puzzlessbox sketch theme v3 — restrained base + craft excitement
-   Not: rainbow columns, blobs, AI purple. Yes: depth, signal, detail. */
+/* Hallmark · macrostructure: Workbench · tone: utilitarian-editorial
+ * theme: custom (vibe: "warm bone · charcoal ink · flat tool")
+ * paper oklch(97% 0.008 95) · accent oklch(25% 0.01 50) charcoal
+ * display: Instrument Serif + body: DM Sans · axes: light / classical-serif / neutral
+ * studied: no · sketch: 001 variant C
+ * Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V5
+ */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=Syne:wght@600;700;800&display=swap');
 
 :root {
+  /* Motion tokens — Hallmark + Emil */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-em: cubic-bezier(0.23, 1, 0.32, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
   /* A: Editorial Signal */
   --color-bg: #f3f1ec;
   --color-bg-wash: #e8e4db;
@@ -21,6 +35,14 @@
   --color-danger: #e11d48;
   --color-success: #15803d;
   --color-ink-bar: #1a1814;
+  --color-pastel-red-bg: #fdebec;
+  --color-pastel-red: #9f2f2d;
+  --color-pastel-blue-bg: #e1f3fe;
+  --color-pastel-blue: #1f6c9f;
+  --color-pastel-green-bg: #edf3ec;
+  --color-pastel-green: #346538;
+  --color-pastel-yellow-bg: #fbf3db;
+  --color-pastel-yellow: #956400;
 
   --font-display: 'Syne', system-ui, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
@@ -54,7 +76,6 @@
   --shadow-glow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent);
 }
 
-/* B: Night Craft — dark with electric teal signal */
 [data-theme="night"] {
   --color-bg: #0c0f14;
   --color-bg-wash: #151a22;
@@ -76,22 +97,30 @@
   --shadow-glow: 0 0 0 3px rgba(45, 212, 191, 0.25);
 }
 
-/* C: Precision Blue — cool tool, bold indigo accent (not purple glow) */
-[data-theme="precision"] {
-  --color-bg: #eef2f6;
-  --color-bg-wash: #dde5ee;
+/* C: Utilitarian Bone — minimalist-ui + Hallmark Workbench
+   Totally different DNA: warm monochrome, flat, hairline, charcoal CTA */
+[data-theme="util"] {
+  --color-bg: #f7f6f3;
+  --color-bg-wash: #fbfbfa;
   --color-surface: #ffffff;
-  --color-surface-soft: #f7f9fb;
-  --color-border: #d5dee8;
-  --color-border-strong: #b8c5d4;
-  --color-text: #0b1220;
-  --color-text-muted: #5b6b7c;
-  --color-primary: #1d4ed8;
-  --color-primary-hover: #1e40af;
-  --color-signal: #f97316;
-  --color-accent: #1d4ed8;
-  --color-accent-soft: #dbeafe;
-  --color-ink-bar: #1d4ed8;
-  --shadow-md: 0 8px 22px rgba(29, 78, 216, 0.1);
-  --shadow-glow: 0 0 0 3px rgba(29, 78, 216, 0.18);
+  --color-surface-soft: #f9f9f8;
+  --color-border: #eaeaea;
+  --color-border-strong: #d6d6d4;
+  --color-text: #2f3437;
+  --color-text-muted: #787774;
+  --color-primary: #111111;
+  --color-primary-hover: #333333;
+  --color-signal: #956400;
+  --color-accent: #1f6c9f;
+  --color-accent-soft: #e1f3fe;
+  --color-ink-bar: #111111;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --shadow-sm: 0 0 0 transparent;
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 0 2px rgba(17, 17, 17, 0.12);
 }
