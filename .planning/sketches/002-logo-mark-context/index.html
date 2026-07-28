@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sketch 002 — Logo Mark Context</title>
+  <link rel="stylesheet" href="../themes/default.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--color-text);
+      background:
+        radial-gradient(1000px 500px at 0% 0%, var(--color-bg-wash), transparent 55%),
+        var(--color-bg);
+      min-height: 100vh;
+      padding-top: 56px;
+    }
+    button, .mark-wrap, .size-tile { transition: all 0.15s ease; }
+
+    #variant-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9998;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 8px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    }
+    .variant-tab {
+      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+      border: 1px solid var(--color-border); background: var(--color-surface);
+      color: var(--color-text); border-radius: var(--radius-sm);
+      padding: 8px 12px; cursor: pointer;
+    }
+    .variant-tab:hover { border-color: var(--color-primary); }
+    .variant-tab.active {
+      background: var(--color-primary); border-color: var(--color-primary); color: #fff;
+    }
+    .nav-label { font-size: 12px; color: var(--color-text-muted); margin-right: 8px; }
+
+    .shell { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .shell.viewport-phone { max-width: 375px; }
+    .shell.viewport-tablet { max-width: 768px; }
+
+    .panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .panel h2 {
+      margin: 0 0 6px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+    .panel .hint { margin: 0 0 16px; color: var(--color-text-muted); font-size: 13px; }
+
+    /* —— Marks —— */
+    .mark-wrap {
+      display: inline-grid; place-items: center;
+      width: var(--s, 64px); height: var(--s, 64px);
+      border-radius: calc(var(--s, 64px) * 0.28);
+      background: linear-gradient(145deg, var(--color-primary), color-mix(in srgb, var(--color-accent) 40%, var(--color-primary)));
+      box-shadow: var(--shadow-md);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .mark-wrap:hover { transform: translateY(-2px) scale(1.03); }
+
+    /* A: Lettermark */
+    .mark-a .letter {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: calc(var(--s, 64px) * 0.48);
+      line-height: 1; letter-spacing: -0.04em;
+      z-index: 1;
+    }
+    .mark-a .notch {
+      position: absolute; right: 18%; bottom: 16%;
+      width: 18%; height: 18%; border-radius: 18%;
+      background: rgba(255,255,255,0.9);
+      box-shadow: -35% -35% 0 rgba(255,255,255,0.35);
+    }
+
+    /* B: Open tray */
+    .mark-b svg { width: 62%; height: 62%; display: block; }
+
+    /* C: Puzzle notch */
+    .mark-c svg { width: 70%; height: 70%; display: block; }
+
+    .wordmark {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .wordmark .name {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 1.5rem; letter-spacing: -0.03em;
+    }
+    .wordmark .tag {
+      font-size: 13px; color: var(--color-text-muted);
+    }
+
+    .sizes {
+      display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end;
+    }
+    .size-tile {
+      text-align: center; cursor: pointer;
+      padding: 10px; border-radius: var(--radius-md);
+      border: 1px solid transparent;
+    }
+    .size-tile:hover, .size-tile.selected {
+      border-color: var(--color-border);
+      background: var(--color-surface-soft);
+    }
+    .size-tile label {
+      display: block; margin-top: 8px;
+      font-size: 11px; color: var(--color-text-muted); font-family: var(--font-mono);
+    }
+
+    /* Fake app chrome */
+    .app-chrome {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--color-bg);
+    }
+    .app-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 12px 16px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .app-bar .btn {
+      border: none; background: var(--color-primary); color: #fff;
+      border-radius: var(--radius-md); padding: 8px 12px;
+      font-weight: 600; font-size: 13px; cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    .app-bar .btn:hover { background: var(--color-primary-hover); }
+    .mini-board {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      padding: 14px;
+    }
+    .mini-col {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-md); padding: 10px; min-height: 100px;
+    }
+    .mini-col h3 {
+      margin: 0 0 8px; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--color-text-muted);
+    }
+    .mini-card {
+      background: var(--color-surface-soft); border: 1px solid var(--color-border);
+      border-radius: 8px; padding: 8px; font-size: 12px; margin-bottom: 6px;
+    }
+
+    /* OG / favicon previews */
+    .og {
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;
+    }
+    @media (max-width: 700px) { .og { grid-template-columns: 1fr; } }
+    .og-card {
+      aspect-ratio: 1.91 / 1;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      background:
+        linear-gradient(135deg, var(--color-bg-wash), var(--color-surface)),
+        var(--color-bg);
+      display: flex; align-items: center; gap: 16px;
+      padding: 24px;
+      position: relative; overflow: hidden;
+    }
+    .og-card::before {
+      content: "";
+      position: absolute; right: -20%; top: -30%;
+      width: 55%; height: 120%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 25%, transparent), transparent 70%);
+    }
+    .og-card .copy { position: relative; z-index: 1; }
+    .og-card h3 { margin: 0 0 4px; font-family: var(--font-display); font-size: 1.25rem; }
+    .og-card p { margin: 0; font-size: 13px; color: var(--color-text-muted); }
+
+    .favicon-row {
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    }
+    .browser-tab {
+      display: flex; align-items: center; gap: 8px;
+      background: #e7e5e4; border-radius: 10px 10px 0 0;
+      padding: 8px 14px; font-size: 12px; max-width: 220px;
+    }
+    .browser-tab img-like, .favicon-slot {
+      width: 16px; height: 16px; border-radius: 4px;
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .chip-btn {
+      border: 1px solid var(--color-border); background: var(--color-surface);
+      border-radius: var(--radius-full); padding: 6px 12px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      font-family: var(--font-sans); color: var(--color-text);
+    }
+    .chip-btn:hover, .chip-btn.on {
+      border-color: var(--color-primary); color: var(--color-primary);
+    }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 72px; transform: translateX(-50%) translateY(20px);
+      background: var(--color-text); color: #fff;
+      padding: 10px 16px; border-radius: var(--radius-md);
+      font-size: 13px; opacity: 0; pointer-events: none;
+      transition: all 0.2s ease; z-index: 10000;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    #sketch-tools {
+      position: fixed; bottom: 12px; right: 12px; z-index: 9999;
+      font-family: system-ui; font-size: 12px;
+      background: rgba(0,0,0,0.72); color: white;
+      padding: 8px 12px; border-radius: 8px;
+      opacity: 0.4; transition: opacity 0.2s;
+      display: flex; gap: 8px; align-items: center;
+    }
+    #sketch-tools:hover { opacity: 1; }
+    #sketch-tools select, #sketch-tools button {
+      font-size: 11px; border-radius: 4px; border: none; padding: 4px 6px; cursor: pointer;
+    }
+
+    .variant { display: none; }
+    .variant.active { display: block; }
+  </style>
+</head>
+<body>
+  <div id="variant-nav">
+    <span class="nav-label">Sketch 002 · Logo</span>
+    <button class="variant-tab active" onclick="showVariant('a')">A: Lettermark P</button>
+    <button class="variant-tab" onclick="showVariant('b')">B: Open Tray</button>
+    <button class="variant-tab" onclick="showVariant('c')">C: Puzzle Notch</button>
+  </div>
+
+  <div class="shell" id="viewport">
+    <!-- shared stage; marks swap via JS cloning into slots -->
+    <div class="panel">
+      <h2 id="var-title">A: Lettermark P</h2>
+      <p class="hint" id="var-hint">Rounded square + soft box-notch. Lesbar, subtil, adult.</p>
+
+      <div class="wordmark" style="margin-bottom:20px">
+        <div id="hero-mark"></div>
+        <div>
+          <div class="name">Puzzlessbox</div>
+          <div class="tag">Capture rein · bestätigt · landet im Board</div>
+        </div>
+      </div>
+
+      <div class="sizes" id="size-row"></div>
+      <div class="controls">
+        <button class="chip-btn on" type="button" data-bg="light" onclick="setMarkBg(this)">Auf Hell</button>
+        <button class="chip-btn" type="button" data-bg="dark" onclick="setMarkBg(this)">Auf Dunkel</button>
+        <button class="chip-btn" type="button" data-bg="photo" onclick="setMarkBg(this)">Auf Foto-Wash</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Im App-Header</h2>
+      <p class="hint">So sieht die Marke im echten Board-Chrome aus.</p>
+      <div class="app-chrome">
+        <div class="app-bar">
+          <div class="wordmark" style="gap:10px">
+            <div id="header-mark"></div>
+            <div class="name" style="font-size:1.05rem">Puzzlessbox</div>
+          </div>
+          <button class="btn" type="button" id="hdr-btn">+ Capture</button>
+        </div>
+        <div class="mini-board">
+          <div class="mini-col"><h3>Inbox</h3><div class="mini-card">Frisch captured</div></div>
+          <div class="mini-col"><h3>Links</h3><div class="mini-card">FastMCP Docs</div></div>
+          <div class="mini-col"><h3>Tasks</h3><div class="mini-card">Logo export</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel og">
+      <div>
+        <h2>Social Preview</h2>
+        <p class="hint">OG-ish 1.91:1 — Marke muss auf Distanz halten.</p>
+        <div class="og-card" id="og-card">
+          <div id="og-mark"></div>
+          <div class="copy">
+            <h3>Puzzlessbox</h3>
+            <p>Deine Capture-Box — warm, klar, ohne Nacharbeit.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2>Favicon / Tab</h2>
+        <p class="hint">16×16 — Metapher darf hier fast verschwinden.</p>
+        <div class="favicon-row" style="margin-top:12px">
+          <div class="browser-tab">
+            <div class="favicon-slot" id="fav-mark"></div>
+            <span>Puzzlessbox</span>
+          </div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:12px;align-items:center">
+          <div id="fav32"></div>
+          <span style="font-size:12px;color:var(--color-text-muted);font-family:var(--font-mono)">32×32</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div id="sketch-tools">
+    <select id="theme-switcher" onchange="applyTheme(this.value)">
+      <option value="honey">Honey Mist</option>
+      <option value="sage">Sage Play</option>
+      <option value="ink">Ocean Honey</option>
+    </select>
+    <button type="button" onclick="setViewport('phone')">375</button>
+    <button type="button" onclick="setViewport('tablet')">768</button>
+    <button type="button" onclick="setViewport('desktop')">Full</button>
+  </div>
+
+  <!-- Mark templates -->
+  <template id="tpl-a">
+    <div class="mark-wrap mark-a" style="--s: VARSIZE">
+      <span class="letter">P</span>
+      <span class="notch" aria-hidden="true"></span>
+    </div>
+  </template>
+  <template id="tpl-b">
+    <div class="mark-wrap mark-b" style="--s: VARSIZE">
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M12 22h40v28a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V22z" fill="rgba(255,255,255,0.22)" stroke="#fff" stroke-width="3"/>
+        <path d="M8 22h48l-4-10H12L8 22z" fill="#fff"/>
+        <rect x="22" y="34" width="20" height="3.5" rx="1.5" fill="#fff" opacity="0.9"/>
+      </svg>
+    </div>
+  </template>
+  <template id="tpl-c">
+    <div class="mark-wrap mark-c" style="--s: VARSIZE">
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M12 12h18c0 5 4 8 8 8s8-3 8-8h6v18c-5 0-8 4-8 8s3 8 8 8v6H36c0-5-4-8-8-8s-8 3-8 8H12V36c5 0 8-4 8-8s-3-8-8-8V12z"
+              fill="#fff"/>
+      </svg>
+    </div>
+  </template>
+
+  <script>
+    let current = 'a';
+    const META = {
+      a: { title: 'A: Lettermark P', hint: 'Rounded square + soft box-notch. Lesbar, subtil, adult.' },
+      b: { title: 'B: Open Tray', hint: 'Offene Box/Tray — Metapher klarer. Risiko: zu literal.' },
+      c: { title: 'C: Puzzle Notch', hint: 'Geometrische Puzzle-Form. Risiko: Puzzle=Spiel/Kind.' },
+    };
+    const SIZES = [64, 40, 32, 24, 16];
+
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove('show'), 1400);
+    }
+
+    function markHTML(variant, size) {
+      const tpl = document.getElementById('tpl-' + variant);
+      return tpl.innerHTML.replaceAll('VARSIZE', size + 'px');
+    }
+
+    function mountAll() {
+      document.getElementById('hero-mark').innerHTML = markHTML(current, 64);
+      document.getElementById('header-mark').innerHTML = markHTML(current, 36);
+      document.getElementById('og-mark').innerHTML = markHTML(current, 72);
+      document.getElementById('fav-mark').innerHTML = markHTML(current, 16);
+      document.getElementById('fav32').innerHTML = markHTML(current, 32);
+
+      const row = document.getElementById('size-row');
+      row.innerHTML = SIZES.map(s => `
+        <div class="size-tile" onclick="toast('${s}×${s} — ${META[current].title}')">
+          ${markHTML(current, s)}
+          <label>${s}×${s}</label>
+        </div>
+      `).join('');
+    }
+
+    function showVariant(id) {
+      current = id;
+      document.querySelectorAll('.variant-tab').forEach((t, i) => {
+        const key = ['a','b','c'][i];
+        t.classList.toggle('active', key === id);
+      });
+      document.getElementById('var-title').textContent = META[id].title;
+      document.getElementById('var-hint').textContent = META[id].hint;
+      mountAll();
+      toast(META[id].title);
+    }
+
+    function setMarkBg(btn) {
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const mode = btn.dataset.bg;
+      const hero = document.getElementById('hero-mark').parentElement;
+      const panel = hero.closest('.panel');
+      if (mode === 'dark') {
+        panel.style.background = '#1c1917';
+        panel.style.color = '#fafaf9';
+        panel.querySelector('.hint').style.color = '#a8a29e';
+        panel.querySelector('.tag').style.color = '#a8a29e';
+        panel.querySelector('.name').style.color = '#fff';
+      } else if (mode === 'photo') {
+        panel.style.background = 'linear-gradient(120deg, #ffe8d6 0%, #d8f3ef 50%, #fff6ef 100%)';
+        panel.style.color = '';
+        panel.querySelector('.hint').style.color = '';
+        panel.querySelector('.tag').style.color = '';
+        panel.querySelector('.name').style.color = '';
+      } else {
+        panel.style.background = '';
+        panel.style.color = '';
+        panel.querySelector('.hint').style.color = '';
+        panel.querySelector('.tag').style.color = '';
+        panel.querySelector('.name').style.color = '';
+      }
+      toast('Hintergrund: ' + mode);
+    }
+
+    function applyTheme(name) {
+      if (name === 'honey') document.body.removeAttribute('data-theme');
+      else document.body.setAttribute('data-theme', name === 'ink' ? 'ink' : 'sage');
+    }
+
+    function setViewport(mode) {
+      const v = document.getElementById('viewport');
+      v.classList.remove('viewport-phone', 'viewport-tablet');
+      if (mode === 'phone') v.classList.add('viewport-phone');
+      if (mode === 'tablet') v.classList.add('viewport-tablet');
+    }
+
+    document.getElementById('hdr-btn').onclick = () => {
+      const b = document.getElementById('hdr-btn');
+      b.textContent = '…';
+      setTimeout(() => { b.textContent = '✓ Saved'; toast('Capture auto_saved'); }, 400);
+      setTimeout(() => { b.textContent = '+ Capture'; }, 1600);
+    };
+
+    mountAll();
+  </script>
+</body>
+</html>
