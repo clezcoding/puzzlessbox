@@ -308,7 +308,7 @@
       color: var(--color-text-muted); font-weight: 700;
     }
     .live-item {
-      display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: start;
+      display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: start;
       padding: 10px; border-radius: var(--radius-md);
       background: var(--color-surface-soft);
       border: 1px solid var(--color-border);
@@ -1106,7 +1106,7 @@
         render({ landId: id });
         btn.textContent = prev;
         btn.disabled = false;
-        toast(current === 'c' ? '✦ Capture → Inbox' : 'Capture → Inbox');
+        toast(current === 'c' ? 'Capture → Inbox' : 'Capture → Inbox');
       }, current === 'c' ? 380 : 620);
     }
 
