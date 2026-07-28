@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sketch 001 — Brand Mood Board</title>
+  <link rel="stylesheet" href="../themes/default.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--color-text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, var(--color-bg-wash), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, color-mix(in srgb, var(--color-accent) 18%, white), transparent 55%),
+        var(--color-bg);
+      min-height: 100vh;
+      padding-top: 56px;
+      transition: background 0.25s ease, color 0.2s ease;
+    }
+    button, a, .card, .chip, .icon-btn {
+      transition: all 0.15s ease;
+    }
+
+    #variant-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9998;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 8px 16px;
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    }
+    .variant-tab {
+      font-family: var(--font-sans);
+      font-size: 13px; font-weight: 600;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .variant-tab:hover { border-color: var(--color-primary); }
+    .variant-tab.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
+    .nav-label {
+      font-size: 12px; color: var(--color-text-muted); margin-right: 8px;
+    }
+
+    .shell { max-width: 1280px; margin: 0 auto; padding: 24px; }
+    .shell.viewport-phone { max-width: 375px; }
+    .shell.viewport-tablet { max-width: 768px; }
+    .shell.viewport-desktop { max-width: 1280px; }
+
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .mark {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: linear-gradient(145deg, var(--color-primary), color-mix(in srgb, var(--color-accent) 55%, var(--color-primary)));
+      display: grid; place-items: center;
+      color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 18px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+    .mark::after {
+      content: "";
+      position: absolute; right: 6px; bottom: 6px;
+      width: 8px; height: 8px; border-radius: 2px;
+      background: rgba(255,255,255,0.85);
+      box-shadow: -4px -4px 0 rgba(255,255,255,0.35);
+    }
+    .brand h1 {
+      margin: 0; font-family: var(--font-display); font-size: 1.35rem; letter-spacing: -0.02em;
+    }
+    .brand p { margin: 2px 0 0; font-size: 13px; color: var(--color-text-muted); }
+
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      border: none; border-radius: var(--radius-md);
+      padding: 10px 14px; font-weight: 600; font-size: 14px; cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    .btn-primary { background: var(--color-primary); color: #fff; }
+    .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+    .btn-ghost {
+      background: var(--color-surface); color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+    .btn-ghost:hover { border-color: var(--color-primary); }
+
+    .mood-banner {
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+      background: var(--color-surface);
+      border: 1px dashed color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .mood-banner .blob {
+      width: 48px; height: 48px; border-radius: 40% 60% 55% 45%;
+      background: linear-gradient(135deg, var(--color-accent-soft), color-mix(in srgb, var(--color-primary) 35%, white));
+      flex-shrink: 0;
+      animation: bob 3.2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-4px) rotate(2deg); }
+    }
+    .mood-banner strong { font-family: var(--font-display); }
+    .mood-banner span { color: var(--color-text-muted); font-size: 14px; }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+    }
+    @media (max-width: 900px) {
+      .board { grid-template-columns: repeat(5, 220px); }
+    }
+
+    .col {
+      background: color-mix(in srgb, var(--col-tint, var(--color-surface-soft)) 70%, white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      min-height: 420px;
+    }
+    .col-h {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .col-h h2 {
+      margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--color-text-muted); font-weight: 700;
+    }
+    .count {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      font-size: 11px; padding: 2px 8px; color: var(--color-text-muted);
+    }
+
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+      cursor: grab;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+    }
+    .card.dragging { opacity: 0.5; transform: rotate(1.5deg); }
+    .card h3 {
+      margin: 0 0 6px; font-size: 14px; font-weight: 650; line-height: 1.3;
+    }
+    .card p { margin: 0; font-size: 12px; color: var(--color-text-muted); line-height: 1.4; }
+    .meta {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px;
+    }
+    .chip {
+      font-size: 11px; font-weight: 600;
+      padding: 3px 8px; border-radius: var(--radius-full);
+      background: var(--color-accent-soft); color: var(--color-accent);
+    }
+    .chip.warn { background: #fff1e6; color: var(--color-primary); }
+    .chip.ok { background: #e8f8ee; color: var(--color-success); }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 72px; transform: translateX(-50%) translateY(20px);
+      background: var(--color-text); color: #fff;
+      padding: 10px 16px; border-radius: var(--radius-md);
+      font-size: 13px; opacity: 0; pointer-events: none;
+      transition: all 0.2s ease; z-index: 10000;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    #sketch-tools {
+      position: fixed; bottom: 12px; right: 12px; z-index: 9999;
+      font-family: system-ui; font-size: 12px;
+      background: rgba(0,0,0,0.72); color: white;
+      padding: 8px 12px; border-radius: 8px;
+      opacity: 0.4; transition: opacity 0.2s;
+      display: flex; gap: 8px; align-items: center;
+    }
+    #sketch-tools:hover { opacity: 1; }
+    #sketch-tools select, #sketch-tools button {
+      font-size: 11px; border-radius: 4px; border: none; padding: 4px 6px;
+      cursor: pointer;
+    }
+
+    .annotate-on [data-anno]::after {
+      content: attr(data-anno);
+      display: block; margin-top: 4px;
+      font-size: 10px; color: #b45309; font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body data-theme="honey">
+  <div id="variant-nav">
+    <span class="nav-label">Sketch 001 · Mood</span>
+    <button class="variant-tab active" data-v="a" onclick="showVariant('a')">A: Honey Mist</button>
+    <button class="variant-tab" data-v="b" onclick="showVariant('b')">B: Sage Play</button>
+    <button class="variant-tab" data-v="c" onclick="showVariant('c')">C: Ocean Honey</button>
+  </div>
+
+  <div class="shell" id="viewport">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" data-anno="mark 40px · soft box notch" aria-hidden="true">P</div>
+        <div>
+          <h1>Puzzlessbox</h1>
+          <p id="mood-line">Warm-first · adult-playful · leichte Box-Metapher</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ghost" id="btn-empty" type="button">Empty State</button>
+        <button class="btn btn-ghost" id="btn-populate" type="button">Populate</button>
+        <button class="btn btn-primary" id="btn-capture" type="button">+ Capture</button>
+      </div>
+    </header>
+
+    <div class="mood-banner" data-anno="character blob · soft shape, not mascot">
+      <div class="blob" aria-hidden="true"></div>
+      <div>
+        <strong id="mood-title">Honey Mist</strong><br />
+        <span id="mood-desc">Pfirsich-Wash + Coral-Honey. Einladend, nicht kindisch. Clean nur als Gerüst.</span>
+      </div>
+    </div>
+
+    <div class="board" id="board">
+      <section class="col" style="--col-tint: var(--color-column-inbox)" data-col="inbox">
+        <div class="col-h"><h2>Inbox</h2><span class="count" data-count>0</span></div>
+        <div class="cards"></div>
+      </section>
+      <section class="col" style="--col-tint: var(--color-column-notes)" data-col="notes">
+        <div class="col-h"><h2>Notizen</h2><span class="count" data-count>0</span></div>
+        <div class="cards"></div>
+      </section>
+      <section class="col" style="--col-tint: var(--color-column-links)" data-col="links">
+        <div class="col-h"><h2>Links</h2><span class="count" data-count>0</span></div>
+        <div class="cards"></div>
+      </section>
+      <section class="col" style="--col-tint: var(--color-column-tasks)" data-col="tasks">
+        <div class="col-h"><h2>Tasks</h2><span class="count" data-count>0</span></div>
+        <div class="cards"></div>
+      </section>
+      <section class="col" style="--col-tint: var(--color-column-events)" data-col="events">
+        <div class="col-h"><h2>Termine</h2><span class="count" data-count>0</span></div>
+        <div class="cards"></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div id="sketch-tools" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.4">
+    <select id="theme-switcher" title="Theme">
+      <option value="honey">Honey Mist</option>
+      <option value="sage">Sage Play</option>
+      <option value="ink">Ocean Honey</option>
+    </select>
+    <button type="button" onclick="setViewport('phone')">375</button>
+    <button type="button" onclick="setViewport('tablet')">768</button>
+    <button type="button" onclick="setViewport('desktop')">Full</button>
+    <button type="button" id="anno-toggle">Annotate</button>
+  </div>
+
+  <script>
+    const SEED = [
+      { col: 'inbox', title: 'Idee: Voice-Capture nach dem Meeting', summary: 'Kurz festhalten, später sortieren.', type: 'Notiz', status: 'pending' },
+      { col: 'notes', title: 'Hermes Timeout = API State Machine', summary: 'Cron tickt nur 60s — Draft braucht auto_saved.', type: 'Notiz', status: 'ok' },
+      { col: 'links', title: 'FastMCP Bearer Auth Docs', summary: 'https://gofastmcp.com — Token rotierbar.', type: 'Link', status: 'ok' },
+      { col: 'tasks', title: 'BRAND-01 Asset-Export SVG/PNG', summary: 'Wortmarke · Symbol · Kombi vor Phase 4.', type: 'Task', status: 'warn' },
+      { col: 'events', title: 'Discuss Phase 0 abschließen', summary: 'Morgen 10:00 — Logo + Tokens locken.', type: 'Termin', status: 'ok' },
+      { col: 'tasks', title: 'Coolify Health Checks', summary: 'OPS später — jetzt nur Branding.', type: 'Task', status: 'pending' },
+    ];
+
+    const MOOD = {
+      a: {
+        theme: 'honey',
+        title: 'Honey Mist',
+        desc: 'Pfirsich-Wash + Coral-Honey. Einladend, nicht kindisch. Clean nur als Gerüst.',
+        line: 'Warm-first · soft paper · box-hint',
+      },
+      b: {
+        theme: 'sage',
+        title: 'Sage Play',
+        desc: 'Salbei-Wash + Coral. Frischer Outdoor-Warmton — mehr Charakter, immer noch adult.',
+        line: 'Warm-first · sage air · coral pop',
+      },
+      c: {
+        theme: 'ink',
+        title: 'Ocean Honey',
+        desc: 'Slate-Wash + Amber. Klarer/tooliger — Wärme über Amber, nicht über Kitsch.',
+        line: 'Warm-accent · slate calm · honey focus',
+      },
+    };
+
+    let items = [];
+    let dragId = null;
+
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove('show'), 1600);
+    }
+
+    function showVariant(id) {
+      document.querySelectorAll('.variant-tab').forEach(t => t.classList.toggle('active', t.dataset.v === id));
+      const m = MOOD[id];
+      applyTheme(m.theme);
+      document.getElementById('mood-title').textContent = m.title;
+      document.getElementById('mood-desc').textContent = m.desc;
+      document.getElementById('mood-line').textContent = m.line;
+      document.getElementById('theme-switcher').value = m.theme;
+      toast('Variante ' + id.toUpperCase() + ': ' + m.title);
+    }
+
+    function applyTheme(name) {
+      // map select values → data-theme attrs on body
+      const map = { honey: '', sage: 'sage', ink: 'ink' };
+      const attr = map[name] || '';
+      if (attr) document.body.setAttribute('data-theme', attr);
+      else document.body.removeAttribute('data-theme');
+      // honey is default :root — ensure clean
+      if (name === 'honey') document.body.removeAttribute('data-theme');
+    }
+
+    function statusChip(s) {
+      if (s === 'ok') return '<span class="chip ok">auto_saved</span>';
+      if (s === 'warn') return '<span class="chip warn">pending</span>';
+      return '<span class="chip">draft</span>';
+    }
+
+    function render() {
+      document.querySelectorAll('.col').forEach(col => {
+        const key = col.dataset.col;
+        const list = items.filter(i => i.col === key);
+        col.querySelector('[data-count]').textContent = list.length;
+        const wrap = col.querySelector('.cards');
+        if (!list.length) {
+          wrap.innerHTML = '<p style="font-size:12px;color:var(--color-text-muted);padding:8px 4px;">Leer — wirf etwas rein.</p>';
+          return;
+        }
+        wrap.innerHTML = list.map(i => `
+          <article class="card" draggable="true" data-id="${i.id}">
+            <h3>${i.title}</h3>
+            <p>${i.summary}</p>
+            <div class="meta">
+              <span class="chip">${i.type}</span>
+              ${statusChip(i.status)}
+            </div>
+          </article>
+        `).join('');
+      });
+      bindDrag();
+    }
+
+    function bindDrag() {
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('dragstart', e => {
+          dragId = card.dataset.id;
+          card.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+      });
+      document.querySelectorAll('.col').forEach(col => {
+        col.addEventListener('dragover', e => { e.preventDefault(); col.style.outline = '2px dashed var(--color-primary)'; });
+        col.addEventListener('dragleave', () => { col.style.outline = ''; });
+        col.addEventListener('drop', e => {
+          e.preventDefault();
+          col.style.outline = '';
+          const item = items.find(i => String(i.id) === String(dragId));
+          if (!item) return;
+          item.col = col.dataset.col;
+          render();
+          toast('Verschoben → ' + col.dataset.col);
+        });
+      });
+    }
+
+    function populate() {
+      items = SEED.map((s, i) => ({ ...s, id: i + 1 }));
+      render();
+      toast('Board befüllt');
+    }
+
+    function emptyBoard() {
+      items = [];
+      render();
+      toast('Empty State');
+    }
+
+    let nextId = 100;
+    function capture() {
+      const btn = document.getElementById('btn-capture');
+      btn.textContent = 'Speichert…';
+      btn.disabled = true;
+      setTimeout(() => {
+        items.unshift({
+          id: nextId++,
+          col: 'inbox',
+          title: 'Frisch captured: „Milch & Filter“',
+          summary: 'Bestätigung übersprungen · auto_saved nach 30s.',
+          type: 'Notiz',
+          status: 'ok',
+        });
+        render();
+        btn.textContent = '+ Capture';
+        btn.disabled = false;
+        toast('Capture → Inbox (auto_saved)');
+      }, 500);
+    }
+
+    function setViewport(mode) {
+      const v = document.getElementById('viewport');
+      v.classList.remove('viewport-phone', 'viewport-tablet', 'viewport-desktop');
+      if (mode === 'phone') v.classList.add('viewport-phone');
+      if (mode === 'tablet') v.classList.add('viewport-tablet');
+      if (mode === 'desktop') v.classList.add('viewport-desktop');
+    }
+
+    document.getElementById('btn-populate').onclick = populate;
+    document.getElementById('btn-empty').onclick = emptyBoard;
+    document.getElementById('btn-capture').onclick = capture;
+    document.getElementById('theme-switcher').onchange = (e) => {
+      applyTheme(e.target.value);
+      const entry = Object.entries(MOOD).find(([, m]) => m.theme === e.target.value);
+      if (entry) showVariant(entry[0]);
+    };
+    document.getElementById('anno-toggle').onclick = () => {
+      document.body.classList.toggle('annotate-on');
+      toast(document.body.classList.contains('annotate-on') ? 'Annotations on' : 'Annotations off');
+    };
+
+    // init
+    populate();
+    showVariant('a');
+  </script>
+</body>
+</html>
