@@ -1,0 +1,12 @@
+/* Puzzlessbox brand tokens — Utilitarian Bone + Apollo terracotta accent */
+
+@theme {
+  --color-bg: #f7f6f3;
+  --color-surface: #ffffff;
+  --color-text: #2f3437;
+  --color-brand: #c45c3e;
+  --color-primary: #1a1a1a;
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+}
