@@ -1,6 +1,22 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+current_phase: 0
+current_phase_name: Branding & Design System
+status: "Brand locked: **Apollo** + Util. Sketch 003 **keep-all** — ~25 assets (must+nice). Pending HF credits: pose-wave/sleep. Gallery: `003-apollo-asset-pack/compare.html`."
+stopped_at: Phase 0 context gathered
+last_updated: "2026-07-29T02:49:39.492Z"
+progress:
+  total_phases: 1
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+---
+
 # State: Puzzlessbox
 
-**Last updated:** 2026-07-28 (quick task 260728-8an)
+**Last updated:** 2026-07-29 (Apollo full brand kit 003 keep-all)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -13,9 +29,9 @@
 
 ## Current Position
 
-- **Phase:** 0 (Branding & Design System) — not started
+- **Phase:** 0 (Branding & Design System) — discuss paused; sketch exploring DNA
 - **Plan:** none yet
-- **Status:** Roadmap created, awaiting `/gsd-discuss-phase 0` or `/gsd-plan-phase 0`
+- **Status:** Brand locked: **Apollo** + Util. Sketch 003 **keep-all** — ~25 assets (must+nice). Pending HF credits: pose-wave/sleep. Gallery: `003-apollo-asset-pack/compare.html`.
 - **Progress:** 0/6 phases complete
 
 ```
@@ -50,6 +66,7 @@
 - Google Calendar: separater OAuth in Settings (nicht Better Auth Social)
 - MCP: statisches Bearer-Token (rotierbar), keine IP-Allowlist in v1
 - Branding via Hallmark (clean + warm, kein AI-Slop) vor WebApp
+- **Brand hero = Apollo (Waschbär, 002-B)** — gesamte Identity; myth link Hermes; Util Bone nur UI-Gerüst; Accent `#c45c3e`
 - Dual-Lizenz AGPL-3.0 + Commercial
 - Coolify Docker-Image-Deploy + GitHub Actions (nicht Nixpacks-Build)
 - Alle Hermes-Messaging-Kanäle in v1 (kein Kanal-Lock)
@@ -63,7 +80,7 @@
 
 ### TODOs
 
-- [ ] Phase 0: `/gsd-discuss-phase 0` für Design-Entscheidungen (clean vs. verspielt, Logo-Richtung)
+- [ ] Phase 0: `/gsd-discuss-phase 0` — Critter/Util locked; rest: Name optional, Asset-Pack (favicon → OG), CONTEXT schreiben
 - [ ] Phase 3: `/gsd-spike "Hermes Cron/dispatch_tool Timing für 30s-Bestätigungs-Flow"` vor `/gsd-plan-phase 3`
 
 ### Blockers
@@ -80,10 +97,10 @@
 
 ## Session Continuity
 
-- **Last session:** 2026-07-29 — Session resumed via `/gsd-resume-work`
-- **Stopped at:** Pre-Phase-0 — Planung abgeschlossen, Implementierung nicht begonnen
-- **Resume file:** `.planning/.continue-here.md`
-- **Next recommended action:** `/gsd-discuss-phase 0` (Branding-Entscheidungen interaktiv klären) oder direkt `/gsd-plan-phase 0`
+- **Last session:** 2026-07-29T02:49:39.484Z
+- **Stopped at:** Phase 0 context gathered
+- **Resume file:** .planning/phases/00-branding-design-system/00-CONTEXT.md
+- **Next recommended action:** Top up Higgsfield → gen pose-wave/sleep **oder** `/gsd-discuss-phase 0` → CONTEXT
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
