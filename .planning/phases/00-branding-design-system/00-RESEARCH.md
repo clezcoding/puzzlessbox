@@ -265,12 +265,9 @@ How the Next.js `globals.css` imports the design preset package:
 
 All claims in this research were verified, cited, or are explicitly locked by project context decisions. No user confirmation is required to proceed with this plan.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Credit Restoration for SVGs**
-   - What we know: Vectorization of primary logos is deferred due to Higgsfield credits.
-   - What's unclear: Timeline for restoring credits to allow vector export.
-   - Recommendation: Proceed with Phase 00 delivering PNGs. Track vectorization as a Wave 1 task once credit issues resolve.
+1. **Credit Restoration for SVGs** — **RESOLVED:** Defer SVG vectorization per D-05. Phase 0 ships PNG kit only. After Higgsfield Recraft credit top-up, vectorize brand marks first (favicon, app icon, wordmark, avatar, dark icon) — tracked as post-Phase-0 follow-up, not a Phase 0 blocker.
 
 ## Environment Availability
 

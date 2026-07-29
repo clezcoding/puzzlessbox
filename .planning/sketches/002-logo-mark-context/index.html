@@ -3,246 +3,356 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sketch 002 — Logo Mark Context</title>
+  <title>Sketch 002 — Logo · Util DNA</title>
   <link rel="stylesheet" href="../themes/default.css" />
   <style>
+    /* Sketch 002 · locked to Sketch 001 winner C Utilitarian Bone
+     * Marks: flat charcoal · no gradient carnival · favicon-first
+     */
     * { box-sizing: border-box; }
+    html, body { overflow-x: clip; }
     body {
       margin: 0;
       font-family: var(--font-sans);
       color: var(--color-text);
-      background:
-        radial-gradient(1000px 500px at 0% 0%, var(--color-bg-wash), transparent 55%),
-        var(--color-bg);
+      background: var(--color-bg);
       min-height: 100vh;
       padding-top: 56px;
     }
-    button, .mark-wrap, .size-tile { transition: all 0.15s ease; }
+    body::before {
+      content: "";
+      position: fixed; inset: -10%; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(700px 360px at 28% 0%, rgba(31, 108, 159, 0.05), transparent 55%),
+        linear-gradient(180deg, #fbfbfa, transparent 200px);
+    }
+    .shell, #variant-nav, #sketch-tools, .toast { position: relative; z-index: 1; }
 
     #variant-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 9998;
-      background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+      background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--color-border);
-      padding: 8px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      padding: 8px 16px;
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
     }
     .variant-tab {
-      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
-      border: 1px solid var(--color-border); background: var(--color-surface);
-      color: var(--color-text); border-radius: var(--radius-sm);
-      padding: 8px 12px; cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 12.5px; font-weight: 650;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      border-radius: 6px;
+      padding: 8px 11px;
+      cursor: pointer;
     }
-    .variant-tab:hover { border-color: var(--color-primary); }
+    .variant-tab:hover { border-color: var(--color-border-strong); }
     .variant-tab.active {
-      background: var(--color-primary); border-color: var(--color-primary); color: #fff;
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
     }
-    .nav-label { font-size: 12px; color: var(--color-text-muted); margin-right: 8px; }
+    .nav-label { font-size: 12px; color: var(--color-text-muted); margin-right: 4px; }
+    .badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      background: #fbf3db; color: #956400;
+      border: 1px solid #ead9a0;
+      padding: 3px 7px; border-radius: 4px;
+    }
 
-    .shell { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .shell { max-width: 980px; margin: 0 auto; padding: 24px; }
     .shell.viewport-phone { max-width: 375px; }
     .shell.viewport-tablet { max-width: 768px; }
 
     .panel {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      border-radius: 10px;
       padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-sm);
+      margin-bottom: 14px;
     }
     .panel h2 {
-      margin: 0 0 6px;
-      font-family: var(--font-display);
-      font-size: 1.1rem;
+      margin: 0 0 4px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 650;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--color-text-muted);
     }
-    .panel .hint { margin: 0 0 16px; color: var(--color-text-muted); font-size: 13px; }
+    .panel .hint { margin: 0 0 16px; color: var(--color-text-muted); font-size: 13.5px; line-height: 1.45; }
+    .panel .title-serif {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      font-weight: 400;
+      font-style: normal;
+      letter-spacing: -0.03em;
+      color: var(--color-text);
+      margin: 0 0 6px;
+    }
 
-    /* —— Marks —— */
     .mark-wrap {
       display: inline-grid; place-items: center;
       width: var(--s, 64px); height: var(--s, 64px);
-      border-radius: calc(var(--s, 64px) * 0.28);
-      background: linear-gradient(145deg, var(--color-primary), color-mix(in srgb, var(--color-accent) 40%, var(--color-primary)));
-      box-shadow: var(--shadow-md);
+      border-radius: calc(var(--s, 64px) * 0.18);
+      background: #1a1a1a;
       color: #fff;
       position: relative;
       overflow: hidden;
+      box-shadow: none;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .mark-wrap:hover { transform: translateY(-2px) scale(1.03); }
+    .mark-wrap.on-dark {
+      background: #fff;
+      color: #1a1a1a;
+      border: 1px solid #eaeaea;
+    }
+    .mark-wrap.on-dark .notch { background: #1a1a1a; }
+    .mark-wrap.on-dark .notch::after { background: rgba(26,26,26,0.35); }
+    @media (hover: hover) {
+      .mark-wrap:hover { transform: translateY(-1px); }
+    }
 
-    /* A: Lettermark */
+    /* A: Lettermark P + soft box notch */
     .mark-a .letter {
-      font-family: var(--font-display); font-weight: 800;
-      font-size: calc(var(--s, 64px) * 0.48);
-      line-height: 1; letter-spacing: -0.04em;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: calc(var(--s, 64px) * 0.46);
+      line-height: 1;
+      letter-spacing: -0.04em;
       z-index: 1;
+      font-style: normal;
     }
     .mark-a .notch {
-      position: absolute; right: 18%; bottom: 16%;
-      width: 18%; height: 18%; border-radius: 18%;
-      background: rgba(255,255,255,0.9);
-      box-shadow: -35% -35% 0 rgba(255,255,255,0.35);
+      position: absolute; right: 16%; bottom: 15%;
+      width: 17%; height: 17%; border-radius: 15%;
+      background: rgba(255,255,255,0.92);
+    }
+    .mark-a .notch::after {
+      content: "";
+      position: absolute; left: -55%; top: -55%;
+      width: 100%; height: 100%; border-radius: 15%;
+      background: rgba(255,255,255,0.28);
     }
 
-    /* B: Open tray */
-    .mark-b svg { width: 62%; height: 62%; display: block; }
+    /* B: Open tray (box metaphor, restrained) */
+    .mark-b svg { width: 58%; height: 58%; display: block; }
 
-    /* C: Puzzle notch */
-    .mark-c svg { width: 70%; height: 70%; display: block; }
+    /* C: Puzzle notch (geometry only) */
+    .mark-c svg { width: 68%; height: 68%; display: block; }
 
     .wordmark {
-      display: flex; align-items: center; gap: 12px;
+      display: flex; align-items: center; gap: 14px;
     }
     .wordmark .name {
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 1.5rem; letter-spacing: -0.03em;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-style: normal;
+      font-size: 1.55rem;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
     }
     .wordmark .tag {
-      font-size: 13px; color: var(--color-text-muted);
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      max-width: 32ch;
     }
 
     .sizes {
-      display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end;
+      display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end;
     }
     .size-tile {
-      text-align: center; cursor: pointer;
-      padding: 10px; border-radius: var(--radius-md);
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
       border: 1px solid transparent;
+      cursor: pointer;
     }
-    .size-tile:hover, .size-tile.selected {
+    .size-tile:hover {
       border-color: var(--color-border);
       background: var(--color-surface-soft);
     }
     .size-tile label {
       display: block; margin-top: 8px;
-      font-size: 11px; color: var(--color-text-muted); font-family: var(--font-mono);
+      font-size: 11px; color: var(--color-text-muted);
+      font-family: var(--font-mono);
     }
 
-    /* Fake app chrome */
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .chip-btn {
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px; font-weight: 650;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      color: var(--color-text);
+    }
+    .chip-btn.on {
+      border-color: #1a1a1a;
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    /* Util workbench chrome preview */
     .app-chrome {
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      border-radius: 10px;
       overflow: hidden;
-      background: var(--color-bg);
+      background: #fff;
     }
     .app-bar {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; padding: 12px 16px;
-      background: var(--color-surface);
+      gap: 12px; padding: 14px 16px;
       border-bottom: 1px solid var(--color-border);
+      background: #fff;
+    }
+    .app-bar .name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: -0.03em;
     }
     .app-bar .btn {
-      border: none; background: var(--color-primary); color: #fff;
-      border-radius: var(--radius-md); padding: 8px 12px;
-      font-weight: 600; font-size: 13px; cursor: pointer;
+      border: none;
+      background: #1a1a1a;
+      color: #fff;
+      border-radius: 6px;
+      padding: 9px 12px;
+      font-weight: 650;
+      font-size: 13px;
+      cursor: pointer;
       font-family: var(--font-sans);
     }
-    .app-bar .btn:hover { background: var(--color-primary-hover); }
     .mini-board {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 0;
     }
     .mini-col {
-      background: var(--color-surface); border: 1px solid var(--color-border);
-      border-radius: var(--radius-md); padding: 10px; min-height: 100px;
+      min-height: 110px;
+      padding: 12px;
+      border-right: 1px solid var(--color-border);
+      background: var(--tint, #fff);
     }
+    .mini-col:last-child { border-right: none; }
+    .mini-col[data-c="inbox"] { --tint: #fffaf5; }
+    .mini-col[data-c="links"] { --tint: #f5fafd; }
+    .mini-col[data-c="tasks"] { --tint: #fbfaf4; }
     .mini-col h3 {
-      margin: 0 0 8px; font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.05em; color: var(--color-text-muted);
+      margin: 0 0 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      font-weight: 650;
     }
     .mini-card {
-      background: var(--color-surface-soft); border: 1px solid var(--color-border);
-      border-radius: 8px; padding: 8px; font-size: 12px; margin-bottom: 6px;
+      background: #fff;
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
     }
 
-    /* OG / favicon previews */
     .og {
-      display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
     }
     @media (max-width: 700px) { .og { grid-template-columns: 1fr; } }
     .og-card {
       aspect-ratio: 1.91 / 1;
-      border-radius: var(--radius-md);
+      border-radius: 10px;
       border: 1px solid var(--color-border);
-      background:
-        linear-gradient(135deg, var(--color-bg-wash), var(--color-surface)),
-        var(--color-bg);
+      background: #f7f6f3;
       display: flex; align-items: center; gap: 16px;
-      padding: 24px;
-      position: relative; overflow: hidden;
+      padding: 22px;
     }
-    .og-card::before {
-      content: "";
-      position: absolute; right: -20%; top: -30%;
-      width: 55%; height: 120%;
-      background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 25%, transparent), transparent 70%);
+    .og-card h3 {
+      margin: 0 0 4px;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      text-transform: none;
+      color: var(--color-text);
     }
-    .og-card .copy { position: relative; z-index: 1; }
-    .og-card h3 { margin: 0 0 4px; font-family: var(--font-display); font-size: 1.25rem; }
     .og-card p { margin: 0; font-size: 13px; color: var(--color-text-muted); }
 
-    .favicon-row {
-      display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
-    }
     .browser-tab {
       display: flex; align-items: center; gap: 8px;
-      background: #e7e5e4; border-radius: 10px 10px 0 0;
-      padding: 8px 14px; font-size: 12px; max-width: 220px;
-    }
-    .browser-tab img-like, .favicon-slot {
-      width: 16px; height: 16px; border-radius: 4px;
-      display: grid; place-items: center; flex-shrink: 0;
+      background: #ebebea;
+      border-radius: 10px 10px 0 0;
+      padding: 8px 14px;
+      font-size: 12px;
+      max-width: 220px;
     }
 
-    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    .chip-btn {
-      border: 1px solid var(--color-border); background: var(--color-surface);
-      border-radius: var(--radius-full); padding: 6px 12px;
-      font-size: 12px; font-weight: 600; cursor: pointer;
-      font-family: var(--font-sans); color: var(--color-text);
+    .rec {
+      border: 1px dashed #d6d6d4;
+      background: #fbfbfa;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+      margin-bottom: 14px;
     }
-    .chip-btn:hover, .chip-btn.on {
-      border-color: var(--color-primary); color: var(--color-primary);
-    }
+    .rec strong { color: var(--color-text); font-weight: 650; }
 
     .toast {
-      position: fixed; left: 50%; bottom: 72px; transform: translateX(-50%) translateY(20px);
-      background: var(--color-text); color: #fff;
-      padding: 10px 16px; border-radius: var(--radius-md);
+      position: fixed; left: 50%; bottom: 72px;
+      transform: translateX(-50%) translateY(12px);
+      background: #1a1a1a; color: #fff;
+      padding: 10px 16px; border-radius: 8px;
       font-size: 13px; opacity: 0; pointer-events: none;
-      transition: all 0.2s ease; z-index: 10000;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 10000;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     #sketch-tools {
       position: fixed; bottom: 12px; right: 12px; z-index: 9999;
       font-family: system-ui; font-size: 12px;
-      background: rgba(0,0,0,0.72); color: white;
+      background: rgba(0,0,0,0.75); color: white;
       padding: 8px 12px; border-radius: 8px;
       opacity: 0.4; transition: opacity 0.2s;
       display: flex; gap: 8px; align-items: center;
     }
     #sketch-tools:hover { opacity: 1; }
-    #sketch-tools select, #sketch-tools button {
+    #sketch-tools button {
       font-size: 11px; border-radius: 4px; border: none; padding: 4px 6px; cursor: pointer;
     }
 
-    .variant { display: none; }
-    .variant.active { display: block; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
-<body>
+<body data-theme="util">
   <div id="variant-nav">
     <span class="nav-label">Sketch 002 · Logo</span>
-    <button class="variant-tab active" onclick="showVariant('a')">A: Lettermark P</button>
-    <button class="variant-tab" onclick="showVariant('b')">B: Open Tray</button>
-    <button class="variant-tab" onclick="showVariant('c')">C: Puzzle Notch</button>
+    <span class="badge">Util DNA · nach 001-C</span>
+    <button class="variant-tab active" type="button" onclick="showVariant('a')">A: Lettermark P</button>
+    <button class="variant-tab" type="button" onclick="showVariant('b')">B: Open Tray</button>
+    <button class="variant-tab" type="button" onclick="showVariant('c')">C: Puzzle Notch</button>
   </div>
 
   <div class="shell" id="viewport">
-    <!-- shared stage; marks swap via JS cloning into slots -->
-    <div class="panel">
-      <h2 id="var-title">A: Lettermark P</h2>
-      <p class="hint" id="var-hint">Rounded square + soft box-notch. Lesbar, subtil, adult.</p>
+    <div class="rec">
+      <strong>Empfehlung:</strong> A Lettermark P — hält bei 16×16, passt zu charcoal CTA / flat Workbench, Metapher nur als Notch (nicht Maskottchen). B klarer „Box“, aber literal. C Puzzle = Spiel-Risiko.
+    </div>
+
+    <div class="panel" id="hero-panel">
+      <p class="title-serif" id="var-title">Lettermark P</p>
+      <p class="hint" id="var-hint">Charcoal square · P · soft box-notch. Adult, lesbar, util-fit.</p>
 
       <div class="wordmark" style="margin-bottom:20px">
         <div id="hero-mark"></div>
@@ -256,25 +366,25 @@
       <div class="controls">
         <button class="chip-btn on" type="button" data-bg="light" onclick="setMarkBg(this)">Auf Hell</button>
         <button class="chip-btn" type="button" data-bg="dark" onclick="setMarkBg(this)">Auf Dunkel</button>
-        <button class="chip-btn" type="button" data-bg="photo" onclick="setMarkBg(this)">Auf Foto-Wash</button>
+        <button class="chip-btn" type="button" data-bg="invert" onclick="setMarkBg(this)">Mark invert</button>
       </div>
     </div>
 
     <div class="panel">
-      <h2>Im App-Header</h2>
-      <p class="hint">So sieht die Marke im echten Board-Chrome aus.</p>
+      <h2>Im Workbench-Header</h2>
+      <p class="hint">Gleiche DNA wie Sketch 001-C — hairline · charcoal Capture.</p>
       <div class="app-chrome">
         <div class="app-bar">
           <div class="wordmark" style="gap:10px">
             <div id="header-mark"></div>
-            <div class="name" style="font-size:1.05rem">Puzzlessbox</div>
+            <div class="name">Puzzlessbox</div>
           </div>
           <button class="btn" type="button" id="hdr-btn">+ Capture</button>
         </div>
         <div class="mini-board">
-          <div class="mini-col"><h3>Inbox</h3><div class="mini-card">Frisch captured</div></div>
-          <div class="mini-col"><h3>Links</h3><div class="mini-card">FastMCP Docs</div></div>
-          <div class="mini-col"><h3>Tasks</h3><div class="mini-card">Logo export</div></div>
+          <div class="mini-col" data-c="inbox"><h3>Inbox</h3><div class="mini-card">Frisch captured</div></div>
+          <div class="mini-col" data-c="links"><h3>Links</h3><div class="mini-card">FastMCP Docs</div></div>
+          <div class="mini-col" data-c="tasks"><h3>Tasks</h3><div class="mini-card">Logo export</div></div>
         </div>
       </div>
     </div>
@@ -282,23 +392,21 @@
     <div class="panel og">
       <div>
         <h2>Social Preview</h2>
-        <p class="hint">OG-ish 1.91:1 — Marke muss auf Distanz halten.</p>
-        <div class="og-card" id="og-card">
+        <p class="hint">OG 1.91:1 — Marke + Instrument-Wortmarke.</p>
+        <div class="og-card">
           <div id="og-mark"></div>
-          <div class="copy">
+          <div>
             <h3>Puzzlessbox</h3>
-            <p>Deine Capture-Box — warm, klar, ohne Nacharbeit.</p>
+            <p>Deine Capture-Box — strukturiert, ohne Nacharbeit.</p>
           </div>
         </div>
       </div>
       <div>
         <h2>Favicon / Tab</h2>
-        <p class="hint">16×16 — Metapher darf hier fast verschwinden.</p>
-        <div class="favicon-row" style="margin-top:12px">
-          <div class="browser-tab">
-            <div class="favicon-slot" id="fav-mark"></div>
-            <span>Puzzlessbox</span>
-          </div>
+        <p class="hint">16×16 entscheidet. Notch darf hier fast sterben.</p>
+        <div class="browser-tab" style="margin-top:12px">
+          <div id="fav-mark"></div>
+          <span>Puzzlessbox</span>
         </div>
         <div style="margin-top:16px;display:flex;gap:12px;align-items:center">
           <div id="fav32"></div>
@@ -311,17 +419,12 @@
   <div class="toast" id="toast"></div>
 
   <div id="sketch-tools">
-    <select id="theme-switcher" onchange="applyTheme(this.value)">
-      <option value="honey">Honey Mist</option>
-      <option value="sage">Sage Play</option>
-      <option value="ink">Ocean Honey</option>
-    </select>
+    <span style="opacity:.7">theme: util</span>
     <button type="button" onclick="setViewport('phone')">375</button>
     <button type="button" onclick="setViewport('tablet')">768</button>
     <button type="button" onclick="setViewport('desktop')">Full</button>
   </div>
 
-  <!-- Mark templates -->
   <template id="tpl-a">
     <div class="mark-wrap mark-a" style="--s: VARSIZE">
       <span class="letter">P</span>
@@ -331,27 +434,37 @@
   <template id="tpl-b">
     <div class="mark-wrap mark-b" style="--s: VARSIZE">
       <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-        <path d="M12 22h40v28a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V22z" fill="rgba(255,255,255,0.22)" stroke="#fff" stroke-width="3"/>
-        <path d="M8 22h48l-4-10H12L8 22z" fill="#fff"/>
-        <rect x="22" y="34" width="20" height="3.5" rx="1.5" fill="#fff" opacity="0.9"/>
+        <path d="M14 24h36v26a5 5 0 01-5 5H19a5 5 0 01-5-5V24z" fill="currentColor" opacity="0.2" stroke="currentColor" stroke-width="3"/>
+        <path d="M10 24h44l-5-11H15L10 24z" fill="currentColor"/>
+        <rect x="24" y="36" width="16" height="3" rx="1.5" fill="currentColor" opacity="0.85"/>
       </svg>
     </div>
   </template>
   <template id="tpl-c">
     <div class="mark-wrap mark-c" style="--s: VARSIZE">
       <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-        <path d="M12 12h18c0 5 4 8 8 8s8-3 8-8h6v18c-5 0-8 4-8 8s3 8 8 8v6H36c0-5-4-8-8-8s-8 3-8 8H12V36c5 0 8-4 8-8s-3-8-8-8V12z"
-              fill="#fff"/>
+        <path d="M14 14h16c0 4.5 3.5 7.5 7.5 7.5S45 18.5 45 14h5v16c-4.5 0-7.5 3.5-7.5 7.5S45.5 45 50 45v5H34c0-4.5-3.5-7.5-7.5-7.5S19 45.5 19 50H14V34c4.5 0 7.5-3.5 7.5-7.5S18.5 19 14 19V14z"
+              fill="currentColor"/>
       </svg>
     </div>
   </template>
 
   <script>
     let current = 'a';
+    let invert = false;
     const META = {
-      a: { title: 'A: Lettermark P', hint: 'Rounded square + soft box-notch. Lesbar, subtil, adult.' },
-      b: { title: 'B: Open Tray', hint: 'Offene Box/Tray — Metapher klarer. Risiko: zu literal.' },
-      c: { title: 'C: Puzzle Notch', hint: 'Geometrische Puzzle-Form. Risiko: Puzzle=Spiel/Kind.' },
+      a: {
+        title: 'Lettermark P',
+        hint: 'Charcoal square · P · soft box-notch. Lesbar 16×16. Empfohlen.',
+      },
+      b: {
+        title: 'Open Tray',
+        hint: 'Offene Box/Tray — Metapher klar. Risiko: zu literal für Favicon.',
+      },
+      c: {
+        title: 'Puzzle Notch',
+        hint: 'Geometrie mit Puzzle-Einschnitt. Risiko: wirkt spielerisch.',
+      },
     };
     const SIZES = [64, 40, 32, 24, 16];
 
@@ -365,7 +478,9 @@
 
     function markHTML(variant, size) {
       const tpl = document.getElementById('tpl-' + variant);
-      return tpl.innerHTML.replaceAll('VARSIZE', size + 'px');
+      let html = tpl.innerHTML.replaceAll('VARSIZE', size + 'px');
+      if (invert) html = html.replace('mark-wrap', 'mark-wrap on-dark');
+      return html;
     }
 
     function mountAll() {
@@ -374,10 +489,8 @@
       document.getElementById('og-mark').innerHTML = markHTML(current, 72);
       document.getElementById('fav-mark').innerHTML = markHTML(current, 16);
       document.getElementById('fav32').innerHTML = markHTML(current, 32);
-
-      const row = document.getElementById('size-row');
-      row.innerHTML = SIZES.map(s => `
-        <div class="size-tile" onclick="toast('${s}×${s} — ${META[current].title}')">
+      document.getElementById('size-row').innerHTML = SIZES.map(s => `
+        <div class="size-tile" onclick="toast('${s}×${s}')">
           ${markHTML(current, s)}
           <label>${s}×${s}</label>
         </div>
@@ -387,46 +500,38 @@
     function showVariant(id) {
       current = id;
       document.querySelectorAll('.variant-tab').forEach((t, i) => {
-        const key = ['a','b','c'][i];
-        t.classList.toggle('active', key === id);
+        t.classList.toggle('active', ['a', 'b', 'c'][i] === id);
       });
       document.getElementById('var-title').textContent = META[id].title;
       document.getElementById('var-hint').textContent = META[id].hint;
       mountAll();
-      toast(META[id].title);
+      toast('002 · ' + META[id].title);
     }
 
     function setMarkBg(btn) {
       document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('on'));
       btn.classList.add('on');
       const mode = btn.dataset.bg;
-      const hero = document.getElementById('hero-mark').parentElement;
-      const panel = hero.closest('.panel');
+      const panel = document.getElementById('hero-panel');
+      invert = mode === 'invert';
       if (mode === 'dark') {
-        panel.style.background = '#1c1917';
-        panel.style.color = '#fafaf9';
+        panel.style.background = '#1a1a1a';
+        panel.style.color = '#f7f6f3';
         panel.querySelector('.hint').style.color = '#a8a29e';
         panel.querySelector('.tag').style.color = '#a8a29e';
         panel.querySelector('.name').style.color = '#fff';
-      } else if (mode === 'photo') {
-        panel.style.background = 'linear-gradient(120deg, #ffe8d6 0%, #d8f3ef 50%, #fff6ef 100%)';
-        panel.style.color = '';
-        panel.querySelector('.hint').style.color = '';
-        panel.querySelector('.tag').style.color = '';
-        panel.querySelector('.name').style.color = '';
+        panel.querySelector('.title-serif').style.color = '#fff';
+        invert = false;
       } else {
         panel.style.background = '';
         panel.style.color = '';
         panel.querySelector('.hint').style.color = '';
         panel.querySelector('.tag').style.color = '';
         panel.querySelector('.name').style.color = '';
+        panel.querySelector('.title-serif').style.color = '';
       }
-      toast('Hintergrund: ' + mode);
-    }
-
-    function applyTheme(name) {
-      if (name === 'honey') document.body.removeAttribute('data-theme');
-      else document.body.setAttribute('data-theme', name === 'ink' ? 'ink' : 'sage');
+      mountAll();
+      toast('Surface: ' + mode);
     }
 
     function setViewport(mode) {
@@ -438,9 +543,10 @@
 
     document.getElementById('hdr-btn').onclick = () => {
       const b = document.getElementById('hdr-btn');
+      const prev = b.textContent;
       b.textContent = '…';
-      setTimeout(() => { b.textContent = '✓ Saved'; toast('Capture auto_saved'); }, 400);
-      setTimeout(() => { b.textContent = '+ Capture'; }, 1600);
+      setTimeout(() => { b.textContent = 'Saved'; toast('Capture → Inbox'); }, 350);
+      setTimeout(() => { b.textContent = prev; }, 1400);
     };
 
     mountAll();

@@ -49,8 +49,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Branding
 
-- [ ] **BRAND-01**: Hallmark-basiertes Brandkit (Logo-Varianten, Palette, Typografie, Tonalität) — clean + warm, kein AI-Slop
-- [ ] **BRAND-02**: Design-Tokens (CSS/Tailwind) und Asset-Bibliothek existieren vor WebApp-UI-Bau und speisen `/gsd-ui-phase`
+- [x] **BRAND-01**: Hallmark-basiertes Brandkit (Logo-Varianten, Palette, Typografie, Tonalität) — clean + warm, kein AI-Slop
+- [x] **BRAND-02**: Design-Tokens (CSS/Tailwind) und Asset-Bibliothek existieren vor WebApp-UI-Bau und speisen `/gsd-ui-phase`
 
 ### Deployment & Ops
 
@@ -102,8 +102,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BRAND-01 | Phase 0 | Pending |
-| BRAND-02 | Phase 0 | Pending |
+| BRAND-01 | Phase 0 | Complete |
+| BRAND-02 | Phase 0 | Complete |
 | AUTH-01 | Phase 1 | Pending |
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
@@ -132,6 +132,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OPS-04 | Phase 5 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 28 total
 - Mapped to phases: 28 ✓
 - Unmapped: 0 ✓

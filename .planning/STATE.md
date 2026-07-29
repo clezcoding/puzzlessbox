@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 0
-current_phase_name: Branding & Design System
-status: "Phase 00 Research complete. Brand locked: **Apollo** + Util. CSS variables + Tailwind v4 theme preset ready for planning."
-stopped_at: Phase 00 Research complete
-last_updated: "2026-07-29T02:49:39.492Z"
+current_phase: 1
+current_phase_name: Datenmodell & Backend-API
+status: planning
+stopped_at: Completed 00-02-PLAN.md
+last_updated: "2026-07-29T03:28:16.445Z"
 progress:
   total_phases: 1
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  completed_phases: 1
+  total_plans: 2
+  completed_plans: 2
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 0 (Branding & Design System) — discuss paused; sketch exploring DNA
-- **Plan:** none yet
-- **Status:** Phase 0 CONTEXT ready. Brand: Apollo + Util. Next: `/gsd-plan-phase 0`.
-- **Progress:** 0/6 phases complete
+- **Phase:** 1 — Datenmodell & Backend-API
+- **Plan:** Not started
+- **Status:** Ready to plan
+- **Progress:** [██████████] 100%
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -42,7 +42,7 @@ progress:
 
 | Phase | Goal (short) | Requirements | Status |
 |-------|-------------|--------------|--------|
-| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Research complete |
+| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Planned (2 plans) |
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Not started |
 | 2 | MCP-Server | MCP-01, MCP-02 | Not started |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
@@ -52,9 +52,16 @@ progress:
 ## Performance Metrics
 
 - Phases complete: 0
-- Phases planned: 0
+- Phases planned: 1
 - Plans executed: 0
 - Verifications passed: 0
+
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 00-branding-design-system P01 | 2min | 2 tasks | 34 files |
+| Phase 00-branding-design-system P02 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -80,7 +87,7 @@ progress:
 
 ### TODOs
 
-- [ ] Phase 0: `/gsd-discuss-phase 0` — Critter/Util locked; rest: Name optional, Asset-Pack (favicon → OG), CONTEXT schreiben
+- [x] Phase 0: `/gsd-plan-phase 0` — 2 plans (brand kit + docs)
 - [ ] Phase 3: `/gsd-spike "Hermes Cron/dispatch_tool Timing für 30s-Bestätigungs-Flow"` vor `/gsd-plan-phase 3`
 
 ### Blockers
@@ -97,11 +104,18 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-29T02:49:39.484Z
-- **Stopped at:** Phase 0 context gathered
-- **Resume file:** .planning/phases/00-branding-design-system/00-CONTEXT.md
-- **Next recommended action:** Top up Higgsfield → gen pose-wave/sleep **oder** `/gsd-discuss-phase 0` → CONTEXT
+- **Last session:** 2026-07-29T03:26:47.469Z
+- **Stopped at:** Completed 00-02-PLAN.md
+- **Resume file:** None
+- **Next recommended action:** `/gsd-execute-phase 0`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
 *State initialized: 2026-07-28 after roadmap creation*
+
+## Decisions
+
+- [Phase ?]: PNG kit only per D-05 — SVG vectorization deferred to post-credit-topup
+- [Phase ?]: brand/ is pure static package — consumers install tailwindcss; no package.json under brand/
+- [Phase ?]: Production brand docs at brand/ decoupled from sketches per D-04
+- [Phase ?]: 8 locked German microcopy examples with capture verb glossary per D-09
