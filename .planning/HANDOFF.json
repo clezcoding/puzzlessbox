@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-07-29T03:59:33.346Z",
+  "phase": "00",
+  "phase_name": "branding-design-system",
+  "phase_dir": ".planning/phases/00-branding-design-system",
+  "plan": 2,
+  "task": 0,
+  "total_tasks": 0,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Plan 01: Brand kit package (25 PNGs, tokens, preset, tests)", "status": "done", "commit": "1fe51aa"},
+    {"id": 2, "name": "Plan 02: BRAND.md + VOICE.md identity docs", "status": "done", "commit": "69d89db"},
+    {"id": 3, "name": "Post-verify typography scale + microcopy alignment", "status": "done", "commit": "0984b8b"},
+    {"id": 4, "name": "Ship phase 0 — PR #1", "status": "done", "commit": "d1e8e1e"}
+  ],
+  "remaining_tasks": [
+    {"id": 5, "name": "Merge PR #1 (Phase 00) when CI green", "status": "not_started"},
+    {"id": 6, "name": "Phase 1: /gsd-discuss-phase 1 or /gsd-plan-phase 1", "status": "not_started"}
+  ],
+  "blockers": [],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {"action": "Merge PR #1 after CI passes", "context": "Phase 00 shipped to gsd/phase-00-branding-design-system — PR open and MERGEABLE", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Typography scale tokens added to tokens.css + tailwind.preset.ts", "rationale": "UI-SPEC alignment post-verification", "phase": "00"},
+    {"decision": ".gitignore must NOT ignore .planning/*", "rationale": "commit_docs=true requires planning artifacts tracked; broad ignore was reverted before ship", "phase": "00"},
+    {"decision": "Skip code review on PR #1", "rationale": "User chose skip — merge when CI passes", "phase": "00"}
+  ],
+  "uncommitted_files": [
+    ".hallmark/log.json",
+    ".planning/sketches/002-logo-mark-context/assets/",
+    ".planning/sketches/002-logo-mark-context/compare.html",
+    ".planning/sketches/003-apollo-asset-pack/",
+    ".planning/sketches/BRAND.md",
+    "brand/graphify-out/",
+    "graphify-out/"
+  ],
+  "next_action": "Merge PR #1 (https://github.com/clezcoding/puzzlessbox/pull/1), then /gsd-plan-phase 1 for Datenmodell & Backend-API",
+  "context_notes": "Phase 0 complete and shipped. On feature branch gsd/phase-00-branding-design-system. Sketch assets and graphify-out remain local-only (not in PR). Phase 3 spike still required before its plan."
+}
