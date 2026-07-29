@@ -5,7 +5,10 @@ auto_approve_usernames = ["dependabot"]
 [merge]
 method = "squash"
 require_automerge_checkpoint = true
-automerge_label = "dependencies"
+
+[merge.automerge_dependencies]
+versions = ["minor", "patch"]
+usernames = ["dependabot"]
 
 [merge.automerge]
 title = "{{{title}}} (automerge)"
@@ -13,6 +16,7 @@ title = "{{{title}}} (automerge)"
 [update]
 always = true
 automerge_title = true
+ignored_usernames = ["dependabot"]
 
 [plan]
 require_automerge = true

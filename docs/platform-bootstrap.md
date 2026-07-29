@@ -32,6 +32,8 @@ Enforced status checks (must match workflow job names):
 
 Also enforced: PR required, no force push, no branch deletion, admins included.
 
+> **Private repo limit:** `gh api` branch protection returns **403** on GitHub Free private repos (requires GitHub Pro/Team/Enterprise). Alternatives: upgrade plan, make repo public, or configure equivalent rules manually under **Settings → Rules → Rulesets** (free tier may allow rulesets — verify in your org settings).
+
 ## Coolify
 
 All commands use context `hostunlimited`:
