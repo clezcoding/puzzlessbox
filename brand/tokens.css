@@ -2,11 +2,83 @@
 
 @theme {
   --color-bg: #f7f6f3;
+  --color-bg-wash: #fbfbfa;
   --color-surface: #ffffff;
+  --color-surface-soft: #f9f9f8;
+  --color-border: #eaeaea;
+  --color-border-strong: #d6d6d4;
   --color-text: #2f3437;
-  --color-brand: #c45c3e;
+  --color-text-muted: #787774;
   --color-primary: #1a1a1a;
+  --color-primary-hover: #333333;
+  --color-brand: #c45c3e;
+  --color-brand-soft: #fce8e0;
+  --color-accent: #c45c3e;
+  --color-accent-soft: #fce8e0;
+  --color-cardboard: #c9a07a;
+  --color-info: #1f6c9f;
+  --color-info-soft: #e1f3fe;
+  --color-destructive: #d9383a;
+  --color-ink-bar: #1a1a1a;
 
+  /* Category pastels (D-07) */
+  --color-inbox-bg: #f0eeea;
+  --color-inbox-accent: #787774;
+  --color-notes-bg: #f5f0e6;
+  --color-notes-accent: #b8956a;
+  --color-links-bg: #e8f0f5;
+  --color-links-accent: #5a7a8f;
+  --color-tasks-bg: #eaf3ec;
+  --color-tasks-accent: #5f7d64;
+  --color-termine-bg: #f5ebe8;
+  --color-termine-accent: #c45c3e;
+
+  /* Typography */
   --font-display: 'Instrument Serif', Georgia, serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Spacing scale */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+}
+
+@theme dark {
+  --color-bg: #1a1a1a;
+  --color-bg-wash: #121212;
+  --color-surface: #242424;
+  --color-surface-soft: #1d1d1d;
+  --color-border: #2d2d2d;
+  --color-border-strong: #3f3f3f;
+  --color-text: #f7f6f3;
+  --color-text-muted: #a3a3a0;
+  --color-primary: #f7f6f3;
+  --color-primary-hover: #ffffff;
+  --color-brand: #c45c3e;
+  --color-brand-soft: #fce8e0;
+  --color-accent: #c45c3e;
+  --color-accent-soft: #fce8e0;
+  --color-cardboard: #c9a07a;
+  --color-info: #1f6c9f;
+  --color-info-soft: #e1f3fe;
+  --color-destructive: #d9383a;
+  --color-ink-bar: #1a1a1a;
+
+  /* Category dark backgrounds (accents unchanged) */
+  --color-inbox-bg: #2d2a26;
+  --color-inbox-accent: #787774;
+  --color-notes-bg: #302a20;
+  --color-notes-accent: #b8956a;
+  --color-links-bg: #202b33;
+  --color-links-accent: #5a7a8f;
+  --color-tasks-bg: #222e25;
+  --color-tasks-accent: #5f7d64;
+  --color-termine-bg: #332421;
+  --color-termine-accent: #c45c3e;
 }
