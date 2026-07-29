@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 0 (Branding & Design System) — discuss paused; sketch exploring DNA
 - **Plan:** none yet
-- **Status:** Brand locked: **Apollo** + Util. Sketch 003 **keep-all** — ~25 assets (must+nice). Pending HF credits: pose-wave/sleep. Gallery: `003-apollo-asset-pack/compare.html`.
+- **Status:** Phase 0 CONTEXT ready. Brand: Apollo + Util. Next: `/gsd-plan-phase 0`.
 - **Progress:** 0/6 phases complete
 
 ```
