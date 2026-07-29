@@ -19,7 +19,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Einheitliches Branding (Hallmark: clean + warm, kein AI-Slop) inkl. Design-Tokens vor WebApp-Bau — **Phase 0** (`brand/` kit: 25 Apollo PNGs, `tokens.css`, Tailwind preset, `BRAND.md`, `VOICE.md`)
 
 ### Active
 
@@ -30,7 +30,6 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [ ] WebApp-Auth: Better Auth — Email/Password Register + Login; nach erstem Account `disableSignUp: true`
 - [ ] MCP-Server (FastMCP) für Hermes: create/list/move/confirm/update Items & Categories; Bearer-Token-Auth
 - [ ] Hermes-Plugin: Bestätigungs-Flow, 30s-Timeout, Kategorisierungs-Vorschlag, MCP-Client
-- [ ] Einheitliches Branding (Hallmark: clean + warm, kein AI-Slop) inkl. Design-Tokens vor WebApp-Bau
 - [ ] Coolify-Deploy (Docker-Image via GHCR + GitHub Actions), lokale DB-Backups, Health Checks
 
 ### Out of Scope
@@ -51,7 +50,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - Messaging: alle Kanäle, die Hermes bereits unterstützt (Telegram/WhatsApp/Discord/…) — kein Kanal-Lock in v1.
 - Hosting: bestehendes Coolify (`https://puzzlesstool.online/`); Stack als Docker-Compose (API, MCP, WebApp, Postgres); Hermes außen vor.
 - Deploy-Muster: GitHub Actions baut Images → GHCR (`:latest` + `:sha-<sha>`) → Coolify Webhook; coolify-mcp für einmalige Infrastruktur; coolify-cli für Ops.
-- Branding: Phase 0 vor WebApp; Hallmark-Skill für Design-DNA (Mix minimalistisch/clean + verspielt/warm); Higgsfield CLI für Assets; danach `/gsd-ui-phase` mit Tokens.
+- Branding: **Phase 0 complete** — `brand/` package (Apollo PNG kit, light/dark tokens, Tailwind preset, `BRAND.md`, `VOICE.md`). Downstream WebApp consumes `brand/tokens.css` + `brand/tailwind.preset.ts`.
 - Phase 3 (Hermes-Plugin / 30s-Timeout) ist technisch unsicherster Teil — Spike vor Plan empfohlen.
 - Brief: `PUZZLESSBOX_PROJECT_BRIEF.md` (Ende Juli 2026).
 
@@ -76,7 +75,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 | Better Auth Email/Password; Signup nach erstem User zu | Solo-Privat + voller Auth-Flow ohne offene Registrierung | — Pending |
 | Google Calendar: separater OAuth in Settings | Login und Calendar-Scopes entkoppelt; Email/Password bleibt Primär-Auth | — Pending |
 | MCP: nur Bearer, keine IP-Allowlist | Einfacher Ops; Token rotierbar; Single-Client | — Pending |
-| Branding via Hallmark (clean+warm) vor WebApp | Kein AI-Slop; Tokens füttern `/gsd-ui-phase` | — Pending |
+| Branding via Hallmark (clean+warm) vor WebApp | Kein AI-Slop; Tokens füttern `/gsd-ui-phase` | ✓ Phase 0 |
 | Dual-Lizenz AGPL-3.0 + Commercial jetzt | Verhindert 1:1 SaaS-Kopie; alleiniger Autor → jetzt einfach | — Pending |
 | Coolify Docker-Image + GH Actions (nicht Nixpacks-Build) | Build extern; Coolify-Server nicht überlasten | — Pending |
 | Alle Hermes-Messaging-Kanäle in v1 | Kein Kanal-Lock; Capture überall wo Hermes erreichbar | — Pending |
@@ -101,4 +100,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-28 after initialization*
+*Last updated: 2026-07-29 after Phase 0 completion*

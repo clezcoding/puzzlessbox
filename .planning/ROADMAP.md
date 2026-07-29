@@ -11,7 +11,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 
 ## Phases
 
-- [ ] **Phase 0: Branding & Design System** - Hallmark-Brandkit und Design-Tokens vor WebApp-Bau
+- [x] **Phase 0: Branding & Design System** - Hallmark-Brandkit und Design-Tokens vor WebApp-Bau (completed 2026-07-29)
 - [ ] **Phase 1: Datenmodell & Backend-API** - Postgres-Schema mit `owner_id`, FastAPI-CRUD, Better Auth, Link-Scraper, Google-Calendar-Sync
 - [ ] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS
 - [ ] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan
@@ -21,70 +21,96 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 ## Phase Details
 
 ### Phase 0: Branding & Design System
+
 **Goal**: Einheitliches Markenauftreten (clean + warm, kein AI-Slop) liegt als Asset-Bibliothek und Design-Tokens vor und speist `/gsd-ui-phase 4`.
 **Depends on**: Nothing (first phase)
 **Requirements**: BRAND-01, BRAND-02
 **Success Criteria** (what must be TRUE):
+
   1. Logo-Varianten (Wortmarke, Symbolmarke, Kombination) liegen als SVG/PNG vor und sind im Repo versioniert
   2. Farbpalette und Typografie-Paar sind als Design-Tokens (CSS-Variablen / Tailwind-Theme) exportiert und von Next.js konsumierbar
   3. Tonalität und Icon-/Illustrationsstil sind kurz dokumentiert und machen spätere Asset-Generierungen (z. B. weitere Icons in Phase 4) ohne Look-Drift reproduzierbar
-**Plans**: TBD
+
+**Plans**: 2/2 plans executed
+Plans:
+**Wave 1**
+
+- [x] 00-01-PLAN.md — Ship Hallmark brand kit package: 25-PNG Apollo asset library, light + dark tokens.css, Tailwind v4 preset, node:test validation
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [x] 00-02-PLAN.md — Write brand/BRAND.md identity bible + brand/VOICE.md 8 German microcopy examples
 
 ### Phase 1: Datenmodell & Backend-API
+
 **Goal**: Backend-API und Datenmodell stehen mit Mehrmandantenfähigkeit (`owner_id`) von Tag 1, Auth ist integriert, und Capture/Link/Kalender-Backendlösungen sind end-to-end über die API nutzbar.
 **Depends on**: Phase 0
 **Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, CAP-01, CAP-03, LINK-01, LINK-02, CAL-02, CAL-03
 **Success Criteria** (what must be TRUE):
+
   1. Ein Aufrufer kann sich per Email/Passwort registrieren und einloggen; die Session bleibt über API-Aufrufe hinweg bestehen; nach dem ersten Account wird weitere Registrierung serverseitig abgewiesen
   2. Alle Kerntabellen (Item, Category, Owner) tragen `owner_id` und jede API-Query filtert danach — ein fremder Tenant sieht keine Daten eines anderen
   3. Ein per API angelieferter Draft (Titel, Typ, Kategorie, Kurz-Zusammenfassung) wird persistiert und die 30s-Timeout-State-Machine speichert ihn ohne weiteren Eingriff automatisch als `auto_saved` ab
   4. Ein Link wird mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB gespeichert und einer sinnvollen Kategorie zugeordnet
   5. Aus Terminen generierte Calendar-Events werden mit Google Calendar gelesen/geschrieben; bei konkurrierenden Writes schlägt `If-Match`-Precondition fehl und überschreibt nicht still
+
 **Plans**: TBD
 
 ### Phase 2: MCP-Server
+
 **Goal**: Ein remote MCP-Server exponiert die Tool-Oberfläche für Hermes sicher über HTTPS mit Bearer-Token und ist als eigene Coolify-App vom Haupt-API entkoppelt.
 **Depends on**: Phase 1
 **Requirements**: MCP-01, MCP-02
 **Success Criteria** (what must be TRUE):
+
   1. FastMCP-Server exponiert `create_item`, `list_categories`, `create_category`, `move_item`, `confirm_item`, `update_item` mit validierten Schemas und spricht die Backend-API als internen Client an
   2. Der MCP-Endpunkt ist nur über HTTPS mit gültigem Bearer-Token erreichbar; Anfragen ohne/mit falschem Token werden mit 401/403 abgewiesen
+
 **Plans**: TBD
 
 ### Phase 3: Hermes-Plugin & Timeout-Spike
+
 **Goal**: Hermes orchestriert den Bestätigungs-Flow über alle Messaging-Kanäle und treibt den 30s-Timeout über die API-State-Machine; das Cross-Server-Timing-Muster ist vorab per Spike validiert.
 **Depends on**: Phase 2
 **Requirements**: CAP-02, CAP-04, MCP-03, MCP-04
 **Success Criteria** (what must be TRUE):
+
   1. Ein Spike zu Hermes-Cron/`dispatch_tool`-Timing für die 30s-Bestätigung liegt mit VALIDATED/INVALIDATED-Ergebnis vor, bevor die Plugin-Phase geplant wird
   2. User erhält nach einer Nachricht an Hermes eine formatierte Bestätigung (Titel, Typ, Kategorie, Kurz-Zusammenfassung) mit Edit-Option im Chat
   3. Capture-Flow funktioniert über alle Hermes-unterstützten Messaging-Kanäle (Telegram/WhatsApp/Discord/…) ohne Kanal-spezifische Anpassung in Puzzlessbox
   4. Hermes-Plugin ruft ausschließlich die MCP-Tools auf; kein direkter Datenbankzugriff vom Hermes-VPS
+
 **Plans**: TBD
 **Spike note**: `/gsd-spike "Hermes Cron/dispatch_tool Timing für 30s-Bestätigungs-Flow"` vor `/gsd-plan-phase 3` — technisch unsicherster Teil, kein bekanntes Referenzmuster.
 
 ### Phase 4: WebApp
+
 **Goal**: Nutzer sieht und pflegt seine Items in einer responsiven Board-UI, kann sich einloggen und Google Calendar in den Settings verbinden — auf Basis der Design-Tokens aus Phase 0.
 **Depends on**: Phase 3
 **Requirements**: BOARD-01, BOARD-02, BOARD-03, BOARD-04, CAP-05, CAL-01
 **Success Criteria** (what must be TRUE):
+
   1. User sieht ein Kanban-Board mit Default-Kategorien (Inbox, Notizen, Links, Tasks, Termine) und kann eigene Kategorien anlegen, umbenennen, einfärben und sortieren
   2. User verschiebt Items per Drag & Drop zwischen Kategorien und öffnet/bearbeitet Item-Details in der WebApp
   3. Gespeicherte Items erscheinen nach Auto-Save kategorisiert im Board ohne manuelle Nacharbeit
   4. User kann sich über die WebApp-UI mit Email/Passwort einloggen (Better Auth) und bleibt über Browser-Refresh eingeloggt
   5. User kann in den Settings Google Calendar über separatem OAuth verbinden (nicht Better Auth Social)
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 5: Coolify-Deployment, CI/CD & Härtung
+
 **Goal**: Alle drei Apps laufen als separate Coolify-Docker-Image-Apps produktiv unter `*.puzzlesstool.online`, Builds laufen über GitHub Actions → GHCR → Coolify-Webhook, und Backups/Health Checks sind aktiv.
 **Depends on**: Phase 4
 **Requirements**: OPS-01, OPS-02, OPS-03, OPS-04
 **Success Criteria** (what must be TRUE):
+
   1. API, MCP und WebApp laufen als separate Coolify-Docker-Image-Apps unter `*.puzzlesstool.online` mit Traefik/Let's-Encrypt-HTTPS
   2. Ein Push auf `main` triggert pro Service einen GitHub-Actions-Build, pusht `:latest` und `:sha-<sha>` nach GHCR und löst den Coolify-Deploy-Webhook aus
   3. PostgreSQL hat einen aktiven lokalen Backup-Schedule auf dem Coolify-Server
   4. Jede App hat einen Health-Check-Endpoint und Coolify ist so konfiguriert, dass abgestürzte Container nicht mehr geroutet werden
+
 **Plans**: TBD
 
 ## Coverage
@@ -126,7 +152,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 0. Branding & Design System | 0/0 | Not started | - |
+| 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
 | 1. Datenmodell & Backend-API | 0/0 | Not started | - |
 | 2. MCP-Server | 0/0 | Not started | - |
 | 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |

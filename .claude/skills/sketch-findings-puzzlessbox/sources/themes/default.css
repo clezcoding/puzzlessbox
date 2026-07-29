@@ -1,0 +1,146 @@
+/* Sketch 001 themes v5
+ * A Phosphor Terminal — dark · mono · lime · split rail
+ * B Soft Dock — cool paper · rose · bottom capture dock · mesh wash
+ * C Utilitarian Bone — warm bone · charcoal · workbench (locked)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap');
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-em: cubic-bezier(0.23, 1, 0.32, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  /* A default: Phosphor Terminal */
+  --color-bg: #0b0f0c;
+  --color-bg-wash: #111814;
+  --color-surface: #121a14;
+  --color-surface-soft: #182019;
+  --color-border: #243028;
+  --color-border-strong: #3a4a3c;
+  --color-text: #e8f0e9;
+  --color-text-muted: #8a9a8c;
+  --color-primary: #a3e635;
+  --color-primary-hover: #bef264;
+  --color-signal: #fbbf24;
+  --color-accent: #a3e635;
+  --color-accent-soft: rgba(163, 230, 53, 0.12);
+  --color-danger: #fb7185;
+  --color-success: #a3e635;
+  --color-ink-bar: #a3e635;
+  --color-pastel-red-bg: rgba(251, 113, 133, 0.12);
+  --color-pastel-red: #fb7185;
+  --color-pastel-blue-bg: rgba(125, 211, 252, 0.12);
+  --color-pastel-blue: #7dd3fc;
+  --color-pastel-green-bg: rgba(163, 230, 53, 0.12);
+  --color-pastel-green: #a3e635;
+  --color-pastel-yellow-bg: rgba(251, 191, 36, 0.12);
+  --color-pastel-yellow: #fbbf24;
+
+  --font-display: 'JetBrains Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 0 rgba(163, 230, 53, 0.05);
+  --shadow-md: 0 0 24px rgba(163, 230, 53, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 0 1px rgba(163, 230, 53, 0.45);
+}
+
+/* B: Soft Dock — cool mesh paper, rose signal */
+[data-theme="dock"] {
+  --color-bg: #eef1f4;
+  --color-bg-wash: #e4e9ef;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f7f9fb;
+  --color-border: #d5dde6;
+  --color-border-strong: #b0bcc9;
+  --color-text: #14181f;
+  --color-text-muted: #667384;
+  --color-primary: #e11d48;
+  --color-primary-hover: #be123c;
+  --color-signal: #e11d48;
+  --color-accent: #e11d48;
+  --color-accent-soft: #ffe4e8;
+  --color-ink-bar: #e11d48;
+  --color-pastel-red-bg: #ffe4e8;
+  --color-pastel-red: #be123c;
+  --color-pastel-blue-bg: #e0f2fe;
+  --color-pastel-blue: #0369a1;
+  --color-pastel-green-bg: #ecfdf3;
+  --color-pastel-green: #15803d;
+  --color-pastel-yellow-bg: #fff7ed;
+  --color-pastel-yellow: #c2410c;
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(20, 24, 31, 0.04);
+  --shadow-md: 0 10px 30px rgba(20, 24, 31, 0.08);
+  --shadow-lg: 0 20px 50px rgba(20, 24, 31, 0.12);
+  --shadow-glow: 0 0 0 3px rgba(225, 29, 72, 0.18);
+}
+
+/* C: Utilitarian Bone + Critter brand accent (002-B locked)
+ * Workbench chrome from 001-C; terracotta = raccoon bandana brand signal.
+ * Teal demoted to --color-info only.
+ */
+[data-theme="util"] {
+  --color-bg: #f7f6f3;
+  --color-bg-wash: #fbfbfa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f9f9f8;
+  --color-border: #eaeaea;
+  --color-border-strong: #d6d6d4;
+  --color-text: #2f3437;
+  --color-text-muted: #787774;
+  --color-primary: #1a1a1a;
+  --color-primary-hover: #333333;
+  --color-signal: #c45c3e;
+  --color-brand: #c45c3e;
+  --color-brand-soft: #fce8e0;
+  --color-cardboard: #c9a07a;
+  --color-accent: #c45c3e;
+  --color-accent-soft: #fce8e0;
+  --color-info: #1f6c9f;
+  --color-info-soft: #e1f3fe;
+  --color-ink-bar: #1a1a1a;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --shadow-sm: 0 0 0 transparent;
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 0 2px rgba(17, 17, 17, 0.12);
+}
