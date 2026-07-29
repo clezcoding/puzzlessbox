@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 0
 current_phase_name: Branding & Design System
-status: "Brand locked: **Apollo** + Util. Sketch 003 **keep-all** — ~25 assets (must+nice). Pending HF credits: pose-wave/sleep. Gallery: `003-apollo-asset-pack/compare.html`."
-stopped_at: Phase 0 context gathered
+status: "Phase 00 Research complete. Brand locked: **Apollo** + Util. CSS variables + Tailwind v4 theme preset ready for planning."
+stopped_at: Phase 00 Research complete
 last_updated: "2026-07-29T02:49:39.492Z"
 progress:
   total_phases: 1
@@ -42,7 +42,7 @@ progress:
 
 | Phase | Goal (short) | Requirements | Status |
 |-------|-------------|--------------|--------|
-| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Not started |
+| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Research complete |
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Not started |
 | 2 | MCP-Server | MCP-01, MCP-02 | Not started |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
