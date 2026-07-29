@@ -1,0 +1,18 @@
+version = 1
+
+auto_approve_usernames = ["dependabot"]
+
+[merge]
+method = "squash"
+require_automerge_checkpoint = true
+automerge_label = "dependencies"
+
+[merge.automerge]
+title = "{{{title}}} (automerge)"
+
+[update]
+always = true
+automerge_title = true
+
+[plan]
+require_automerge = true
