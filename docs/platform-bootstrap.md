@@ -34,7 +34,46 @@ Also enforced: PR required, no force push, no branch deletion, admins included.
 
 ## Coolify
 
-See Coolify section below (populated after provisioning).
+All commands use context `hostunlimited`:
+
+```bash
+/usr/local/bin/coolify --context hostunlimited <command>
+```
+
+### Resources
+
+| Resource | Name | UUID |
+|----------|------|------|
+| Server | hostunlimited | `ozwpdpj5bgxax8v6gfs5lolv` |
+| Project | Puzzlessbox | `nlm9h0u5lh2rnf2fg10vuf16` |
+| Environment | production | `e14kngyecvqrv2dt73iu7eg3` |
+| Database | puzzlessbox-db | `pfqgb5pcvgi9oh64bpe3shtn` |
+
+- **Image:** `postgres:18-alpine`
+- **Internal only:** `is_public: false` (no public port)
+- **DB name / user:** `puzzlessbox` (credentials managed by Coolify — not in git)
+
+### Connection pattern
+
+App services reference the database via Coolify internal network env vars injected at deploy time (e.g. `DATABASE_URL`). Do not commit connection strings; retrieve from Coolify dashboard or `coolify database get <uuid> -s` locally.
+
+### Provision commands (reproducibility)
+
+```bash
+coolify --context hostunlimited project create \
+  --name "Puzzlessbox" \
+  --description "Capture inbox - Hermes + WebApp"
+
+coolify --context hostunlimited database create postgresql \
+  --server-uuid ozwpdpj5bgxax8v6gfs5lolv \
+  --project-uuid nlm9h0u5lh2rnf2fg10vuf16 \
+  --environment-name production \
+  --name puzzlessbox-db \
+  --image postgres:18-alpine \
+  --postgres-db puzzlessbox \
+  --postgres-user puzzlessbox \
+  --instant-deploy
+```
 
 ## Secrets Policy
 
