@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 1
 current_phase_name: Datenmodell & Backend-API
-status: "Phase 00 shipped — PR #1"
+status: completed
 stopped_at: Completed 00-02-PLAN.md
-last_updated: "2026-07-29T03:58:58.374Z"
+last_updated: "2026-07-29T20:49:47.266Z"
 progress:
   total_phases: 1
   completed_phases: 1
@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 1 — Datenmodell & Backend-API
 - **Plan:** Not started
-- **Status:** Phase 00 shipped — PR #1
+- **Status:** Quick task 260729-vmg platform bootstrap complete
 - **Progress:** [██████████] 100%
 
 ```
@@ -99,6 +99,7 @@ progress:
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260728-8an | GitHub-Repo puzzlessbox (privat) erstellen und einrichten | 2026-07-28 | 369af29 | [260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi](./quick/260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi/) |
+| 260729-vmg | Platform Bootstrap: Dependabot, Kodiak, CI, CodeQL, Coolify Postgres | 2026-07-29 | 634d1fc | [260729-vmg-platform-bootstrap-dependabot-branch-pro](./quick/260729-vmg-platform-bootstrap-dependabot-branch-pro/) |
 
 **Last updated:** 2026-07-29 (session resumed)
 
