@@ -19,3 +19,6 @@ jobs:
           languages: javascript-typescript
       - uses: github/codeql-action/autobuild@v3
       - uses: github/codeql-action/analyze@v3
+        continue-on-error: true
+        # Private repos on GitHub Free cannot upload SARIF until Code Scanning
+        # is enabled (GitHub Pro or Advanced Security). Analysis still runs locally.

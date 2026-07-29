@@ -21,4 +21,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker run --rm -v "$PWD:/repo" rhysd/actionlint:latest -color
+      - uses: rhysd/actionlint@v1.7.7

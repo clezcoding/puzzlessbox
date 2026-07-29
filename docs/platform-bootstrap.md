@@ -6,11 +6,21 @@ Baseline CI/CD and infrastructure for `clezcoding/puzzlessbox` using free tools 
 
 Kodiak auto-merges Dependabot PRs that pass CI. Config lives at `.kodiak.toml` (repo root, per [Kodiak docs](https://kodiakhq.com/docs/config)).
 
+**Pricing (verified 2026-07-29):** Per [Kodiak billing](https://kodiakhq.com/docs/billing), Kodiak is **free for personal use and public repositories**. A paid subscription ($4.99/active user/month) is required only for **private GitHub Organization** repositories — not for personal-account private repos like `clezcoding/puzzlessbox`.
+
 1. Install the Kodiak GitHub App: https://kodiakhq.com/install
 2. Grant access to `clezcoding/puzzlessbox`
 3. Without the app install, `.kodiak.toml` has no effect
 
-Kodiak auto-approves PRs from `dependabot` (username, not `dependabot[bot]`). Branch protection uses `required_approving_review_count: 0` so Kodiak's approval satisfies the review requirement.
+Kodiak auto-approves PRs from `dependabot` (username, not `dependabot[bot]`).
+
+## Labels
+
+Dependabot applies the `dependencies` label (configured in `.github/dependabot.yml`). Create it once:
+
+```bash
+gh label create dependencies --color 0E8A16 --description "Dependency updates (Dependabot)"
+```
 
 ## Branch Protection
 
@@ -20,7 +30,9 @@ Requires `gh` CLI authenticated with repo admin scope.
 bash scripts/github-setup-branch-protection.sh
 ```
 
-Enforced status checks (must match workflow job names):
+> **GitHub Free + private repo:** Classic branch protection and rulesets return **403** — [protected branches require GitHub Pro](https://docs.github.com/en/get-started/learning-about-github/githubs-products#github-pro) for personal private repositories. **Cannot be enabled via API or script on the current plan.** Upgrade to GitHub Pro (~$4/mo) or enforce PR discipline manually until then.
+
+When Pro is available, enforced status checks (must match workflow job names):
 
 | Check | Workflow | Job |
 |-------|----------|-----|
@@ -28,11 +40,9 @@ Enforced status checks (must match workflow job names):
 | `actionlint` | `.github/workflows/ci.yml` | `actionlint` |
 | `analyze` | `.github/workflows/codeql.yml` | `analyze` |
 
-> **Note:** After the first CodeQL workflow run, confirm the check context name in a PR's "Checks" tab matches `analyze`. GitHub sometimes prefixes with workflow name; update the script's `contexts` array if it differs.
+> **CodeQL on GitHub Free private:** Code scanning SARIF upload requires enabling Code Scanning in repo settings (typically **GitHub Pro** or Advanced Security). The workflow runs analysis with `continue-on-error` on upload until upgraded.
 
-Also enforced: PR required, no force push, no branch deletion, admins included.
-
-> **Private repo limit:** `gh api` branch protection returns **403** on GitHub Free private repos (requires GitHub Pro/Team/Enterprise). Alternatives: upgrade plan, make repo public, or configure equivalent rules manually under **Settings → Rules → Rulesets** (free tier may allow rulesets — verify in your org settings).
+Also enforced (when Pro available): PR required, no force push, no branch deletion, admins included.
 
 ## Coolify
 
