@@ -50,6 +50,12 @@ export default {
         sans: ['var(--font-sans)', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
       },
+      fontSize: {
+        body: ['var(--text-body)', { lineHeight: 'var(--text-body-leading)', fontWeight: 'var(--text-body-weight)' }],
+        label: ['var(--text-label)', { lineHeight: 'var(--text-label-leading)', fontWeight: 'var(--text-label-weight)' }],
+        heading: ['var(--text-heading)', { lineHeight: 'var(--text-heading-leading)', fontWeight: 'var(--text-heading-weight)' }],
+        display: ['var(--text-display)', { lineHeight: 'var(--text-display-leading)', fontWeight: 'var(--text-display-weight)' }],
+      },
       spacing: {
         xs: 'var(--spacing-xs)',
         sm: 'var(--spacing-sm)',

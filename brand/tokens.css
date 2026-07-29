@@ -33,11 +33,25 @@
   --color-termine-bg: #f5ebe8;
   --color-termine-accent: #c45c3e;
 
-  /* Typography */
+  /* Typography — families */
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Typography — scale (UI-SPEC) */
+  --text-body: 16px;
+  --text-label: 14px;
+  --text-heading: 20px;
+  --text-display: 28px;
+  --text-body-weight: 400;
+  --text-label-weight: 600;
+  --text-heading-weight: 600;
+  --text-display-weight: 400;
+  --text-body-leading: 1.5;
+  --text-label-leading: 1.4;
+  --text-heading-leading: 1.2;
+  --text-display-leading: 1.2;
 
   /* Spacing scale */
   --spacing-xs: 4px;

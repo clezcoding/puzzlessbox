@@ -82,7 +82,7 @@ Locked hex values — must match `brand/tokens.css` exactly.
 | `--color-brand` | `#c45c3e` | Bandana terracotta — **brand accent** (10%) |
 | `--color-brand-soft` | `#fce8e0` | Soft brand wash |
 | `--color-cardboard` | `#c9a07a` | Box / warm secondary |
-| `--color-muted` | `#787774` | Secondary text |
+| `--color-text-muted` | `#787774` | Secondary text |
 | `--color-border` | `#eaeaea` | Hairlines |
 | `--color-destructive` | `#d9383a` | Destructive actions, delete buttons |
 | `--color-info` | `#1f6c9f` | Informational links only (not brand) |

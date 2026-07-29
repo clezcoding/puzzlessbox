@@ -57,6 +57,21 @@ const spacingVars = [
   '--spacing-3xl',
 ];
 
+const textScaleVars = [
+  '--text-body',
+  '--text-label',
+  '--text-heading',
+  '--text-display',
+  '--text-body-weight',
+  '--text-label-weight',
+  '--text-heading-weight',
+  '--text-display-weight',
+  '--text-body-leading',
+  '--text-label-leading',
+  '--text-heading-leading',
+  '--text-display-leading',
+];
+
 test('tokens.css defines full light + dark token set', () => {
   assert.ok(fs.existsSync(tokensPath), 'brand/tokens.css missing');
 
@@ -64,7 +79,7 @@ test('tokens.css defines full light + dark token set', () => {
   assert.ok(content.includes('@theme'), 'missing light @theme block');
   assert.ok(content.includes('@theme dark'), 'missing @theme dark block');
 
-  for (const variable of [...semanticColors, ...categoryVars, ...fontVars, ...spacingVars]) {
+  for (const variable of [...semanticColors, ...categoryVars, ...fontVars, ...spacingVars, ...textScaleVars]) {
     assert.ok(content.includes(variable), `missing CSS variable: ${variable}`);
   }
 });

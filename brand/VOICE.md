@@ -22,15 +22,17 @@ Kurze Bestätigungen, kein Corporate-Fluff. Jede Zeile soll klingen, als hätte 
 
 ---
 
-## 8 Microcopy-Beispiele
+## 9 Microcopy-Beispiele
 
 Locked German strings for UI, notifications, and capture moments. Each example includes context for where it appears.
 
 ### 1. Empty State (Inbox)
 
-> Hier ist gähnende Leere. Apollo hat noch nichts gefangen.
+**Heading:** Hier ist gähnende Leere.
 
-**Kontext:** Leere Inbox-Ansicht, wenn noch kein Eintrag über den Hermes-Kanal eingegangen ist. Überschrift + Body kombiniert.
+**Body:** Apollo hat noch nichts gefangen. Sende eine Nachricht, um den ersten Eintrag zu stashen.
+
+**Kontext:** Leere Inbox-Ansicht, wenn noch kein Eintrag über den Hermes-Kanal eingegangen ist. Heading und Body getrennt wie UI-SPEC Copywriting Contract.
 
 ---
 
@@ -87,6 +89,14 @@ Locked German strings for UI, notifications, and capture moments. Each example i
 > Sende eine Nachricht, um den ersten Eintrag zu stashen...
 
 **Kontext:** Placeholder-Text im Capture-Eingabefeld, wenn noch keine Einträge existieren. Leitet zur ersten Aktion an.
+
+---
+
+### 9. Primary CTA
+
+> Eintrag sichern
+
+**Kontext:** Primärer Submit-Button nach Capture-Bestätigung oder beim manuellen Speichern. Imperativ, kurz, kein Past-Tense — unterscheidet sich von Erfolgs-Toast „Eintrag gesichert" (Beispiel #3).
 
 ---
 
