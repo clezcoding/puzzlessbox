@@ -136,6 +136,8 @@ Architecture not yet mapped. Follow existing patterns found in the codebase.
 | Skill | Description | Path |
 |-------|-------------|------|
 | hallmark | "Anti-AI-slop design skill for greenfield pages, audits, redesigns, and design extraction from URLs or screenshots. Use when the user asks to build a new app or landing page, wants to redesign something, invokes Hallmark by name, or uses audit/redesign/study." | `.agents/skills/hallmark/SKILL.md` |
+
+- **Sketch findings for puzzlessbox** (design decisions, CSS patterns, visual direction) → `Skill("sketch-findings-puzzlessbox")`
 <!-- GSD:skills-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->
