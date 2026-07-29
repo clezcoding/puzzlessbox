@@ -1,38 +1,71 @@
 # Platform Bootstrap
 
-Baseline CI/CD and infrastructure for `clezcoding/puzzlessbox` using free tools only.
+Baseline CI/CD and infrastructure for `clezcoding/puzzlessbox`.
+
+## GitHub Free (private personal repo)
+
+This setup targets **GitHub Free on a personal private repository** — no paid features, no workarounds.
+
+| Feature | Free private | This repo |
+|---------|--------------|-----------|
+| GitHub Actions CI | Yes | `ci.yml`, `codeql.yml` |
+| Renovate (github-actions) | Yes | `renovate.json` |
+| Kodiak auto-merge | Yes (personal private) | `.kodiak.toml` + app install |
+| Branch protection (required checks) | **No** | Not enforced — upgrade to Pro or stay manual |
+| Code Scanning (SARIF UI) | **No** | CodeQL runs with `upload: false` |
+| GHCR + deploy workflows | Yes | Phase 5 (OPS-02) |
+
+**Repo settings (recommended, applied via `gh`):**
+
+- `delete_branch_on_merge: true`
+- Merge method: **squash only** (matches Kodiak)
+- `squash_merge_allowed: true`, `merge_commit_allowed: false`, `rebase_merge_allowed: false`
+
+## Renovate GitHub App
+
+Renovate opens dependency update PRs (github-actions today; extend when lockfiles land). Config at `renovate.json` (repo root).
+
+1. Install: https://github.com/apps/renovate
+2. Grant access to `clezcoding/puzzlessbox`
+3. Without the app, `renovate.json` has no effect
+
+Renovate does **not** automerge — Kodiak handles squash merge after CI passes.
 
 ## Kodiak GitHub App
 
-Kodiak auto-merges Dependabot PRs that pass CI. Config lives at `.kodiak.toml` (repo root, per [Kodiak docs](https://kodiakhq.com/docs/config)).
+Kodiak auto-merges Renovate PRs that pass CI. Config at `.kodiak.toml` (repo root).
 
-**Pricing (verified 2026-07-29):** Per [Kodiak billing](https://kodiakhq.com/docs/billing), Kodiak is **free for personal use and public repositories**. A paid subscription ($4.99/active user/month) is required only for **private GitHub Organization** repositories — not for personal-account private repos like `clezcoding/puzzlessbox`.
-
-1. Install the Kodiak GitHub App: https://kodiakhq.com/install
+1. Install: https://kodiakhq.com/install
 2. Grant access to `clezcoding/puzzlessbox`
-3. Without the app install, `.kodiak.toml` has no effect
+3. Without the app, `.kodiak.toml` has no effect
 
-Kodiak auto-approves PRs from `dependabot` (username, not `dependabot[bot]`).
+Kodiak auto-approves PRs from username `renovate` (not `renovate[bot]`).
 
 ## Labels
 
-Dependabot applies the `dependencies` label (configured in `.github/dependabot.yml`). Create it once:
+| Label | Purpose |
+|-------|---------|
+| `dependencies` | Renovate PRs (auto-applied) |
+| `ci` | GitHub Actions / workflow changes |
+| `infra` | Coolify, deploy, ops |
+| `security` | Security fixes and hardening |
+| `phase-0` … `phase-5` | GSD phase tracking |
+
+Create missing labels:
 
 ```bash
-gh label create dependencies --color 0E8A16 --description "Dependency updates (Dependabot)"
+bash scripts/github-setup-labels.sh
 ```
 
 ## Branch Protection
 
-Requires `gh` CLI authenticated with repo admin scope.
+**Requires GitHub Pro** on a personal private repo. The script below will return **403** on Free — that is expected, not a bug.
 
 ```bash
 bash scripts/github-setup-branch-protection.sh
 ```
 
-> **GitHub Free + private repo:** Classic branch protection and rulesets return **403** — [protected branches require GitHub Pro](https://docs.github.com/en/get-started/learning-about-github/githubs-products#github-pro) for personal private repositories. **Cannot be enabled via API or script on the current plan.** Upgrade to GitHub Pro (~$4/mo) or enforce PR discipline manually until then.
-
-When Pro is available, enforced status checks (must match workflow job names):
+When Pro is available, enforced status checks (job names):
 
 | Check | Workflow | Job |
 |-------|----------|-----|
@@ -40,9 +73,23 @@ When Pro is available, enforced status checks (must match workflow job names):
 | `actionlint` | `.github/workflows/ci.yml` | `actionlint` |
 | `analyze` | `.github/workflows/codeql.yml` | `analyze` |
 
-> **CodeQL on GitHub Free private:** Code scanning SARIF upload requires enabling Code Scanning in repo settings (typically **GitHub Pro** or Advanced Security). The workflow runs analysis with `continue-on-error` on upload until upgraded.
+Also enforced (Pro): PR required, no force push, no branch deletion, admins included.
 
-Also enforced (when Pro available): PR required, no force push, no branch deletion, admins included.
+## CI Workflows
+
+### `ci.yml`
+
+- **Node 24 LTS** (project pin — not Node 20/26)
+- Path filters: `brand/**`, workflow file itself
+- Concurrency: cancel stale runs on same branch
+- Jobs: `node --test brand/tests/` + `actionlint`
+
+### `codeql.yml`
+
+- JavaScript/TypeScript analysis (brand tests today; extend when apps land)
+- `upload: false` — analysis only, no SARIF upload (Pro feature on private)
+- Weekly schedule: Monday 06:00 UTC
+- Same path filters as CI
 
 ## Coolify
 
@@ -62,34 +109,24 @@ All commands use context `hostunlimited`:
 | Database | puzzlessbox-db | `pfqgb5pcvgi9oh64bpe3shtn` |
 
 - **Image:** `postgres:18-alpine`
-- **Internal only:** `is_public: false` (no public port)
-- **DB name / user:** `puzzlessbox` (credentials managed by Coolify — not in git)
+- **Internal only:** `is_public: false`
+- **DB name / user:** `puzzlessbox` (credentials in Coolify — not in git)
 
 ### Connection pattern
 
-App services reference the database via Coolify internal network env vars injected at deploy time (e.g. `DATABASE_URL`). Do not commit connection strings; retrieve from Coolify dashboard or `coolify database get <uuid> -s` locally.
-
-### Provision commands (reproducibility)
-
-```bash
-coolify --context hostunlimited project create \
-  --name "Puzzlessbox" \
-  --description "Capture inbox - Hermes + WebApp"
-
-coolify --context hostunlimited database create postgresql \
-  --server-uuid ozwpdpj5bgxax8v6gfs5lolv \
-  --project-uuid nlm9h0u5lh2rnf2fg10vuf16 \
-  --environment-name production \
-  --name puzzlessbox-db \
-  --image postgres:18-alpine \
-  --postgres-db puzzlessbox \
-  --postgres-user puzzlessbox \
-  --instant-deploy
-```
+App services get `DATABASE_URL` via Coolify internal network at deploy time. Do not commit connection strings.
 
 ## Secrets Policy
 
 - No secrets, passwords, or connection strings in git
-- Coolify API token via `COOLIFY_TOKEN` env var (Coolify Profile → API Tokens)
-- Kodiak authenticates via GitHub App install — no token in repo
-- Database credentials injected by Coolify at deploy time via internal network env vars (e.g. `DATABASE_URL`)
+- `COOLIFY_TOKEN` via env (Coolify Profile → API Tokens)
+- Kodiak via GitHub App install — no token in repo
+- Phase 5 deploy secrets: `COOLIFY_WEBHOOK_*` via `gh secret set` (not in git)
+
+## Phase 5 (not yet)
+
+OPS-02 will add separate deploy workflows (not merged into `ci.yml`):
+
+- Docker build → GHCR (`:latest` + `:sha-<short>`)
+- Coolify webhook trigger on `main` only
+- Reusable workflow recommended for api / mcp / webapp

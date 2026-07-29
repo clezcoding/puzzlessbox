@@ -2,12 +2,23 @@ name: CodeQL
 
 on:
   push:
+    paths:
+      - "brand/**"
+      - ".github/workflows/codeql.yml"
   pull_request:
+    paths:
+      - "brand/**"
+      - ".github/workflows/codeql.yml"
+  schedule:
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: codeql-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
-  security-events: write
-  actions: read
   contents: read
+  actions: read
 
 jobs:
   analyze:
@@ -19,6 +30,7 @@ jobs:
           languages: javascript-typescript
       - uses: github/codeql-action/autobuild@v3
       - uses: github/codeql-action/analyze@v3
-        continue-on-error: true
-        # Private repos on GitHub Free cannot upload SARIF until Code Scanning
-        # is enabled (GitHub Pro or Advanced Security). Analysis still runs locally.
+        with:
+          # Code Scanning (SARIF upload) requires GitHub Pro on private repos.
+          # Analysis still runs locally and fails the job on real findings.
+          upload: false

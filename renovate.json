@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Europe/Berlin",
+  "schedule": ["before 6am on Monday"],
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 5,
+  "enabledManagers": ["github-actions"],
+  "pinDigests": true,
+  "gitHubActionsPinDigests": true,
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "github-actions (non-major)"
+    }
+  ]
+}

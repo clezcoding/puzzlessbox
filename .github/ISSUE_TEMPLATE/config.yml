@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Project roadmap
+    url: https://github.com/clezcoding/puzzlessbox/blob/main/.planning/ROADMAP.md
+    about: Current phases and requirements

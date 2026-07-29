@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest an improvement or new capability
+title: "[feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What pain point does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Likely phase
+      options:
+        - Unsure
+        - Phase 1 — Backend API
+        - Phase 2 — MCP
+        - Phase 3 — Hermes plugin
+        - Phase 4 — WebApp
+        - Phase 5 — Deploy / ops
+        - v2 / SaaS
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: Fits v1 roadmap (see REQUIREMENTS.md)
+        - label: Explicitly v2 / deferred

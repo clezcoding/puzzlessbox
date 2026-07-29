@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Configure branch protection for clezcoding/puzzlessbox.
 # Requires: gh auth login with repo admin scope.
+# Requires: GitHub Pro on personal private repos (returns 403 on Free).
 set -euo pipefail
 
 REPO="${REPO:-clezcoding/puzzlessbox}"

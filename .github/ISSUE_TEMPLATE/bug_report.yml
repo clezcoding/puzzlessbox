@@ -1,0 +1,48 @@
+name: Bug report
+description: Something is broken or behaves unexpectedly
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What you expected vs what actually happened.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See error
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - WebApp
+        - API
+        - MCP
+        - Hermes plugin
+        - Brand / design
+        - CI / infra
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Browser, Coolify app, commit SHA, etc.
+  - type: checkboxes
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - label: Blocks capture flow or data loss risk
+        - label: Workaround exists
