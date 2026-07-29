@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 1
 current_phase_name: Datenmodell & Backend-API
-status: planning
+status: "Phase 00 shipped — PR #1"
 stopped_at: Completed 00-02-PLAN.md
-last_updated: "2026-07-29T03:28:16.445Z"
+last_updated: "2026-07-29T03:58:58.374Z"
 progress:
   total_phases: 1
   completed_phases: 1
@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 1 — Datenmodell & Backend-API
 - **Plan:** Not started
-- **Status:** Ready to plan
+- **Status:** Phase 00 shipped — PR #1
 - **Progress:** [██████████] 100%
 
 ```
