@@ -29,6 +29,8 @@ Renovate opens dependency update PRs (github-actions today; extend when lockfile
 2. Grant access to `clezcoding/puzzlessbox`
 3. Without the app, `renovate.json` has no effect
 
+**Manual run:** open the **Dependency Dashboard** issue (checkbox at bottom) or push to `main`.
+
 Renovate does **not** automerge — Kodiak handles squash merge after CI passes.
 
 ## Kodiak GitHub App
