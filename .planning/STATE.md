@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 1
+current_phase: 01
 current_phase_name: Datenmodell & Backend-API
-status: Ready to execute
-stopped_at: Phase 1 planned (6 plans)
-last_updated: "2026-07-30T02:20:00.000Z"
+status: executing
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-07-30T02:34:17.974Z"
 progress:
-  total_phases: 6
+  total_phases: 2
   completed_phases: 1
   total_plans: 8
-  completed_plans: 2
+  completed_plans: 3
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 1 — Datenmodell & Backend-API
-- **Plan:** 6 plans ready (01-01 … 01-06)
+- **Phase:** 01 (Datenmodell & Backend-API) — EXECUTING
+- **Plan:** 2 of 6
 - **Status:** Ready to execute
-- **Progress:** [░░░░░░░░░░] 0% execution
+- **Progress:** [████░░░░░░] 38% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -62,6 +62,7 @@ progress:
 |------|----------|-------|-------|
 | Phase 00-branding-design-system P01 | 2min | 2 tasks | 34 files |
 | Phase 00-branding-design-system P02 | 4min | 2 tasks | 2 files |
+| Phase 01-datenmodell-backend-api P01 | 5min | 2 tasks | 18 files |
 
 ## Accumulated Context
 
@@ -105,9 +106,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T02:20:00.000Z
-- **Stopped at:** Phase 1 planned (6 plans verified)
-- **Resume file:** .planning/phases/01-datenmodell-backend-api/01-01-PLAN.md
+- **Last session:** 2026-07-30T02:34:17.966Z
+- **Stopped at:** Completed 01-01-PLAN.md
+- **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 1`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
@@ -120,3 +121,5 @@ progress:
 - [Phase ?]: brand/ is pure static package — consumers install tailwindcss; no package.json under brand/
 - [Phase ?]: Production brand docs at brand/ decoupled from sketches per D-04
 - [Phase ?]: 8 locked German microcopy examples with capture verb glossary per D-09
+- [Phase ?]: Lazy SQLAlchemy engine init so app imports without live Postgres
+- [Phase ?]: Normalize postgres:// URLs to postgresql+psycopg2:// for SQLAlchemy

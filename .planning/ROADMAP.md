@@ -54,17 +54,20 @@ Plans:
   4. Ein Link wird mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB gespeichert und einer sinnvollen Kategorie zugeordnet
   5. Aus Terminen generierte Calendar-Events werden mit Google Calendar gelesen/geschrieben; bei konkurrierenden Writes schlägt `If-Match`-Precondition fehl und überschreibt nicht still
 
-**Plans**: 6 plans
+**Plans**: 1/6 plans executed
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — FastAPI shell + Wave 0 test infra (pytest.ini, conftest with mock Postgres + mock JWKS, /health+/ready, Accept versioning, unified errors, /docs-prod-off)
+- [x] 01-01-PLAN.md — FastAPI shell + Wave 0 test infra (pytest.ini, conftest with mock Postgres + mock JWKS, /health+/ready, Accept versioning, unified errors, /docs-prod-off)
+
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [ ] 01-05-PLAN.md — SQLModel tables + Alembic 0001 migration (RLS + board_items VIEW + service_principals + seed categories) + test_draft_validation + test_rls
+
 **Wave 3** *(blocked on Wave 2 completion)*
 
 - [ ] 01-06-PLAN.md — Better Auth webapp bootstrap (JWKS, email/password, databaseHooks signup lock D-24) + FastAPI JWKS verify (D-21) + cookie/bearer (D-22) + service bearer (D-23) + draft CRUD tracer + idempotency (D-34)
+
 **Wave 4** *(blocked on Wave 3 completion)*
 
 - [ ] 01-02-PLAN.md — Capture 30s timeout state machine (asyncio.Task, PATCH reset, confirm cancel, parallel-safe)
@@ -168,7 +171,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
-| 1. Datenmodell & Backend-API | 0/0 | Not started | - |
+| 1. Datenmodell & Backend-API | 1/6 | In Progress|  |
 | 2. MCP-Server | 0/0 | Not started | - |
 | 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
 | 4. WebApp | 0/0 | Not started | - |
