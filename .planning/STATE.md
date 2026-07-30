@@ -4,19 +4,19 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 1
 current_phase_name: Datenmodell & Backend-API
-status: completed
-stopped_at: Phase 1 context gathered
-last_updated: "2026-07-30T01:53:49.694Z"
+status: Ready to execute
+stopped_at: Phase 1 planned (6 plans)
+last_updated: "2026-07-30T02:20:00.000Z"
 progress:
-  total_phases: 2
+  total_phases: 6
   completed_phases: 1
-  total_plans: 2
+  total_plans: 8
   completed_plans: 2
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-07-29 (Apollo full brand kit 003 keep-all)
+**Last updated:** 2026-07-30 (Phase 1 planned — 6 plans, 4 waves)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -30,9 +30,9 @@ progress:
 ## Current Position
 
 - **Phase:** 1 — Datenmodell & Backend-API
-- **Plan:** Not started
-- **Status:** Quick task 260729-vmg platform bootstrap complete
-- **Progress:** [██████████] 100%
+- **Plan:** 6 plans ready (01-01 … 01-06)
+- **Status:** Ready to execute
+- **Progress:** [░░░░░░░░░░] 0% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -42,8 +42,8 @@ progress:
 
 | Phase | Goal (short) | Requirements | Status |
 |-------|-------------|--------------|--------|
-| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Planned (2 plans) |
-| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Not started |
+| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
+| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Planned (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Not started |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
@@ -105,10 +105,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T01:53:49.677Z
-- **Stopped at:** Phase 1 context gathered
-- **Resume file:** .planning/phases/01-datenmodell-backend-api/01-CONTEXT.md
-- **Next recommended action:** `/gsd-execute-phase 0`
+- **Last session:** 2026-07-30T02:20:00.000Z
+- **Stopped at:** Phase 1 planned (6 plans verified)
+- **Resume file:** .planning/phases/01-datenmodell-backend-api/01-01-PLAN.md
+- **Next recommended action:** `/gsd-execute-phase 1`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
