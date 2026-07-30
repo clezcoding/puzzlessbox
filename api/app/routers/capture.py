@@ -7,11 +7,12 @@ Per-type routers (links.py, events.py, etc.) split out when read/update fields d
 
 from __future__ import annotations
 
+import json
 import uuid
 from datetime import datetime, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Header, status
 from sqlalchemy import text
 from sqlmodel import Session
 
@@ -62,27 +63,60 @@ def _insert_draft(owner_id: str, payload: DraftCreate) -> tuple[Note | Link | Ta
 def create_draft(
     payload: DraftCreate,
     db: Session = Depends(get_db_for_owner),
+    idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
 ) -> dict[str, Any]:
     owner_id = current_owner_id.get()
     if not owner_id:
         raise RuntimeError("owner_id missing after auth dependency")
+
+    if idempotency_key:
+        cached = db.execute(
+            text(
+                """
+                SELECT response FROM idempotency_keys
+                WHERE owner_id = :owner_id AND key = :key
+                """
+            ),
+            {"owner_id": owner_id, "key": idempotency_key},
+        ).scalar_one_or_none()
+        if cached is not None:
+            return cached
+
     row, item_type = _insert_draft(owner_id, payload)
     db.add(row)
     db.commit()
     db.refresh(row)
-    return {"id": str(row.id), "type": item_type.value}
+    response_body = {"id": str(row.id), "type": item_type.value}
+
+    if idempotency_key:
+        db.execute(
+            text(
+                """
+                INSERT INTO idempotency_keys (owner_id, key, response)
+                VALUES (:owner_id, :key, CAST(:response AS jsonb))
+                ON CONFLICT (owner_id, key) DO NOTHING
+                """
+            ),
+            {"owner_id": owner_id, "key": idempotency_key, "response": json.dumps(response_body)},
+        )
+        db.commit()
+
+    return response_body
 
 
 @router.get("/board-items")
 def list_board_items(db: Session = Depends(get_db_for_owner)) -> list[BoardItem]:
+    owner_id = current_owner_id.get()
     rows = db.execute(
         text(
             """
             SELECT id, owner_id, category_id, status, title, summary, type,
                    created_at, updated_at, deleted_at
             FROM board_items
+            WHERE owner_id = :owner_id
             ORDER BY created_at DESC
             """
-        )
+        ),
+        {"owner_id": owner_id},
     ).mappings()
     return [BoardItem.model_validate(dict(row)) for row in rows]
