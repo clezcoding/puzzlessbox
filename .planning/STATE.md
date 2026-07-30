@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
-status: ready_for_verification
-stopped_at: Completed 01-03-PLAN.md — Phase 01 complete
-last_updated: "2026-07-30T04:13:56.158Z"
+status: paused
+stopped_at: Phase 01 complete — paused before verification
+last_updated: "2026-07-30T04:22:53.318Z"
 progress:
   total_phases: 2
   completed_phases: 2
