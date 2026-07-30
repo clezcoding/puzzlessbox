@@ -1,37 +1,65 @@
-# Coolify-internal scraper stack (D-14, D-15). No published ports — attach to internal network only.
+# Coolify-internal scraper stack (D-14, D-15). No public domains — internal network only.
 services:
+  scraper-redis:
+    image: redis:alpine
+    restart: unless-stopped
+    command: redis-server --bind 0.0.0.0
+
+  scraper-rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  scraper-postgres:
+    image: ghcr.io/firecrawl/nuq-postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: firecrawl
+      POSTGRES_PASSWORD: ${FIRECRAWL_PG_PASSWORD}
+      POSTGRES_DB: firecrawl
+
+  scraper-playwright:
+    image: ghcr.io/firecrawl/playwright-service:latest
+    restart: unless-stopped
+    environment:
+      PORT: "3000"
+
   firecrawl:
     image: ghcr.io/firecrawl/firecrawl:latest
     restart: unless-stopped
+    depends_on:
+      scraper-redis:
+        condition: service_started
+      scraper-rabbitmq:
+        condition: service_healthy
+      scraper-playwright:
+        condition: service_started
+      scraper-postgres:
+        condition: service_started
     environment:
+      HOST: "0.0.0.0"
       PORT: "3002"
-      FIRECRAWL_API_KEY: ${FIRECRAWL_BEARER:-change-me}
+      REDIS_URL: redis://scraper-redis:6379
+      REDIS_RATE_LIMIT_URL: redis://scraper-redis:6379
+      PLAYWRIGHT_MICROSERVICE_URL: http://scraper-playwright:3000/scrape
+      POSTGRES_USER: firecrawl
+      POSTGRES_PASSWORD: ${FIRECRAWL_PG_PASSWORD}
+      POSTGRES_DB: firecrawl
+      POSTGRES_HOST: scraper-postgres
+      POSTGRES_PORT: "5432"
+      USE_DB_AUTHENTICATION: "false"
+      BULL_AUTH_KEY: ${FIRECRAWL_BULL_AUTH_KEY}
+      TEST_API_KEY: ${FIRECRAWL_BEARER}
+      NUQ_RABBITMQ_URL: amqp://scraper-rabbitmq:5672
+    command: ["node", "dist/src/harness.js", "--start-docker"]
     expose:
       - "3002"
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3002/health"]
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:3002/health"]
       interval: 30s
       timeout: 5s
-      retries: 3
-    networks:
-      - scraper_internal
-
-  camoufox:
-    image: daijro/camoufox:latest
-    restart: unless-stopped
-    environment:
-      PORT: "8080"
-      CAMOUFOX_BEARER: ${CAMOUFOX_BEARER:-change-me}
-    expose:
-      - "8080"
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-    networks:
-      - scraper_internal
-
-networks:
-  scraper_internal:
-    internal: true
+      retries: 5
