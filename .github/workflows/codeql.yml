@@ -36,8 +36,9 @@ jobs:
             "https://github.com/github/codeql-action/releases/download/${CODEQL_BUNDLE_TAG}/codeql-bundle-linux64.tar.zst"
           mkdir -p "$RUNNER_TOOL_CACHE/codeql"
           tar --use-compress-program=unzstd -xf /tmp/codeql-bundle.tar.zst -C "$RUNNER_TOOL_CACHE/codeql"
-          echo "$RUNNER_TOOL_CACHE/codeql/codeql" >> "$GITHUB_PATH"
-          codeql version
+          CODEQL_DIR="$RUNNER_TOOL_CACHE/codeql/codeql"
+          echo "$CODEQL_DIR" >> "$GITHUB_PATH"
+          "$CODEQL_DIR/codeql" version
 
       - name: Create database
         run: codeql database create codeql-db --language=javascript --source-root=.
