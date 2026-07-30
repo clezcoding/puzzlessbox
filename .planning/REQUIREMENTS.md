@@ -38,8 +38,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Links
 
-- [ ] **LINK-01**: User sendet Link an Hermes; System speichert Item mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB
-- [ ] **LINK-02**: Link-Items landen in sinnvoller Kategorie (Default oder Vorschlag)
+- [x] **LINK-01**: User sendet Link an Hermes; System speichert Item mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB
+- [x] **LINK-02**: Link-Items landen in sinnvoller Kategorie (Default oder Vorschlag)
 
 ### Calendar
 
@@ -110,8 +110,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-04 | Phase 1 | Complete |
 | CAP-01 | Phase 1 | Complete |
 | CAP-03 | Phase 1 | Complete |
-| LINK-01 | Phase 1 | Pending |
-| LINK-02 | Phase 1 | Pending |
+| LINK-01 | Phase 1 | Complete |
+| LINK-02 | Phase 1 | Complete |
 | CAL-02 | Phase 1 | Complete |
 | CAL-03 | Phase 1 | Complete |
 | MCP-01 | Phase 2 | Pending |

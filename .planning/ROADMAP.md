@@ -12,7 +12,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 ## Phases
 
 - [x] **Phase 0: Branding & Design System** - Hallmark-Brandkit und Design-Tokens vor WebApp-Bau (completed 2026-07-29)
-- [ ] **Phase 1: Datenmodell & Backend-API** - Postgres-Schema mit `owner_id`, FastAPI-CRUD, Better Auth, Link-Scraper, Google-Calendar-Sync
+- [x] **Phase 1: Datenmodell & Backend-API** - Postgres-Schema mit `owner_id`, FastAPI-CRUD, Better Auth, Link-Scraper, Google-Calendar-Sync (completed 2026-07-30)
 - [ ] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS
 - [ ] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan
 - [ ] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige
@@ -54,7 +54,7 @@ Plans:
   4. Ein Link wird mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB gespeichert und einer sinnvollen Kategorie zugeordnet
   5. Aus Terminen generierte Calendar-Events werden mit Google Calendar gelesen/geschrieben; bei konkurrierenden Writes schlägt `If-Match`-Precondition fehl und überschreibt nicht still
 
-**Plans**: 5/6 plans executed
+**Plans**: 6/6 plans executed
 Plans:
 **Wave 1**
 
@@ -71,7 +71,7 @@ Plans:
 **Wave 4** *(blocked on Wave 3 completion)*
 
 - [x] 01-02-PLAN.md — Capture 30s timeout state machine (asyncio.Task, PATCH reset, confirm cancel, parallel-safe)
-- [ ] 01-03-PLAN.md — Link scrape pipeline (Firecrawl+Camoufox, 12s budget, SSRF guards, hostname fallback, Links category)
+- [x] 01-03-PLAN.md — Link scrape pipeline (Firecrawl+Camoufox, 12s budget, SSRF guards, hostname fallback, Links category)
 - [x] 01-04-PLAN.md — Google Calendar OAuth + encrypted tokens + If-Match optimistic concurrency (412 on conflict) + GET /events
 
 ### Phase 2: MCP-Server
@@ -171,7 +171,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
-| 1. Datenmodell & Backend-API | 5/6 | In Progress|  |
+| 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
 | 2. MCP-Server | 0/0 | Not started | - |
 | 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
 | 4. WebApp | 0/0 | Not started | - |

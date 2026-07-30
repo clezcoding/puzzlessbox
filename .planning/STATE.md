@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
-status: executing
-stopped_at: Completed 01-04-PLAN.md
-last_updated: "2026-07-30T03:18:06.472Z"
+status: ready_for_verification
+stopped_at: Completed 01-03-PLAN.md — Phase 01 complete
+last_updated: "2026-07-30T04:13:56.158Z"
 progress:
   total_phases: 2
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 01 (Datenmodell & Backend-API) — EXECUTING
-- **Plan:** 6 of 6
-- **Status:** Ready to execute
-- **Progress:** [█████████░] 88% execution
+- **Phase:** 01 (Datenmodell & Backend-API) — COMPLETE
+- **Plan:** 6 of 6 (all complete)
+- **Status:** Phase 1 complete
+- **Progress:** [██████████] 100% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -43,7 +43,7 @@ progress:
 | Phase | Goal (short) | Requirements | Status |
 |-------|-------------|--------------|--------|
 | 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
-| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Planned (6 plans) |
+| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Not started |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
@@ -67,6 +67,8 @@ progress:
 | Phase 01-datenmodell-backend-api P06 | 12min | 2 tasks | 20 files |
 | Phase 01-datenmodell-backend-api P02 | 15min | 2 tasks | 6 files |
 | Phase 01-datenmodell-backend-api P04 | 25min | 3 tasks | 15 files |
+| Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
+| Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -110,10 +112,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T03:18:06.454Z
-- **Stopped at:** Completed 01-04-PLAN.md
+- **Last session:** 2026-07-30T04:13:56.151Z
+- **Stopped at:** Completed 01-03-PLAN.md — Phase 01 complete
 - **Resume file:** None
-- **Next recommended action:** `/gsd-execute-phase 1`
+- **Next recommended action:** `/gsd-plan-phase 2` or `/gsd-execute-phase 2`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
@@ -136,3 +138,7 @@ progress:
 - [Phase ?]: Timeout integration tests use AsyncClient — TestClient does not pump background tasks
 - [Phase ?]: calendar_tokens.owner_id app-level check only — no FK to Better Auth user table (D-21)
 - [Phase ?]: OAuth connect requires JWT; full browser OAuth UAT pending webapp at app.puzzlesstool.online
+- [Phase ?]: Firecrawl /ready uses /v0/health/liveness; workers split for Coolify healthchecks
+- [Phase ?]: Scraper stack internal-only on shared Docker network; API SCRAPER_ENABLED gates /ready ping
+- [Phase ?]: Firecrawl /ready uses /v0/health/liveness; workers split for Coolify healthchecks
+- [Phase ?]: Scraper stack internal-only on shared Docker network; SCRAPER_ENABLED gates /ready ping
