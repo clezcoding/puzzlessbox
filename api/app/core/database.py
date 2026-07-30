@@ -1,10 +1,13 @@
 from collections.abc import Generator
+from contextvars import ContextVar
 from functools import lru_cache
 
 from sqlalchemy import Engine, text
 from sqlmodel import Session, create_engine
 
 from app.core.config import get_settings
+
+current_owner_id: ContextVar[str | None] = ContextVar("current_owner_id", default=None)
 
 
 @lru_cache
@@ -13,10 +16,21 @@ def get_engine() -> Engine:
     return create_engine(settings.DATABASE_URL, pool_pre_ping=True)
 
 
+def set_request_owner(owner_id: str | None) -> None:
+    """Set tenant context for the current request (consumed by get_db)."""
+    current_owner_id.set(owner_id)
+
+
 def get_db() -> Generator[Session, None, None]:
-    """Yield a DB session; SET app.owner_id wired in Plan 05 once tables exist."""
+    """Yield a DB session with RLS tenant context when owner_id is set."""
     with Session(get_engine()) as session:
-        # ponytail: RLS owner_id SET deferred to Plan 05 — session stub only here
+        owner_id = current_owner_id.get()
+        if owner_id:
+            session.execute(
+                text("SELECT set_config('app.owner_id', :owner_id, true)"),
+                {"owner_id": owner_id},
+            )
+            session.execute(text("SET LOCAL ROLE puzzlessbox_app"))
         yield session
 
 

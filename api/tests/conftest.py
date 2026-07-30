@@ -3,17 +3,25 @@
 from __future__ import annotations
 
 import base64
+import os
+import subprocess
 import uuid
 from collections.abc import Generator
+from pathlib import Path
 from typing import Any
 
 import httpx
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-from sqlalchemy import create_engine, event
+from sqlalchemy import Connection, create_engine, event, text
 from sqlalchemy.orm import Session, sessionmaker
 from sqlmodel import SQLModel
+
+from app.models import Category, Event, Link, Note, ServicePrincipal, Task  # noqa: F401
+
+API_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_DATABASE_URL = "postgresql+psycopg2://puzzless@localhost:5432/puzzlessbox"
 
 # --- mock Postgres (transactional rollback per test) ---
 
@@ -48,8 +56,51 @@ def db_session() -> Generator[Session, None, None]:
 
 @pytest.fixture
 def mock_db(db_session: Session) -> Generator[Session, None, None]:
-    """Alias for transactional sqlite session used as Postgres stand-in until Plan 05."""
+    """Transactional sqlite session for unit tests that do not need Postgres RLS."""
     yield db_session
+
+
+# --- real Postgres (RLS + migration integration tests) ---
+
+_postgres_engine = None
+
+
+def _postgres_database_url() -> str:
+    return os.environ.get("DATABASE_URL", DEFAULT_DATABASE_URL)
+
+
+@pytest.fixture(scope="session")
+def postgres_engine() -> Generator[Any, None, None]:
+    global _postgres_engine
+    url = _postgres_database_url()
+    _postgres_engine = create_engine(url, pool_pre_ping=True)
+    env = {**os.environ, "DATABASE_URL": url}
+    subprocess.run(
+        ["alembic", "upgrade", "head"],
+        cwd=API_ROOT,
+        env=env,
+        check=True,
+        capture_output=True,
+    )
+    yield _postgres_engine
+    _postgres_engine.dispose()
+
+
+@pytest.fixture
+def postgres_connection(postgres_engine: Any) -> Generator[Connection, None, None]:
+    connection = postgres_engine.connect()
+    transaction = connection.begin()
+    yield connection
+    transaction.rollback()
+    connection.close()
+
+
+@pytest.fixture
+def category_id(postgres_connection: Connection) -> str:
+    row = postgres_connection.execute(
+        text("SELECT id FROM categories WHERE name = 'Inbox' LIMIT 1")
+    ).one()
+    return str(row[0])
 
 
 # --- mock JWKS (RS256 keypair for Plan 06 auth tests) ---
