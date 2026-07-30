@@ -19,6 +19,8 @@ concurrency:
 permissions:
   contents: read
   actions: write
+  # Read-only: enough for CodeQL API without enabling Code Scanning upload (Pro on private).
+  security-events: read
 
 jobs:
   analyze:
@@ -28,16 +30,20 @@ jobs:
       - uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
         with:
           languages: javascript-typescript
+          tools: linked
       - uses: github/codeql-action/autobuild@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
       - uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
         with:
-          # SARIF upload to Security tab needs GitHub Pro on private repos.
-          # Job still fails on findings; SARIF saved as workflow artifact instead.
-          upload: false
+          # Free private: no SARIF/database upload to Code Scanning (needs Pro).
+          # Analysis still fails the job on findings; SARIF saved as workflow artifact.
+          upload: never
+          upload-database: false
+          wait-for-processing: false
           output: sarif-results
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: codeql-sarif
           path: sarif-results
           retention-days: 30
+          if-no-files-found: ignore

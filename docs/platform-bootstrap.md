@@ -89,7 +89,7 @@ Also enforced (Pro): PR required, no force push, no branch deletion, admins incl
 ### `codeql.yml`
 
 - JavaScript/TypeScript analysis (brand tests today; extend when apps land)
-- `upload: false` — no Security-tab upload (Pro on private); SARIF artifact downloadable from Actions
+- `upload: never` + `upload-database: false` — no Security-tab upload (Pro on private); SARIF artifact downloadable from Actions
 - Weekly schedule: Monday 06:00 UTC
 - Same path filters as CI
 
