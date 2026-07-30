@@ -5,10 +5,10 @@ milestone_name: milestone
 current_phase: 1
 current_phase_name: Datenmodell & Backend-API
 status: completed
-stopped_at: Completed 00-02-PLAN.md
-last_updated: "2026-07-29T20:49:47.266Z"
+stopped_at: Phase 1 context gathered
+last_updated: "2026-07-30T01:53:49.694Z"
 progress:
-  total_phases: 1
+  total_phases: 2
   completed_phases: 1
   total_plans: 2
   completed_plans: 2
@@ -105,9 +105,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-29T03:26:47.469Z
-- **Stopped at:** Completed 00-02-PLAN.md
-- **Resume file:** None
+- **Last session:** 2026-07-30T01:53:49.677Z
+- **Stopped at:** Phase 1 context gathered
+- **Resume file:** .planning/phases/01-datenmodell-backend-api/01-CONTEXT.md
 - **Next recommended action:** `/gsd-execute-phase 0`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
