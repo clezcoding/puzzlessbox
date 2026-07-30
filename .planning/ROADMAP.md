@@ -54,7 +54,7 @@ Plans:
   4. Ein Link wird mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB gespeichert und einer sinnvollen Kategorie zugeordnet
   5. Aus Terminen generierte Calendar-Events werden mit Google Calendar gelesen/geschrieben; bei konkurrierenden Writes schlägt `If-Match`-Precondition fehl und überschreibt nicht still
 
-**Plans**: 1/6 plans executed
+**Plans**: 2/6 plans executed
 Plans:
 **Wave 1**
 
@@ -62,7 +62,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-05-PLAN.md — SQLModel tables + Alembic 0001 migration (RLS + board_items VIEW + service_principals + seed categories) + test_draft_validation + test_rls
+- [x] 01-05-PLAN.md — SQLModel tables + Alembic 0001 migration (RLS + board_items VIEW + service_principals + seed categories) + test_draft_validation + test_rls
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -171,7 +171,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
-| 1. Datenmodell & Backend-API | 1/6 | In Progress|  |
+| 1. Datenmodell & Backend-API | 2/6 | In Progress|  |
 | 2. MCP-Server | 0/0 | Not started | - |
 | 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
 | 4. WebApp | 0/0 | Not started | - |

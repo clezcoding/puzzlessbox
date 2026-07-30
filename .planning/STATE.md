@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
 status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-07-30T02:34:17.974Z"
+stopped_at: Completed 01-05-PLAN.md
+last_updated: "2026-07-30T02:40:08.415Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 8
-  completed_plans: 3
+  completed_plans: 4
 ---
 
 # State: Puzzlessbox
@@ -30,9 +30,9 @@ progress:
 ## Current Position
 
 - **Phase:** 01 (Datenmodell & Backend-API) — EXECUTING
-- **Plan:** 2 of 6
+- **Plan:** 3 of 6
 - **Status:** Ready to execute
-- **Progress:** [████░░░░░░] 38% execution
+- **Progress:** [█████░░░░░] 50% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -63,6 +63,7 @@ progress:
 | Phase 00-branding-design-system P01 | 2min | 2 tasks | 34 files |
 | Phase 00-branding-design-system P02 | 4min | 2 tasks | 2 files |
 | Phase 01-datenmodell-backend-api P01 | 5min | 2 tasks | 18 files |
+| Phase 01-datenmodell-backend-api P05 | 8min | 2 tasks | 19 files |
 
 ## Accumulated Context
 
@@ -106,8 +107,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T02:34:17.966Z
-- **Stopped at:** Completed 01-01-PLAN.md
+- **Last session:** 2026-07-30T02:40:08.407Z
+- **Stopped at:** Completed 01-05-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 1`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
@@ -123,3 +124,5 @@ progress:
 - [Phase ?]: 8 locked German microcopy examples with capture verb glossary per D-09
 - [Phase ?]: Lazy SQLAlchemy engine init so app imports without live Postgres
 - [Phase ?]: Normalize postgres:// URLs to postgresql+psycopg2:// for SQLAlchemy
+- [Phase ?]: Categories seed with NULL owner_id; RLS allows NULL OR matching owner_id
+- [Phase ?]: Link metadata uses portable JSON in SQLModel; migration keeps JSONB

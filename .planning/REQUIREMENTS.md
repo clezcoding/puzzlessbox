@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Capture
 
-- [ ] **CAP-01**: User sendet Sprach- oder Textnachricht an Hermes; System erzeugt strukturierten Draft (Titel, Typ, Kategorie, Kurz-Zusammenfassung)
+- [x] **CAP-01**: User sendet Sprach- oder Textnachricht an Hermes; System erzeugt strukturierten Draft (Titel, Typ, Kategorie, Kurz-Zusammenfassung)
 - [ ] **CAP-02**: User sieht formatierte Bestätigung mit Edit-Option vor dem Speichern
 - [ ] **CAP-03**: Nach 30s Inaktivität speichert System den Draft automatisch (Timeout-State-Machine serverseitig in der API, nicht nur Hermes-Cron)
 - [ ] **CAP-04**: Capture funktioniert über alle Messaging-Kanäle, die Hermes bereits unterstützt (kein eigener Messenger in Puzzlessbox)
@@ -27,7 +27,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **AUTH-01**: User kann sich mit Email und Passwort registrieren (Better Auth)
 - [ ] **AUTH-02**: User kann sich einloggen und Session bleibt über Browser-Refresh erhalten
 - [ ] **AUTH-03**: Nach dem ersten Account ist weitere Registrierung dynamisch gesperrt (`databaseHooks` / User-Count > 0)
-- [ ] **AUTH-04**: Alle Kerntabellen haben `owner_id`; alle Queries filtern danach
+- [x] **AUTH-04**: Alle Kerntabellen haben `owner_id`; alle Queries filtern danach
 
 ### MCP & Hermes
 
@@ -107,8 +107,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-01 | Phase 1 | Pending |
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| CAP-01 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Complete |
+| CAP-01 | Phase 1 | Complete |
 | CAP-03 | Phase 1 | Pending |
 | LINK-01 | Phase 1 | Pending |
 | LINK-02 | Phase 1 | Pending |
