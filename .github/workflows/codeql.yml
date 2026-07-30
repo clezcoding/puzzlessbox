@@ -19,27 +19,37 @@ concurrency:
 permissions:
   contents: read
   actions: write
-  # Read-only: enough for CodeQL API without enabling Code Scanning upload (Pro on private).
-  security-events: read
+
+env:
+  # Pin bundle tag; bump when upgrading CodeQL CLI (see github/codeql-action releases).
+  CODEQL_BUNDLE_TAG: codeql-bundle-v2.26.2
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
-        with:
-          languages: javascript-typescript
-          tools: linked
-      - uses: github/codeql-action/autobuild@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
-      - uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
-        with:
-          # Free private: no SARIF/database upload to Code Scanning (needs Pro).
-          # Analysis still fails the job on findings; SARIF saved as workflow artifact.
-          upload: never
-          upload-database: false
-          wait-for-processing: false
-          output: sarif-results
+
+      - name: Install CodeQL CLI
+        run: |
+          curl -fsSL -o /tmp/codeql-bundle.tar.zst \
+            "https://github.com/github/codeql-action/releases/download/${CODEQL_BUNDLE_TAG}/codeql-bundle-linux64.tar.zst"
+          mkdir -p "$RUNNER_TOOL_CACHE/codeql"
+          tar --use-compress-program=unzstd -xf /tmp/codeql-bundle.tar.zst -C "$RUNNER_TOOL_CACHE/codeql"
+          echo "$RUNNER_TOOL_CACHE/codeql/codeql" >> "$GITHUB_PATH"
+          codeql version
+
+      - name: Create database
+        run: codeql database create codeql-db --language=javascript --source-root=.
+
+      - name: Analyze
+        run: |
+          mkdir -p sarif-results
+          codeql database analyze codeql-db \
+            --format=sarif-latest \
+            --output=sarif-results/javascript.sarif \
+            javascript-security-and-quality.qls
+
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:

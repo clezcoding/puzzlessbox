@@ -12,7 +12,7 @@ This setup targets **GitHub Free on a personal private repository** — no paid 
 | Renovate (github-actions) | Yes | `renovate.json` |
 | Kodiak auto-merge | Yes (personal private) | `.kodiak.toml` + app install |
 | Branch protection (required checks) | **No** | Not enforced — upgrade to Pro or stay manual |
-| Code Scanning (SARIF UI) | **No** | CodeQL runs with `upload: false`; SARIF as workflow artifact |
+| Code Scanning (SARIF UI) | **No** | CodeQL CLI + SARIF workflow artifact |
 | GHCR + deploy workflows | Yes | Phase 5 (OPS-02) |
 
 **Repo settings (recommended, applied via `gh`):**
@@ -88,8 +88,8 @@ Also enforced (Pro): PR required, no force push, no branch deletion, admins incl
 
 ### `codeql.yml`
 
-- JavaScript/TypeScript analysis (brand tests today; extend when apps land)
-- `upload: never` + `upload-database: false` — no Security-tab upload (Pro on private); SARIF artifact downloadable from Actions
+- JavaScript analysis via **CodeQL CLI bundle** (no `codeql-action` — avoids Code Scanning API warnings on Free private)
+- Bundle pin: `CODEQL_BUNDLE_TAG` in workflow; SARIF artifact `codeql-sarif` (30 days)
 - Weekly schedule: Monday 06:00 UTC
 - Same path filters as CI
 
