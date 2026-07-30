@@ -7,7 +7,9 @@ import uuid
 from sqlalchemy import text
 
 
-def test_rls(postgres_connection, owner_id_a, owner_id_b, category_id) -> None:
+def test_rls(postgres_connection, category_id) -> None:
+    owner_id_a = str(uuid.uuid4())
+    owner_id_b = str(uuid.uuid4())
     note_id = str(uuid.uuid4())
     postgres_connection.execute(
         text(
