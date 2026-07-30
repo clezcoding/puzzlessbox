@@ -54,7 +54,16 @@ Plans:
   4. Ein Link wird mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB gespeichert und einer sinnvollen Kategorie zugeordnet
   5. Aus Terminen generierte Calendar-Events werden mit Google Calendar gelesen/geschrieben; bei konkurrierenden Writes schlägt `If-Match`-Precondition fehl und überschreibt nicht still
 
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+**Wave 1**
+
+- [ ] 01-01-PLAN.md — Foundation: Alembic schema + RLS + Better Auth JWKS bridge + signup lock + draft CRUD + board_items VIEW
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 01-02-PLAN.md — Capture 30s timeout state machine (asyncio.Task, PATCH reset, confirm cancel, parallel-safe)
+- [ ] 01-03-PLAN.md — Link scrape pipeline (Firecrawl+Camoufox, 12s budget, hostname fallback, Links category)
+- [ ] 01-04-PLAN.md — Google Calendar OAuth + encrypted tokens + If-Match optimistic concurrency (412 on conflict)
 
 ### Phase 2: MCP-Server
 
