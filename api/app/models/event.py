@@ -12,3 +12,5 @@ class Event(CoreItemMixin, table=True):
     summary: str = ""
     starts_at: datetime | None = None
     ends_at: datetime | None = None
+    google_event_id: str | None = None
+    etag: str | None = None

@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     BETTER_AUTH_JWKS_URL: str = "http://localhost:3000/api/auth/jwks"
     SERVICE_BEARER_TOKEN: str = "change-me-service-bearer"
     ENCRYPTION_KEY: str = "change-me-32-byte-encryption-key!!"
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
+    GOOGLE_REDIRECT_URI: str = "https://api.puzzlesstool.online/auth/google/callback"
     ENV: str = "dev"
     SCRAPER_ENABLED: bool = False
     FIRECRAWL_URL: str = "http://localhost:3002"

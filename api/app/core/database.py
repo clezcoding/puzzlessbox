@@ -21,16 +21,20 @@ def set_request_owner(owner_id: str | None) -> None:
     current_owner_id.set(owner_id)
 
 
+def apply_tenant_context(session: Session, owner_id: str) -> None:
+    session.execute(
+        text("SELECT set_config('app.owner_id', :owner_id, true)"),
+        {"owner_id": owner_id},
+    )
+    session.execute(text("SET LOCAL ROLE puzzlessbox_app"))
+
+
 def get_db() -> Generator[Session, None, None]:
     """Yield a DB session with RLS tenant context when owner_id is set."""
     with Session(get_engine()) as session:
         owner_id = current_owner_id.get()
         if owner_id:
-            session.execute(
-                text("SELECT set_config('app.owner_id', :owner_id, true)"),
-                {"owner_id": owner_id},
-            )
-            session.execute(text("SET LOCAL ROLE puzzlessbox_app"))
+            apply_tenant_context(session, owner_id)
         yield session
 
 

@@ -1,4 +1,5 @@
 from app.models.board import BoardItem
+from app.models.calendar_token import CalendarToken
 from app.models.category import Category
 from app.models.enums import ItemStatus, ItemType
 from app.models.event import Event
@@ -9,6 +10,7 @@ from app.models.task import Task
 
 __all__ = [
     "BoardItem",
+    "CalendarToken",
     "Category",
     "DraftCreate",
     "DraftUpdate",

@@ -9,3 +9,5 @@ psycopg2-binary
 pydantic-settings==2.7.1
 pytest
 pytest-asyncio
+google-api-python-client==2.160.0
+google-auth-oauthlib==1.2.1
