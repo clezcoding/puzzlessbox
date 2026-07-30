@@ -24,9 +24,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Authentication & Tenancy
 
-- [ ] **AUTH-01**: User kann sich mit Email und Passwort registrieren (Better Auth)
-- [ ] **AUTH-02**: User kann sich einloggen und Session bleibt über Browser-Refresh erhalten
-- [ ] **AUTH-03**: Nach dem ersten Account ist weitere Registrierung dynamisch gesperrt (`databaseHooks` / User-Count > 0)
+- [x] **AUTH-01**: User kann sich mit Email und Passwort registrieren (Better Auth)
+- [x] **AUTH-02**: User kann sich einloggen und Session bleibt über Browser-Refresh erhalten
+- [x] **AUTH-03**: Nach dem ersten Account ist weitere Registrierung dynamisch gesperrt (`databaseHooks` / User-Count > 0)
 - [x] **AUTH-04**: Alle Kerntabellen haben `owner_id`; alle Queries filtern danach
 
 ### MCP & Hermes
@@ -104,9 +104,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | BRAND-01 | Phase 0 | Complete |
 | BRAND-02 | Phase 0 | Complete |
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete |
 | CAP-01 | Phase 1 | Complete |
 | CAP-03 | Phase 1 | Pending |

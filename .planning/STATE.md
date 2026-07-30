@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
 status: executing
-stopped_at: Completed 01-05-PLAN.md
-last_updated: "2026-07-30T02:40:08.415Z"
+stopped_at: Completed 01-06-PLAN.md
+last_updated: "2026-07-30T02:47:42.016Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 8
-  completed_plans: 4
+  completed_plans: 5
 ---
 
 # State: Puzzlessbox
@@ -30,9 +30,9 @@ progress:
 ## Current Position
 
 - **Phase:** 01 (Datenmodell & Backend-API) — EXECUTING
-- **Plan:** 3 of 6
+- **Plan:** 4 of 6
 - **Status:** Ready to execute
-- **Progress:** [█████░░░░░] 50% execution
+- **Progress:** [██████░░░░] 63% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -64,6 +64,7 @@ progress:
 | Phase 00-branding-design-system P02 | 4min | 2 tasks | 2 files |
 | Phase 01-datenmodell-backend-api P01 | 5min | 2 tasks | 18 files |
 | Phase 01-datenmodell-backend-api P05 | 8min | 2 tasks | 19 files |
+| Phase 01-datenmodell-backend-api P06 | 12min | 2 tasks | 20 files |
 
 ## Accumulated Context
 
@@ -107,8 +108,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T02:40:08.407Z
-- **Stopped at:** Completed 01-05-PLAN.md
+- **Last session:** 2026-07-30T02:47:42.009Z
+- **Stopped at:** Completed 01-06-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 1`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
@@ -126,3 +127,6 @@ progress:
 - [Phase ?]: Normalize postgres:// URLs to postgresql+psycopg2:// for SQLAlchemy
 - [Phase ?]: Categories seed with NULL owner_id; RLS allows NULL OR matching owner_id
 - [Phase ?]: Link metadata uses portable JSON in SQLModel; migration keeps JSONB
+- [Phase ?]: Capture draft create consolidated in capture.py until type-specific read/update diverges
+- [Phase ?]: board-items uses explicit owner_id WHERE alongside RLS on VIEW
+- [Phase ?]: Login prefers Better Auth sign-in token before /token fetch
