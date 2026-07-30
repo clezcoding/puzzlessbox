@@ -220,10 +220,7 @@ async def ping_scraper_health(settings: Settings | None = None) -> str | None:
         firecrawl_base = cfg.FIRECRAWL_URL.rstrip("/")
         if firecrawl_base:
             try:
-                response = await client.get(
-                    f"{firecrawl_base}/health",
-                    headers=_auth_headers(cfg.FIRECRAWL_BEARER),
-                )
+                response = await client.get(f"{firecrawl_base}/v0/health/liveness")
                 if response.status_code >= 400:
                     return "firecrawl"
             except httpx.HTTPError:
