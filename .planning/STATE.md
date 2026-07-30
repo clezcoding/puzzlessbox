@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
 status: executing
-stopped_at: Completed 01-06-PLAN.md
-last_updated: "2026-07-30T02:47:42.016Z"
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-07-30T02:51:09.272Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 6
 ---
 
 # State: Puzzlessbox
@@ -30,9 +30,9 @@ progress:
 ## Current Position
 
 - **Phase:** 01 (Datenmodell & Backend-API) — EXECUTING
-- **Plan:** 4 of 6
+- **Plan:** 5 of 6
 - **Status:** Ready to execute
-- **Progress:** [██████░░░░] 63% execution
+- **Progress:** [████████░░] 75% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -65,6 +65,7 @@ progress:
 | Phase 01-datenmodell-backend-api P01 | 5min | 2 tasks | 18 files |
 | Phase 01-datenmodell-backend-api P05 | 8min | 2 tasks | 19 files |
 | Phase 01-datenmodell-backend-api P06 | 12min | 2 tasks | 20 files |
+| Phase 01-datenmodell-backend-api P02 | 15min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -108,8 +109,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T02:47:42.009Z
-- **Stopped at:** Completed 01-06-PLAN.md
+- **Last session:** 2026-07-30T02:51:09.265Z
+- **Stopped at:** Completed 01-02-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 1`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
@@ -130,3 +131,5 @@ progress:
 - [Phase ?]: Capture draft create consolidated in capture.py until type-specific read/update diverges
 - [Phase ?]: board-items uses explicit owner_id WHERE alongside RLS on VIEW
 - [Phase ?]: Login prefers Better Auth sign-in token before /token fetch
+- [Phase ?]: Async capture endpoints so DraftTimeoutManager asyncio.create_task runs on ASGI loop
+- [Phase ?]: Timeout integration tests use AsyncClient — TestClient does not pump background tasks

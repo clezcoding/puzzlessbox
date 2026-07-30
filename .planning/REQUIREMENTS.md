@@ -11,7 +11,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **CAP-01**: User sendet Sprach- oder Textnachricht an Hermes; System erzeugt strukturierten Draft (Titel, Typ, Kategorie, Kurz-Zusammenfassung)
 - [ ] **CAP-02**: User sieht formatierte Bestätigung mit Edit-Option vor dem Speichern
-- [ ] **CAP-03**: Nach 30s Inaktivität speichert System den Draft automatisch (Timeout-State-Machine serverseitig in der API, nicht nur Hermes-Cron)
+- [x] **CAP-03**: Nach 30s Inaktivität speichert System den Draft automatisch (Timeout-State-Machine serverseitig in der API, nicht nur Hermes-Cron)
 - [ ] **CAP-04**: Capture funktioniert über alle Messaging-Kanäle, die Hermes bereits unterstützt (kein eigener Messenger in Puzzlessbox)
 - [ ] **CAP-05**: Gespeicherte Items erscheinen kategorisiert in der WebApp
 
@@ -109,7 +109,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete |
 | CAP-01 | Phase 1 | Complete |
-| CAP-03 | Phase 1 | Pending |
+| CAP-03 | Phase 1 | Complete |
 | LINK-01 | Phase 1 | Pending |
 | LINK-02 | Phase 1 | Pending |
 | CAL-02 | Phase 1 | Pending |
