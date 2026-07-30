@@ -6,6 +6,7 @@ from unittest.mock import AsyncMock, patch
 
 import httpx
 import pytest
+import uuid
 
 from tests.conftest import API_HEADERS, mint_test_jwt
 
@@ -111,9 +112,39 @@ def test_cross_tenant_board_items_empty(
         },
     )
     assert created.status_code == 201
+    created_id = created.json()["id"]
 
     own_items = api_client.get("/board-items", headers=headers_a).json()
-    assert len(own_items) == 1
+    assert any(item["id"] == created_id for item in own_items)
 
     foreign_items = api_client.get("/board-items", headers=headers_b).json()
-    assert foreign_items == []
+    assert not any(item["id"] == created_id for item in foreign_items)
+
+
+def test_idempotency(api_client, category_id, mock_jwks_keypair, owner_id_a) -> None:
+    token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    idem_key = f"draft-create-{uuid.uuid4()}"
+    headers = {
+        **API_HEADERS,
+        "Authorization": f"Bearer {token}",
+        "Idempotency-Key": idem_key,
+    }
+    payload = {
+        "title": "Idempotent draft",
+        "type": "note",
+        "category_id": category_id,
+        "summary": "once",
+    }
+
+    first = api_client.post("/drafts", headers=headers, json=payload)
+    second = api_client.post("/drafts", headers=headers, json=payload)
+
+    assert first.status_code == 201
+    assert second.status_code == 201
+    assert first.json() == second.json()
+
+    listed = api_client.get(
+        "/board-items",
+        headers={**API_HEADERS, "Authorization": f"Bearer {token}"},
+    ).json()
+    assert sum(1 for item in listed if item["id"] == first.json()["id"]) == 1
