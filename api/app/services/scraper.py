@@ -126,16 +126,23 @@ class ScrapeService:
 
     async def scrape(self, url: str) -> ScrapeResult:
         validate_url_ssrf(url)
+        parsed = urlparse(url)
+        hostname = parsed.netloc or url
 
         og = await self._scrape_firecrawl(url)
+        if og is None:
+            og = await self._scrape_camoufox(url)
+
         if og is None or not og.get("title"):
-            raise HTTPException(
-                status_code=status.HTTP_502_BAD_GATEWAY,
-                detail={"code": "SCRAPE_FAILED", "message": "Firecrawl returned no metadata."},
+            return ScrapeResult(
+                title=hostname,
+                description=None,
+                image=None,
+                scrape_status="failed",
             )
 
         return ScrapeResult(
-            title=og["title"],
+            title=og["title"] or hostname,
             description=og.get("description"),
             image=og.get("image"),
             scrape_status="ok",
@@ -178,5 +185,63 @@ class ScrapeService:
         if parsed["title"]:
             return parsed
         return None
+
+    async def _scrape_camoufox(self, url: str) -> dict[str, str | None] | None:
+        base = self._settings.CAMOUFOX_URL.rstrip("/")
+        if not base:
+            return None
+
+        try:
+            async with httpx.AsyncClient(timeout=CAMOUFOX_TIMEOUT) as client:
+                response = await client.get(
+                    f"{base}/",
+                    params={"url": url},
+                    headers=_auth_headers(self._settings.CAMOUFOX_BEARER),
+                )
+                if response.status_code >= 400:
+                    return None
+                html = response.text
+        except httpx.HTTPError:
+            return None
+
+        parsed = parse_open_graph(html)
+        if parsed["title"]:
+            return parsed
+        return None
+
+
+async def ping_scraper_health(settings: Settings | None = None) -> str | None:
+    """Return unhealthy service name, or None when all scraper pings succeed."""
+    cfg = settings or get_settings()
+    if not cfg.SCRAPER_ENABLED:
+        return None
+
+    async with httpx.AsyncClient(timeout=2.0) as client:
+        firecrawl_base = cfg.FIRECRAWL_URL.rstrip("/")
+        if firecrawl_base:
+            try:
+                response = await client.get(
+                    f"{firecrawl_base}/health",
+                    headers=_auth_headers(cfg.FIRECRAWL_BEARER),
+                )
+                if response.status_code >= 400:
+                    return "firecrawl"
+            except httpx.HTTPError:
+                return "firecrawl"
+
+        camoufox_base = cfg.CAMOUFOX_URL.rstrip("/")
+        if camoufox_base:
+            try:
+                response = await client.get(
+                    f"{camoufox_base}/health",
+                    headers=_auth_headers(cfg.CAMOUFOX_BEARER),
+                )
+                if response.status_code >= 400:
+                    return "camoufox"
+            except httpx.HTTPError:
+                return "camoufox"
+
+    return None
+
 
 scrape_service = ScrapeService()

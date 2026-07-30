@@ -24,14 +24,14 @@ def test_health(client):
 
 def test_ready_db_up(client):
     with patch("app.routers.health.check_db_connection", return_value=True):
-        response = client.get("/ready", headers=VERSION_HEADERS)
+        response = client.get("/ready")
     assert response.status_code == 200
     assert response.json() == {"status": "ready"}
 
 
 def test_ready_db_down(client):
     with patch("app.routers.health.check_db_connection", return_value=False):
-        response = client.get("/ready", headers=VERSION_HEADERS)
+        response = client.get("/ready")
     assert response.status_code == 503
     body = response.json()
     assert body["error"]["code"] == "SERVICE_UNAVAILABLE"
