@@ -44,8 +44,8 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Calendar
 
 - [ ] **CAL-01**: User verbindet Google Calendar in WebApp-Settings via separatem OAuth (nicht Better Auth Social)
-- [ ] **CAL-02**: Aus Nachrichten extrahierte Termine werden als Calendar-Events lesbar und schreibbar mit Google Calendar synchronisiert
-- [ ] **CAL-03**: Calendar-Writes nutzen Optimistic Concurrency (ETag / If-Match); Konflikte werden nicht still überschrieben
+- [x] **CAL-02**: Aus Nachrichten extrahierte Termine werden als Calendar-Events lesbar und schreibbar mit Google Calendar synchronisiert
+- [x] **CAL-03**: Calendar-Writes nutzen Optimistic Concurrency (ETag / If-Match); Konflikte werden nicht still überschrieben
 
 ### Branding
 
@@ -112,8 +112,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAP-03 | Phase 1 | Complete |
 | LINK-01 | Phase 1 | Pending |
 | LINK-02 | Phase 1 | Pending |
-| CAL-02 | Phase 1 | Pending |
-| CAL-03 | Phase 1 | Pending |
+| CAL-02 | Phase 1 | Complete |
+| CAL-03 | Phase 1 | Complete |
 | MCP-01 | Phase 2 | Pending |
 | MCP-02 | Phase 2 | Pending |
 | CAP-02 | Phase 3 | Pending |

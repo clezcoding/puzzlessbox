@@ -54,7 +54,7 @@ Plans:
   4. Ein Link wird mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB gespeichert und einer sinnvollen Kategorie zugeordnet
   5. Aus Terminen generierte Calendar-Events werden mit Google Calendar gelesen/geschrieben; bei konkurrierenden Writes schlägt `If-Match`-Precondition fehl und überschreibt nicht still
 
-**Plans**: 4/6 plans executed
+**Plans**: 5/6 plans executed
 Plans:
 **Wave 1**
 
@@ -72,7 +72,7 @@ Plans:
 
 - [x] 01-02-PLAN.md — Capture 30s timeout state machine (asyncio.Task, PATCH reset, confirm cancel, parallel-safe)
 - [ ] 01-03-PLAN.md — Link scrape pipeline (Firecrawl+Camoufox, 12s budget, SSRF guards, hostname fallback, Links category)
-- [ ] 01-04-PLAN.md — Google Calendar OAuth + encrypted tokens + If-Match optimistic concurrency (412 on conflict) + GET /events
+- [x] 01-04-PLAN.md — Google Calendar OAuth + encrypted tokens + If-Match optimistic concurrency (412 on conflict) + GET /events
 
 ### Phase 2: MCP-Server
 
@@ -171,7 +171,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
-| 1. Datenmodell & Backend-API | 4/6 | In Progress|  |
+| 1. Datenmodell & Backend-API | 5/6 | In Progress|  |
 | 2. MCP-Server | 0/0 | Not started | - |
 | 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
 | 4. WebApp | 0/0 | Not started | - |

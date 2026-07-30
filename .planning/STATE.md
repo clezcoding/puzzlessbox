@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-07-30T02:51:09.272Z"
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-07-30T03:18:06.472Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # State: Puzzlessbox
@@ -30,9 +30,9 @@ progress:
 ## Current Position
 
 - **Phase:** 01 (Datenmodell & Backend-API) — EXECUTING
-- **Plan:** 5 of 6
+- **Plan:** 6 of 6
 - **Status:** Ready to execute
-- **Progress:** [████████░░] 75% execution
+- **Progress:** [█████████░] 88% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -66,6 +66,7 @@ progress:
 | Phase 01-datenmodell-backend-api P05 | 8min | 2 tasks | 19 files |
 | Phase 01-datenmodell-backend-api P06 | 12min | 2 tasks | 20 files |
 | Phase 01-datenmodell-backend-api P02 | 15min | 2 tasks | 6 files |
+| Phase 01-datenmodell-backend-api P04 | 25min | 3 tasks | 15 files |
 
 ## Accumulated Context
 
@@ -109,8 +110,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T02:51:09.265Z
-- **Stopped at:** Completed 01-02-PLAN.md
+- **Last session:** 2026-07-30T03:18:06.454Z
+- **Stopped at:** Completed 01-04-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 1`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
@@ -133,3 +134,5 @@ progress:
 - [Phase ?]: Login prefers Better Auth sign-in token before /token fetch
 - [Phase ?]: Async capture endpoints so DraftTimeoutManager asyncio.create_task runs on ASGI loop
 - [Phase ?]: Timeout integration tests use AsyncClient — TestClient does not pump background tasks
+- [Phase ?]: calendar_tokens.owner_id app-level check only — no FK to Better Auth user table (D-21)
+- [Phase ?]: OAuth connect requires JWT; full browser OAuth UAT pending webapp at app.puzzlesstool.online
