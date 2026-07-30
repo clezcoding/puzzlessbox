@@ -235,3 +235,185 @@ async def test_autosave_task_type(
     match = next(item for item in listed if item["id"] == draft_id)
     assert match["type"] == "task"
     assert match["status"] == "auto_saved"
+
+
+@pytest.mark.asyncio
+async def test_patch_resets(
+    async_api_client,
+    postgres_connection,
+    category_id,
+    mock_jwks_keypair,
+    owner_id_a,
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("DRAFT_TIMEOUT_SECONDS", "1")
+    token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    headers = {**API_HEADERS, "Authorization": f"Bearer {token}"}
+
+    created = await async_api_client.post(
+        "/drafts",
+        headers=headers,
+        json={
+            "title": "Before patch",
+            "type": "note",
+            "category_id": category_id,
+            "summary": "original",
+        },
+    )
+    draft_id = created.json()["id"]
+    await asyncio.sleep(0.5)
+
+    patched = await async_api_client.patch(
+        f"/drafts/{draft_id}",
+        headers=headers,
+        json={"title": "After patch"},
+    )
+    assert patched.status_code == 200
+    assert _draft_status(postgres_connection, "notes", draft_id) == "draft"
+
+    await asyncio.sleep(1.2)
+    assert _draft_status(postgres_connection, "notes", draft_id) == "auto_saved"
+
+
+@pytest.mark.asyncio
+async def test_confirm_cancels(
+    async_api_client,
+    postgres_connection,
+    category_id,
+    mock_jwks_keypair,
+    owner_id_a,
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("DRAFT_TIMEOUT_SECONDS", "1")
+    token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    headers = {**API_HEADERS, "Authorization": f"Bearer {token}"}
+
+    created = await async_api_client.post(
+        "/drafts",
+        headers=headers,
+        json={
+            "title": "Confirm me",
+            "type": "note",
+            "category_id": category_id,
+            "summary": "no autosave",
+        },
+    )
+    draft_id = created.json()["id"]
+
+    confirmed = await async_api_client.post(f"/drafts/{draft_id}/confirm", headers=headers)
+    assert confirmed.status_code == 200
+    assert confirmed.json()["status"] == "confirmed"
+    assert _draft_status(postgres_connection, "notes", draft_id) == "confirmed"
+
+    await asyncio.sleep(1.5)
+    assert _draft_status(postgres_connection, "notes", draft_id) == "confirmed"
+
+
+@pytest.mark.asyncio
+async def test_parallel_edits(
+    async_api_client,
+    postgres_connection,
+    category_id,
+    mock_jwks_keypair,
+    owner_id_a,
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("DRAFT_TIMEOUT_SECONDS", "1")
+    token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    headers = {**API_HEADERS, "Authorization": f"Bearer {token}"}
+
+    created = await async_api_client.post(
+        "/drafts",
+        headers=headers,
+        json={
+            "title": "Parallel",
+            "type": "note",
+            "category_id": category_id,
+            "summary": "race",
+        },
+    )
+    draft_id = created.json()["id"]
+
+    responses = await asyncio.gather(
+        async_api_client.patch(
+            f"/drafts/{draft_id}",
+            headers=headers,
+            json={"title": "Patch A"},
+        ),
+        async_api_client.patch(
+            f"/drafts/{draft_id}",
+            headers=headers,
+            json={"summary": "Patch B"},
+        ),
+    )
+    assert all(response.status_code == 200 for response in responses)
+
+    await asyncio.sleep(1.2)
+    assert _draft_status(postgres_connection, "notes", draft_id) == "auto_saved"
+
+
+@pytest.mark.asyncio
+async def test_no_orphan_autosave(
+    async_api_client,
+    postgres_connection,
+    category_id,
+    mock_jwks_keypair,
+    owner_id_a,
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("DRAFT_TIMEOUT_SECONDS", "1")
+    token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    headers = {**API_HEADERS, "Authorization": f"Bearer {token}"}
+
+    created = await async_api_client.post(
+        "/drafts",
+        headers=headers,
+        json={
+            "title": "Orphan guard",
+            "type": "note",
+            "category_id": category_id,
+            "summary": "confirmed stays",
+        },
+    )
+    draft_id = created.json()["id"]
+    await async_api_client.post(f"/drafts/{draft_id}/confirm", headers=headers)
+
+    await asyncio.sleep(1.5)
+    assert _draft_status(postgres_connection, "notes", draft_id) == "confirmed"
+
+
+@pytest.mark.asyncio
+async def test_patch_task_type_resets(
+    async_api_client,
+    postgres_connection,
+    category_id,
+    mock_jwks_keypair,
+    owner_id_a,
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("DRAFT_TIMEOUT_SECONDS", "1")
+    token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    headers = {**API_HEADERS, "Authorization": f"Bearer {token}"}
+
+    created = await async_api_client.post(
+        "/drafts",
+        headers=headers,
+        json={
+            "title": "Task patch",
+            "type": "task",
+            "category_id": category_id,
+            "summary": "polymorphic patch",
+        },
+    )
+    draft_id = created.json()["id"]
+    await asyncio.sleep(0.5)
+
+    patched = await async_api_client.patch(
+        f"/drafts/{draft_id}",
+        headers=headers,
+        json={"summary": "updated task"},
+    )
+    assert patched.status_code == 200
+
+    await asyncio.sleep(1.2)
+    assert _draft_status(postgres_connection, "tasks", draft_id) == "auto_saved"

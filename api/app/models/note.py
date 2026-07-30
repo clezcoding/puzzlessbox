@@ -22,3 +22,11 @@ class DraftCreate(SQLModel):
     type: ItemType
     category_id: uuid.UUID
     summary: str = ""
+
+
+class DraftUpdate(SQLModel):
+    """PATCH /drafts/{id} partial update (D-06)."""
+
+    title: str | None = None
+    summary: str | None = None
+    category_id: uuid.UUID | None = None
