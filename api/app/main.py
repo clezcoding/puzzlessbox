@@ -8,7 +8,7 @@ from app.core.errors import (
     unhandled_exception_handler,
     validation_exception_handler,
 )
-from app.routers import auth, capture, health
+from app.routers import auth, capture, health, links
 
 API_VERSION_ACCEPT = "application/vnd.puzzlessbox.v1+json"
 _VERSION_SKIP_PREFIXES = ("/health", "/ready", "/docs", "/redoc", "/openapi.json")
@@ -49,6 +49,7 @@ def create_app() -> FastAPI:
     application.include_router(health.router)
     application.include_router(auth.router)
     application.include_router(capture.router)
+    application.include_router(links.router)
 
     application.add_exception_handler(HTTPException, http_exception_handler)
     application.add_exception_handler(Exception, unhandled_exception_handler)

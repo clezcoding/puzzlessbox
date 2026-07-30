@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     ENCRYPTION_KEY: str = "change-me-32-byte-encryption-key!!"
     ENV: str = "dev"
     SCRAPER_ENABLED: bool = False
+    FIRECRAWL_URL: str = "http://localhost:3002"
+    FIRECRAWL_BEARER: str = ""
+    CAMOUFOX_URL: str = "http://localhost:8080"
+    CAMOUFOX_BEARER: str = ""
     DOCS_BASIC_AUTH: str = ""
 
     @field_validator("DATABASE_URL", mode="before")
