@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import asyncio
 import os
-import uuid
 from typing import Dict
 
 from sqlalchemy import text
@@ -22,6 +21,10 @@ _TABLE_BY_TYPE: dict[ItemType, str] = {
     ItemType.task: "tasks",
     ItemType.event: "events",
 }
+
+
+def table_for_item_type(item_type: ItemType) -> str:
+    return _TABLE_BY_TYPE[item_type]
 
 
 def _default_timeout_seconds() -> float:
