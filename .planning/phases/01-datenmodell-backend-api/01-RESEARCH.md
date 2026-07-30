@@ -370,7 +370,7 @@ def update_calendar_event(service, calendar_id: str, event_id: str, etag: str, e
 
 ## Open Questions
 
-1. **How does Hermes handle push status callbacks when auto-saved server-side?**
+1. **How does Hermes handle push status callbacks when auto-saved server-side?** — **(RESOLVED — deferred to Phase 3)** Per CONTEXT.md D-08, no Hermes push webhook in Phase 1; auto_saved is queryable via board_items VIEW. Hermes push callback mechanism to be addressed in Phase 3 timeout spike.
    - *What we know:* FastAPI transitions the draft status automatically without Hermes' intervention.
    - *What's unclear:* Does Hermes expose a push webhook for FastAPI to trigger message confirmations, or must we rely on long polling?
    - *Recommendation:* Address in Phase 3 during the Timeout spike.
