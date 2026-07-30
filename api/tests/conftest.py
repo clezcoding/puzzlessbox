@@ -5,19 +5,24 @@ from __future__ import annotations
 import base64
 import os
 import subprocess
+import time
 import uuid
 from collections.abc import Generator
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 import httpx
+import jwt as pyjwt
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
+from fastapi.testclient import TestClient
 from sqlalchemy import Connection, create_engine, event, text
 from sqlalchemy.orm import Session, sessionmaker
 from sqlmodel import SQLModel
 
+from app.main import API_VERSION_ACCEPT, app
 from app.models import Category, Event, Link, Note, ServicePrincipal, Task  # noqa: F401
 
 API_ROOT = Path(__file__).resolve().parents[1]
@@ -166,3 +171,49 @@ def owner_id_a() -> str:
 @pytest.fixture
 def owner_id_b() -> str:
     return str(uuid.UUID("22222222-2222-4222-8222-222222222222"))
+
+
+API_HEADERS = {"Accept": API_VERSION_ACCEPT}
+
+
+def mint_test_jwt(
+    private_key_pem: bytes,
+    owner_id: str,
+    *,
+    kid: str = "test-key-1",
+    expired: bool = False,
+) -> str:
+    private_key = serialization.load_pem_private_key(private_key_pem, password=None)
+    exp = int(time.time()) - 60 if expired else int(time.time()) + 3600
+    return pyjwt.encode(
+        {"sub": owner_id, "exp": exp},
+        private_key,
+        algorithm="RS256",
+        headers={"kid": kid},
+    )
+
+
+@pytest.fixture
+def api_client(mock_jwks_keypair: dict[str, Any]) -> Generator[TestClient, None, None]:
+    """FastAPI client with JWKS verification patched to the generated test keypair."""
+
+    class _TestPyJWKClient:
+        def get_signing_key_from_jwt(self, token: str) -> Any:
+            private_key = serialization.load_pem_private_key(
+                mock_jwks_keypair["private_key"],
+                password=None,
+            )
+            public_key = private_key.public_key()
+            return type("SigningKey", (), {"key": public_key})()
+
+    with patch("app.auth.jwt.get_jwks_client", return_value=_TestPyJWKClient()):
+        yield TestClient(app)
+
+
+@pytest.fixture
+def auth_headers(
+    mock_jwks_keypair: dict[str, Any],
+    owner_id_a: str,
+) -> dict[str, str]:
+    token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    return {**API_HEADERS, "Authorization": f"Bearer {token}"}

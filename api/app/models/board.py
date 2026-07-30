@@ -15,7 +15,7 @@ class BoardItem(BaseModel):
     status: ItemStatus
     title: str
     summary: str
-    board_type: ItemType = Field(validation_alias="type")
+    board_type: ItemType = Field(validation_alias="type", serialization_alias="type")
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime | None = None

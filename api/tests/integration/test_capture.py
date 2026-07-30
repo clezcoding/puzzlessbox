@@ -1,0 +1,119 @@
+"""Capture integration tests (CAP-01, AUTH-04)."""
+
+from __future__ import annotations
+
+from unittest.mock import AsyncMock, patch
+
+import httpx
+import pytest
+
+from tests.conftest import API_HEADERS, mint_test_jwt
+
+
+def _mock_better_auth_client(jwt_token: str, owner_id: str, email: str = "owner@example.com"):
+    client = AsyncMock()
+
+    async def post(url: str, **kwargs: object) -> httpx.Response:
+        if url == "/sign-up/email":
+            return httpx.Response(
+                200,
+                json={
+                    "token": jwt_token,
+                    "user": {"id": owner_id, "email": email, "name": "Owner"},
+                },
+            )
+        if url == "/sign-in/email":
+            return httpx.Response(200, json={"token": jwt_token})
+        return httpx.Response(404)
+
+    async def get(url: str, **kwargs: object) -> httpx.Response:
+        if url == "/token":
+            return httpx.Response(200, json={"token": jwt_token})
+        return httpx.Response(404)
+
+    client.post = AsyncMock(side_effect=post)
+    client.get = AsyncMock(side_effect=get)
+    client.__aenter__ = AsyncMock(return_value=client)
+    client.__aexit__ = AsyncMock(return_value=None)
+    return client
+
+
+@pytest.mark.parametrize("item_type", ["note", "link", "task", "event"])
+def test_draft_roundtrip(
+    api_client,
+    postgres_connection,
+    category_id,
+    mock_jwks_keypair,
+    owner_id_a,
+    item_type,
+) -> None:
+    jwt_token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    mock_client = _mock_better_auth_client(jwt_token, owner_id_a)
+
+    with patch("app.routers.auth.httpx.AsyncClient", return_value=mock_client):
+        signup = api_client.post(
+            "/auth/signup",
+            headers=API_HEADERS,
+            json={"email": "owner@example.com", "password": "securepass"},
+        )
+        assert signup.status_code == 201
+
+        login = api_client.post(
+            "/auth/login",
+            headers=API_HEADERS,
+            json={"email": "owner@example.com", "password": "securepass"},
+        )
+        assert login.status_code == 200
+        assert login.json()["token"] == jwt_token
+
+    headers = {**API_HEADERS, "Authorization": f"Bearer {jwt_token}"}
+    create = api_client.post(
+        "/drafts",
+        headers=headers,
+        json={
+            "title": f"Draft {item_type}",
+            "type": item_type,
+            "category_id": category_id,
+            "summary": "roundtrip",
+        },
+    )
+    assert create.status_code == 201
+    body = create.json()
+    assert body["type"] == item_type
+    assert body["id"]
+
+    listed = api_client.get("/board-items", headers=headers)
+    assert listed.status_code == 200
+    items = listed.json()
+    assert any(item["id"] == body["id"] and item["type"] == item_type for item in items)
+
+
+def test_cross_tenant_board_items_empty(
+    api_client,
+    category_id,
+    mock_jwks_keypair,
+    owner_id_a,
+    owner_id_b,
+) -> None:
+    token_a = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    token_b = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_b)
+    headers_a = {**API_HEADERS, "Authorization": f"Bearer {token_a}"}
+    headers_b = {**API_HEADERS, "Authorization": f"Bearer {token_b}"}
+
+    created = api_client.post(
+        "/drafts",
+        headers=headers_a,
+        json={
+            "title": "Tenant A draft",
+            "type": "note",
+            "category_id": category_id,
+            "summary": "secret",
+        },
+    )
+    assert created.status_code == 201
+
+    own_items = api_client.get("/board-items", headers=headers_a).json()
+    assert len(own_items) == 1
+
+    foreign_items = api_client.get("/board-items", headers=headers_b).json()
+    assert foreign_items == []

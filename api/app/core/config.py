@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/puzzlessbox"
+    BETTER_AUTH_BASE_URL: str = "http://localhost:3000/api/auth"
     BETTER_AUTH_JWKS_URL: str = "http://localhost:3000/api/auth/jwks"
     SERVICE_BEARER_TOKEN: str = "change-me-service-bearer"
     ENCRYPTION_KEY: str = "change-me-32-byte-encryption-key!!"
