@@ -18,7 +18,7 @@ concurrency:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
 
 jobs:
   analyze:
@@ -31,6 +31,13 @@ jobs:
       - uses: github/codeql-action/autobuild@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
       - uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
         with:
-          # Code Scanning (SARIF upload) requires GitHub Pro on private repos.
-          # Analysis still runs locally and fails the job on real findings.
+          # SARIF upload to Security tab needs GitHub Pro on private repos.
+          # Job still fails on findings; SARIF saved as workflow artifact instead.
           upload: false
+          output: sarif-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codeql-sarif
+          path: sarif-results
+          retention-days: 30
