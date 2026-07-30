@@ -15,6 +15,7 @@ from unittest.mock import patch
 import httpx
 import jwt as pyjwt
 import pytest
+from httpx import ASGITransport, AsyncClient
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from fastapi.testclient import TestClient
@@ -208,6 +209,25 @@ def api_client(mock_jwks_keypair: dict[str, Any]) -> Generator[TestClient, None,
 
     with patch("app.auth.jwt.get_jwks_client", return_value=_TestPyJWKClient()):
         yield TestClient(app)
+
+
+@pytest.fixture
+async def async_api_client(mock_jwks_keypair: dict[str, Any]) -> AsyncClient:
+    """Async HTTP client sharing the ASGI event loop (background asyncio tasks)."""
+
+    class _TestPyJWKClient:
+        def get_signing_key_from_jwt(self, token: str) -> Any:
+            private_key = serialization.load_pem_private_key(
+                mock_jwks_keypair["private_key"],
+                password=None,
+            )
+            public_key = private_key.public_key()
+            return type("SigningKey", (), {"key": public_key})()
+
+    with patch("app.auth.jwt.get_jwks_client", return_value=_TestPyJWKClient()):
+        transport = ASGITransport(app=app)
+        async with AsyncClient(transport=transport, base_url="http://test") as client:
+            yield client
 
 
 @pytest.fixture

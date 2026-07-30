@@ -19,6 +19,7 @@ from sqlmodel import Session
 from app.auth.jwt import get_db_for_owner
 from app.core.database import current_owner_id
 from app.models import BoardItem, DraftCreate, Event, ItemType, Link, Note, Task
+from app.services.timeout import timeout_manager
 
 router = APIRouter(tags=["capture"])
 
@@ -60,7 +61,7 @@ def _insert_draft(owner_id: str, payload: DraftCreate) -> tuple[Note | Link | Ta
 
 
 @router.post("/drafts", status_code=status.HTTP_201_CREATED)
-def create_draft(
+async def create_draft(
     payload: DraftCreate,
     db: Session = Depends(get_db_for_owner),
     idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
@@ -101,6 +102,7 @@ def create_draft(
         )
         db.commit()
 
+    timeout_manager.schedule_timeout(str(row.id), owner_id, item_type)
     return response_body
 
 
