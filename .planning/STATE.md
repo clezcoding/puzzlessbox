@@ -4,11 +4,11 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 02
 current_phase_name: MCP-Server
-status: "Phase 01 merged — ready for Phase 2"
-stopped_at: Phase 01 merged to main (PR #13); Camoufox DNS ops closed
-last_updated: "2026-07-31T01:20:00.000Z"
+status: Phase 01 merged — ready for Phase 2
+stopped_at: Phase 2 context gathered
+last_updated: "2026-07-31T01:47:28.773Z"
 progress:
-  total_phases: 6
+  total_phases: 3
   completed_phases: 2
   total_plans: 8
   completed_plans: 8
@@ -113,9 +113,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T01:20:00.000Z
-- **Stopped at:** Phase 01 merged; Camoufox in firecrawl compose; standalone stop queued
-- **Resume file:** none
+- **Last session:** 2026-07-31T01:47:28.761Z
+- **Stopped at:** Phase 2 context gathered
+- **Resume file:** .planning/phases/02-mcp-server/02-CONTEXT.md
 - **Next recommended action:** `/gsd-plan-phase 2`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
