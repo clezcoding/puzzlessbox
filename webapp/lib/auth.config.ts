@@ -30,6 +30,6 @@ export const authConfig = {
       },
     },
   },
-} as const;
+};
 
 export const auth = betterAuth(authConfig);

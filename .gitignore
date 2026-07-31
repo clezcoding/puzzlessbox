@@ -15,3 +15,5 @@ __pycache__/
 
 .planning/research/.cache/
 graphify-out/
+webapp/node_modules/
+webapp/.next/

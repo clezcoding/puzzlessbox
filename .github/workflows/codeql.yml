@@ -4,10 +4,16 @@ on:
   push:
     paths:
       - "brand/**"
+      - "api/**"
+      - "mcp-server/**"
+      - "webapp/**"
       - ".github/workflows/codeql.yml"
   pull_request:
     paths:
       - "brand/**"
+      - "api/**"
+      - "mcp-server/**"
+      - "webapp/**"
       - ".github/workflows/codeql.yml"
   schedule:
     - cron: "0 6 * * 1"

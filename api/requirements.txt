@@ -1,7 +1,7 @@
 fastapi==0.138.0
 sqlmodel==0.0.22
-pyjwt[crypto]==2.10.1
-cryptography==42.0.8
+pyjwt[crypto]==2.13.0
+cryptography==48.0.1
 httpx==0.28.1
 uvicorn==0.34.0
 alembic==1.13.3
