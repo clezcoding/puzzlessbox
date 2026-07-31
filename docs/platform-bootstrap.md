@@ -55,7 +55,11 @@ bash scripts/github-setup-repo-settings.sh
 | `ci` / `infra` / `security` | Triage |
 | `phase-0` … `phase-5` | GSD phase tracking |
 
-## Branch protection (`main`)
+## Branch ruleset (`main`)
+
+Classic branch-protection API is **disabled** on this repo (404). Enforcement via
+[repository ruleset](https://github.com/clezcoding/puzzlessbox/rules/20097559)
+(`scripts/github-setup-branch-protection.sh` creates/updates it).
 
 Required status checks (job / CodeQL default names):
 
@@ -70,7 +74,7 @@ Required status checks (job / CodeQL default names):
 | `Analyze (javascript-typescript)` | CodeQL default setup |
 | `Analyze (python)` | CodeQL default setup |
 
-Also: PR required, 1 approving review (Kodiak satisfies for bots), dismiss stale, no force-push, no deletions, conversation resolution, linear history, `enforce_admins`.
+Also: PR required (squash only), 0 approving reviews (solo; bump + Kodiak approve for multi-dev), dismiss stale, conversation resolution, linear history, no force-push, no deletions. Admin may bypass via PR (`RepositoryRole` id 5).
 
 ## CI Workflow (`ci.yml`)
 
