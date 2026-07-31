@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spike 004 — Capture-Bestätigung (CAP-02)</title>
+  <style>
+    :root {
+      --bg: #faf6f0;
+      --card: #fff;
+      --text: #2c2419;
+      --muted: #6b5e4f;
+      --accent: #c45c3e;
+      --border: #e8dfd3;
+      --radius: 12px;
+      font-family: system-ui, sans-serif;
+    }
+    body { background: var(--bg); color: var(--text); margin: 0; padding: 2rem; }
+    h1 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+    p.sub { color: var(--muted); margin-top: 0; }
+    .grid { display: grid; gap: 1.5rem; max-width: 720px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: 0 4px 24px rgba(44,36,25,.06);
+    }
+    .field { margin-bottom: 0.75rem; }
+    label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    input, select, textarea {
+      width: 100%; box-sizing: border-box; margin-top: 0.25rem;
+      padding: 0.5rem 0.65rem; border: 1px solid var(--border); border-radius: 8px;
+      font: inherit;
+    }
+    textarea { min-height: 4rem; resize: vertical; }
+    .preview {
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1rem 1rem 1.25rem;
+      background: #fff9f5;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    button {
+      border: none; border-radius: 8px; padding: 0.55rem 1rem; font: inherit; cursor: pointer;
+    }
+    .primary { background: var(--accent); color: #fff; }
+    .ghost { background: transparent; border: 1px solid var(--border); }
+    .hint { font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem; }
+    code { background: #f0ebe3; padding: 0.1rem 0.35rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <header>
+      <h1>Spike 004 — Bestätigungs-Payload</h1>
+      <p class="sub">CAP-02: Titel · Typ · Kategorie · Kurz-Zusammenfassung · Edit-Option (channel-agnostisch)</p>
+    </header>
+
+    <section class="card">
+      <h2 style="margin-top:0;font-size:1rem;">Draft-Felder (Edit)</h2>
+      <div class="field">
+        <label for="title">Titel</label>
+        <input id="title" value="Meeting mit Team" />
+      </div>
+      <div class="field">
+        <label for="type">Typ</label>
+        <select id="type">
+          <option value="note">Notiz</option>
+          <option value="task">Task</option>
+          <option value="link">Link</option>
+          <option value="event">Termin</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="category">Kategorie</label>
+        <input id="category" value="Inbox" />
+      </div>
+      <div class="field">
+        <label for="summary">Kurz-Zusammenfassung</label>
+        <textarea id="summary">Q3 Roadmap besprechen, Action Items sammeln.</textarea>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" id="render">Vorschau aktualisieren</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0;font-size:1rem;">Hermes / Telegram-Vorschau</h2>
+      <div class="preview" id="preview"></div>
+      <div class="actions">
+        <button type="button" class="primary" data-action="confirm">Eintrag sichern</button>
+        <button type="button" class="ghost" data-action="edit">Bearbeiten ✏️</button>
+        <button type="button" class="ghost" data-action="cancel">Verwerfen</button>
+      </div>
+      <p class="hint">
+        Plain-text contract: <code>format_confirmation(draft)</code> — keine Kanal-Markup-Pflicht.
+        Buttons sind Hermes-plugin Mapping (inline keyboard / slash).
+      </p>
+    </section>
+  </div>
+  <script>
+    const TYPE_LABELS = { note: "Notiz", task: "Task", link: "Link", event: "Termin" };
+
+    function formatConfirmation(d) {
+      return [
+        "📥 Stash-Check — passt das so?",
+        "",
+        `Titel: ${d.title}`,
+        `Typ: ${TYPE_LABELS[d.type] || d.type}`,
+        `Kategorie: ${d.category}`,
+        `Kurz: ${d.summary}`,
+        "",
+        "Antworte mit „Eintrag sichern“ oder tippe Bearbeiten.",
+        "(Auto-Save in 30s wenn du nichts tust — API-Timer, nicht Hermes-Cron.)",
+      ].join("\n");
+    }
+
+    function readDraft() {
+      return {
+        title: document.getElementById("title").value.trim(),
+        type: document.getElementById("type").value,
+        category: document.getElementById("category").value.trim(),
+        summary: document.getElementById("summary").value.trim(),
+      };
+    }
+
+    function render() {
+      document.getElementById("preview").textContent = formatConfirmation(readDraft());
+    }
+
+    document.getElementById("render").addEventListener("click", render);
+    ["title", "type", "category", "summary"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", render);
+      document.getElementById(id).addEventListener("change", render);
+    });
+    document.querySelectorAll("[data-action]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        alert(`Plugin action: ${btn.dataset.action}\n\n${formatConfirmation(readDraft())}`);
+      });
+    });
+    render();
+  </script>
+</body>
+</html>
