@@ -2,6 +2,8 @@
 .env
 api/.venv/
 mcp-server/.venv/
+__pycache__/
+*.pyc
 .cursor/*
 !.cursor/hooks/
 !.cursor/hooks/**
@@ -12,3 +14,6 @@ mcp-server/.venv/
 .planning/ui-reviews/
 
 .planning/research/.cache/
+graphify-out/
+webapp/node_modules/
+webapp/.next/

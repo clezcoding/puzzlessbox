@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 02
-current_phase_name: MCP-Server
-status: verifying
+current_phase: 3
+current_phase_name: Hermes-Plugin & Timeout-Spike
+status: "Phase 02 shipped — PR #15"
 stopped_at: Completed 02-04-PLAN.md
-last_updated: "2026-07-31T03:09:46.246Z"
+last_updated: "2026-07-31T03:26:28.315Z"
 progress:
   total_phases: 3
   completed_phases: 3
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 02 (MCP-Server) — VERIFYING (4/4 plans complete)
-- **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
-- **Plan:** 4 of 4
-- **Status:** Phase complete — ready for verification
+- **Phase:** 3 — Hermes-Plugin & Timeout-Spike
+- **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
+- **Plan:** Not started
+- **Status:** Phase 02 shipped — PR #15
 - **Progress Phase 1:** [██████████] 100%
 
 ```
