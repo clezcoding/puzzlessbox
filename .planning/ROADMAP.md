@@ -13,7 +13,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 
 - [x] **Phase 0: Branding & Design System** - Hallmark-Brandkit und Design-Tokens vor WebApp-Bau (completed 2026-07-29)
 - [x] **Phase 1: Datenmodell & Backend-API** - Postgres-Schema mit `owner_id`, FastAPI-CRUD, Better Auth, Link-Scraper, Google-Calendar-Sync (completed 2026-07-30)
-- [ ] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS
+- [x] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS (completed 2026-07-31)
 - [ ] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan
 - [ ] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige
 - [ ] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks
@@ -84,7 +84,7 @@ Plans:
   1. FastMCP-Server exponiert `create_item`, `list_categories`, `create_category`, `move_item`, `confirm_item`, `update_item` mit validierten Schemas und spricht die Backend-API als internen Client an
   2. Der MCP-Endpunkt ist nur über HTTPS mit gültigem Bearer-Token erreichbar; Anfragen ohne/mit falschem Token werden mit 401/403 abgewiesen
 
-**Plans**: 3/4 plans executed
+**Plans**: 4/4 plans executed
 Plans:
 **Wave 1**
 
@@ -93,7 +93,7 @@ Plans:
 **Wave 2** *(blocked on Wave 1)*
 
 - [x] 02-02-PLAN.md — API-Board-Endpunkte: GET/POST /categories + PATCH /items/{id} (Move)
-- [ ] 02-04-PLAN.md — Deploy: mcp-server/ Dockerfile + GHCR-Workflow (deploy-mcp.yml) + Coolify-App (D-20/D-23)
+- [x] 02-04-PLAN.md — Deploy: mcp-server/ Dockerfile + GHCR-Workflow (deploy-mcp.yml) + Coolify-App (D-20/D-23)
 
 **Wave 3** *(blocked on Wave 2)*
 
@@ -185,7 +185,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
 | 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
-| 2. MCP-Server | 3/4 | In Progress|  |
+| 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
 | 4. WebApp | 0/0 | Not started | - |
 | 5. Coolify-Deployment, CI/CD & Härtung | 0/0 | Not started | - |
