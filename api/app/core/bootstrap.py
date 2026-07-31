@@ -35,3 +35,33 @@ def ensure_service_principal(settings: Settings) -> None:
         )
         session.commit()
     logger.info("service_principal bootstrap ok for owner_id=%s", owner_id)
+
+
+def ensure_mcp_client(settings: Settings) -> None:
+    bootstrap_token = settings.MCP_BOOTSTRAP_TOKEN.strip()
+    owner_id = settings.SERVICE_OWNER_ID.strip()
+    if not bootstrap_token or not owner_id:
+        return
+
+    bearer_hash = hashlib.sha256(bootstrap_token.encode()).hexdigest()
+    with Session(get_engine()) as session:
+        count = session.execute(text("SELECT count(*) FROM mcp_clients")).scalar_one()
+        if count == 0:
+            session.execute(
+                text(
+                    """
+                    INSERT INTO mcp_clients (id, owner_id, bearer_hash, status, expires_at, created_at)
+                    VALUES (
+                        gen_random_uuid(),
+                        CAST(:owner_id AS uuid),
+                        :bearer_hash,
+                        'active',
+                        NULL,
+                        timezone('Europe/Berlin', now())
+                    )
+                    """
+                ),
+                {"owner_id": owner_id, "bearer_hash": bearer_hash},
+            )
+            session.commit()
+    logger.info("mcp_client bootstrap ok for owner_id=%s", owner_id)
