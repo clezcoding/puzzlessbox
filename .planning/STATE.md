@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: MCP-Server
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-07-31T02:52:50.011Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-07-31T02:58:40.771Z"
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 12
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # State: Puzzlessbox
@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 02 (MCP-Server) — EXECUTING
 - **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
-- **Plan:** 3 of 4
+- **Plan:** 4 of 4
 - **Status:** Ready to execute
 - **Progress Phase 1:** [██████████] 100%
 
@@ -72,6 +72,7 @@ progress:
 | Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
 | Phase 02-mcp-server P01 | 6 | 2 tasks | 27 files |
 | Phase 02-mcp-server P02 | 8min | 2 tasks | 3 files |
+| Phase 02 P03 | 12min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -115,8 +116,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T02:52:50.001Z
-- **Stopped at:** Completed 02-02-PLAN.md
+- **Last session:** 2026-07-31T02:58:40.761Z
+- **Stopped at:** Completed 02-03-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 2`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
@@ -151,3 +152,5 @@ progress:
 - [Phase ?]: mcp-server uvicorn 0.52.0 pinned — fastmcp 3.4.4 conflicts with api 0.34.0
 - [Phase ?]: CategoryCreate minimal (name only) — color/sort_order deferred to Phase 4
 - [Phase ?]: move_item UPDATE has no status filter — confirmed items movable per D-12
+- [Phase ?]: register_tools aggregates items + categories modules in app.tools
+- [Phase ?]: Schema reject tests use FunctionTool.run + fastmcp ValidationError
