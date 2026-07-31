@@ -31,8 +31,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### MCP & Hermes
 
-- [ ] **MCP-01**: Remote-MCP-Server (FastMCP) exponiert Tools: `create_item`, `list_categories`, `create_category`, `move_item`, `confirm_item`, `update_item`
-- [ ] **MCP-02**: MCP ist nur mit Bearer-Token über HTTPS erreichbar (separate Coolify-App)
+- [x] **MCP-01**: Remote-MCP-Server (FastMCP) exponiert Tools: `create_item`, `list_categories`, `create_category`, `move_item`, `confirm_item`, `update_item`
+- [x] **MCP-02**: MCP ist nur mit Bearer-Token über HTTPS erreichbar (separate Coolify-App)
 - [ ] **MCP-03**: Hermes-Plugin orchestriert Bestätigungs-Flow und ruft MCP-Tools auf
 - [ ] **MCP-04**: Vor Plan/Execute der Plugin-Phase existiert Spike zu Hermes Timing/Hooks (VALIDATED/INVALIDATED)
 
@@ -114,8 +114,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LINK-02 | Phase 1 | Complete |
 | CAL-02 | Phase 1 | Complete |
 | CAL-03 | Phase 1 | Complete |
-| MCP-01 | Phase 2 | Pending |
-| MCP-02 | Phase 2 | Pending |
+| MCP-01 | Phase 2 | Complete |
+| MCP-02 | Phase 2 | Complete |
 | CAP-02 | Phase 3 | Pending |
 | CAP-04 | Phase 3 | Pending |
 | MCP-03 | Phase 3 | Pending |

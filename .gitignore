@@ -1,6 +1,7 @@
 .DS_Store
 .env
 api/.venv/
+mcp-server/.venv/
 .cursor/*
 !.cursor/hooks/
 !.cursor/hooks/**

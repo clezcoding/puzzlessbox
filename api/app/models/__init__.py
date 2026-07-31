@@ -5,6 +5,7 @@ from app.models.enums import ItemStatus, ItemType
 from app.models.event import Event
 from app.models.link import Link
 from app.models.note import DraftCreate, DraftUpdate, Note
+from app.models.mcp_client import MCPClient
 from app.models.service_principal import ServicePrincipal
 from app.models.task import Task
 
@@ -18,6 +19,7 @@ __all__ = [
     "ItemStatus",
     "ItemType",
     "Link",
+    "MCPClient",
     "Note",
     "ServicePrincipal",
     "Task",

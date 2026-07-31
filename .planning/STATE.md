@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 02
 current_phase_name: MCP-Server
-status: "Phase 01 merged — ready for Phase 2"
-stopped_at: Phase 01 merged to main (PR #13); Camoufox DNS ops closed
-last_updated: "2026-07-31T01:20:00.000Z"
+status: executing
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-07-31T02:58:40.771Z"
 progress:
-  total_phases: 6
+  total_phases: 3
   completed_phases: 2
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 12
+  completed_plans: 11
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 02 (MCP-Server) — not started
+- **Phase:** 02 (MCP-Server) — EXECUTING
 - **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
-- **Plan:** Phase 1 = 6/6 complete; Phase 2 = 0 planned
-- **Status:** Phase 01 closed — next `/gsd-plan-phase 2`
+- **Plan:** 4 of 4
+- **Status:** Ready to execute
 - **Progress Phase 1:** [██████████] 100%
 
 ```
@@ -70,6 +70,9 @@ progress:
 | Phase 01-datenmodell-backend-api P04 | 25min | 3 tasks | 15 files |
 | Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
 | Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
+| Phase 02-mcp-server P01 | 6 | 2 tasks | 27 files |
+| Phase 02-mcp-server P02 | 8min | 2 tasks | 3 files |
+| Phase 02 P03 | 12min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -113,10 +116,11 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T01:20:00.000Z
-- **Stopped at:** Phase 01 merged; Camoufox in firecrawl compose; standalone stop queued
-- **Resume file:** none
-- **Next recommended action:** `/gsd-plan-phase 2`
+- **Last session:** 2026-07-31T02:58:40.761Z
+- **Stopped at:** Completed 02-03-PLAN.md
+- **Resume file:** None
+- **Next recommended action:** `/gsd-execute-phase 2`
+- **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
@@ -144,3 +148,9 @@ progress:
 - [Phase ?]: Scraper stack internal-only on shared Docker network; API SCRAPER_ENABLED gates /ready ping
 - [Phase ?]: Firecrawl /ready uses /v0/health/liveness; workers split for Coolify healthchecks
 - [Phase ?]: Scraper stack internal-only on shared Docker network; SCRAPER_ENABLED gates /ready ping
+- [Phase ?]: mcp-server factory.py split from server.py for testable build_mcp_stack import
+- [Phase ?]: mcp-server uvicorn 0.52.0 pinned — fastmcp 3.4.4 conflicts with api 0.34.0
+- [Phase ?]: CategoryCreate minimal (name only) — color/sort_order deferred to Phase 4
+- [Phase ?]: move_item UPDATE has no status filter — confirmed items movable per D-12
+- [Phase ?]: register_tools aggregates items + categories modules in app.tools
+- [Phase ?]: Schema reject tests use FunctionTool.run + fastmcp ValidationError

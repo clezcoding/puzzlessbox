@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     BETTER_AUTH_JWKS_URL: str = "http://localhost:3000/api/auth/jwks"
     SERVICE_BEARER_TOKEN: str = "change-me-service-bearer"
     SERVICE_OWNER_ID: str = ""  # ponytail: bootstrap MCP principal when set
+    MCP_BOOTSTRAP_TOKEN: str = ""
     ENCRYPTION_KEY: str = "change-me-32-byte-encryption-key!!"
     GOOGLE_CLIENT_ID: str = ""
     GOOGLE_CLIENT_SECRET: str = ""

@@ -10,6 +10,7 @@ This setup targets **GitHub Free on a personal private repository** — no paid 
 |---------|--------------|-----------|
 | GitHub Actions CI | Yes | `ci.yml`, `codeql.yml` |
 | Renovate (github-actions) | Yes | `renovate.json` |
+| Dependabot (github-actions) | Yes | `.github/dependabot.yml` |
 | Kodiak auto-merge | Yes (personal private) | `.kodiak.toml` + app install |
 | Branch protection (required checks) | **No** | Not enforced — upgrade to Pro or stay manual |
 | Code Scanning (SARIF UI) | **No** | CodeQL CLI + SARIF workflow artifact |
@@ -21,17 +22,25 @@ This setup targets **GitHub Free on a personal private repository** — no paid 
 - Merge method: **squash only** (matches Kodiak)
 - `squash_merge_allowed: true`, `merge_commit_allowed: false`, `rebase_merge_allowed: false`
 
-## Renovate GitHub App
+## Dependency bots (Renovate + Dependabot)
 
-Renovate opens dependency update PRs (github-actions today; extend when lockfiles land). Config at `renovate.json` (repo root).
+Both target **github-actions** weekly (Monday 06:00 Europe/Berlin), label `dependencies`, minor/patch grouped. Kodiak auto-merges after CI — neither bot automerges on its own.
+
+### Renovate
+
+Config: `renovate.json` (repo root).
 
 1. Install: https://github.com/apps/renovate
 2. Grant access to `clezcoding/puzzlessbox`
 3. Without the app, `renovate.json` has no effect
 
-**Manual run:** open the **Dependency Dashboard** issue (checkbox at bottom) or push to `main`.
+**Manual run:** Dependency Dashboard issue or push to `main`.
 
-Renovate does **not** automerge — Kodiak handles squash merge after CI passes.
+### Dependabot
+
+Config: `.github/dependabot.yml` (native GitHub — no extra app).
+
+Enable in repo **Settings → Code security → Dependabot** (version updates). Runs on GitHub-hosted schedule; no dashboard issue.
 
 ## Kodiak GitHub App
 
@@ -41,7 +50,7 @@ Kodiak auto-merges Renovate PRs that pass CI. Config at `.kodiak.toml` (repo roo
 2. Grant access to `clezcoding/puzzlessbox`
 3. Without the app, `.kodiak.toml` has no effect
 
-Kodiak auto-approves PRs from username `renovate` (not `renovate[bot]`).
+Kodiak auto-approves PRs from `renovate`, `dependabot`, and `dependabot[bot]`.
 
 ## Labels
 

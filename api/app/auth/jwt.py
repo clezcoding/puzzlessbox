@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import uuid
 from collections.abc import Generator
 from functools import lru_cache
 
@@ -18,6 +19,7 @@ from app.core.database import get_db, get_engine, set_request_owner
 
 SESSION_COOKIE = "puzzlessbox_session"
 SERVICE_BEARER_HEADER = "X-Service-Bearer"
+OWNER_ID_HEADER = "X-Owner-Id"
 _bearer = HTTPBearer(auto_error=False)
 
 
@@ -87,6 +89,29 @@ def _resolve_service_owner(service_bearer: str) -> str:
     return str(owner_id)
 
 
+def _validate_owner_header(owner_id_header: str) -> str:
+    try:
+        uuid.UUID(owner_id_header)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"code": "FORBIDDEN", "message": "Invalid owner id format."},
+        ) from exc
+
+    with Session(get_engine()) as session:
+        exists = session.execute(
+            text('SELECT 1 FROM "user" WHERE id = CAST(:oid AS uuid) LIMIT 1'),
+            {"oid": owner_id_header},
+        ).scalar_one_or_none()
+
+    if not exists:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"code": "FORBIDDEN", "message": "Owner not provisioned."},
+        )
+    return owner_id_header
+
+
 async def get_current_owner(
     request: Request,
     credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
@@ -94,6 +119,9 @@ async def get_current_owner(
     service_bearer = request.headers.get(SERVICE_BEARER_HEADER)
     if service_bearer:
         owner_id = _resolve_service_owner(service_bearer)
+        owner_id_header = request.headers.get(OWNER_ID_HEADER)
+        if owner_id_header:
+            owner_id = _validate_owner_header(owner_id_header)
         set_request_owner(owner_id)
         return owner_id
 
