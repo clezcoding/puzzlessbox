@@ -9,7 +9,7 @@ source:
   - 01-05-SUMMARY.md
   - 01-06-SUMMARY.md
 started: 2026-07-31T00:48:00.000Z
-updated: 2026-07-31T00:50:00.000Z
+updated: 2026-07-31T01:02:00.000Z
 mode: automated
 ---
 
@@ -23,13 +23,13 @@ mode: automated
 expected: Alle API-Tests grün gegen lokales Postgres (Alembic + RLS + Integration)
 result: pass
 source: automated
-evidence: `cd api && DATABASE_URL=postgresql+psycopg2://puzzless@localhost:5432/puzzlessbox .venv/bin/pytest tests/ -q` → 45 passed
+evidence: `DATABASE_URL=postgresql+psycopg2://puzzless@localhost:5432/puzzlessbox .venv/bin/pytest tests/ -q` → 45 passed (2026-07-31T01:01Z)
 
 ### 2. Prod /health und /ready
 expected: `https://api.puzzlesstool.online/health` → 200 ok; `/ready` → `{"status":"ready"}` mit SCRAPER_ENABLED=true
 result: pass
 source: automated
-evidence: curl 2026-07-31 — health ok, ready ready
+evidence: health 200; ready 200 `{"status":"ready"}` after CAMOUFOX_URL=http://fvcvmku7pt1ehl1r6oi6erwd-005606252626:8080
 
 ### 3. Coverage — FastAPI Shell + Versioning (01-01)
 expected: /health, /ready, Accept-Header 415
@@ -69,30 +69,35 @@ coverage_id: D1-D3
 
 ### 9. Prod POST /links mit X-Service-Bearer
 expected: 201 mit title, scrape_status, category_id (Links)
-result: blocked
-blocked_by: release-build
-reason: "Service principal not configured — bootstrap code (SERVICE_OWNER_ID + lifespan) lokal, noch nicht auf Coolify deployed. Env SERVICE_OWNER_ID gesetzt (Coolify h543w6089i9metyf4aca3qo4). Braucht commit+push+deploy."
+result: pass
+source: automated
+evidence: HTTP 201 `title=Example Domain` `scrape_status=ok` id=3030310c-98ef-413b-a347-000ef26394ae after deploy 7d50346 + SERVICE_OWNER_ID bootstrap
 
 ### 10. Google Calendar OAuth Browser-UAT
 expected: Browser-Flow connect → callback → GET /calendars
-result: blocked
-blocked_by: prior-phase
-reason: "Webapp (app.puzzlesstool.online) nicht erreichbar / nicht deployed; Google Console Redirect-URI UAT ausstehend"
+result: skipped
+reason: "Deferred follow-up: Webapp nicht deployed; GET /auth/google/connect returns 302 with service bearer (API-side connect redirect OK). Full browser UAT needs app.puzzlesstool.online + Google Console."
 
 ### 11. Cookie-only Session nach Login
 expected: Login-Set-Cookie, Folge-Request ohne Bearer → 200
 result: pass
 source: automated
-note: Verhalten in Code + test_login_persists_session (Set-Cookie); Follow-up-Replay als human_needed in 01-VERIFICATION.md dokumentiert
+evidence: `test_cookie_session_replays_on_verify` — cookie replay on GET /auth/verify
+
+### 12. Prod Google OAuth connect redirect
+expected: Authenticated GET /auth/google/connect redirects (302) to Google
+result: pass
+source: automated
+evidence: HTTP 302 with X-Service-Bearer
 
 ## Summary
 
-total: 11
-passed: 8
+total: 12
+passed: 11
 issues: 0
 pending: 0
-skipped: 0
-blocked: 2
+skipped: 1
+blocked: 0
 
 ## Gaps
 
@@ -101,13 +106,12 @@ blocked: 2
 ## Deferred Follow-Ups
 
 - test: 10
-  idea: "Google Cloud Console redirect URI + Calendar API aktivieren wenn Webapp live"
+  idea: "Google Cloud Console redirect URI + Calendar API + Webapp UI when Phase 4 ships"
   deferred_at: 2026-07-31
 
 ## Ops Completed This Session
 
-- `docker-compose.scraper.yml`: camoufox service embedded (stable DNS `http://camoufox:8080`)
-- Coolify API `CAMOUFOX_URL` → `http://camoufox:8080` (updated)
-- Coolify API `SERVICE_OWNER_ID` → `00000000-0000-4000-8000-000000000001` (created)
-- API restart queued (deployment qez2829zplde6lyhajktnf4t)
-- `api/app/core/bootstrap.py` + lifespan: idempotent service_principal INSERT on startup
+- Commit `7d50346` pushed; Coolify deploy `paj08ifk828x6h6oro0mwmpw` finished
+- SERVICE_OWNER_ID bootstrap works in prod
+- CAMOUFOX_URL set to live container hostname (alias still fragile across redeploys)
+- docker-compose.scraper.yml includes camoufox service for future stack embed

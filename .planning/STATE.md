@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
-status: verified_pending_deploy
-stopped_at: Phase 01 verified — prod smoke pending API deploy with bootstrap
-last_updated: "2026-07-31T00:50:00.000Z"
+status: verified
+stopped_at: Phase 01 UAT+SECURITY+VALIDATION complete — ready for Phase 2
+last_updated: "2026-07-31T01:06:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 2
@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 01 (Datenmodell & Backend-API) — COMPLETE
 - **Plan:** 6 of 6 (all complete)
-- **Status:** Phase 1 complete
+- **Status:** Phase 1 complete — Nyquist `01-VALIDATION.md` PASS (`nyquist_compliant: true`)
 - **Progress:** [██████████] 100% execution
 
 ```
@@ -112,10 +112,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T00:50:00.000Z
-- **Stopped at:** Phase 01 UAT complete (automated); prod POST /links blocked until bootstrap deploy
-- **Resume file:** none (HANDOFF cleared)
-- **Next recommended action:** commit+push bootstrap + `/gsd-plan-phase 2`
+- **Last session:** 2026-07-31T01:06:00.000Z
+- **Stopped at:** Phase 01 verified (automated UAT, SECURITY, VALIDATION, prod smoke)
+- **Resume file:** none
+- **Next recommended action:** `/gsd-plan-phase 2`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---

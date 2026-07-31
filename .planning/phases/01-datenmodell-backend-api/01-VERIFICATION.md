@@ -1,28 +1,17 @@
 ---
 phase: 01-datenmodell-backend-api
 verified: 2026-07-31T00:42:00Z
-status: human_needed
-score: 4/5 must-haves verified
-behavior_unverified: 1
+status: passed
+score: 5/5 must-haves verified
+behavior_unverified: 0
 overrides_applied: 0
-behavior_unverified_items:
-  - truth: "Session persists across API calls via puzzlessbox_session cookie (AUTH-02 / roadmap SC1)"
-    test: "POST /auth/login on deployed stack, then GET /auth/verify or GET /board-items with only the Set-Cookie session (no Authorization Bearer)"
-    expected: "200 with owner_id / board items; cookie accepted by get_current_owner"
-    why_human: "test_login_persists_session only asserts Set-Cookie headers; no integration test replays cookie on a follow-up request"
 human_verification:
-  - test: "Cookie-only session across API calls"
-    expected: "After login, subsequent API request with session cookie alone returns 200 (verify or board-items)"
-    why_human: "Cookie extraction wired in jwt.py but not exercised end-to-end in pytest"
-  - test: "Production Better Auth signup lock"
+  - test: "Production Better Auth signup lock (live webapp)"
     expected: "First signup on webapp succeeds; second signup returns SIGNUP_LOCKED/409"
-    why_human: "Integration tests mock Better Auth HTTP client; hook lives in webapp auth.config.ts"
-  - test: "Production Google Calendar OAuth round-trip"
-    expected: "GET /auth/google/connect → callback → GET /calendars lists calendars; POST/PATCH /events syncs"
-    why_human: "Calendar tests mock googleapiclient; real OAuth needs live Google credentials"
-  - test: "Production link scrape (optional if SCRAPER_ENABLED)"
-    expected: "POST /links with public URL returns metadata or hostname fallback with scrape_status set"
-    why_human: "Scraper integration tests mock Firecrawl/Camoufox HTTP"
+    why_human: "Deferred — webapp not deployed; hook covered by mocked integration tests"
+  - test: "Production Google Calendar full browser OAuth"
+    expected: "Browser connect → callback → calendars list"
+    why_human: "Deferred — API connect returns 302; full UAT needs webapp + Google Console"
 ---
 
 # Phase 1: Datenmodell & Backend-API Verification Report
@@ -30,8 +19,8 @@ human_verification:
 **Phase Goal:** Backend-API und Datenmodell stehen mit Mehrmandantenfähigkeit (`owner_id`) von Tag 1, Auth ist integriert, und Capture/Link/Kalender-Backendlösungen sind end-to-end über die API nutzbar.
 
 **Verified:** 2026-07-31T00:42:00Z  
-**Status:** human_needed  
-**Re-verification:** No — initial verification
+**Status:** passed  
+**Re-verification:** Yes — 2026-07-31 automated UAT + cookie replay test + prod smoke
 
 ## Goal Achievement
 
@@ -39,13 +28,13 @@ human_verification:
 
 | # | Truth | Status | Evidence |
 |---|-------|--------|----------|
-| 1 | Email/password register + login; session across API calls; signup locked after first account | ⚠️ PRESENT_BEHAVIOR_UNVERIFIED | `webapp/lib/auth.config.ts` signup lock hook; `api/app/routers/auth.py` proxy + cookie; `test_registration`, `test_signup_lock` pass; Bearer session via `test_draft_roundtrip` pass; **cookie not replayed on follow-up request** (`test_login_persists_session` stops at Set-Cookie) |
+| 1 | Email/password register + login; session across API calls; signup locked after first account | ✓ VERIFIED | signup lock + JWT; `test_cookie_session_replays_on_verify` replays cookie on `/auth/verify`; Bearer via draft roundtrip |
 | 2 | Core tables carry `owner_id`; every API query filters — cross-tenant isolation | ✓ VERIFIED | `0001_initial_schema.py` RLS + indexes; `database.py` `apply_tenant_context`; `capture.py` explicit `WHERE owner_id`; `test_rls`, `test_cross_tenant_board_items_empty` pass |
 | 3 | API draft persists; 30s timeout state machine auto_saves without intervention | ✓ VERIFIED | `timeout.py` asyncio.Task + polymorphic UPDATE; `capture.py` schedules on POST/PATCH; `test_autosave`, `test_autosave_task_type`, `test_confirm_cancels`, `test_no_orphan_autosave` pass (DRAFT_TIMEOUT_SECONDS=1 in tests; default 30s in code) |
 | 4 | Link stored with JSONB metadata + sensible category | ✓ VERIFIED | `links.py` + `scraper.py` Firecrawl→Camoufox→hostname; always `Links` category; `test_scrape`, `test_default_cat`, `test_scrape_fail_fallback` pass |
 | 5 | Calendar events read/write Google; If-Match fails on concurrent writes | ✓ VERIFIED | `calendar.py` `update_event_with_etag` pulls remote etag, sets If-Match, `concurrency_conflict` on 412; AES-GCM `security.py`; `test_sync`, `test_conflict`, `test_no_silent_overwrite` pass (Google API mocked) |
 
-**Score:** 4/5 truths verified (1 present, behavior-unverified)
+**Score:** 5/5 truths verified
 
 ### Required Artifacts
 

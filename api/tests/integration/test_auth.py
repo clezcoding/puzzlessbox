@@ -101,3 +101,24 @@ def test_login_persists_session(api_client, mock_jwks_keypair, owner_id_a) -> No
     assert SESSION_COOKIE in cookie_header
     assert "domain=.puzzlesstool.online" in cookie_header.lower()
     assert "httponly" in cookie_header.lower()
+
+
+def test_cookie_session_replays_on_verify(api_client, mock_jwks_keypair, owner_id_a) -> None:
+    """AUTH-02: session cookie alone authenticates follow-up request (no Authorization)."""
+    jwt_token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
+    mock_client = _mock_better_auth_client(jwt_token, owner_id_a)
+
+    with patch("app.routers.auth.httpx.AsyncClient", return_value=mock_client):
+        login = api_client.post(
+            "/auth/login",
+            headers=API_HEADERS,
+            json={"email": "owner@example.com", "password": "securepass"},
+        )
+    assert login.status_code == 200
+
+    # Domain=.puzzlesstool.online is not jarred for TestClient host — set cookie on client.
+    api_client.cookies.set(SESSION_COOKIE, jwt_token)
+    verify = api_client.get("/auth/verify", headers=API_HEADERS)  # Accept only; no Authorization
+    assert verify.status_code == 200
+    assert verify.json()["owner_id"] == owner_id_a
+    assert "Authorization" not in verify.request.headers
