@@ -84,7 +84,7 @@ Plans:
   1. FastMCP-Server exponiert `create_item`, `list_categories`, `create_category`, `move_item`, `confirm_item`, `update_item` mit validierten Schemas und spricht die Backend-API als internen Client an
   2. Der MCP-Endpunkt ist nur über HTTPS mit gültigem Bearer-Token erreichbar; Anfragen ohne/mit falschem Token werden mit 401/403 abgewiesen
 
-**Plans**: 1/4 plans executed
+**Plans**: 2/4 plans executed
 Plans:
 **Wave 1**
 
@@ -92,7 +92,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 02-02-PLAN.md — API-Board-Endpunkte: GET/POST /categories + PATCH /items/{id} (Move)
+- [x] 02-02-PLAN.md — API-Board-Endpunkte: GET/POST /categories + PATCH /items/{id} (Move)
 - [ ] 02-04-PLAN.md — Deploy: mcp-server/ Dockerfile + GHCR-Workflow (deploy-mcp.yml) + Coolify-App (D-20/D-23)
 
 **Wave 3** *(blocked on Wave 2)*
@@ -185,7 +185,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
 | 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
-| 2. MCP-Server | 1/4 | In Progress|  |
+| 2. MCP-Server | 2/4 | In Progress|  |
 | 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
 | 4. WebApp | 0/0 | Not started | - |
 | 5. Coolify-Deployment, CI/CD & Härtung | 0/0 | Not started | - |
