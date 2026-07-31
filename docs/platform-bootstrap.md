@@ -118,6 +118,8 @@ All commands use context `hostunlimited`:
 | Project | Puzzlessbox | `nlm9h0u5lh2rnf2fg10vuf16` |
 | Environment | production | `e14kngyecvqrv2dt73iu7eg3` |
 | Database | puzzlessbox-db | `pfqgb5pcvgi9oh64bpe3shtn` |
+| Application | puzzlessbox-api | `dxoflgio67786lc4yilhce43` |
+| Application | puzzlessbox-mcp | `n5frtiupale5c2zjm9fyk1qc` |
 
 - **Image:** `postgres:18-alpine`
 - **Internal only:** `is_public: false`

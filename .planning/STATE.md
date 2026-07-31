@@ -30,7 +30,7 @@ progress:
 ## Current Position
 
 - **Phase:** 3 — Hermes-Plugin & Timeout-Spike
-- **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
+- **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
 - **Plan:** Not started
 - **Status:** Phase 02 shipped — PR #15
 - **Progress Phase 1:** [██████████] 100%

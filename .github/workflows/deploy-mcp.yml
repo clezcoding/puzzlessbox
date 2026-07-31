@@ -44,4 +44,6 @@ jobs:
 
       - name: Trigger Coolify deploy
         if: success()
-        run: curl -fsSL -X POST "${{ secrets.COOLIFY_MCP_WEBHOOK }}"
+        run: |
+          curl -fsSL -X POST "${{ secrets.COOLIFY_MCP_WEBHOOK }}" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"

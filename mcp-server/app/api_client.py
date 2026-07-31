@@ -25,7 +25,10 @@ def make_client(
 
 
 async def resolve_owner(client: httpx.AsyncClient, bearer_hash: str) -> str | None:
-    response = await client.post("/internal/mcp-auth", json={"bearer_hash": bearer_hash})
+    try:
+        response = await client.post("/internal/mcp-auth", json={"bearer_hash": bearer_hash})
+    except httpx.RequestError:
+        return None
     if response.status_code != 200:
         return None
     data = response.json()

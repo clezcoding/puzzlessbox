@@ -30,6 +30,20 @@ async def test_invalid_bearer_401(mcp_stack) -> None:
 
 
 @pytest.mark.asyncio
+async def test_invalid_bearer_401_when_api_unreachable(mcp_stack, monkeypatch) -> None:
+    http_app, _mcp, client = mcp_stack
+
+    async def _boom(*_args, **_kwargs):
+        raise httpx.ConnectError("dns fail", request=httpx.Request("POST", "http://bad"))
+
+    monkeypatch.setattr(client, "post", _boom)
+    transport = ASGITransport(app=http_app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as http:
+        response = await http.post("/mcp", headers={"Authorization": "Bearer bad-token"})
+    assert response.status_code == 401
+
+
+@pytest.mark.asyncio
 async def test_owner_reject(mcp_stack, mock_api_state) -> None:
     mock_api_state["auth_reject"] = True
     http_app, _mcp, _client = mcp_stack
