@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 02
 current_phase_name: MCP-Server
-status: Phase 2 planned — pre-execute prep complete, ready for execute
-stopped_at: Phase 2 pre-execute prep complete
-last_updated: "2026-07-31T02:40:00.000Z"
+status: executing
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-07-31T02:50:01.379Z"
 progress:
-  total_phases: 6
+  total_phases: 3
   completed_phases: 2
   total_plans: 12
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 02 (MCP-Server) — planned, pre-execute prep done
+- **Phase:** 02 (MCP-Server) — EXECUTING
 - **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
-- **Plan:** Phase 1 = 6/6 complete; Phase 2 = 4 plans ready (0 executed)
-- **Status:** Research/Validation/Deploy-Spec closed — next `/gsd-execute-phase 2`
+- **Plan:** 2 of 4
+- **Status:** Ready to execute
 - **Progress Phase 1:** [██████████] 100%
 
 ```
@@ -70,6 +70,7 @@ progress:
 | Phase 01-datenmodell-backend-api P04 | 25min | 3 tasks | 15 files |
 | Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
 | Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
+| Phase 02-mcp-server P01 | 6 | 2 tasks | 27 files |
 
 ## Accumulated Context
 
@@ -113,9 +114,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T02:40:00.000Z
-- **Stopped at:** Phase 2 pre-execute prep complete
-- **Resume file:** .planning/phases/02-mcp-server/02-01-PLAN.md (Wave 1 tracer)
+- **Last session:** 2026-07-31T02:50:01.370Z
+- **Stopped at:** Completed 02-01-PLAN.md
+- **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 2`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
@@ -145,3 +146,5 @@ progress:
 - [Phase ?]: Scraper stack internal-only on shared Docker network; API SCRAPER_ENABLED gates /ready ping
 - [Phase ?]: Firecrawl /ready uses /v0/health/liveness; workers split for Coolify healthchecks
 - [Phase ?]: Scraper stack internal-only on shared Docker network; SCRAPER_ENABLED gates /ready ping
+- [Phase ?]: mcp-server factory.py split from server.py for testable build_mcp_stack import
+- [Phase ?]: mcp-server uvicorn 0.52.0 pinned — fastmcp 3.4.4 conflicts with api 0.34.0
