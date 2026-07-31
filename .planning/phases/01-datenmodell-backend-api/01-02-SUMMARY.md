@@ -128,7 +128,7 @@ status: complete
 2. **Task 2: Tests (TDD RED)** - `f3d1a3e` (test)
 3. **Task 2: PATCH reset + confirm cancel** - `498838c` (feat)
 
-**Plan metadata:** pending (docs commit)
+**Plan metadata:** complete (shipped in PR #13)
 
 ## Files Created/Modified
 

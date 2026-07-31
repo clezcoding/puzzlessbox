@@ -149,7 +149,7 @@ status: complete
 3. **Task 2: Service bearer + idempotency** - `0eb6d5d` (feat)
 4. **RLS test isolation fix** - `1ecce13` (fix)
 
-**Plan metadata:** pending final docs commit
+**Plan metadata:** `805b46c` (docs: complete plan)
 
 ## Files Created/Modified
 

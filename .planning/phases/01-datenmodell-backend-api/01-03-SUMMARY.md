@@ -149,7 +149,7 @@ status: complete
 3. **Deploy compose expansion** - `ef2f2a3` (feat)
 4. **Deploy fix: liveness path + split workers** - `c1feb85` (fix)
 
-**Plan metadata:** pending (docs commit)
+**Plan metadata:** complete (shipped in PR #13)
 
 ## Checkpoint (Task 3) — Approved
 

@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 01
-current_phase_name: Datenmodell & Backend-API
-status: "Phase 01 shipped — PR #13"
-stopped_at: Phase 01 UAT+SECURITY+VALIDATION complete — ready for Phase 2
-last_updated: "2026-07-31T01:15:16.065Z"
+current_phase: 02
+current_phase_name: MCP-Server
+status: "Phase 01 merged — ready for Phase 2"
+stopped_at: Phase 01 merged to main (PR #13); Camoufox DNS ops closed
+last_updated: "2026-07-31T01:20:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 2
@@ -16,7 +16,7 @@ progress:
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-07-30 (Phase 1 planned — 6 plans, 4 waves)
+**Last updated:** 2026-07-31 (Phase 1 merged via PR #13)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -29,13 +29,14 @@ progress:
 
 ## Current Position
 
-- **Phase:** 01 (Datenmodell & Backend-API) — COMPLETE
-- **Plan:** 6 of 6 (all complete)
-- **Status:** Phase 01 shipped — PR #13
-- **Progress:** [██████████] 100% execution
+- **Phase:** 02 (MCP-Server) — not started
+- **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
+- **Plan:** Phase 1 = 6/6 complete; Phase 2 = 0 planned
+- **Status:** Phase 01 closed — next `/gsd-plan-phase 2`
+- **Progress Phase 1:** [██████████] 100%
 
 ```
-[0/6] ░░░░░░░░░░░░░░░░░░░░  0%
+[2/6] ██████░░░░░░░░░░░░░░  33% phases
 ```
 
 ## Phase Plan
@@ -112,10 +113,11 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T01:06:00.000Z
-- **Stopped at:** Phase 01 verified (automated UAT, SECURITY, VALIDATION, prod smoke)
+- **Last session:** 2026-07-31T01:20:00.000Z
+- **Stopped at:** Phase 01 merged; Camoufox in firecrawl compose; standalone stop queued
 - **Resume file:** none
 - **Next recommended action:** `/gsd-plan-phase 2`
+- **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---

@@ -135,7 +135,7 @@ status: complete
 
 **Supporting deploy fixes:** `d58e5c3` (alembic in Docker + migrate on start), `07e98d0` (curl for healthchecks)
 
-**Plan metadata:** pending (docs commit)
+**Plan metadata:** complete (shipped in PR #13)
 
 ## Checkpoint (Task 3) — Approved
 
@@ -189,7 +189,7 @@ Google Cloud Console (completed per checkpoint):
 
 - Calendar API endpoints ready for Phase 4 Settings UI (connect button, calendar picker)
 - Manual OAuth UAT after `app.puzzlesstool.online` webapp deploy
-- Phase 1 remaining: Plan 03 (link scrape) summary pending
+- Phase 1 complete: Plan 03 link scrape shipped in PR #13
 
 ---
 *Phase: 01-datenmodell-backend-api*

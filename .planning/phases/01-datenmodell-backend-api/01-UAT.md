@@ -114,5 +114,7 @@ blocked: 0
 
 - Commit `7d50346` pushed; Coolify deploy `paj08ifk828x6h6oro0mwmpw` finished
 - SERVICE_OWNER_ID bootstrap works in prod
-- CAMOUFOX_URL set to live container hostname (alias still fragile across redeploys)
-- docker-compose.scraper.yml includes camoufox service for future stack embed
+- Camoufox embedded in Coolify firecrawl compose → stable `CAMOUFOX_URL=http://camoufox-rmj3pan623pikht2yqq2efsd:8080`
+- Standalone Camoufox app `fvcvmku7pt1ehl1r6oi6erwd` stopped (DNS no longer depends on ephemeral hostname)
+- `/ready` prod smoke: 200 after embed + URL cutover
+- PR #13 merged to `main` (`890703e`)
