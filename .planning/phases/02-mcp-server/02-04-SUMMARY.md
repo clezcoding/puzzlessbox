@@ -108,7 +108,7 @@ status: complete
 1. **Task 1: Dockerfile + GHCR-Deploy-Workflow + Coolify-Wiring** — `8958f72` (feat, via PR #14) + `cfdfb19` (fix: Coolify webhook bearer auth)
 2. **Task 2: Deploy-Verifikation (Health + TLS + Auth)** — docs-only (this commit)
 
-**Plan metadata:** pending (docs commit)
+**Plan metadata:** `7cfcdeb` (docs: complete plan)
 
 ## Live Verification Evidence
 
