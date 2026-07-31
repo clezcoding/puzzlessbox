@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 02
 current_phase_name: MCP-Server
-status: executing
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-07-31T02:58:40.771Z"
+status: verifying
+stopped_at: Completed 02-04-PLAN.md
+last_updated: "2026-07-31T03:09:46.246Z"
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 02 (MCP-Server) — EXECUTING
+- **Phase:** 02 (MCP-Server) — VERIFYING (4/4 plans complete)
 - **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
 - **Plan:** 4 of 4
-- **Status:** Ready to execute
+- **Status:** Phase complete — ready for verification
 - **Progress Phase 1:** [██████████] 100%
 
 ```
@@ -45,7 +45,7 @@ progress:
 |-------|-------------|--------------|--------|
 | 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
-| 2 | MCP-Server | MCP-01, MCP-02 | Not started |
+| 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
@@ -73,6 +73,7 @@ progress:
 | Phase 02-mcp-server P01 | 6 | 2 tasks | 27 files |
 | Phase 02-mcp-server P02 | 8min | 2 tasks | 3 files |
 | Phase 02 P03 | 12min | 2 tasks | 7 files |
+| Phase 02-mcp-server P04 | 20min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -116,8 +117,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T02:58:40.761Z
-- **Stopped at:** Completed 02-03-PLAN.md
+- **Last session:** 2026-07-31T03:09:46.235Z
+- **Stopped at:** Completed 02-04-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 2`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
@@ -154,3 +155,5 @@ progress:
 - [Phase ?]: move_item UPDATE has no status filter — confirmed items movable per D-12
 - [Phase ?]: register_tools aggregates items + categories modules in app.tools
 - [Phase ?]: Schema reject tests use FunctionTool.run + fastmcp ValidationError
+- [Phase ?]: D-23 separate MCP Coolify Docker-Image-App at mcp.puzzlesstool.online — GHCR deploy-mcp.yml on main
+- [Phase ?]: Coolify MCP webhook uses API bearer auth (cfdfb19)
