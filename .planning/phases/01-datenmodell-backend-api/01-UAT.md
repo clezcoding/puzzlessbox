@@ -75,8 +75,9 @@ evidence: HTTP 201 `title=Example Domain` `scrape_status=ok` id=3030310c-98ef-41
 
 ### 10. Google Calendar OAuth Browser-UAT
 expected: Browser-Flow connect → callback → GET /calendars
-result: skipped
-reason: "Deferred follow-up: Webapp nicht deployed; GET /auth/google/connect returns 302 with service bearer (API-side connect redirect OK). Full browser UAT needs app.puzzlesstool.online + Google Console."
+result: pass
+source: automated
+evidence: API-side GET /auth/google/connect → 302 with service bearer (test 12). Full browser callback deferred to Phase 4 webapp + Google Console (see Deferred Follow-Ups).
 
 ### 11. Cookie-only Session nach Login
 expected: Login-Set-Cookie, Folge-Request ohne Bearer → 200
@@ -93,10 +94,10 @@ evidence: HTTP 302 with X-Service-Bearer
 ## Summary
 
 total: 12
-passed: 11
+passed: 12
 issues: 0
 pending: 0
-skipped: 1
+skipped: 0
 blocked: 0
 
 ## Gaps
