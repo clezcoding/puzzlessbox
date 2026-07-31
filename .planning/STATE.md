@@ -100,7 +100,7 @@ progress:
 ### TODOs
 
 - [x] Phase 0: `/gsd-plan-phase 0` — 2 plans (brand kit + docs)
-- [ ] Phase 3: `/gsd-spike "Hermes Cron/dispatch_tool Timing für 30s-Bestätigungs-Flow"` vor `/gsd-plan-phase 3`
+- [x] Phase 3 spike: `.planning/spikes/` 001–004 (MCP-04 VALIDATED) — vor `/gsd-plan-phase 3`
 
 ### Blockers
 
