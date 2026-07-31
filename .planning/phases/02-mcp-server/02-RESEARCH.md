@@ -209,8 +209,7 @@ Hinweis: `transport="http"` == moderner Streamable-HTTP (Default). `"sse"` = leg
 ```python
 # Source: Context7 /prefecthq/fastmcp tests/server/auth/... + docs/servers/authorization.mdx
 import hashlib, time
-from fastmcp.server.auth import AccessToken
-from fastmcp.server.auth.auth import TokenVerifier  # basis; StaticTokenVerifier NICHT nutzen
+from fastmcp.server.auth import AccessToken, TokenVerifier  # öffentliches Re-Export; StaticTokenVerifier NICHT nutzen
 
 class OwnerResolvingVerifier(TokenVerifier):
     def __init__(self, api_client): self._api = api_client
@@ -429,26 +428,72 @@ async def resolve_owner(self, bearer_hash: str) -> str | None:
 
 ## Assumptions Log
 
+> A1, A4, A5 **pre-execute verifiziert** (2026-07-31) — siehe [Resolved at Pre-Execute](#resolved-at-pre-execute-2026-07-31). Verbleibende Annahmen:
 | # | Claim | Section | Risk if Wrong |
 |---|-------|---------|---------------|
-| A1 | In-Memory `Client(mcp)` Transport für Tests verfügbar in 3.4.4 | Validation Architecture | MEDIUM — Fallback: ASGITransport gegen `http_app()` |
+| A1 | ~~In-Memory `Client(mcp)` Transport für Tests verfügbar in 3.4.4~~ **VERIFIED** — `from fastmcp import Client`; `async with Client(mcp)`; Auth/HTTP-Stack via `fastmcp.utilities.tests.asgi_client` | Validation Architecture | — |
 | A2 | `stateless_http=True` kompatibel mit gewähltem Auth-Flow | Architecture Patterns | LOW — Auth ist per-Request-Token, kein Session-State nötig |
-| A3 | Coolify docker-image App + Webhook-Deploy-Muster (kein bestehender Workflow zum Spiegeln) | Deploy | MEDIUM — GHCR/Actions greenfield, muss verifiziert werden |
-| A4 | Exakter Import-Pfad `fastmcp.server.auth.auth.TokenVerifier` | Auth | LOW — via `from fastmcp.server.auth import ...` prüfen; Klasse existiert (Context7-Tests) |
-| A5 | `AccessToken` akzeptiert freies `claims`-dict | Auth | LOW — docs zeigen `token.claims.get(...)`; Konstruktor-Felder beim Impl verifizieren |
+| A3 | Coolify docker-image App + Webhook-Deploy-Muster (kein bestehender Workflow zum Spiegeln) | Deploy | MEDIUM — GHCR/Actions greenfield; Deploy-Spec in `02-DEPLOY-SPEC.md` (Sibling-Agent) |
+| A4 | ~~Exakter Import-Pfad `fastmcp.server.auth.auth.TokenVerifier`~~ **VERIFIED** — öffentlich: `from fastmcp.server.auth import TokenVerifier, AccessToken` | Auth | — |
+| A5 | ~~`AccessToken` akzeptiert freies `claims`-dict~~ **VERIFIED** — `claims: dict[str, Any]` dokumentiert; optional `token`, `client_id`, `scopes`, `expires_at` | Auth | — |
 
 ## Open Questions
 
-1. **In-Memory-Test-Client-API in 3.4.4**
-   - Bekannt: FastMCP bietet `Client` für In-Process-Tests.
-   - Unklar: exakte Signatur/Import in 3.4.4.
-   - Empfehlung: Planner-Task "verify `from fastmcp import Client`; sonst `httpx.ASGITransport(app=mcp.http_app())`".
-2. **`AccessToken`-Konstruktor-Felder (3.4.4)**
-   - Unklar: Pflichtfelder (`expires_at`, `resource`?).
-   - Empfehlung: bei Impl `AccessToken`-Signatur inspizieren; Test-Beispiel nutzt `token/client_id/scopes/expires_at`.
-3. **move_item API-Shape**
-   - Unklar: dedizierter `/items/{id}/move` vs generischer `PATCH /items/{id}` mit `category_id`.
-   - Empfehlung: `PATCH /items/{id}` mit `{category_id}` (minimal, D-11/D-12); confirmed-Items nur Category.
+Alle vorherigen Offenen Punkte sind **(RESOLVED)** — Details in [Resolved at Pre-Execute (2026-07-31)](#resolved-at-pre-execute-2026-07-31).
+
+1. **In-Memory-Test-Client-API in 3.4.4 (RESOLVED)**
+   - **Import:** `from fastmcp import FastMCP, Client` [CITED: docs/clients/transports.mdx]
+   - **Unit/Tool-Tests (ohne HTTP-Stack):** Server-Instanz direkt an Client übergeben — kein Port, kein Subprocess:
+     ```python
+     from fastmcp import FastMCP, Client
+
+     async def test_tool_in_memory(mcp: FastMCP):
+         async with Client(mcp) as client:
+             result = await client.call_tool("greet", {"name": "World"})
+             assert result.data == "Hello, World!"
+     ```
+   - **Auth/Middleware/HTTP-Stack-Tests (MCP-02):** `asgi_client` aus `fastmcp.utilities.tests` — fährt vollen HTTP-Stack in-process (RequireAuthMiddleware, Bearer-Header):
+     ```python
+     from fastmcp.utilities.tests import asgi_client
+
+     async def test_auth_over_http(mcp: FastMCP):
+         async with asgi_client(mcp, path="/mcp") as client:
+             # client sendet Authorization: Bearer … über echten ASGI-Stack
+             ...
+     ```
+     Signatur: `asgi_client(server, transport="http", path=None, **client_kwargs) -> AsyncGenerator[Client, None]` [CITED: docs/python-sdk/fastmcp-utilities-tests.mdx]
+   - **Fallback (wenn `asgi_client`/`Client` in Pin-Version fehlt):** `httpx.AsyncClient(transport=httpx.ASGITransport(app=mcp.http_app(path="/mcp")), base_url="http://test")` — manuelle MCP-HTTP-Requests inkl. `Authorization`-Header.
+   - **Lokal nicht installiert:** `fastmcp` fehlt im Workspace-venv; Verifikation via Context7 `/prefecthq/fastmcp` (nicht lokaler Import).
+
+2. **`AccessToken`-Konstruktor-Felder (3.4.4) (RESOLVED)**
+   - **Import:** `from fastmcp.server.auth import AccessToken` (öffentliches Re-Export; kein Deep-Import `fastmcp.server.auth.auth`) [CITED: docs/servers/authorization.mdx, tests/server/auth/test_oauth_consent_flow.py]
+   - **Felder** (alle optional außer `token` in der Praxis; kein `resource`-Feld):
+     | Feld | Typ | Pflicht | Default / Hinweis |
+     |------|-----|---------|-------------------|
+     | `token` | `str` | ja (praktisch) | Raw Bearer-String |
+     | `client_id` | `str \| None` | nein | OAuth-Client-ID; hier `owner_id` nutzbar |
+     | `scopes` | `list[str]` | nein | `[]` wenn leer |
+     | `expires_at` | `datetime \| int \| None` | nein | `None` für nicht ablaufende Service-Bearer |
+     | `claims` | `dict[str, Any]` | nein | Custom Claims, z. B. `{"owner_id": ..., "sub": ...}` |
+   - **Beispiel (OwnerResolvingVerifier):**
+     ```python
+     from fastmcp.server.auth import AccessToken, TokenVerifier
+
+     return AccessToken(
+         token=token,
+         client_id=owner_id,
+         scopes=[],
+         expires_at=None,
+         claims={"owner_id": owner_id, "sub": owner_id},
+     )
+     ```
+   - **TokenVerifier-Import:** `from fastmcp.server.auth import TokenVerifier` — Subklasse implementiert `async def verify_token(self, token: str) -> AccessToken | None` [CITED: fastmcp_slim/fastmcp/server/auth/auth.py]
+
+3. **move_item API-Shape (RESOLVED — LOCKED)**
+   - **Entscheidung:** `PATCH /items/{id}` mit Body `{"category_id": "<uuid>"}` — **kein** dedizierter `/items/{id}/move`.
+   - **Evidenz:** D-11/D-12 (CONTEXT), `02-02-PLAN.md` Task 2, `02-03-PLAN.md` move_item-Mapping, `02-PATTERNS.md` Zeile 316–317.
+   - **Codebase-Stand:** `api/app/routers/capture.py` hat nur `PATCH /drafts/{id}` mit `status IN ('draft','auto_saved')` — confirmed-Move braucht neuen Router `api/app/routers/items.py` (02-02), **ohne** Status-Filter (D-12).
+   - **MCP-Tool:** `move_item(item_id, category_id)` → `PATCH /items/{item_id}` `json={"category_id": category_id}`.
 
 ## Environment Availability
 
@@ -460,11 +505,11 @@ async def resolve_owner(self, bearer_hash: str) -> str | None:
 | Interne API `puzzlessbox-api:8000` | MCP→API Hop | ✓ (Phase 1 merged) | v1 | `/ready` degradiert wenn down |
 | GHCR (ghcr.io) | Image-Registry | ✓ (GITHUB_TOKEN) | — | — |
 | Coolify docker-image App + Webhook | Deploy | ✓ Plattform (v4.1.2) | — | manueller Pull |
-| **Bestehender Image-Build-Workflow** | Spiegel-Vorlage | ✗ (`ci.yml` = nur Brand-Tests) | — | **neu schreiben** (kein api/-Workflow existiert) |
+| **Bestehender Image-Build-Workflow** | Spiegel-Vorlage | ✗ (`ci.yml` = nur Brand-Tests) | — | **neu schreiben** — Spec: `02-DEPLOY-SPEC.md` |
 
 **Missing dependencies with no fallback:** keine blockierenden — aber:
 **Missing with fallback / Achtung:**
-- Es gibt **keinen** bestehenden GHCR-Docker-Build-Workflow im Repo. D-20 "GitHub Actions → GHCR" ist greenfield; `api/`-Muster existiert nur als Dockerfile, nicht als Workflow. Planner muss den Workflow neu erstellen (nicht "mirror existing workflow").
+- Es gibt **keinen** bestehenden GHCR-Docker-Build-Workflow im Repo. D-20 "GitHub Actions → GHCR" ist greenfield; `api/`-Muster existiert nur als Dockerfile, nicht als Workflow. **Deploy-Workflow-Spec** wird vom Sibling-Agent in `02-DEPLOY-SPEC.md` geliefert (nicht in diesem RESEARCH-Dokument duplizieren).
 
 ## Validation Architecture
 
@@ -496,7 +541,7 @@ async def resolve_owner(self, bearer_hash: str) -> str | None:
 - **Phase gate:** volle Suite grün vor `/gsd-verify-work`
 
 ### Wave 0 Gaps
-- [ ] `mcp-server/tests/conftest.py` — In-Memory-`Client(mcp)` fixture ODER `httpx.ASGITransport(app=mcp.http_app())`; `httpx.MockTransport`-fixture für interne API
+- [ ] `mcp-server/tests/conftest.py` — `Client(mcp)` für Tool-Unit-Tests; `asgi_client(mcp, path="/mcp")` für Auth-Integration; Fallback `httpx.ASGITransport(app=mcp.http_app())`; `httpx.MockTransport` für interne API
 - [ ] `mcp-server/tests/test_auth.py` — 401/403-Seams (MCP-02)
 - [ ] `mcp-server/tests/test_tools_schema.py` — Pydantic-Reject (MCP-01)
 - [ ] `mcp-server/tests/test_api_contract.py` — Header/Idempotency/Retry/Error/Mapping (MCP-01)
@@ -543,7 +588,7 @@ async def resolve_owner(self, bearer_hash: str) -> str | None:
 - Coolify docker-image + GHCR-Deploy-Muster (greenfield, kein Repo-Workflow zum Spiegeln)
 
 ### Tertiary (LOW confidence)
-- In-Memory-Test-Client-Signatur in 3.4.4 (A1) — bei Impl verifizieren
+- none (A1/A4/A5 pre-execute verifiziert)
 
 ## Metadata
 
@@ -556,6 +601,16 @@ async def resolve_owner(self, bearer_hash: str) -> str | None:
 
 **Research date:** 2026-07-31
 **Valid until:** 2026-08-30 (FastMCP 3.4.x stabil; bei 4.0-Migration neu prüfen)
+
+## Resolved at Pre-Execute (2026-07-31)
+
+| # | Frage | Ergebnis | Evidenz |
+|---|-------|----------|---------|
+| 1 | In-Memory-Test-Client 3.4.4 | `from fastmcp import Client`; `Client(mcp)` für Tools; `asgi_client(mcp)` für Auth/HTTP; Fallback `httpx.ASGITransport(app=mcp.http_app())` | [CITED: docs/clients/transports.mdx, docs/development/tests.mdx] |
+| 2 | `AccessToken`-Felder | `token` + optional `client_id`, `scopes`, `expires_at`, `claims`; Import `from fastmcp.server.auth import AccessToken, TokenVerifier` | [CITED: docs/servers/authorization.mdx, test_oauth_consent_flow.py] |
+| 3 | `move_item` API-Shape | **LOCKED:** `PATCH /items/{id}` `{"category_id"}` — kein `/move`-Suffix | D-11/D-12, `02-02-PLAN.md`, `capture.py` (drafts ≠ confirmed-move) |
+
+**Assumptions aktualisiert:** A1, A4, A5 → VERIFIED. A3 Deploy-Detail → `02-DEPLOY-SPEC.md`.
 
 ## RESEARCH COMPLETE
 
@@ -580,9 +635,5 @@ async def resolve_owner(self, bearer_hash: str) -> str | None:
 | Pitfalls | HIGH | FastMCP-Source + PITFALLS.md |
 | Deploy | MEDIUM | GHCR/Coolify greenfield, kein Workflow-Vorbild |
 
-### Open Questions
-- In-Memory-`Client`-Signatur & `AccessToken`-Konstruktor-Felder in 3.4.4 bei Impl verifizieren (LOW risk, Fallbacks dokumentiert).
-- `move_item` API-Shape: `PATCH /items/{id}` mit `{category_id}` empfohlen.
-
 ### Ready for Planning
-Research vollständig. Planner kann PLAN.md erstellen.
+Research vollständig (alle Open Questions RESOLVED 2026-07-31). Planner kann PLAN.md ausführen.
