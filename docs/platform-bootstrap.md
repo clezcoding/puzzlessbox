@@ -1,106 +1,85 @@
 # Platform Bootstrap
 
-Baseline CI/CD and infrastructure for `clezcoding/puzzlessbox`.
+Baseline CI/CD and infrastructure for **public** repo `clezcoding/puzzlessbox`.
 
-## GitHub Free (private personal repo)
+## GitHub Free (public personal repo)
 
-This setup targets **GitHub Free on a personal private repository** — no paid features, no workarounds.
+Public repos unlock branch protection + secret scanning on Free.
 
-| Feature | Free private | This repo |
-|---------|--------------|-----------|
-| GitHub Actions CI | Yes | `ci.yml`, `codeql.yml` |
-| Renovate (github-actions) | Yes | `renovate.json` |
-| Dependabot (github-actions) | Yes | `.github/dependabot.yml` |
-| Kodiak auto-merge | Yes (personal private) | `.kodiak.toml` + app install |
-| Branch protection (required checks) | **No** | Not enforced — upgrade to Pro or stay manual |
-| Code Scanning (SARIF UI) | **No** | CodeQL CLI + SARIF workflow artifact |
-| GHCR + deploy workflows | Yes | Phase 5 (OPS-02) |
+| Feature | Status |
+|---------|--------|
+| GitHub Actions CI | `ci.yml` (always-on for required checks) |
+| CodeQL | **Default setup** (actions, javascript-typescript, python) — no custom workflow |
+| Renovate | `renovate.json` — labels `dependencies` + `automerge` (non-major) |
+| Dependabot | `.github/dependabot.yml` — same labels |
+| Kodiak auto-merge | `.kodiak.toml` + [app install](https://kodiakhq.com/install) |
+| Branch protection | `scripts/github-setup-branch-protection.sh` |
+| Secret scanning + push protection | Enabled via repo settings API |
+| GHCR + deploy | `deploy-mcp.yml` (Phase 2); Phase 5 expands |
 
-**Repo settings (recommended, applied via `gh`):**
+**Repo merge settings (applied via `gh`):**
 
 - `delete_branch_on_merge: true`
-- Merge method: **squash only** (matches Kodiak)
-- `squash_merge_allowed: true`, `merge_commit_allowed: false`, `rebase_merge_allowed: false`
+- `allow_auto_merge: true` (needed for Kodiak)
+- Squash only (`allow_squash_merge: true`, merge/rebase off)
+- Linear history required
 
-## Dependency bots (Renovate + Dependabot)
+## Kodiak
 
-Both target **github-actions** weekly (Monday 06:00 Europe/Berlin), label `dependencies`, minor/patch grouped. Kodiak auto-merges after CI — neither bot automerges on its own.
+Config: `.kodiak.toml` ([reference](https://kodiakhq.com/docs/config-reference)).
 
-### Renovate
+**Requires branch protection** on the target branch — without it Kodiak stays NEUTRAL.
 
-Config: `renovate.json` (repo root).
+| Mechanism | Behavior |
+|-----------|----------|
+| Label `automerge` | Merge when checks + 1 approval pass |
+| `merge.automerge_dependencies` | Auto-merge Renovate/Dependabot **minor/patch** (title-parsed) without label |
+| pinDigest / major | Need explicit `automerge` label (Renovate adds for pin/digest) |
+| Labels `wip` / `do-not-merge` | Block merge |
+| `[approve]` | Auto-approve PRs from `renovate` / `dependabot` |
 
-1. Install: https://github.com/apps/renovate
-2. Grant access to `clezcoding/puzzlessbox`
-3. Without the app, `renovate.json` has no effect
-
-**Manual run:** Dependency Dashboard issue or push to `main`.
-
-### Dependabot
-
-Config: `.github/dependabot.yml` (native GitHub — no extra app).
-
-Enable in repo **Settings → Code security → Dependabot** (version updates). Runs on GitHub-hosted schedule; no dashboard issue.
-
-## Kodiak GitHub App
-
-Kodiak auto-merges Renovate PRs that pass CI. Config at `.kodiak.toml` (repo root).
-
-1. Install: https://kodiakhq.com/install
-2. Grant access to `clezcoding/puzzlessbox`
-3. Without the app, `.kodiak.toml` has no effect
-
-Kodiak auto-approves PRs from `renovate`, `dependabot`, and `dependabot[bot]`.
+```bash
+bash scripts/github-setup-labels.sh
+bash scripts/github-setup-branch-protection.sh
+bash scripts/github-setup-repo-settings.sh
+```
 
 ## Labels
 
 | Label | Purpose |
 |-------|---------|
-| `dependencies` | Renovate PRs (auto-applied) |
-| `ci` | GitHub Actions / workflow changes |
-| `infra` | Coolify, deploy, ops |
-| `security` | Security fixes and hardening |
+| `automerge` | Kodiak merge gate |
+| `wip` / `do-not-merge` | Kodiak blocking |
+| `kodiak: merge.method = '…'` | Per-PR method override |
+| `dependencies` | Bot PRs |
+| `ci` / `infra` / `security` | Triage |
 | `phase-0` … `phase-5` | GSD phase tracking |
 
-Create missing labels:
+## Branch protection (`main`)
 
-```bash
-bash scripts/github-setup-labels.sh
-```
+Required status checks (job / CodeQL default names):
 
-## Branch Protection
+| Check | Source |
+|-------|--------|
+| `test` | CI — brand node tests |
+| `actionlint` | CI |
+| `api-test` | CI — api + camoufox-sidecar SSRF |
+| `mcp-test` | CI |
+| `webapp-build` | CI |
+| `Analyze (actions)` | CodeQL default setup |
+| `Analyze (javascript-typescript)` | CodeQL default setup |
+| `Analyze (python)` | CodeQL default setup |
 
-**Requires GitHub Pro** on a personal private repo. The script below will return **403** on Free — that is expected, not a bug.
+Also: PR required, 1 approving review (Kodiak satisfies for bots), dismiss stale, no force-push, no deletions, conversation resolution, linear history, `enforce_admins`.
 
-```bash
-bash scripts/github-setup-branch-protection.sh
-```
+## CI Workflow (`ci.yml`)
 
-When Pro is available, enforced status checks (job names):
+- Runs on **all** PRs and pushes to `main` (no path filters — required checks must not skip)
+- Node 24 LTS, Python 3.14
+- Postgres service pinned by digest
+- Concurrency: cancel stale runs
 
-| Check | Workflow | Job |
-|-------|----------|-----|
-| `test` | `.github/workflows/ci.yml` | `test` |
-| `actionlint` | `.github/workflows/ci.yml` | `actionlint` |
-| `analyze` | `.github/workflows/codeql.yml` | `analyze` |
-
-Also enforced (Pro): PR required, no force push, no branch deletion, admins included.
-
-## CI Workflows
-
-### `ci.yml`
-
-- **Node 24 LTS** (project pin — not Node 20/26)
-- Path filters: `brand/**`, workflow file itself
-- Concurrency: cancel stale runs on same branch
-- Jobs: `node --test brand/tests/` + `actionlint`
-
-### `codeql.yml`
-
-- JavaScript analysis via **CodeQL CLI bundle** (no `codeql-action` — avoids Code Scanning API warnings on Free private)
-- Bundle pin: `CODEQL_BUNDLE_TAG` in workflow; SARIF artifact `codeql-sarif` (30 days)
-- Weekly schedule: Monday 06:00 UTC
-- Same path filters as CI
+Inspired by [actomatic](https://github.com/MuhammadTahaNasir/actomatic) CI/lint split — deploy templates (Vercel/Railway/Heroku) intentionally **not** copied; Coolify + GHCR is the stack.
 
 ## Coolify
 
@@ -123,23 +102,16 @@ All commands use context `hostunlimited`:
 
 - **Image:** `postgres:18-alpine`
 - **Internal only:** `is_public: false`
-- **DB name / user:** `puzzlessbox` (credentials in Coolify — not in git)
-
-### Connection pattern
-
-App services get `DATABASE_URL` via Coolify internal network at deploy time. Do not commit connection strings.
+- App services get `DATABASE_URL` via Coolify — never commit connection strings.
 
 ## Secrets Policy
 
-- No secrets, passwords, or connection strings in git
-- `COOLIFY_TOKEN` via env (Coolify Profile → API Tokens)
-- Kodiak via GitHub App install — no token in repo
-- Phase 5 deploy secrets: `COOLIFY_WEBHOOK_*` via `gh secret set` (not in git)
+- No secrets in git
+- `COOLIFY_TOKEN` via env
+- Kodiak via GitHub App — no token in repo
+- Deploy secrets via `gh secret set`
 
-## Phase 5 (not yet)
+## Security docs
 
-OPS-02 will add separate deploy workflows (not merged into `ci.yml`):
-
-- Docker build → GHCR (`:latest` + `:sha-<short>`)
-- Coolify webhook trigger on `main` only
-- Reusable workflow recommended for api / mcp / webapp
+- `SECURITY.md` — private vulnerability reporting
+- `.github/CODEOWNERS` — `@clezcoding`

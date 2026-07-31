@@ -2,19 +2,8 @@ name: CI
 
 on:
   push:
-    paths:
-      - "brand/**"
-      - "api/**"
-      - "mcp-server/**"
-      - "webapp/**"
-      - ".github/workflows/ci.yml"
+    branches: [main]
   pull_request:
-    paths:
-      - "brand/**"
-      - "api/**"
-      - "mcp-server/**"
-      - "webapp/**"
-      - ".github/workflows/ci.yml"
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -43,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:18-alpine
+        image: postgres:18-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
         env:
           POSTGRES_USER: puzzless
           POSTGRES_PASSWORD: puzzless
@@ -67,9 +56,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         working-directory: api
-      - name: Run tests
+      - name: Run API tests
         run: pytest -q
         working-directory: api
+      - name: Run camoufox-sidecar SSRF tests
+        run: |
+          pip install pytest httpx fastapi
+          pytest -q
+        working-directory: api/camoufox-sidecar
 
   mcp-test:
     runs-on: ubuntu-latest

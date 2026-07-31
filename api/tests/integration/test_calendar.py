@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
+from urllib.parse import urlparse
 from uuid import uuid4
+
 from google.oauth2.credentials import Credentials
 from googleapiclient.errors import HttpError
 from sqlalchemy import text
@@ -98,7 +100,8 @@ def _run_sync_flow(
     ):
         connect = api_client.get("/auth/google/connect", headers=headers, follow_redirects=False)
         assert connect.status_code == 302
-        assert "accounts.google.com" in connect.headers["location"]
+        location_host = urlparse(connect.headers["location"]).hostname
+        assert location_host == "accounts.google.com"
 
         callback = api_client.get(
             "/auth/google/callback",

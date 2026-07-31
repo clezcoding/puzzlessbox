@@ -1,22 +1,27 @@
+# docs: https://kodiakhq.com/docs/config-reference
 version = 1
-
-auto_approve_usernames = ["renovate", "dependabot", "dependabot[bot]"]
 
 [merge]
 method = "squash"
-require_automerge_checkpoint = true
+automerge_label = "automerge"
+require_automerge_label = true
+blocking_labels = ["wip", "do-not-merge"]
+notify_on_conflict = true
+optimistic_updates = true
+dont_wait_on_status_checks = ["Deploy MCP"]
 
 [merge.automerge_dependencies]
+# pinDigest / major still need the `automerge` label (Renovate adds it for non-major).
 versions = ["minor", "patch"]
-usernames = ["renovate", "dependabot", "dependabot[bot]"]
-
-[merge.automerge]
-title = "{{{title}}} (automerge)"
+usernames = ["renovate", "dependabot"]
 
 [update]
 always = true
-automerge_title = true
-ignored_usernames = ["renovate"]
+require_automerge_label = true
+# Renovate rebases itself; avoid update loops.
+ignored_usernames = ["renovate", "dependabot"]
 
-[plan]
-require_automerge = true
+[approve]
+# Strip [bot] suffix per Kodiak docs.
+auto_approve_usernames = ["renovate", "dependabot"]
+auto_approve_labels = ["dependencies"]

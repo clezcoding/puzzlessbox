@@ -10,6 +10,7 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - dependencies
+      - automerge
     groups:
       github-actions:
         patterns:

@@ -10,8 +10,16 @@
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "github-actions (non-major)"
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "pinDigest"],
+      "groupName": "github-actions (non-major)",
+      "labels": ["dependencies", "automerge"],
+      "automerge": false
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies"],
+      "automerge": false
     }
   ]
 }
