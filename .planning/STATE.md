@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
-status: verified
+status: "Phase 01 shipped — PR #13"
 stopped_at: Phase 01 UAT+SECURITY+VALIDATION complete — ready for Phase 2
-last_updated: "2026-07-31T01:06:00.000Z"
+last_updated: "2026-07-31T01:15:16.065Z"
 progress:
   total_phases: 6
   completed_phases: 2
@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 01 (Datenmodell & Backend-API) — COMPLETE
 - **Plan:** 6 of 6 (all complete)
-- **Status:** Phase 1 complete — Nyquist `01-VALIDATION.md` PASS (`nyquist_compliant: true`)
+- **Status:** Phase 01 shipped — PR #13
 - **Progress:** [██████████] 100% execution
 
 ```
