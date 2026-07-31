@@ -1,6 +1,6 @@
 version = 1
 
-auto_approve_usernames = ["renovate"]
+auto_approve_usernames = ["renovate", "dependabot", "dependabot[bot]"]
 
 [merge]
 method = "squash"
@@ -8,7 +8,7 @@ require_automerge_checkpoint = true
 
 [merge.automerge_dependencies]
 versions = ["minor", "patch"]
-usernames = ["renovate"]
+usernames = ["renovate", "dependabot", "dependabot[bot]"]
 
 [merge.automerge]
 title = "{{{title}}} (automerge)"
