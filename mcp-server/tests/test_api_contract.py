@@ -244,3 +244,52 @@ async def test_error_map_not_found(mcp_stack, mock_api_state) -> None:
         with pytest.raises(ToolError) as exc_info:
             await update_item(item_id=TEST_ITEM_ID, title="x")
     assert str(exc_info.value).startswith("NOT_FOUND:")
+
+
+@pytest.mark.asyncio
+async def test_list_categories_get(mcp_stack, mock_api_state) -> None:
+    from app.tools.categories import list_categories
+
+    mock_api_state["api_calls"].clear()
+    with patch("app.tools.categories.get_access_token", return_value=_access_token()):
+        result = await list_categories()
+
+    assert isinstance(result, list)
+    calls = mock_api_state["api_calls"]
+    assert len(calls) == 1
+    assert calls[0]["method"] == "GET"
+    assert calls[0]["path"] == "/categories"
+
+
+@pytest.mark.asyncio
+async def test_create_category_post(mcp_stack, mock_api_state) -> None:
+    from app.tools.categories import create_category
+
+    mock_api_state["api_calls"].clear()
+    with patch("app.tools.categories.get_access_token", return_value=_access_token()):
+        result = await create_category(name="Work")
+
+    assert result["name"] == "Work"
+    calls = mock_api_state["api_calls"]
+    assert len(calls) == 1
+    assert calls[0]["method"] == "POST"
+    assert calls[0]["path"] == "/categories"
+    assert calls[0]["json"] == {"name": "Work"}
+
+
+@pytest.mark.asyncio
+async def test_six_tools_registered(mcp_stack) -> None:
+    _, mcp, _ = mcp_stack
+    tools = await mcp.list_tools()
+    names = sorted(t.name for t in tools)
+    expected = sorted(
+        [
+            "create_item",
+            "confirm_item",
+            "update_item",
+            "move_item",
+            "list_categories",
+            "create_category",
+        ]
+    )
+    assert names == expected

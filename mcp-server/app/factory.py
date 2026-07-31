@@ -7,7 +7,7 @@ from app.api_client import make_client
 from app.auth import OwnerResolvingVerifier
 from app.config import Settings, get_settings
 from app.health import register_health
-from app.tools.items import register_tools
+from app.tools import register_tools
 
 
 def build_mcp_stack(
