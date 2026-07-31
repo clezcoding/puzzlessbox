@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 02
 current_phase_name: MCP-Server
-status: Phase 01 merged — ready for Phase 2
-stopped_at: Phase 2 context gathered
-last_updated: "2026-07-31T01:47:28.773Z"
+status: Phase 2 planned — pre-execute prep complete, ready for execute
+stopped_at: Phase 2 pre-execute prep complete
+last_updated: "2026-07-31T02:40:00.000Z"
 progress:
-  total_phases: 3
+  total_phases: 6
   completed_phases: 2
-  total_plans: 8
+  total_plans: 12
   completed_plans: 8
 ---
 
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 02 (MCP-Server) — not started
+- **Phase:** 02 (MCP-Server) — planned, pre-execute prep done
 - **Prior:** 01 (Datenmodell & Backend-API) — MERGED (PR #13 → `main` @ `890703e`)
-- **Plan:** Phase 1 = 6/6 complete; Phase 2 = 0 planned
-- **Status:** Phase 01 closed — next `/gsd-plan-phase 2`
+- **Plan:** Phase 1 = 6/6 complete; Phase 2 = 4 plans ready (0 executed)
+- **Status:** Research/Validation/Deploy-Spec closed — next `/gsd-execute-phase 2`
 - **Progress Phase 1:** [██████████] 100%
 
 ```
@@ -113,10 +113,11 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T01:47:28.761Z
-- **Stopped at:** Phase 2 context gathered
-- **Resume file:** .planning/phases/02-mcp-server/02-CONTEXT.md
-- **Next recommended action:** `/gsd-plan-phase 2`
+- **Last session:** 2026-07-31T02:40:00.000Z
+- **Stopped at:** Phase 2 pre-execute prep complete
+- **Resume file:** .planning/phases/02-mcp-server/02-01-PLAN.md (Wave 1 tracer)
+- **Next recommended action:** `/gsd-execute-phase 2`
+- **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
