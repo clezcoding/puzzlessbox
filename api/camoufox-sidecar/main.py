@@ -6,7 +6,7 @@ import os
 
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import PlainTextResponse
 
 BEARER = os.environ.get("CAMOUFOX_BEARER", "")
 

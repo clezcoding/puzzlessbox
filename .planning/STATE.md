@@ -4,11 +4,11 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: Datenmodell & Backend-API
-status: paused
-stopped_at: Phase 01 complete — paused before verification
-last_updated: "2026-07-30T04:22:53.318Z"
+status: verified_pending_deploy
+stopped_at: Phase 01 verified — prod smoke pending API deploy with bootstrap
+last_updated: "2026-07-31T00:50:00.000Z"
 progress:
-  total_phases: 2
+  total_phases: 6
   completed_phases: 2
   total_plans: 8
   completed_plans: 8
@@ -112,10 +112,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-30T04:13:56.151Z
-- **Stopped at:** Completed 01-03-PLAN.md — Phase 01 complete
-- **Resume file:** None
-- **Next recommended action:** `/gsd-plan-phase 2` or `/gsd-execute-phase 2`
+- **Last session:** 2026-07-31T00:50:00.000Z
+- **Stopped at:** Phase 01 UAT complete (automated); prod POST /links blocked until bootstrap deploy
+- **Resume file:** none (HANDOFF cleared)
+- **Next recommended action:** commit+push bootstrap + `/gsd-plan-phase 2`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---

@@ -105,3 +105,18 @@ services:
       NUQ_WORKER_PORT: "3006"
       NUQ_POD_NAME: nuq-worker-0
     command: ["node", "dist/src/services/worker/nuq-worker.js"]
+
+  camoufox:
+    build:
+      context: ./api/camoufox-sidecar
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      CAMOUFOX_BEARER: ${CAMOUFOX_BEARER}
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5

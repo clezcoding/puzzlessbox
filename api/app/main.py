@@ -1,7 +1,10 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException, Request
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.responses import Response
 
+from app.core.bootstrap import ensure_service_principal
 from app.core.config import get_settings
 from app.core.errors import (
     http_exception_handler,
@@ -35,6 +38,12 @@ class AcceptVersionMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
 
+@asynccontextmanager
+async def _lifespan(application: FastAPI):
+    ensure_service_principal(get_settings())
+    yield
+
+
 def create_app() -> FastAPI:
     settings = get_settings()
     docs_url = None if settings.is_prod else "/docs"
@@ -42,6 +51,7 @@ def create_app() -> FastAPI:
 
     application = FastAPI(
         title="Puzzlessbox API",
+        lifespan=_lifespan,
         docs_url=docs_url,
         redoc_url=redoc_url,
     )
