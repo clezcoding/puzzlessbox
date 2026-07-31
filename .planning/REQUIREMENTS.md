@@ -9,9 +9,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Capture
 
-- [ ] **CAP-01**: User sendet Sprach- oder Textnachricht an Hermes; System erzeugt strukturierten Draft (Titel, Typ, Kategorie, Kurz-Zusammenfassung)
+- [x] **CAP-01**: User sendet Sprach- oder Textnachricht an Hermes; System erzeugt strukturierten Draft (Titel, Typ, Kategorie, Kurz-Zusammenfassung)
 - [ ] **CAP-02**: User sieht formatierte Bestätigung mit Edit-Option vor dem Speichern
-- [ ] **CAP-03**: Nach 30s Inaktivität speichert System den Draft automatisch (Timeout-State-Machine serverseitig in der API, nicht nur Hermes-Cron)
+- [x] **CAP-03**: Nach 30s Inaktivität speichert System den Draft automatisch (Timeout-State-Machine serverseitig in der API, nicht nur Hermes-Cron)
 - [ ] **CAP-04**: Capture funktioniert über alle Messaging-Kanäle, die Hermes bereits unterstützt (kein eigener Messenger in Puzzlessbox)
 - [ ] **CAP-05**: Gespeicherte Items erscheinen kategorisiert in der WebApp
 
@@ -24,10 +24,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Authentication & Tenancy
 
-- [ ] **AUTH-01**: User kann sich mit Email und Passwort registrieren (Better Auth)
-- [ ] **AUTH-02**: User kann sich einloggen und Session bleibt über Browser-Refresh erhalten
-- [ ] **AUTH-03**: Nach dem ersten Account ist weitere Registrierung dynamisch gesperrt (`databaseHooks` / User-Count > 0)
-- [ ] **AUTH-04**: Alle Kerntabellen haben `owner_id`; alle Queries filtern danach
+- [x] **AUTH-01**: User kann sich mit Email und Passwort registrieren (Better Auth)
+- [x] **AUTH-02**: User kann sich einloggen und Session bleibt über Browser-Refresh erhalten
+- [x] **AUTH-03**: Nach dem ersten Account ist weitere Registrierung dynamisch gesperrt (`databaseHooks` / User-Count > 0)
+- [x] **AUTH-04**: Alle Kerntabellen haben `owner_id`; alle Queries filtern danach
 
 ### MCP & Hermes
 
@@ -38,14 +38,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Links
 
-- [ ] **LINK-01**: User sendet Link an Hermes; System speichert Item mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB
-- [ ] **LINK-02**: Link-Items landen in sinnvoller Kategorie (Default oder Vorschlag)
+- [x] **LINK-01**: User sendet Link an Hermes; System speichert Item mit Metadaten (Titel, Vorschaubild, Beschreibung) in JSONB
+- [x] **LINK-02**: Link-Items landen in sinnvoller Kategorie (Default oder Vorschlag)
 
 ### Calendar
 
 - [ ] **CAL-01**: User verbindet Google Calendar in WebApp-Settings via separatem OAuth (nicht Better Auth Social)
-- [ ] **CAL-02**: Aus Nachrichten extrahierte Termine werden als Calendar-Events lesbar und schreibbar mit Google Calendar synchronisiert
-- [ ] **CAL-03**: Calendar-Writes nutzen Optimistic Concurrency (ETag / If-Match); Konflikte werden nicht still überschrieben
+- [x] **CAL-02**: Aus Nachrichten extrahierte Termine werden als Calendar-Events lesbar und schreibbar mit Google Calendar synchronisiert
+- [x] **CAL-03**: Calendar-Writes nutzen Optimistic Concurrency (ETag / If-Match); Konflikte werden nicht still überschrieben
 
 ### Branding
 
@@ -104,16 +104,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | BRAND-01 | Phase 0 | Complete |
 | BRAND-02 | Phase 0 | Complete |
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| CAP-01 | Phase 1 | Pending |
-| CAP-03 | Phase 1 | Pending |
-| LINK-01 | Phase 1 | Pending |
-| LINK-02 | Phase 1 | Pending |
-| CAL-02 | Phase 1 | Pending |
-| CAL-03 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
+| AUTH-04 | Phase 1 | Complete |
+| CAP-01 | Phase 1 | Complete |
+| CAP-03 | Phase 1 | Complete |
+| LINK-01 | Phase 1 | Complete |
+| LINK-02 | Phase 1 | Complete |
+| CAL-02 | Phase 1 | Complete |
+| CAL-03 | Phase 1 | Complete |
 | MCP-01 | Phase 2 | Pending |
 | MCP-02 | Phase 2 | Pending |
 | CAP-02 | Phase 3 | Pending |

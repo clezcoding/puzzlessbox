@@ -1,0 +1,122 @@
+# Coolify-internal scraper stack (D-14, D-15). No public domains — internal network only.
+x-firecrawl-env: &firecrawl-env
+  HOST: "0.0.0.0"
+  PORT: "3002"
+  REDIS_URL: redis://scraper-redis:6379
+  REDIS_RATE_LIMIT_URL: redis://scraper-redis:6379
+  PLAYWRIGHT_MICROSERVICE_URL: http://scraper-playwright:3000/scrape
+  POSTGRES_USER: firecrawl
+  POSTGRES_PASSWORD: ${FIRECRAWL_PG_PASSWORD}
+  POSTGRES_DB: firecrawl
+  POSTGRES_HOST: scraper-postgres
+  POSTGRES_PORT: "5432"
+  USE_DB_AUTHENTICATION: "false"
+  BULL_AUTH_KEY: ${FIRECRAWL_BULL_AUTH_KEY}
+  TEST_API_KEY: ${FIRECRAWL_BEARER}
+  NUQ_RABBITMQ_URL: amqp://scraper-rabbitmq:5672
+  WORKER_PORT: "3005"
+  EXTRACT_WORKER_PORT: "3004"
+  NUQ_WORKER_START_PORT: "3006"
+  NUQ_WORKER_COUNT: "1"
+  NUM_WORKERS_PER_QUEUE: "2"
+  MAX_CONCURRENT_JOBS: "2"
+
+services:
+  scraper-redis:
+    image: redis:alpine
+    restart: unless-stopped
+    command: redis-server --bind 0.0.0.0
+
+  scraper-rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_running"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  scraper-postgres:
+    image: ghcr.io/firecrawl/nuq-postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: firecrawl
+      POSTGRES_PASSWORD: ${FIRECRAWL_PG_PASSWORD}
+      POSTGRES_DB: firecrawl
+
+  scraper-playwright:
+    image: ghcr.io/firecrawl/playwright-service:latest
+    restart: unless-stopped
+    environment:
+      PORT: "3000"
+
+  firecrawl:
+    image: ghcr.io/firecrawl/firecrawl:latest
+    restart: unless-stopped
+    depends_on:
+      scraper-redis:
+        condition: service_started
+      scraper-rabbitmq:
+        condition: service_healthy
+      scraper-playwright:
+        condition: service_started
+      scraper-postgres:
+        condition: service_started
+    environment:
+      <<: *firecrawl-env
+    command: ["node", "dist/src/index.js"]
+    expose:
+      - "3002"
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:3002/v0/health/liveness"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  firecrawl-queue-worker:
+    image: ghcr.io/firecrawl/firecrawl:latest
+    restart: unless-stopped
+    depends_on:
+      scraper-redis:
+        condition: service_started
+      scraper-rabbitmq:
+        condition: service_healthy
+      scraper-postgres:
+        condition: service_started
+    environment:
+      <<: *firecrawl-env
+      NUQ_POD_NAME: worker
+    command: ["node", "dist/src/services/queue-worker.js"]
+
+  firecrawl-nuq-worker:
+    image: ghcr.io/firecrawl/firecrawl:latest
+    restart: unless-stopped
+    depends_on:
+      scraper-rabbitmq:
+        condition: service_healthy
+      scraper-postgres:
+        condition: service_started
+    environment:
+      <<: *firecrawl-env
+      NUQ_WORKER_PORT: "3006"
+      NUQ_POD_NAME: nuq-worker-0
+    command: ["node", "dist/src/services/worker/nuq-worker.js"]
+
+  camoufox:
+    build:
+      context: ./api/camoufox-sidecar
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      CAMOUFOX_BEARER: ${CAMOUFOX_BEARER}
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5

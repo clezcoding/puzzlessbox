@@ -2,21 +2,21 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 1
+current_phase: 01
 current_phase_name: Datenmodell & Backend-API
-status: completed
-stopped_at: Completed 00-02-PLAN.md
-last_updated: "2026-07-29T20:49:47.266Z"
+status: "Phase 01 shipped — PR #13"
+stopped_at: Phase 01 UAT+SECURITY+VALIDATION complete — ready for Phase 2
+last_updated: "2026-07-31T01:15:16.065Z"
 progress:
-  total_phases: 1
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_phases: 6
+  completed_phases: 2
+  total_plans: 8
+  completed_plans: 8
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-07-29 (Apollo full brand kit 003 keep-all)
+**Last updated:** 2026-07-30 (Phase 1 planned — 6 plans, 4 waves)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 1 — Datenmodell & Backend-API
-- **Plan:** Not started
-- **Status:** Quick task 260729-vmg platform bootstrap complete
-- **Progress:** [██████████] 100%
+- **Phase:** 01 (Datenmodell & Backend-API) — COMPLETE
+- **Plan:** 6 of 6 (all complete)
+- **Status:** Phase 01 shipped — PR #13
+- **Progress:** [██████████] 100% execution
 
 ```
 [0/6] ░░░░░░░░░░░░░░░░░░░░  0%
@@ -42,8 +42,8 @@ progress:
 
 | Phase | Goal (short) | Requirements | Status |
 |-------|-------------|--------------|--------|
-| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Planned (2 plans) |
-| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Not started |
+| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
+| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Not started |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
@@ -62,6 +62,13 @@ progress:
 |------|----------|-------|-------|
 | Phase 00-branding-design-system P01 | 2min | 2 tasks | 34 files |
 | Phase 00-branding-design-system P02 | 4min | 2 tasks | 2 files |
+| Phase 01-datenmodell-backend-api P01 | 5min | 2 tasks | 18 files |
+| Phase 01-datenmodell-backend-api P05 | 8min | 2 tasks | 19 files |
+| Phase 01-datenmodell-backend-api P06 | 12min | 2 tasks | 20 files |
+| Phase 01-datenmodell-backend-api P02 | 15min | 2 tasks | 6 files |
+| Phase 01-datenmodell-backend-api P04 | 25min | 3 tasks | 15 files |
+| Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
+| Phase 01-datenmodell-backend-api P03 | 35min | 3 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -105,10 +112,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-29T03:26:47.469Z
-- **Stopped at:** Completed 00-02-PLAN.md
-- **Resume file:** None
-- **Next recommended action:** `/gsd-execute-phase 0`
+- **Last session:** 2026-07-31T01:06:00.000Z
+- **Stopped at:** Phase 01 verified (automated UAT, SECURITY, VALIDATION, prod smoke)
+- **Resume file:** none
+- **Next recommended action:** `/gsd-plan-phase 2`
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
@@ -120,3 +127,18 @@ progress:
 - [Phase ?]: brand/ is pure static package — consumers install tailwindcss; no package.json under brand/
 - [Phase ?]: Production brand docs at brand/ decoupled from sketches per D-04
 - [Phase ?]: 8 locked German microcopy examples with capture verb glossary per D-09
+- [Phase ?]: Lazy SQLAlchemy engine init so app imports without live Postgres
+- [Phase ?]: Normalize postgres:// URLs to postgresql+psycopg2:// for SQLAlchemy
+- [Phase ?]: Categories seed with NULL owner_id; RLS allows NULL OR matching owner_id
+- [Phase ?]: Link metadata uses portable JSON in SQLModel; migration keeps JSONB
+- [Phase ?]: Capture draft create consolidated in capture.py until type-specific read/update diverges
+- [Phase ?]: board-items uses explicit owner_id WHERE alongside RLS on VIEW
+- [Phase ?]: Login prefers Better Auth sign-in token before /token fetch
+- [Phase ?]: Async capture endpoints so DraftTimeoutManager asyncio.create_task runs on ASGI loop
+- [Phase ?]: Timeout integration tests use AsyncClient — TestClient does not pump background tasks
+- [Phase ?]: calendar_tokens.owner_id app-level check only — no FK to Better Auth user table (D-21)
+- [Phase ?]: OAuth connect requires JWT; full browser OAuth UAT pending webapp at app.puzzlesstool.online
+- [Phase ?]: Firecrawl /ready uses /v0/health/liveness; workers split for Coolify healthchecks
+- [Phase ?]: Scraper stack internal-only on shared Docker network; API SCRAPER_ENABLED gates /ready ping
+- [Phase ?]: Firecrawl /ready uses /v0/health/liveness; workers split for Coolify healthchecks
+- [Phase ?]: Scraper stack internal-only on shared Docker network; SCRAPER_ENABLED gates /ready ping
