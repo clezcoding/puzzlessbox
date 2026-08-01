@@ -117,10 +117,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T04:03:57.608Z
-- **Stopped at:** Spike wrap-up complete — ready for `/gsd-plan-phase 3`
+- **Last session:** 2026-08-01T02:02:00.000Z
+- **Stopped at:** Session resumed — Phase 3 ready for planning
 - **Resume file:** `.planning/.continue-here.md`
-- **Next recommended action:** Merge PR #19, then `/gsd-plan-phase 3`
+- **Next recommended action:** `/gsd-discuss-phase 3` (no CONTEXT.md) or `/gsd-plan-phase 3`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
