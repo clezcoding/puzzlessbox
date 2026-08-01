@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: Hermes-Plugin & Timeout-Spike
 status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-08-01T03:12:41.691Z"
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-08-01T03:13:58.113Z"
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 16
-  completed_plans: 13
+  completed_plans: 14
 ---
 
 # State: Puzzlessbox
@@ -31,9 +31,9 @@ progress:
 
 - **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — EXECUTING
 - **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
-- **Plan:** 3 of 4 (next: 03-03)
-- **Status:** Executing Phase 03
-- **Progress Phase 3:** [██░░░░░░░░] 25% executed (1/4 plans)
+- **Plan:** 3 of 4 (next: 03-03-PLAN.md)
+- **Status:** Ready to execute
+- **Progress Phase 3:** [█████░░░░░] 50% executed (2/4 plans)
 
 ```
 [2/6] ██████░░░░░░░░░░░░░░  33% phases
@@ -75,6 +75,7 @@ progress:
 | Phase 02 P03 | 12min | 2 tasks | 7 files |
 | Phase 02-mcp-server P04 | 20min | 2 tasks | 4 files |
 | Phase 03 P02 | 5min | 2 tasks | 14 files |
+| Phase 03-hermes-plugin-timeout-spike P01 | 15min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -118,9 +119,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-01T03:12:31.250Z
-- **Stopped at:** Completed 03-02-PLAN.md
-- **Resume file:** .planning/phases/03-hermes-plugin-timeout-spike/03-03-PLAN.md
+- **Last session:** 2026-08-01T03:13:58.104Z
+- **Stopped at:** Completed 03-01-PLAN.md
+- **Resume file:** 03-02-PLAN.md
 - **Next recommended action:** `/gsd-execute-phase 3`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
@@ -160,3 +161,5 @@ progress:
 - [Phase ?]: Coolify MCP webhook uses API bearer auth (cfdfb19)
 - [Phase ?]: Hermes plugin uses streamable_http_client (MCP SDK) not spike streamablehttp_client alias
 - [Phase ?]: Inbox category_id stub via MCP_CATEGORY_ID env until Plan 03 list_categories
+- [Phase ?]: Alembic 0005 extends item_status with discarded for soft-delete discard_draft response
+- [Phase ?]: get_draft_status returns minimal {id,type,status} poll surface per D-06
