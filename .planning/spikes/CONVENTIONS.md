@@ -30,7 +30,7 @@ Patterns established for Puzzlessbox spike sessions.
 
 - `httpx` — remote probes (api/mcp-server)
 - `mcp` Python client — optional `--live` MCP tool calls
-- Live MCP: `https://mcp.puzzlesstool.online`
+- Live MCP: `https://mcp.puzzlesstool.online` (production)
 - Ground truth API timer: `api/tests/integration/test_capture.py::test_autosave`
 - Avoid Docker/Hermes VPS install in spikes — document integration contract instead
 
