@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: WebApp (UI)
-status: Phase 04 discuss in progress — Board done, Item-Detail next
+status: "Phase 04 context gathered — ready to plan"
 stopped_at: Phase 4 context gathered
 last_updated: "2026-08-01T22:26:06.000Z"
 progress:
@@ -29,11 +29,11 @@ progress:
 
 ## Current Position
 
-- **Phase:** 04 (WebApp UI) — NOT STARTED
+- **Phase:** 04 (WebApp UI) — context gathered, planning not started
 - **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
 - **Plan:** 0 of N (planning not started)
-- **Status:** Phase 04 discuss in progress — CAP-05 Live-Update last
-- **Progress Phase 4:** discuss checkpoint `.planning/phases/04-webapp/04-DISCUSS-CHECKPOINT.json`
+- **Status:** Phase 04 CONTEXT ready — next `/gsd-ui-phase 4` or `/gsd-plan-phase 4`
+- **Resume:** `.planning/phases/04-webapp/04-CONTEXT.md`
 
 ```
 [4/6] ██████████████░░░░░░  67% phases
