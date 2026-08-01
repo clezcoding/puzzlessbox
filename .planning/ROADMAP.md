@@ -14,7 +14,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 0: Branding & Design System** - Hallmark-Brandkit und Design-Tokens vor WebApp-Bau (completed 2026-07-29)
 - [x] **Phase 1: Datenmodell & Backend-API** - Postgres-Schema mit `owner_id`, FastAPI-CRUD, Better Auth, Link-Scraper, Google-Calendar-Sync (completed 2026-07-30)
 - [x] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS (completed 2026-07-31)
-- [ ] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan
+- [x] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan (completed 2026-08-01)
 - [ ] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige
 - [ ] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks
 
@@ -139,8 +139,20 @@ Plans:
   4. User kann sich über die WebApp-UI mit Email/Passwort einloggen (Better Auth) und bleibt über Browser-Refresh eingeloggt
   5. User kann in den Settings Google Calendar über separatem OAuth verbinden (nicht Better Auth Social)
 
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 4/4 plans
+Plans:
+**Wave 1** *(parallel — no file overlap)*
+
+- [ ] 04-01-PLAN.md — TRACER: Auth UI (Brand-Hero Login/Register) + Board skeleton (5 Default-Kategorien) + Wave 0 Vitest/RTL infra + shadcn init + Brand-Token-Wiring + middleware + session survival + ?next= + logout (BOARD-01, CAP-05)
+- [ ] 04-02-PLAN.md — API extensions: Alembic 0006 (categories.color/sort_order/deleted_at + items.sort_order) + PATCH/DELETE/reorder categories + PATCH items (Feld-Edit + Type-Change) + soft-delete + restore (BOARD-02, BOARD-03, BOARD-04)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 04-03-PLAN.md — Board features: DnD (@hello-pangea/dnd, cross-category + in-column reorder, optimistic + revert) + Mobile Single-Column + Tabs + long-press Sheet + Multi-Select + Bulk Move + A11y + Item-Modal (centered, autosave, soft-delete undo, type-change, link OG) + Kategorien-verwalten Panel (BOARD-02, BOARD-03, BOARD-04)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 04-04-PLAN.md — Live update + Settings + Calendar: Board Poll (10s + backoff) + Offline-Banner + New-Item Toast/Pulse + Sound + Manual Refresh + Settings Hub (/settings Account/Calendar/Appearance) + Google Calendar 3-step Wizard + Disconnect + Theme toggle (header + settings) + First-Login Apollo Welcome (CAP-05, CAL-01)
 
 ### Phase 5: Coolify-Deployment, CI/CD & Härtung
 

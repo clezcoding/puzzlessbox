@@ -40,12 +40,14 @@ created: 2026-08-02
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 04-01-01 | 01 | 1 | BOARD-01 | — | Session cookie required for board | unit/DOM | `pnpm test app/board/page.test.tsx` | ❌ W0 | ⬜ pending |
-| 04-*-* | TBD | TBD | BOARD-02 | — | Category mutations scoped to owner | integration | `pnpm test app/board/categories.test.tsx` | ❌ W0 | ⬜ pending |
-| 04-*-* | TBD | TBD | BOARD-03 | — | DnD moves persist via authenticated API | unit/DOM | `pnpm test app/board/dnd.test.tsx` | ❌ W0 | ⬜ pending |
-| 04-*-* | TBD | TBD | BOARD-04 | — | Modal edit autosave authenticated | integration | `pnpm test app/board/modal.test.tsx` | ❌ W0 | ⬜ pending |
-| 04-*-* | TBD | TBD | CAP-05 | — | Poll uses session; no cross-tenant leak | integration | `pnpm test app/board/poll.test.tsx` | ❌ W0 | ⬜ pending |
-| 04-*-* | TBD | TBD | CAL-01 | — | OAuth connect behind auth middleware | unit/flow | `pnpm test app/settings/calendar.test.tsx` | ❌ W0 | ⬜ pending |
+| 04-01-T1 | 01 | 1 | BOARD-01, CAP-05 | T-04-01..06 | Session cookie required for board; middleware redirect; brand tokens no hex | unit/DOM | `pnpm test -- --run board auth` | ❌ W0 → 04-01 | ⬜ pending |
+| 04-01-T2 | 01 | 1 | BOARD-01, CAP-05 | T-04-04 | Session refresh survival; ?next= open-redirect guard; logout | unit/DOM | `pnpm test -- --run auth` | ✅ 04-01 | ⬜ pending |
+| 04-02-T1 | 02 | 1 | BOARD-02, BOARD-03 | T-04-07..09,12 | Category PATCH/DELETE/reorder owner-scoped; color hex validation; last-category guard | integration | `pytest tests/test_categories_color_sort.py -x` | ✅ 04-02 | ⬜ pending |
+| 04-02-T2 | 02 | 1 | BOARD-04 | T-04-10,11 | Item PATCH/DELETE/restore owner-scoped; type-change mapping; soft-delete + undo | integration | `pytest tests/test_items_edit_softdelete.py -x` | ✅ 04-02 | ⬜ pending |
+| 04-03-T1 | 03 | 2 | BOARD-02, BOARD-03 | T-04-13..16 | DnD optimistic + revert; a11y keyboard; multi-select bulk move | unit/DOM | `pnpm test -- --run dnd` | ✅ 04-03 | ⬜ pending |
+| 04-03-T2 | 03 | 2 | BOARD-02, BOARD-04 | T-04-17 | Modal autosave; soft-delete undo; type-change confirm; link OG; categories panel | unit/DOM | `pnpm test -- --run modal categories` | ✅ 04-03 | ⬜ pending |
+| 04-04-T1 | 04 | 3 | CAP-05 | T-04-18,22 | Poll owner-scoped; backoff; offline banner; new-item feedback | integration | `pnpm test -- --run poll` | ✅ 04-04 | ⬜ pending |
+| 04-04-T2 | 04 | 3 | CAL-01, CAP-05 | T-04-19..21 | OAuth state/session check; calendar list owner-scoped; theme/sound localStorage safe | unit/flow | `pnpm test -- --run settings calendar` | ✅ 04-04 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -53,11 +55,11 @@ created: 2026-08-02
 
 ## Wave 0 Requirements
 
-- [ ] `webapp/vitest.config.ts` — Vitest environment configuration
-- [ ] `webapp/tests/setup.ts` — React Testing Library / DOM mocks
-- [ ] Stub test files for BOARD-01..04, CAP-05, CAL-01 per RESEARCH Validation Architecture
+- [x] `webapp/vitest.config.ts` — Vitest environment configuration (created in 04-01 Task 1)
+- [x] `webapp/tests/setup.ts` — React Testing Library / DOM mocks (created in 04-01 Task 1)
+- [x] Stub test files for BOARD-01..04, CAP-05, CAL-01 per RESEARCH Validation Architecture (created in 04-01 Task 1 + 04-03/04-04)
 
-*Planner fills exact Wave 0 task paths during planning.*
+*Planner filled exact Wave 0 task paths: 04-01 Task 1 owns Wave 0 infra + board/auth stubs; 04-03/04-04 own feature-specific stubs.*
 
 ---
 
