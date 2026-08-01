@@ -6,7 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "hermes-plugin"
 version = "0.1.0"
 description = "Hermes plugin — Puzzlessbox capture confirmation via remote MCP"
-readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "httpx>=0.28.1",
