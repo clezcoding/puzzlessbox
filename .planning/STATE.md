@@ -5,10 +5,10 @@ milestone_name: milestone
 current_phase: 3
 current_phase_name: Hermes-Plugin & Timeout-Spike
 status: "Phase 02 shipped — PR #15"
-stopped_at: Completed 02-04-PLAN.md
-last_updated: "2026-07-31T03:26:28.315Z"
+stopped_at: Phase 3 context gathered
+last_updated: "2026-08-01T02:22:10.357Z"
 progress:
-  total_phases: 3
+  total_phases: 4
   completed_phases: 3
   total_plans: 12
   completed_plans: 12
@@ -117,9 +117,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-01T02:02:00.000Z
-- **Stopped at:** Session resumed — Phase 3 ready for planning
-- **Resume file:** `.planning/.continue-here.md`
+- **Last session:** 2026-08-01T02:22:10.344Z
+- **Stopped at:** Phase 3 context gathered
+- **Resume file:** .planning/phases/03-hermes-plugin-timeout-spike/03-CONTEXT.md
 - **Next recommended action:** `/gsd-discuss-phase 3` (no CONTEXT.md) or `/gsd-plan-phase 3`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
