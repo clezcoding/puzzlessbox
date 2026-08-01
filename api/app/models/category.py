@@ -13,4 +13,7 @@ class Category(SQLModel, table=True):
     # ponytail: NULL owner_id = system default category visible to all tenants (D-04)
     owner_id: uuid.UUID | None = Field(default=None, index=True)
     name: str = Field(unique=True, index=True)
+    color: str | None = None
+    sort_order: int = Field(default=0)
+    deleted_at: datetime | None = None
     created_at: datetime | None = None
