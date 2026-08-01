@@ -64,6 +64,8 @@ export interface Category {
   id: string;
   owner_id: string | null;
   name: string;
+  color: string | null;
+  sort_order: number;
   created_at: string | null;
 }
 
@@ -75,10 +77,38 @@ export interface BoardItem {
   title: string;
   summary: string;
   type: string;
+  sort_order: number;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
 }
+
+export type ItemUpdateFields = {
+  title?: string;
+  body?: string;
+  url?: string;
+  due?: string;
+  event_start?: string;
+  event_end?: string;
+  category_id?: string;
+  sort_order?: number;
+  type?: string;
+};
+
+export type ConflictDetails = {
+  etag?: string;
+  remote_state?: {
+    title?: string;
+    event_start?: string;
+    event_end?: string;
+    starts_at?: string;
+    ends_at?: string;
+  };
+};
+
+export type UpdateItemResult =
+  | { ok: true }
+  | { ok: false; conflict: ConflictDetails };
 
 export function getCategories(): Promise<Category[]> {
   return apiFetch<Category[]>("/categories");

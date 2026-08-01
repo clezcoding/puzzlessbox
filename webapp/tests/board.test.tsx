@@ -9,6 +9,76 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace: vi.fn(), push: vi.fn(), refresh: vi.fn() }),
 }));
 
+vi.mock("next/dynamic", () => ({
+  default: () => {
+    const React = require("react");
+    return function BoardDndStub({
+      categories,
+      items,
+    }: {
+      categories: Array<{ id: string; name: string }>;
+      items: Array<{ id: string; title: string }>;
+    }) {
+      if (items.length === 0) {
+        return React.createElement(
+          "div",
+          { "data-testid": "board-dnd-stub" },
+          React.createElement("img", {
+            src: "/apollo-empty-inbox.png",
+            alt: "Leerer Zustand Inbox",
+          }),
+          React.createElement(
+            "p",
+            null,
+            "Apollo hat noch nichts gefangen. Sende eine Nachricht, um den ersten Eintrag zu stashen.",
+          ),
+          categories.map((category) =>
+            React.createElement("h2", { key: category.id }, category.name),
+          ),
+        );
+      }
+      return React.createElement(
+        "div",
+        { "data-testid": "board-dnd-stub" },
+        categories.map((category) =>
+          React.createElement("h2", { key: category.id }, category.name),
+        ),
+        items.map((item) =>
+          React.createElement("div", { key: item.id }, item.title),
+        ),
+      );
+    };
+  },
+}));
+
+vi.mock("@/lib/hooks/use-media-query", () => ({
+  useMediaQuery: () => false,
+}));
+
+vi.mock("@/components/board/categories-panel", () => ({
+  CategoriesPanel: () => <div data-testid="categories-panel-stub" />,
+}));
+
+vi.mock("@/components/board/bulk-move-bar", () => ({
+  BulkMoveBar: () => null,
+}));
+
+vi.mock("@/components/board/item-modal", () => ({
+  ItemModal: () => null,
+}));
+
+vi.mock("@/components/board/mobile-category-sheet", () => ({
+  MobileCategorySheet: () => null,
+}));
+
+vi.mock("@hello-pangea/dnd", () => ({
+  DragDropContext: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Droppable: ({ children }: { children: (p: unknown) => React.ReactNode }) =>
+    children({ innerRef: () => {}, droppableProps: {}, placeholder: null }),
+  Draggable: ({ children }: { children: (p: unknown) => React.ReactNode }) =>
+    children({ innerRef: () => {}, draggableProps: {}, dragHandleProps: {} }),
+}));
+
 vi.mock("next/image", () => ({
   default: ({
     alt,
@@ -37,17 +107,18 @@ vi.mock("@/lib/auth-client", () => ({
 }));
 
 const mockCategories = [
-  { id: "cat-inbox", owner_id: null, name: "Inbox", created_at: null },
-  { id: "cat-notes", owner_id: null, name: "Notizen", created_at: null },
-  { id: "cat-links", owner_id: null, name: "Links", created_at: null },
-  { id: "cat-tasks", owner_id: null, name: "Tasks", created_at: null },
-  { id: "cat-termine", owner_id: null, name: "Termine", created_at: null },
+  { id: "cat-inbox", owner_id: null, name: "Inbox", color: null, sort_order: 0, created_at: null },
+  { id: "cat-notes", owner_id: null, name: "Notizen", color: null, sort_order: 1, created_at: null },
+  { id: "cat-links", owner_id: null, name: "Links", color: null, sort_order: 2, created_at: null },
+  { id: "cat-tasks", owner_id: null, name: "Tasks", color: null, sort_order: 3, created_at: null },
+  { id: "cat-termine", owner_id: null, name: "Termine", color: null, sort_order: 4, created_at: null },
 ];
 
 const baseItem = {
   owner_id: "user-1",
   summary: "",
   type: "note",
+  sort_order: 0,
   created_at: "2026-08-01T10:00:00Z",
   updated_at: "2026-08-01T10:00:00Z",
   deleted_at: null,
