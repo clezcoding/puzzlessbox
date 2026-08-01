@@ -221,6 +221,76 @@ async def confirm_draft(
     return {"id": draft_id, "type": item_type.value, "status": "confirmed"}
 
 
+@router.post("/drafts/{draft_id}/discard")
+async def discard_draft(
+    draft_id: str,
+    db: Session = Depends(get_db_for_owner),
+) -> dict[str, Any]:
+    owner_id = current_owner_id.get()
+    if not owner_id:
+        raise RuntimeError("owner_id missing after auth dependency")
+
+    item_type = _lookup_draft_type(db, owner_id, draft_id)
+    table = table_for_item_type(item_type)
+    discarded = db.execute(
+        text(
+            f"""
+            UPDATE {table}
+            SET deleted_at = NOW(), updated_at = NOW(), status = 'discarded'
+            WHERE id = :draft_id
+              AND owner_id = :owner_id
+              AND status IN ('draft', 'auto_saved')
+            RETURNING id
+            """
+        ),
+        {"draft_id": draft_id, "owner_id": owner_id},
+    ).scalar_one_or_none()
+    if discarded is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "NOT_FOUND", "message": "Draft not found."},
+        )
+    db.commit()
+    timeout_manager.cancel_timeout(draft_id)
+    return {"id": draft_id, "type": item_type.value, "status": "discarded"}
+
+
+@router.get("/drafts/{draft_id}")
+async def get_draft(
+    draft_id: str,
+    db: Session = Depends(get_db_for_owner),
+) -> dict[str, Any]:
+    owner_id = current_owner_id.get()
+    if not owner_id:
+        raise RuntimeError("owner_id missing after auth dependency")
+
+    row = db.execute(
+        text(
+            """
+            SELECT id, type, status, title, category_id, summary
+            FROM board_items
+            WHERE id = :draft_id
+              AND owner_id = :owner_id
+              AND deleted_at IS NULL
+            """
+        ),
+        {"draft_id": draft_id, "owner_id": owner_id},
+    ).mappings().first()
+    if row is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "NOT_FOUND", "message": "Draft not found."},
+        )
+    return {
+        "id": str(row["id"]),
+        "type": row["type"],
+        "status": row["status"],
+        "title": row["title"],
+        "category_id": str(row["category_id"]) if row["category_id"] is not None else None,
+        "summary": row["summary"],
+    }
+
+
 @router.get("/board-items")
 def list_board_items(db: Session = Depends(get_db_for_owner)) -> list[BoardItem]:
     owner_id = current_owner_id.get()

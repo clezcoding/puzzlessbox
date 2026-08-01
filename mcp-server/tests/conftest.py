@@ -88,6 +88,25 @@ def mock_api_transport(mock_api_state: dict[str, Any]) -> httpx.MockTransport:
         if request.url.path.endswith("/confirm") and request.method == "POST":
             return httpx.Response(200, json={"id": TEST_ITEM_ID, "status": "confirmed"})
 
+        if request.url.path.endswith("/discard") and request.method == "POST":
+            return httpx.Response(
+                200,
+                json={"id": TEST_ITEM_ID, "type": "note", "status": "discarded"},
+            )
+
+        if request.url.path.startswith("/drafts/") and request.method == "GET":
+            return httpx.Response(
+                200,
+                json={
+                    "id": TEST_ITEM_ID,
+                    "type": "note",
+                    "status": "draft",
+                    "title": "Draft",
+                    "category_id": TEST_CATEGORY_ID,
+                    "summary": "summary",
+                },
+            )
+
         if request.url.path.startswith("/items/") and request.method == "PATCH":
             return httpx.Response(200, json={"id": TEST_ITEM_ID, "category_id": TEST_TARGET_CATEGORY_ID})
 

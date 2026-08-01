@@ -5,6 +5,7 @@ class ItemStatus(str, Enum):
     draft = "draft"
     auto_saved = "auto_saved"
     confirmed = "confirmed"
+    discarded = "discarded"
 
 
 class ItemType(str, Enum):

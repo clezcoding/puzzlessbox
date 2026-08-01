@@ -128,6 +128,41 @@ async def move_item(
     )
 
 
+async def discard_item(
+    item_id: Annotated[str, Field(description="Draft UUID to discard/soft-delete")],
+) -> dict:
+    """Soft-delete a capture draft by setting deleted_at."""
+    if _api_client is None:
+        raise RuntimeError("MCP tools not registered")
+    owner_id = get_access_token().claims["owner_id"]
+    return await call_api(
+        _api_client,
+        "POST",
+        f"/drafts/{item_id}/discard",
+        owner_id,
+    )
+
+
+async def get_draft_status(
+    item_id: Annotated[str, Field(description="Draft UUID to poll status for")],
+) -> dict:
+    """Read a draft's status (id, type, status) — poll path for autosave detection."""
+    if _api_client is None:
+        raise RuntimeError("MCP tools not registered")
+    owner_id = get_access_token().claims["owner_id"]
+    response = await call_api(
+        _api_client,
+        "GET",
+        f"/drafts/{item_id}",
+        owner_id,
+    )
+    return {
+        "id": response["id"],
+        "type": response["type"],
+        "status": response["status"],
+    }
+
+
 def register_tools(mcp, client: httpx.AsyncClient) -> None:
     global _api_client
     _api_client = client
@@ -135,3 +170,5 @@ def register_tools(mcp, client: httpx.AsyncClient) -> None:
     mcp.tool(confirm_item)
     mcp.tool(update_item)
     mcp.tool(move_item)
+    mcp.tool(discard_item)
+    mcp.tool(get_draft_status)

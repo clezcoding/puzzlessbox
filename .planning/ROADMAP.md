@@ -111,8 +111,20 @@ Plans:
   3. Capture-Flow funktioniert über alle Hermes-unterstützten Messaging-Kanäle (Telegram/WhatsApp/Discord/…) ohne Kanal-spezifische Anpassung in Puzzlessbox
   4. Hermes-Plugin ruft ausschließlich die MCP-Tools auf; kein direkter Datenbankzugriff vom Hermes-VPS
 
-**Plans**: TBD
-**Spike note**: `/gsd-spike "Hermes Cron/dispatch_tool Timing für 30s-Bestätigungs-Flow"` vor `/gsd-plan-phase 3` — technisch unsicherster Teil, kein bekanntes Referenzmuster.
+**Plans**: 4/4 plans executed
+Plans:
+**Wave 1**
+
+- [x] 03-01-PLAN.md — API POST /drafts/{id}/discard + GET /drafts/{id} + MCP discard_item/get_draft_status Tools + idempotente confirm auf auto_saved (D-04, D-08, D-06 read path)
+- [x] 03-02-PLAN.md — TRACER: hermes-plugin Skeleton — config + MCP-Client + format_confirmation + dialog happy path (CAP-02, MCP-03, MCP-04 spike landed)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [x] 03-03-PLAN.md — hermes-plugin Expansion: konversationeller Edit + Single-Active-Draft (sichern/verwerfen/warten) + list_categories + status-aware confirm ACK + Post-Autosave Poll via get_draft_status (D-01..D-09)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [x] 03-04-PLAN.md — setup.sh + kanalneutrale CAP-04 Tests über Telegram/WhatsApp/Discord (D-12, CAP-04; setzt Edit-Flow aus Plan 03 voraus)
 
 ### Phase 4: WebApp
 
@@ -186,7 +198,7 @@ Plans:
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
 | 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
-| 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
+| 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
 | 4. WebApp | 0/0 | Not started | - |
 | 5. Coolify-Deployment, CI/CD & Härtung | 0/0 | Not started | - |
 

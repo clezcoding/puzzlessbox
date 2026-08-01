@@ -1,0 +1,12 @@
+name: puzzlessbox
+version: "0.1.0"
+description: Puzzlessbox capture confirmation — Stash-Check orchestration via remote MCP
+requires_env:
+  - name: MCP_BEARER
+    description: "Static bearer token for mcp.puzzlesstool.online"
+    secret: true
+optional_env:
+  - name: MCP_URL
+    description: "Remote MCP endpoint (default https://mcp.puzzlesstool.online/mcp)"
+  - name: MCP_CATEGORY_ID
+    description: "Default Inbox category UUID for capture drafts"

@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 3
+current_phase: 03
 current_phase_name: Hermes-Plugin & Timeout-Spike
-status: "Phase 02 shipped — PR #15"
-stopped_at: Completed 02-04-PLAN.md
-last_updated: "2026-07-31T03:26:28.315Z"
+status: "Phase 03 shipped — PR #20"
+stopped_at: Completed 03-04-PLAN.md
+last_updated: "2026-08-01T03:47:36.199Z"
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 12
-  completed_plans: 12
+  total_phases: 4
+  completed_phases: 4
+  total_plans: 16
+  completed_plans: 16
 ---
 
 # State: Puzzlessbox
@@ -29,11 +29,11 @@ progress:
 
 ## Current Position
 
-- **Phase:** 3 — Hermes-Plugin & Timeout-Spike
+- **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — COMPLETE (UAT passed)
 - **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
-- **Plan:** Not started
-- **Status:** Phase 02 shipped — PR #15
-- **Progress Phase 1:** [██████████] 100%
+- **Plan:** 4 of 4 complete
+- **Status:** Phase 03 shipped — PR #20
+- **Progress Phase 3:** [██████████] 100% verified (4/4 plans)
 
 ```
 [2/6] ██████░░░░░░░░░░░░░░  33% phases
@@ -46,7 +46,7 @@ progress:
 | 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
-| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
+| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete (4 plans, UAT passed) |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
 
@@ -74,6 +74,10 @@ progress:
 | Phase 02-mcp-server P02 | 8min | 2 tasks | 3 files |
 | Phase 02 P03 | 12min | 2 tasks | 7 files |
 | Phase 02-mcp-server P04 | 20min | 2 tasks | 4 files |
+| Phase 03 P02 | 5min | 2 tasks | 14 files |
+| Phase 03-hermes-plugin-timeout-spike P01 | 15min | 3 tasks | 9 files |
+| Phase 03-hermes-plugin-timeout-spike P04 | 6min | 2 tasks | 3 files |
+| Phase 03 P04 | 6min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -100,7 +104,7 @@ progress:
 ### TODOs
 
 - [x] Phase 0: `/gsd-plan-phase 0` — 2 plans (brand kit + docs)
-- [ ] Phase 3: `/gsd-spike "Hermes Cron/dispatch_tool Timing für 30s-Bestätigungs-Flow"` vor `/gsd-plan-phase 3`
+- [x] Phase 3 spike: `.planning/spikes/` 001–004 (MCP-04 VALIDATED) — vor `/gsd-plan-phase 3`
 
 ### Blockers
 
@@ -117,10 +121,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-07-31T03:09:46.235Z
-- **Stopped at:** Completed 02-04-PLAN.md
+- **Last session:** 2026-08-01T03:19:20.845Z
+- **Stopped at:** Completed 03-04-PLAN.md
 - **Resume file:** None
-- **Next recommended action:** `/gsd-execute-phase 2`
+- **Next recommended action:** `/gsd-plan-phase 4` or `/gsd-execute-phase 4`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
@@ -157,3 +161,12 @@ progress:
 - [Phase ?]: Schema reject tests use FunctionTool.run + fastmcp ValidationError
 - [Phase ?]: D-23 separate MCP Coolify Docker-Image-App at mcp.puzzlesstool.online — GHCR deploy-mcp.yml on main
 - [Phase ?]: Coolify MCP webhook uses API bearer auth (cfdfb19)
+- [Phase ?]: Hermes plugin uses streamable_http_client (MCP SDK) not spike streamablehttp_client alias
+- [Phase ?]: Inbox category_id stub via MCP_CATEGORY_ID env until Plan 03 list_categories
+- [Phase ?]: Alembic 0005 extends item_status with discarded for soft-delete discard_draft response
+- [Phase ?]: get_draft_status returns minimal {id,type,status} poll surface per D-06
+- [Phase ?]: Unrecognized free text with active draft routes to D-07 conflict via start_capture_flow
+- [Phase ?]: Note type category hints prefer Inbox for plain captures
+- [Phase ?]: Confirm ACK uses live call_mcp_get_item_status not session snapshot (D-08)
+- [Phase ?]: setup.sh enforces HTTPS MCP_URL and MCP_BEARER min 20 chars (D-12)
+- [Phase ?]: CAP-04 channel tests use MockSession adapters without render logic
