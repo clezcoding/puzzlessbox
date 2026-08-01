@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: WebApp (UI)
-status: "Phase 04 UI-SPEC draft — ready for ui-checker / plan"
-stopped_at: Phase 4 UI-SPEC written
-last_updated: "2026-08-02T00:30:00.000Z"
+status: Phase 04 UI-SPEC approved — ready to plan
+stopped_at: Phase 4 UI-SPEC approved
+last_updated: "2026-08-02T00:35:00.000Z"
 progress:
   total_phases: 5
   completed_phases: 4
@@ -16,7 +16,7 @@ progress:
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-02 (Phase 4 UI-SPEC draft)
+**Last updated:** 2026-08-02 (Phase 4 UI-SPEC approved)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 04 (WebApp UI) — UI-SPEC draft written
+- **Phase:** 04 (WebApp UI) — UI-SPEC approved
 - **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
 - **Plan:** 0 of N (planning not started)
-- **Status:** `04-UI-SPEC.md` draft — next ui-checker then `/gsd-plan-phase 4`
+- **Status:** `04-UI-SPEC.md` approved — next `/gsd-plan-phase 4`
 - **Resume:** `.planning/phases/04-webapp/04-UI-SPEC.md`
 
 ```
@@ -121,9 +121,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T00:30:00.000Z
-- **Stopped at:** Phase 4 UI-SPEC draft written
-- **Resume file:** .planning/phases/04-webapp/04-UI-SPEC.md
+- **Last session:** 2026-08-01T22:32:58.298Z
+- **Stopped at:** Phase 4 UI-SPEC approved
+- **Resume file:** /Users/puzzless/Desktop/puzzlessbox/.planning/phases/04-webapp/04-UI-SPEC.md
 - **Next recommended action:** ui-checker on `04-UI-SPEC.md`, then `/gsd-plan-phase 4`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
