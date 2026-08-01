@@ -278,7 +278,7 @@ async def test_create_category_post(mcp_stack, mock_api_state) -> None:
 
 
 @pytest.mark.asyncio
-async def test_six_tools_registered(mcp_stack) -> None:
+async def test_eight_tools_registered(mcp_stack) -> None:
     _, mcp, _ = mcp_stack
     tools = await mcp.list_tools()
     names = sorted(t.name for t in tools)
@@ -288,6 +288,8 @@ async def test_six_tools_registered(mcp_stack) -> None:
             "confirm_item",
             "update_item",
             "move_item",
+            "discard_item",
+            "get_draft_status",
             "list_categories",
             "create_category",
         ]

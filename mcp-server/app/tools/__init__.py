@@ -6,6 +6,8 @@ from app.tools.categories import (
 from app.tools.items import (
     confirm_item,
     create_item,
+    discard_item,
+    get_draft_status,
     move_item,
     register_tools as register_item_tools,
     update_item,
@@ -22,6 +24,8 @@ __all__ = [
     "confirm_item",
     "update_item",
     "move_item",
+    "discard_item",
+    "get_draft_status",
     "list_categories",
     "create_category",
     "register_tools",
