@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: WebApp (UI)
-status: Phase 04 planned — 4 plans ready to execute
+status: Phase 04 planned — 5 plans ready to execute
 stopped_at: Phase 4 planning complete
-last_updated: "2026-08-01T23:00:24.300Z"
+last_updated: "2026-08-02T00:55:00.000Z"
 progress:
   total_phases: 5
   completed_phases: 4
@@ -16,7 +16,7 @@ progress:
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-02 (Phase 4 UI-SPEC approved)
+**Last updated:** 2026-08-02 (Phase 4 planned — 5 plans)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -29,11 +29,11 @@ progress:
 
 ## Current Position
 
-- **Phase:** 04 (WebApp UI) — planned, 4 plans ready
+- **Phase:** 04 (WebApp UI) — planned, 5 plans ready
 - **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
-- **Plan:** 0/4 (planning complete, execution not started)
-- **Status:** 4 PLAN.md files committed; next `/gsd-execute-phase 4`
-- **Resume:** `.planning/phases/04-webapp/04-01-PLAN.md`
+- **Plan:** 0/5 (planning complete, execution not started)
+- **Status:** 5 PLAN.md files (04-00..04-04); next `/gsd-execute-phase 4`
+- **Resume:** `.planning/phases/04-webapp/04-00-PLAN.md`
 
 ```
 [4/6] ██████████████░░░░░░  67% phases
@@ -47,7 +47,7 @@ progress:
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete (4 plans, UAT passed) |
-| 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Planned (4 plans) |
+| 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Planned (5 plans) |
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
 
 ## Performance Metrics
@@ -121,9 +121,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T01:15:00.000Z
-- **Stopped at:** Phase 4 planning complete (4 PLAN.md committed)
-- **Resume file:** /Users/puzzless/Desktop/puzzlessbox/.planning/phases/04-webapp/04-01-PLAN.md
+- **Last session:** 2026-08-02T00:55:00.000Z
+- **Stopped at:** Phase 4 planning complete (5 PLAN.md: 04-00..04-04)
+- **Resume file:** /Users/puzzless/Desktop/puzzlessbox/.planning/phases/04-webapp/04-00-PLAN.md
 - **Next recommended action:** `/gsd-execute-phase 4`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
