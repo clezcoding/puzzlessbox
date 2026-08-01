@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 3
 current_phase_name: Hermes-Plugin & Timeout-Spike
-status: "Phase 02 shipped — PR #15"
-stopped_at: Phase 3 context gathered
-last_updated: "2026-08-01T02:59:59.737Z"
+status: "Ready to execute"
+stopped_at: Phase 3 planned — 4 plans, 3 waves
+last_updated: "2026-08-01T03:01:00.000Z"
 progress:
   total_phases: 4
   completed_phases: 3
@@ -31,9 +31,9 @@ progress:
 
 - **Phase:** 3 — Hermes-Plugin & Timeout-Spike
 - **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
-- **Plan:** Not started
-- **Status:** Phase 02 shipped — PR #15
-- **Progress Phase 1:** [██████████] 100%
+- **Plan:** 4/4 planned (3 waves) — Ready to execute
+- **Status:** Ready to execute
+- **Progress Phase 3:** [░░░░░░░░░░] 0% executed
 
 ```
 [2/6] ██████░░░░░░░░░░░░░░  33% phases
@@ -46,7 +46,7 @@ progress:
 | 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
-| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Not started |
+| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Planned (4 plans) |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
 
@@ -117,10 +117,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-01T02:22:10.344Z
-- **Stopped at:** Phase 3 context gathered
-- **Resume file:** .planning/phases/03-hermes-plugin-timeout-spike/03-CONTEXT.md
-- **Next recommended action:** `/gsd-discuss-phase 3` (no CONTEXT.md) or `/gsd-plan-phase 3`
+- **Last session:** 2026-08-01T03:00:00.000Z
+- **Stopped at:** Phase 3 planned — 4 plans, 3 waves
+- **Resume file:** .planning/phases/03-hermes-plugin-timeout-spike/03-01-PLAN.md
+- **Next recommended action:** `/gsd-execute-phase 3`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
