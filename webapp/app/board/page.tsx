@@ -10,13 +10,11 @@ import { BulkMoveBar } from "@/components/board/bulk-move-bar";
 import { CategoriesPanel } from "@/components/board/categories-panel";
 import { ItemModal } from "@/components/board/item-modal";
 import { MobileCategorySheet } from "@/components/board/mobile-category-sheet";
-import {
-  getBoardItems,
-  getCategories,
-  type BoardItem,
-  type Category,
-} from "@/lib/api-client";
+import { NewItemFeedback } from "@/components/board/new-item-feedback";
+import { OfflineBanner } from "@/components/board/offline-banner";
+import type { BoardItem } from "@/lib/api-client";
 import { moveItem } from "@/lib/api/items";
+import { useBoardPoll } from "@/lib/hooks/use-board-poll";
 import { useSession } from "@/lib/auth-client";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
 
@@ -25,39 +23,34 @@ const BoardDnd = dynamic(
   { ssr: false },
 );
 
-const VISIBLE_STATUSES = new Set(["auto_saved", "confirmed"]);
-
 export default function BoardPage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [mounted, setMounted] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [items, setItems] = useState<BoardItem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeCategoryId, setActiveCategoryId] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [openItem, setOpenItem] = useState<BoardItem | null>(null);
   const [sheetItem, setSheetItem] = useState<BoardItem | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [pollNewItemIds, setPollNewItemIds] = useState<string[]>([]);
 
-  const loadBoard = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [cats, boardItems] = await Promise.all([
-        getCategories(),
-        getBoardItems(),
-      ]);
-      setCategories(cats);
-      const visible = boardItems.filter((item) => VISIBLE_STATUSES.has(item.status));
-      setItems(visible);
-      if (!activeCategoryId && cats[0]) {
-        setActiveCategoryId(cats[0].id);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, [activeCategoryId]);
+  const handleNewItems = useCallback((ids: string[]) => {
+    setPollNewItemIds((prev) => [...prev, ...ids]);
+  }, []);
+
+  const {
+    items,
+    categories,
+    setCategories,
+    setItems,
+    offline,
+    loading,
+    refresh,
+  } = useBoardPoll({
+    enabled: !isPending && !!session,
+    onNewItems: handleNewItems,
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -67,10 +60,14 @@ export default function BoardPage() {
     if (isPending) return;
     if (!session) {
       router.replace("/login");
-      return;
     }
-    void loadBoard();
-  }, [isPending, session, router, loadBoard]);
+  }, [isPending, session, router]);
+
+  useEffect(() => {
+    if (!activeCategoryId && categories[0]) {
+      setActiveCategoryId(categories[0].id);
+    }
+  }, [activeCategoryId, categories]);
 
   const selectedList = useMemo(() => Array.from(selectedIds), [selectedIds]);
 
@@ -87,7 +84,7 @@ export default function BoardPage() {
     try {
       await moveItem(itemId, categoryId);
       toast.success("Eintrag verschoben.");
-      await loadBoard();
+      refresh();
     } catch {
       toast.error("Verschieben fehlgeschlagen. Eintrag ist zurück.");
     }
@@ -105,8 +102,10 @@ export default function BoardPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <BoardHeader
         userEmail={session.user.email}
-        onRefresh={() => void loadBoard()}
+        onRefresh={refresh}
       />
+      {offline ? <OfflineBanner onRetry={refresh} /> : null}
+      <NewItemFeedback newItemIds={pollNewItemIds} />
       <div className="flex items-center gap-2 border-b border-border px-4 py-2">
         <CategoriesPanel categories={categories} onCategoriesChange={setCategories} />
       </div>
@@ -143,7 +142,7 @@ export default function BoardPage() {
         count={selectedList.length}
         categories={categories}
         selectedIds={selectedList}
-        onMoved={() => void loadBoard()}
+        onMoved={refresh}
         onClear={() => setSelectedIds(new Set())}
       />
 
@@ -168,7 +167,7 @@ export default function BoardPage() {
         item={sheetItem}
         categories={categories}
         onClose={() => setSheetOpen(false)}
-        onMoved={() => void loadBoard()}
+        onMoved={refresh}
       />
     </div>
   );
