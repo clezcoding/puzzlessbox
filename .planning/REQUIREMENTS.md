@@ -10,7 +10,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Capture
 
 - [x] **CAP-01**: User sendet Sprach- oder Textnachricht an Hermes; System erzeugt strukturierten Draft (Titel, Typ, Kategorie, Kurz-Zusammenfassung)
-- [ ] **CAP-02**: User sieht formatierte Bestätigung mit Edit-Option vor dem Speichern
+- [x] **CAP-02**: User sieht formatierte Bestätigung mit Edit-Option vor dem Speichern
 - [x] **CAP-03**: Nach 30s Inaktivität speichert System den Draft automatisch (Timeout-State-Machine serverseitig in der API, nicht nur Hermes-Cron)
 - [ ] **CAP-04**: Capture funktioniert über alle Messaging-Kanäle, die Hermes bereits unterstützt (kein eigener Messenger in Puzzlessbox)
 - [ ] **CAP-05**: Gespeicherte Items erscheinen kategorisiert in der WebApp
@@ -33,8 +33,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **MCP-01**: Remote-MCP-Server (FastMCP) exponiert Tools: `create_item`, `list_categories`, `create_category`, `move_item`, `confirm_item`, `update_item`
 - [x] **MCP-02**: MCP ist nur mit Bearer-Token über HTTPS erreichbar (separate Coolify-App)
-- [ ] **MCP-03**: Hermes-Plugin orchestriert Bestätigungs-Flow und ruft MCP-Tools auf
-- [ ] **MCP-04**: Vor Plan/Execute der Plugin-Phase existiert Spike zu Hermes Timing/Hooks (VALIDATED/INVALIDATED)
+- [x] **MCP-03**: Hermes-Plugin orchestriert Bestätigungs-Flow und ruft MCP-Tools auf
+- [x] **MCP-04**: Vor Plan/Execute der Plugin-Phase existiert Spike zu Hermes Timing/Hooks (VALIDATED/INVALIDATED)
 
 ### Links
 
@@ -116,10 +116,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAL-03 | Phase 1 | Complete |
 | MCP-01 | Phase 2 | Complete |
 | MCP-02 | Phase 2 | Complete |
-| CAP-02 | Phase 3 | Pending |
+| CAP-02 | Phase 3 | Complete |
 | CAP-04 | Phase 3 | Pending |
-| MCP-03 | Phase 3 | Pending |
-| MCP-04 | Phase 3 | Pending |
+| MCP-03 | Phase 3 | Complete |
+| MCP-04 | Phase 3 | Complete |
 | BOARD-01 | Phase 4 | Pending |
 | BOARD-02 | Phase 4 | Pending |
 | BOARD-03 | Phase 4 | Pending |

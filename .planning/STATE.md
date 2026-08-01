@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 3
+current_phase: 03
 current_phase_name: Hermes-Plugin & Timeout-Spike
-status: "Ready to execute"
-stopped_at: Phase 3 planned — 4 plans, 3 waves
-last_updated: "2026-08-01T03:01:00.000Z"
+status: executing
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-08-01T03:12:31.261Z"
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 16
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # State: Puzzlessbox
@@ -29,9 +29,9 @@ progress:
 
 ## Current Position
 
-- **Phase:** 3 — Hermes-Plugin & Timeout-Spike
+- **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — EXECUTING
 - **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
-- **Plan:** 4/4 planned (3 waves) — Ready to execute
+- **Plan:** 2 of 4
 - **Status:** Ready to execute
 - **Progress Phase 3:** [░░░░░░░░░░] 0% executed
 
@@ -74,6 +74,7 @@ progress:
 | Phase 02-mcp-server P02 | 8min | 2 tasks | 3 files |
 | Phase 02 P03 | 12min | 2 tasks | 7 files |
 | Phase 02-mcp-server P04 | 20min | 2 tasks | 4 files |
+| Phase 03 P02 | 5min | 2 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -117,9 +118,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-01T03:00:00.000Z
-- **Stopped at:** Phase 3 planned — 4 plans, 3 waves
-- **Resume file:** .planning/phases/03-hermes-plugin-timeout-spike/03-01-PLAN.md
+- **Last session:** 2026-08-01T03:12:31.250Z
+- **Stopped at:** Completed 03-02-PLAN.md
+- **Resume file:** .planning/phases/03-hermes-plugin-timeout-spike/03-03-PLAN.md
 - **Next recommended action:** `/gsd-execute-phase 3`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
@@ -157,3 +158,5 @@ progress:
 - [Phase ?]: Schema reject tests use FunctionTool.run + fastmcp ValidationError
 - [Phase ?]: D-23 separate MCP Coolify Docker-Image-App at mcp.puzzlesstool.online — GHCR deploy-mcp.yml on main
 - [Phase ?]: Coolify MCP webhook uses API bearer auth (cfdfb19)
+- [Phase ?]: Hermes plugin uses streamable_http_client (MCP SDK) not spike streamablehttp_client alias
+- [Phase ?]: Inbox category_id stub via MCP_CATEGORY_ID env until Plan 03 list_categories

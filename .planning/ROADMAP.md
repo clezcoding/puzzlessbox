@@ -111,12 +111,12 @@ Plans:
   3. Capture-Flow funktioniert über alle Hermes-unterstützten Messaging-Kanäle (Telegram/WhatsApp/Discord/…) ohne Kanal-spezifische Anpassung in Puzzlessbox
   4. Hermes-Plugin ruft ausschließlich die MCP-Tools auf; kein direkter Datenbankzugriff vom Hermes-VPS
 
-**Plans**: 4/4 plans
+**Plans**: 1/4 plans executed
 Plans:
 **Wave 1**
 
 - [ ] 03-01-PLAN.md — API POST /drafts/{id}/discard + GET /drafts/{id} + MCP discard_item/get_draft_status Tools + idempotente confirm auf auto_saved (D-04, D-08, D-06 read path)
-- [ ] 03-02-PLAN.md — TRACER: hermes-plugin Skeleton — config + MCP-Client + format_confirmation + dialog happy path (CAP-02, MCP-03, MCP-04 spike landed)
+- [x] 03-02-PLAN.md — TRACER: hermes-plugin Skeleton — config + MCP-Client + format_confirmation + dialog happy path (CAP-02, MCP-03, MCP-04 spike landed)
 
 **Wave 2** *(blocked on Wave 1)*
 
@@ -198,7 +198,7 @@ Plans:
 | 0. Branding & Design System | 2/2 | Complete    | 2026-07-29 |
 | 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
-| 3. Hermes-Plugin & Timeout-Spike | 0/0 | Not started | - |
+| 3. Hermes-Plugin & Timeout-Spike | 1/4 | In Progress|  |
 | 4. WebApp | 0/0 | Not started | - |
 | 5. Coolify-Deployment, CI/CD & Härtung | 0/0 | Not started | - |
 
