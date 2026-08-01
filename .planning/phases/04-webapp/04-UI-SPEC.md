@@ -1,10 +1,11 @@
 ---
 phase: 4
 slug: webapp
-status: draft
+status: approved
 shadcn_initialized: false
 preset: pending-init — map to brand/tokens.css (Util Bone + Apollo terracotta)
 created: 2026-08-02
+reviewed_at: 2026-08-02
 ---
 
 # Phase 4 — UI Design Contract
@@ -50,12 +51,12 @@ Declared values (multiples of 4) — source: `brand/tokens.css` + BRAND.md:
 | 2xl | 48px | Major section breaks (auth hero → form) |
 | 3xl | 64px | Page-level spacing (auth outer) |
 
-**Also allowed (sketch foundation):** 12px for masthead control gaps / compact meta rows (between sm and md).
-
 **Board density:** Tighter **internal** card spacing (sm/xs) than **external** column/board gaps (md). `scrollbar-gutter: stable` on board scroll containers.
 
 **Exceptions:**
-- Icon-only / drag-handle touch targets ≥ **44×44px** hit area (visual icon may be 16–20px).
+- **12px** (sketch masthead only): control gaps / compact meta rows between sm and md — not a general scale step.
+- Icon-only / drag-handle touch targets ≥ **44×44px** hit area (visual icon may be 16–20px); `aria-label="Eintrag verschieben"` on handle.
+- Theme toggle icon button: `aria-label="Darstellung umschalten"`.
 - Mobile category tabs: min height **44px**.
 - Modal max-width: **560px** content; overlay full viewport.
 
@@ -123,7 +124,7 @@ Product UI language: **German** · Apollo voice (`brand/VOICE.md`). Verbs: gefan
 |---------|------|
 | Primary CTA (auth) | **Anmelden** (login) · **Konto anlegen** (register) |
 | Primary CTA (board bulk) | **In Kategorie verschieben** |
-| Primary CTA (calendar wizard) | **Mit Google verbinden** → **Kalender wählen** → **Fertig** |
+| Primary CTA (calendar wizard) | **Mit Google verbinden** → **Kalender wählen** → **Verbindung abschließen** |
 | Empty state heading (board/inbox) | Hier ist gähnende Leere. |
 | Empty state body (board/inbox) | Apollo hat noch nichts gefangen. Sende eine Nachricht, um den ersten Eintrag zu stashen. |
 | Empty Notizen | Keine Notizen stasht sich von selbst. Lass Apollo etwas aufschreiben. |
@@ -179,10 +180,11 @@ Product UI language: **German** · Apollo voice (`brand/VOICE.md`). Verbs: gefan
 
 ### 2. Board — Desktop Kanban (D-01, D-04..D-08)
 
+- **Focal point:** category column grid + active card stack (first read). Masthead secondary.
 - Compact columns so **~5 defaults fit without H-scroll**; extra categories may H-scroll.
 - Grid: hairline outer border, column rules, category pastel header wash, count in mono/muted.
 - Items: only `auto_saved` + `confirmed` (never `draft`).
-- Header: wordmark/title, manual refresh, theme toggle (also Settings), avatar menu (Logout), multi-select bulk bar when selection > 0.
+- Header: wordmark/title, manual refresh (`aria-label="Board aktualisieren"`), theme toggle (`aria-label="Darstellung umschalten"`), avatar menu (Logout), multi-select bulk bar when selection > 0.
 - “Kategorien verwalten” panel: create + reorder; rename/color on column header (D-06).
 - Live rail optional quiet status — poll-driven, not marketing hero.
 
@@ -215,7 +217,7 @@ Product UI language: **German** · Apollo voice (`brand/VOICE.md`). Verbs: gefan
 | Section | Content |
 |---------|---------|
 | Account | Email display, password change, Logout |
-| Google Calendar | 3-step wizard: Connect → Pick calendar → Done; Disconnect + confirm (D-30) |
+| Google Calendar | 3-step wizard: Connect → Pick calendar → Verbindung abschließen; Disconnect + confirm (D-30) |
 | Appearance | Theme: System / Light / Dark; optional **Klang bei neuem Eintrag** default **off** (D-36) |
 
 OAuth starts on `app.`; callback on `api.` then return to wizard Done (Phase 1).
@@ -265,27 +267,59 @@ Install/wire to brand CSS variables:
 
 ## UI Considerations
 
-Applicable state considerations resolved: **14 covered, 2 backstop, 0 unresolved**
+Probe kinds (confirmed): E1 form+nav · E2 list+nav+media+control · E3 nav+control+list · E4 form+list+media+static · E5 form+list+media+control · E6 form+control+nav · E7 list+control · E8 form+list+control.
+
+Applicable state considerations resolved: **54 covered, 6 backstop, 0 unresolved** (60 raised).
 
 | Category | Element(s) | Status | Resolution / Reason |
 |----------|------------|--------|---------------------|
-| empty | Board columns, category tabs | ✅ covered | First-use: Apollo asset + VOICE empty; per-category empty variants (inbox/notes/etc.); filtered empty uses short category-empty line |
-| empty | Auth form | ✅ covered | Empty fields = placeholders only; no empty-data illustration on auth |
-| empty | Calendar wizard pre-connect | ✅ covered | Step 1 Connect with Apollo/calendar empty (`apollo-empty-cal`) + Connect CTA |
-| loading | Board initial fetch | ✅ covered | Column skeletons (hairline blocks) or `apollo-loading` centered once — no spinner spam |
-| loading | Modal open / autosave | ✅ covered | Open: brief content skeleton; autosave: quiet muted “Speichert…” near header, no blocking overlay |
-| loading | Auth submit | ✅ covered | Button loading state (disabled + label „Einen Moment…“) |
-| error | Board fetch / poll | ✅ covered | Banner or toast with Error copy + Erneut versuchen; last-good data stays |
-| error | Autosave / move / bulk | ✅ covered | Toast with actionable German line; optimistic revert on move fail |
-| error | Auth | ✅ covered | Inline field/form error; signup locked = friendly locked copy (not generic 403) |
-| populated | Board cards | ✅ covered | Rich collapsed cards at typical density (~5 cols); meta + optional thumb |
-| partial | Link card missing OG image | ✅ covered | Thumbnail fallback bone block + link icon (D-03) |
-| partial | Calendar 412 conflict | ✅ covered | Inline remote vs local in modal (D-14) |
-| overflow | Board columns / many categories | ✅ covered | Desktop: H-scroll for extra cols; column lists V-scroll; mobile tabs H-scroll |
-| overflow | Card title / long URL | ✅ covered | Title 2-line clamp ellipsis; URL truncate mid with ellipsis |
-| zero-one-many | Column item counts | ✅ covered | Count badge always; 0 shows empty state inside column; singular/plural not required in DE count |
-| long-text | Modal body / notes | 🧪 backstop | Visual: wrap in scrollable modal body; title Input single-line truncate on card |
-| long-text | Category names | 🧪 backstop | Header truncate ellipsis; full name in tooltip |
+| empty | E1 Auth | ✅ covered | Unfilled fields = placeholders only; no empty-data illustration on auth |
+| empty | E2/E3 Board + tabs | ✅ covered | First-use: Apollo + VOICE empty; per-category empty; filtered: „Hier liegt nichts in dieser Kategorie.“ |
+| empty | E4 Cards / media | ✅ covered | Empty column owns illustration; card not rendered when zero items |
+| empty | E5 Modal | ✅ covered | Modal only opens on existing item; no empty-modal state |
+| empty | E6 Settings / calendar | ✅ covered | Pre-connect: `apollo-empty-cal` + **Mit Google verbinden** |
+| empty | E7 Live rail | ✅ covered | No toast/pulse when idle; offline banner only when disconnected |
+| empty | E8 Kategorien panel | ✅ covered | Always ≥5 seeded defaults; create form empty = name placeholder only |
+| loading | E1 Auth submit | ✅ covered | Button disabled + „Einen Moment…“ |
+| loading | E2/E3/E4 Board | ✅ covered | Column skeletons (hairline) or one `apollo-loading`; no spinner spam |
+| loading | E5 Modal / autosave | ✅ covered | Open: brief skeleton; autosave: muted „Speichert…“ — no blocking overlay |
+| loading | E6 Settings / OAuth | ✅ covered | Wizard step spinner on Connect; calendar list skeleton while fetching |
+| loading | E7 Poll | ✅ covered | Quiet; no full-board reload chrome on poll tick |
+| loading | E8 Panel | ✅ covered | List skeleton on first open if categories not cached |
+| error | E1 Auth | ✅ covered | Inline field/form error; signup locked = VOICE locked copy (not 403) |
+| error | E2/E3/E4/E7 Board+poll | ✅ covered | Banner/toast + **Erneut versuchen**; last-good data stays (D-34) |
+| error | E5 Autosave / type change | ✅ covered | Autosave fail toast; type-change confirm stays open on fail |
+| error | E6 Calendar OAuth / disconnect | ✅ covered | Inline wizard error + retry; disconnect confirm stays until success |
+| error | E8 Category CRUD | ✅ covered | Toast on create/rename/reorder fail; optimistic revert |
+| populated | E2/E3 Board | ✅ covered | ~5 columns / active tab with rich cards at typical density |
+| populated | E4 Cards | ✅ covered | Title + meta + optional thumb; 2px category hairline |
+| populated | E5 Modal | ✅ covered | Full fields + type-specific blocks (OG / event times) |
+| populated | E7 Live | ✅ covered | Toast + terracotta pulse on new item merge |
+| populated | E8 Panel | ✅ covered | Ordered category list with color swatch + drag/reorder |
+| partial | E1 Auth | ✅ covered | Per-field validation; partial fill allowed until submit |
+| partial | E2/E4 Link thumb missing | ✅ covered | Bone fallback block + link icon (D-03) |
+| partial | E3 Tab with empty column | ✅ covered | Tab still selectable; column shows empty copy |
+| partial | E5 Calendar 412 / missing fields | ✅ covered | Inline 412 UI (D-14); optional fields blank OK |
+| partial | E6 Wizard mid-steps | ✅ covered | Step 2 needs calendar pick before **Verbindung abschließen** |
+| partial | E7 Stale poll data | ✅ covered | Keep last fetch; banner if refresh fails |
+| partial | E8 Rename mid-edit | ✅ covered | Inline edit; blur/Escape cancels unsaved name |
+| overflow | E2 Board cols | ✅ covered | Extra categories H-scroll; column cards V-scroll; `scrollbar-gutter: stable` |
+| overflow | E3 Tabs | ✅ covered | Tabs H-scroll when many categories |
+| overflow | E4/E5 Title URL notes | ✅ covered | Title 2-line clamp; URL mid-ellipsis; modal body scrolls |
+| overflow | E6 Settings | ✅ covered | Page scrolls; wizard content fits viewport with internal scroll if needed |
+| overflow | E7 Banner | ✅ covered | Single persistent banner; stack toasts below masthead |
+| overflow | E8 Panel list | ✅ covered | Panel list V-scroll |
+| zero-one-many | E2/E3/E4 Columns | ✅ covered | Count badge always; 0 → empty state; 1+/many same card layout (DE needs no plural) |
+| zero-one-many | E5 Multi-field | ✅ covered | Single item editor; bulk lives on board selection bar |
+| zero-one-many | E7 Toasts | ✅ covered | Stack newest on top; cap visible stack at 3 |
+| zero-one-many | E8 Categories | ✅ covered | 5 defaults always; many → scroll; cannot delete last category in v1 (planner note) |
+| long-text | E1 Email | ✅ covered | Input single-line truncate; no wrap |
+| long-text | E2/E3 Column / tab names | 🧪 backstop | `{ statement: "Category/tab labels truncate with ellipsis; full name in tooltip", verification: backstop }` |
+| long-text | E4 Card title | ✅ covered | 2-line clamp ellipsis |
+| long-text | E5 Notes body | 🧪 backstop | `{ statement: "Long notes wrap inside scrollable modal body; title field single-line", verification: backstop }` |
+| long-text | E6 Account email | ✅ covered | Truncate with ellipsis in Account row |
+| long-text | E7 Toast copy | ✅ covered | Toast max 2 lines; ellipsis if VOICE string overflows |
+| long-text | E8 Category name input | 🧪 backstop | `{ statement: "Category rename input max 40 chars; overflow ellipsis in list row", verification: backstop }` |
 
 ---
 
@@ -333,11 +367,11 @@ Applicable state considerations resolved: **14 covered, 2 backstop, 0 unresolved
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: FLAG → addressed (wizard CTA verb+noun; VOICE locked singles kept)
+- [x] Dimension 2 Visuals: FLAG → addressed (board focal line; aria on refresh/theme/handle)
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: FLAG → addressed (12px under Exceptions only)
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved (2026-08-02) — 6/6; FLAGs resolved in-contract
