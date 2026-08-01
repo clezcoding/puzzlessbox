@@ -1,5 +1,17 @@
-import { redirect } from "next/navigation";
+import { Suspense } from "react";
+
+import { HomeRedirect } from "./home-redirect";
 
 export default function HomePage() {
-  redirect("/board");
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center text-muted-foreground">
+          Einen Moment…
+        </div>
+      }
+    >
+      <HomeRedirect />
+    </Suspense>
+  );
 }

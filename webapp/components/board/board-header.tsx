@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { RefreshCw } from "lucide-react";
+import { Moon, RefreshCw, Sun } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
+import { useTheme } from "@/lib/hooks/use-theme";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -21,6 +24,7 @@ type BoardHeaderProps = {
 
 export function BoardHeader({ userEmail, onRefresh }: BoardHeaderProps) {
   const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
 
   async function handleLogout() {
     await authClient.signOut();
@@ -51,6 +55,20 @@ export function BoardHeader({ userEmail, onRefresh }: BoardHeaderProps) {
           <RefreshCw className="size-4" />
         </Button>
 
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          aria-label="Darstellung umschalten"
+          onClick={toggleTheme}
+        >
+          {theme === "dark" ? (
+            <Sun className="size-4" />
+          ) : (
+            <Moon className="size-4" />
+          )}
+        </Button>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
@@ -73,6 +91,10 @@ export function BoardHeader({ userEmail, onRefresh }: BoardHeaderProps) {
                 {userEmail}
               </p>
             ) : null}
+            <DropdownMenuItem asChild>
+              <Link href="/settings">Einstellungen</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>Abmelden</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
