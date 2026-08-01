@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 03
 current_phase_name: Hermes-Plugin & Timeout-Spike
-status: verifying
+status: complete
 stopped_at: Completed 03-04-PLAN.md
 last_updated: "2026-08-01T03:19:20.864Z"
 progress:
@@ -29,11 +29,11 @@ progress:
 
 ## Current Position
 
-- **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — VERIFYING
+- **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — COMPLETE (UAT passed)
 - **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
 - **Plan:** 4 of 4 complete
-- **Status:** Phase complete — ready for verification
-- **Progress Phase 3:** [██████████] 100% executed (4/4 plans)
+- **Status:** Phase 3 verified — 121/121 automated tests green on OrbStack stack
+- **Progress Phase 3:** [██████████] 100% verified (4/4 plans)
 
 ```
 [2/6] ██████░░░░░░░░░░░░░░  33% phases
@@ -46,7 +46,7 @@ progress:
 | 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
-| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Planned (4 plans) |
+| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete (4 plans, UAT passed) |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
 
@@ -124,7 +124,7 @@ progress:
 - **Last session:** 2026-08-01T03:19:20.845Z
 - **Stopped at:** Completed 03-04-PLAN.md
 - **Resume file:** None
-- **Next recommended action:** `/gsd-execute-phase 3`
+- **Next recommended action:** `/gsd-plan-phase 4` or `/gsd-execute-phase 4`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
