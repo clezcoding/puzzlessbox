@@ -2,13 +2,21 @@
 
 from __future__ import annotations
 
+import os
 import uuid
 
 import pytest
-from sqlalchemy import text
+from sqlalchemy import create_engine, text
 
-from app.core.database import get_engine
 from tests.conftest import API_HEADERS, mint_test_jwt
+
+
+def _test_engine():
+    url = os.environ.get(
+        "DATABASE_URL",
+        "postgresql+psycopg2://puzzless:puzzless@localhost:5432/puzzlessbox",
+    )
+    return create_engine(url)
 
 
 def _auth_headers(mock_jwks_keypair, owner_id: str) -> dict[str, str]:
@@ -115,7 +123,7 @@ def test_delete_last_category_returns_409(
     owner_id_a,
 ) -> None:
     headers = _auth_headers(mock_jwks_keypair, owner_id_a)
-    with get_engine().begin() as conn:
+    with _test_engine().begin() as conn:
         conn.execute(text("UPDATE categories SET deleted_at = NOW()"))
     try:
         category_id = _create_owned_category(api_client, headers, f"Solo-{uuid.uuid4().hex[:8]}")
@@ -124,7 +132,7 @@ def test_delete_last_category_returns_409(
         assert response.status_code == 409
         assert response.json()["error"]["code"] == "CONFLICT"
     finally:
-        with get_engine().begin() as conn:
+        with _test_engine().begin() as conn:
             conn.execute(text("UPDATE categories SET deleted_at = NULL WHERE owner_id IS NULL"))
             conn.execute(
                 text("DELETE FROM categories WHERE owner_id = CAST(:owner_id AS uuid)"),
@@ -157,7 +165,7 @@ def test_delete_category_reassigns_items_to_inbox(
     delete = api_client.delete(f"/categories/{custom_id}", headers=headers)
     assert delete.status_code == 204
 
-    with get_engine().connect() as conn:
+    with _test_engine().connect() as conn:
         row = conn.execute(
             text("SELECT category_id FROM notes WHERE id = CAST(:id AS uuid)"),
             {"id": note_id},
