@@ -377,12 +377,12 @@ export function UserProfileHeader() {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Google Calendar 412 Concurrency UI Details**
-   - What we know: If Google API returns a conflict, we show both remote event fields and local edits in the modal.
-   - What's unclear: Which exact fields require a comparative diff view, and if the user can partially merge them.
-   - Recommendation: Keep it lean. If a 412 is thrown, render a simple split card inside the modal showing the remote Google title/date and provide two clear CTAs: **"Remote übernehmen"** (re-save local with Google's state) or **"Überschreiben"** (bypass ETag and force save local).
+1. **Google Calendar 412 Concurrency UI Details** — RESOLVED per D-14 (CONTEXT.md)
+   - **Resolution:** Inline Conflict-Panel im Event-Modal (kein separater Dialog). Bei 412 zeigt das Modal Remote-Event-Felder (Google-Titel, Start/End) read-only + Local-Edit-Felder nebeneinander, mit 3 CTAs: **Übernehmen** (Remote übernehmen, lokale Edits verwerfen), **Behalten** (lokal erzwingen via force-PATCH ohne ETag), **Abbrechen** (Panel schließen, beide Zustände ungespeichert, Modal bleibt offen).
+   - **Implementation:** Plan 04-03 Task 2 (item-modal.tsx) — voll implementiert, kein Stub. Tests in modal.test.tsx (Test 12).
+   - **Rationale:** Lean split-card statt komplexer Merge-UI — zwei klare Quellen + drei klare Aktionen. Kein partielles Merge in v1 (discretion: Claude folgt D-14 "inline in modal" wörtlich).
 
 ---
 

@@ -139,18 +139,22 @@ Plans:
   4. User kann sich über die WebApp-UI mit Email/Passwort einloggen (Better Auth) und bleibt über Browser-Refresh eingeloggt
   5. User kann in den Settings Google Calendar über separatem OAuth verbinden (nicht Better Auth Social)
 
-**Plans**: 4/4 plans
+**Plans**: 5/5 plans
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
-- [ ] 04-01-PLAN.md — TRACER: Auth UI (Brand-Hero Login/Register) + Board skeleton (5 Default-Kategorien) + Wave 0 Vitest/RTL infra + shadcn init + Brand-Token-Wiring + middleware + session survival + ?next= + logout (BOARD-01, CAP-05)
-- [ ] 04-02-PLAN.md — API extensions: Alembic 0006 (categories.color/sort_order/deleted_at + items.sort_order) + PATCH/DELETE/reorder categories + PATCH items (Feld-Edit + Type-Change) + soft-delete + restore (BOARD-02, BOARD-03, BOARD-04)
+- [ ] 04-00-PLAN.md — Infra: Wave 0 Vitest/RTL config + shadcn init + Brand-Token-Wiring + api-client + auth-client + middleware (BOARD-01, CAP-05)
+- [ ] 04-02-PLAN.md — API extensions: Alembic 0006 (categories.color/sort_order/deleted_at + items.sort_order + board_items VIEW migration) + PATCH/DELETE/reorder categories + PATCH items (Feld-Edit + Type-Change + sort_order) + POST /items/reorder + soft-delete + restore + GET /board-items ORDER BY sort_order (BOARD-02, BOARD-03, BOARD-04)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 04-03-PLAN.md — Board features: DnD (@hello-pangea/dnd, cross-category + in-column reorder, optimistic + revert) + Mobile Single-Column + Tabs + long-press Sheet + Multi-Select + Bulk Move + A11y + Item-Modal (centered, autosave, soft-delete undo, type-change, link OG) + Kategorien-verwalten Panel (BOARD-02, BOARD-03, BOARD-04)
+- [ ] 04-01-PLAN.md — TRACER (slim): Brand-Hero Login/Register + Board skeleton (5 Default-Kategorien) + Empty-States mit Apollo PNGs (D-05) + session survival + ?next= + logout (BOARD-01, CAP-05)
 
 **Wave 3** *(blocked on Wave 2)*
+
+- [ ] 04-03-PLAN.md — Board features: DnD (@hello-pangea/dnd, cross-category + in-column reorder via POST /items/reorder, optimistic + revert) + Mobile Single-Column + Tabs + long-press Sheet + Multi-Select + Bulk Move + A11y + Item-Modal (centered, autosave, soft-delete undo, type-change, link OG, Calendar 412 inline Conflict-Panel D-14) + Kategorien-verwalten Panel (BOARD-02, BOARD-03, BOARD-04)
+
+**Wave 4** *(blocked on Wave 3)*
 
 - [ ] 04-04-PLAN.md — Live update + Settings + Calendar: Board Poll (10s + backoff) + Offline-Banner + New-Item Toast/Pulse + Sound + Manual Refresh + Settings Hub (/settings Account/Calendar/Appearance) + Google Calendar 3-step Wizard + Disconnect + Theme toggle (header + settings) + First-Login Apollo Welcome (CAP-05, CAL-01)
 
