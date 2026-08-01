@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: WebApp (UI)
-status: "Phase 04 context gathered — ready to plan"
-stopped_at: Phase 4 context gathered
-last_updated: "2026-08-01T22:26:06.000Z"
+status: "Phase 04 UI-SPEC draft — ready for ui-checker / plan"
+stopped_at: Phase 4 UI-SPEC written
+last_updated: "2026-08-02T00:30:00.000Z"
 progress:
   total_phases: 5
   completed_phases: 4
@@ -16,7 +16,7 @@ progress:
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-01 (Phase 3 merged via PR #20)
+**Last updated:** 2026-08-02 (Phase 4 UI-SPEC draft)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -29,11 +29,11 @@ progress:
 
 ## Current Position
 
-- **Phase:** 04 (WebApp UI) — context gathered, planning not started
+- **Phase:** 04 (WebApp UI) — UI-SPEC draft written
 - **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
 - **Plan:** 0 of N (planning not started)
-- **Status:** Phase 04 CONTEXT ready — next `/gsd-ui-phase 4` or `/gsd-plan-phase 4`
-- **Resume:** `.planning/phases/04-webapp/04-CONTEXT.md`
+- **Status:** `04-UI-SPEC.md` draft — next ui-checker then `/gsd-plan-phase 4`
+- **Resume:** `.planning/phases/04-webapp/04-UI-SPEC.md`
 
 ```
 [4/6] ██████████████░░░░░░  67% phases
@@ -121,10 +121,10 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-01T22:26:05.979Z
-- **Stopped at:** Phase 4 context gathered
-- **Resume file:** .planning/phases/04-webapp/04-CONTEXT.md
-- **Next recommended action:** `/gsd-discuss-phase 4` or `/gsd-plan-phase 4`
+- **Last session:** 2026-08-02T00:30:00.000Z
+- **Stopped at:** Phase 4 UI-SPEC draft written
+- **Resume file:** .planning/phases/04-webapp/04-UI-SPEC.md
+- **Next recommended action:** ui-checker on `04-UI-SPEC.md`, then `/gsd-plan-phase 4`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
