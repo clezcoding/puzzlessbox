@@ -124,7 +124,7 @@ progress:
 - **Last session:** 2026-08-01T22:32:58.298Z
 - **Stopped at:** Phase 4 UI-SPEC approved
 - **Resume file:** /Users/puzzless/Desktop/puzzlessbox/.planning/phases/04-webapp/04-UI-SPEC.md
-- **Next recommended action:** ui-checker on `04-UI-SPEC.md`, then `/gsd-plan-phase 4`
+- **Next recommended action:** `/gsd-plan-phase 4`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
