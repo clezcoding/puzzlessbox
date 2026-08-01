@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 03
 current_phase_name: Hermes-Plugin & Timeout-Spike
-status: complete
+status: "Phase 03 shipped — PR #20"
 stopped_at: Completed 03-04-PLAN.md
-last_updated: "2026-08-01T03:19:20.864Z"
+last_updated: "2026-08-01T03:47:36.199Z"
 progress:
   total_phases: 4
   completed_phases: 4
@@ -32,7 +32,7 @@ progress:
 - **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — COMPLETE (UAT passed)
 - **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
 - **Plan:** 4 of 4 complete
-- **Status:** Phase 3 verified — 121/121 automated tests green on OrbStack stack
+- **Status:** Phase 03 shipped — PR #20
 - **Progress Phase 3:** [██████████] 100% verified (4/4 plans)
 
 ```
