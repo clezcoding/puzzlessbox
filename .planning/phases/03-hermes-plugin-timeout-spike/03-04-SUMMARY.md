@@ -113,7 +113,7 @@ status: complete
 1. **Task 1: setup.sh + README** - `870c8ac` (feat)
 2. **Task 2: channel tests** - `5807485` (test)
 
-**Plan metadata:** pending docs commit
+**Plan metadata:** `9feb78b` (docs)
 
 ## Files Created/Modified
 
