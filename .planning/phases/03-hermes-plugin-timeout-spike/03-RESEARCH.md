@@ -359,10 +359,10 @@ async def discard_item(
 
 ## Open Questions
 
-1. **Live E2E Bestätigung auf dem VPS (Spike 002 PARTIAL)**
+1. **Live E2E Bestätigung auf dem VPS (Spike 002 PARTIAL)** — (RESOLVED)
    - *What we know:* Die Mock-Orchestrierung funktioniert fehlerfrei. Die Verbindung zum Produktions-MCP liefert bei `/health` korrekte Ergebnisse.
    - *What's unclear:* Das vollständige E2E-Szenario mit einer echten `category_id` und Live-Bestätigung über den VPS steht noch aus.
-   - *Recommendation:* Führe zu Beginn der Implementierungsphase einen geführten Live-E2E-Test mit einer Test-Kategorie durch, um die Netzwerk-Routen abzusichern.
+   - *Resolution:* Live-VPS-E2E ist als Manual-Only-Verifikation deklariert — siehe `03-VALIDATION.md` Abschnitt "Manual-Only Verifications" (Live E2E on Hermes VPS with real category_id). Automatisierte Phase-3-Tests decken Mock-Orchestrierung + kanalneutrale Payload ab; der Live-VPS-Check wird während `/gsd-execute-phase` manuell vom Operator durchgeführt (externe VPS-Abhängigkeit, kein CLI/API). Kein Plan-Blocker — alle automatisierten Success-Criteria sind ohne Live-VPS erfüllbar.
 
 ## Environment Availability
 

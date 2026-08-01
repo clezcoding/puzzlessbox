@@ -115,13 +115,16 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — API POST /drafts/{id}/discard + MCP discard_item Tool + idempotente confirm auf auto_saved (D-04, D-08)
+- [ ] 03-01-PLAN.md — API POST /drafts/{id}/discard + GET /drafts/{id} + MCP discard_item/get_draft_status Tools + idempotente confirm auf auto_saved (D-04, D-08, D-06 read path)
 - [ ] 03-02-PLAN.md — TRACER: hermes-plugin Skeleton — config + MCP-Client + format_confirmation + dialog happy path (CAP-02, MCP-03, MCP-04 spike landed)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 03-03-PLAN.md — hermes-plugin Expansion: konversationeller Edit + Single-Active-Draft + Post-Autosave Poll (D-01..D-07)
-- [ ] 03-04-PLAN.md — setup.sh + kanalneutrale CAP-04 Tests über Telegram/WhatsApp/Discord (D-12, CAP-04)
+- [ ] 03-03-PLAN.md — hermes-plugin Expansion: konversationeller Edit + Single-Active-Draft (sichern/verwerfen/warten) + list_categories + status-aware confirm ACK + Post-Autosave Poll via get_draft_status (D-01..D-09)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 03-04-PLAN.md — setup.sh + kanalneutrale CAP-04 Tests über Telegram/WhatsApp/Discord (D-12, CAP-04; setzt Edit-Flow aus Plan 03 voraus)
 
 ### Phase 4: WebApp
 
