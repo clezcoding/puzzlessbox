@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 03
 current_phase_name: Hermes-Plugin & Timeout-Spike
-status: executing
-stopped_at: Completed 03-03-PLAN.md
-last_updated: "2026-08-01T03:17:34.658Z"
+status: verifying
+stopped_at: Completed 03-04-PLAN.md
+last_updated: "2026-08-01T03:19:20.864Z"
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 16
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # State: Puzzlessbox
@@ -32,7 +32,7 @@ progress:
 - **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — EXECUTING
 - **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
 - **Plan:** 4 of 4 (next: 03-03-PLAN.md)
-- **Status:** Ready to execute
+- **Status:** Phase complete — ready for verification
 - **Progress Phase 3:** [█████░░░░░] 50% executed (2/4 plans)
 
 ```
@@ -77,6 +77,7 @@ progress:
 | Phase 03 P02 | 5min | 2 tasks | 14 files |
 | Phase 03-hermes-plugin-timeout-spike P01 | 15min | 3 tasks | 9 files |
 | Phase 03-hermes-plugin-timeout-spike P03 | 8min | 2 tasks | 4 files |
+| Phase 03 P04 | 6min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -120,9 +121,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-01T03:17:34.649Z
-- **Stopped at:** Completed 03-03-PLAN.md
-- **Resume file:** 03-04-PLAN.md
+- **Last session:** 2026-08-01T03:19:20.845Z
+- **Stopped at:** Completed 03-04-PLAN.md
+- **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 3`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
@@ -167,3 +168,5 @@ progress:
 - [Phase ?]: Unrecognized free text with active draft routes to D-07 conflict via start_capture_flow
 - [Phase ?]: Note type category hints prefer Inbox for plain captures
 - [Phase ?]: Confirm ACK uses live call_mcp_get_item_status not session snapshot (D-08)
+- [Phase ?]: setup.sh enforces HTTPS MCP_URL and MCP_BEARER min 20 chars (D-12)
+- [Phase ?]: CAP-04 channel tests use MockSession adapters without render logic
