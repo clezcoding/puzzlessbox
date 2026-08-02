@@ -159,6 +159,7 @@ describe("ItemModal", () => {
     let undoFn: (() => void) | undefined;
     vi.mocked(toast).mockImplementation((_msg, opts) => {
       undoFn = (opts as { action?: { onClick: () => void } })?.action?.onClick;
+      return 0;
     });
 
     render(

@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  experimental: {
+    // TypeScript 7 has no JS compiler API yet; next build must use local tsc CLI.
+    useTypeScriptCli: true,
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.googleusercontent.com" },
