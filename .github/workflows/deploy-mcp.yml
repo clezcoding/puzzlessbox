@@ -6,6 +6,7 @@ on:
     paths:
       - "mcp-server/**"
       - ".github/workflows/deploy-mcp.yml"
+  workflow_dispatch:
 
 concurrency:
   group: deploy-mcp-${{ github.ref }}
