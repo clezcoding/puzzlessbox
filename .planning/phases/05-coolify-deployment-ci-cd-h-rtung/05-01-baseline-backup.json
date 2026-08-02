@@ -1,0 +1,12 @@
+{
+  "database_uuid": "pfqgb5pcvgi9oh64bpe3shtn",
+  "schedule_uuid": "jl0skzwpd3ot7hgfmohlny9s",
+  "baseline_backup_uuid": "ibaby40uszso4coqgxjtgp1b",
+  "status": "success",
+  "size_bytes": 21052,
+  "filename": "/data/coolify/backups/databases/root-team-0/puzzlessbox-db-pfqgb5pcvgi9oh64bpe3shtn/pg-dump-puzzlessbox-1785702059.dmp",
+  "created_at": "2026-08-02T20:20:59.000000Z",
+  "finished_at": "2026-08-02T20:21:00.000000Z",
+  "purpose": "D-10/D-15 pre-API-cutover rollback point",
+  "cli_trigger": "coolify --context hostunlimited database backup trigger pfqgb5pcvgi9oh64bpe3shtn jl0skzwpd3ot7hgfmohlny9s"
+}
