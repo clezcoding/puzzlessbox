@@ -1,5 +1,9 @@
 import { authClient } from "@/lib/auth-client";
 
+type AuthClientWithJwt = typeof authClient & {
+  token: () => Promise<{ data?: { token: string }; error?: unknown }>;
+};
+
 export class ApiError extends Error {
   readonly code: string;
   readonly details?: unknown;
@@ -52,7 +56,7 @@ export async function getApiJwt(): Promise<string | null> {
   if (cachedJwt && cachedJwt.exp > now + 30) {
     return cachedJwt.token;
   }
-  const { data, error } = await authClient.token();
+  const { data, error } = await (authClient as AuthClientWithJwt).token();
   if (error || !data?.token) {
     cachedJwt = null;
     return null;

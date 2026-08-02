@@ -119,10 +119,8 @@ def test_cross_tenant_board_items_empty(
     )
     assert created.status_code == 201
     created_id = created.json()["id"]
-    postgres_connection.execute(
-        text("UPDATE notes SET status = 'auto_saved' WHERE id = CAST(:id AS uuid)"),
-        {"id": created_id},
-    )
+    confirm = api_client.post(f"/drafts/{created_id}/confirm", headers=headers_a)
+    assert confirm.status_code == 200
 
     own_items = api_client.get("/board-items", headers=headers_a).json()
     assert any(item["id"] == created_id for item in own_items)
@@ -131,9 +129,7 @@ def test_cross_tenant_board_items_empty(
     assert not any(item["id"] == created_id for item in foreign_items)
 
 
-def test_idempotency(
-    api_client, postgres_connection, category_id, mock_jwks_keypair, owner_id_a
-) -> None:
+def test_idempotency(api_client, category_id, mock_jwks_keypair, owner_id_a) -> None:
     token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
     idem_key = f"draft-create-{uuid.uuid4()}"
     headers = {
@@ -156,10 +152,11 @@ def test_idempotency(
     assert first.json() == second.json()
 
     draft_id = first.json()["id"]
-    postgres_connection.execute(
-        text("UPDATE notes SET status = 'auto_saved' WHERE id = CAST(:id AS uuid)"),
-        {"id": draft_id},
+    confirm = api_client.post(
+        f"/drafts/{draft_id}/confirm",
+        headers={**API_HEADERS, "Authorization": f"Bearer {token}"},
     )
+    assert confirm.status_code == 200
 
     listed = api_client.get(
         "/board-items",
