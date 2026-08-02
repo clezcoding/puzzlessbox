@@ -106,7 +106,7 @@ status: complete
 1. **Task 1: End-to-end API dockerimage cutover (tracer)** - `72cb6c9` (feat), `edeceb9` (feat)
 2. **Task 2: Checkpoint human-verify** - approved by user (no commit)
 
-**Plan metadata:** pending final docs commit
+**Plan metadata:** `0603bad` (docs: complete plan)
 
 ## Files Created/Modified
 
