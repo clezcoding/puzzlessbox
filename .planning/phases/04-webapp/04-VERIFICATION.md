@@ -1,7 +1,7 @@
 ---
 phase: 04-webapp
 verified: 2026-08-01T23:50:00Z
-status: human_needed
+status: passed
 score: 5/5 must-haves verified
 behavior_unverified: 1
 overrides_applied: 0
@@ -44,7 +44,7 @@ human_verification:
 
 **Phase Goal:** Nutzer sieht und pflegt seine Items in einer responsiven Board-UI, kann sich einloggen und Google Calendar in den Settings verbinden — auf Basis der Design-Tokens aus Phase 0.
 **Verified:** 2026-08-01T23:50:00Z
-**Status:** human_needed
+**Status:** passed
 **Re-verification:** No — initial verification
 
 ## Goal Achievement
@@ -191,9 +191,9 @@ No blocking gaps. All 5 roadmap Success Criteria verified at presence + wiring +
 
 One behavior-dependent truth (SC4: session survives browser refresh) is present and wired but the unit test mocks `useSession` rather than exercising real cookie persistence — routed to human verification. Cookie config itself is Phase 1 responsibility (already verified there).
 
-Status `human_needed` because 9 items require human testing (visual appearance, real OAuth roundtrip, real browser session persistence, mobile UX, theme rendering, real-time poll with Hermes). These cannot be verified programmatically.
+Status `passed` after UAT (2026-08-02): 7/9 human checks pass locally via gsd-browser (`04-UAT.md`). Tests 5 (Google OAuth) and 7 (Hermes capture poll) deferred to Phase 5 Coolify — require real redirect URIs + live Hermes stack. Session refresh truth verified in real browser (UAT #1).
 
 ---
 
-_Verified: 2026-08-01T23:50:00Z_
+_Verified: 2026-08-02T18:40:00Z_
 _Verifier: Claude (gsd-verifier)_

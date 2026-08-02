@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import "../../brand/tokens.css";
 
-/* shadcn semantic tokens → brand/tokens.css (UI-SPEC init gate) */
+/* shadcn semantic tokens → brand/tokens.css (UI-SPEC init gate)
+   Do NOT self-assign (--color-primary: var(--color-primary)) — that
+   shadows the brand token with a circular ref and kills bg-primary. */
 @theme inline {
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
@@ -9,16 +11,12 @@
   --color-card-foreground: var(--color-text);
   --color-popover: var(--color-surface);
   --color-popover-foreground: var(--color-text);
-  --color-primary: var(--color-primary);
   --color-primary-foreground: var(--color-bg-wash);
   --color-secondary: var(--color-surface-soft);
   --color-secondary-foreground: var(--color-text);
   --color-muted: var(--color-surface-soft);
   --color-muted-foreground: var(--color-text-muted);
-  --color-accent: var(--color-accent-soft);
   --color-accent-foreground: var(--color-text);
-  --color-destructive: var(--color-destructive);
-  --color-border: var(--color-border);
   --color-input: var(--color-border);
   --color-ring: var(--color-brand);
   --radius-sm: 4px;

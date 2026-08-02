@@ -39,8 +39,9 @@ def _decode_owner_from_token(token: str) -> str:
         payload = jwt.decode(
             token,
             signing_key.key,
-            algorithms=["RS256"],
-            options={"verify_exp": True},
+            # Better Auth jwt() defaults to EdDSA; tests use RS256
+            algorithms=["EdDSA", "RS256"],
+            options={"verify_exp": True, "verify_aud": False},
         )
     except jwt.PyJWTError as exc:
         raise HTTPException(

@@ -1,0 +1,62 @@
+# Local dev / UAT stack (OrbStack / Docker Compose). Postgres + API + MCP.
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: puzzless
+      POSTGRES_PASSWORD: puzzless
+      POSTGRES_DB: puzzlessbox
+    ports:
+      # 5433 avoids clash with native Homebrew Postgres on :5432
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U puzzless -d puzzlessbox"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - puzzlessbox_pgdata:/var/lib/postgresql
+
+  api:
+    build: ./api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://puzzless:puzzless@postgres:5432/puzzlessbox
+      ENV: dev
+      SCRAPER_ENABLED: "false"
+      ENCRYPTION_KEY: local-dev-encryption-key-32b!!
+      SERVICE_BEARER_TOKEN: local-dev-service-bearer-token
+      # OrbStack/Docker Desktop: webapp on host :3000
+      BETTER_AUTH_BASE_URL: http://host.docker.internal:3000/api/auth
+      BETTER_AUTH_JWKS_URL: http://host.docker.internal:3000/api/auth/jwks
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  mcp-server:
+    build: ./mcp-server
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      MCP_API_BASE_URL: http://api:8000
+      SERVICE_BEARER_TOKEN: local-dev-service-bearer-token
+      ENV: dev
+    ports:
+      - "8001:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+volumes:
+  puzzlessbox_pgdata:

@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_SECRET: str = ""
     GOOGLE_REDIRECT_URI: str = "https://api.puzzlesstool.online/auth/google/callback"
     ENV: str = "dev"
+    # Comma-separated browser origins allowed for credentialed CORS
+    CORS_ORIGINS: str = "http://localhost:3000,https://app.puzzlesstool.online"
+    # Empty = host-only cookie (local); prod sets .puzzlesstool.online
+    SESSION_COOKIE_DOMAIN: str = ""
     SCRAPER_ENABLED: bool = False
     FIRECRAWL_URL: str = "http://localhost:3002"
     FIRECRAWL_BEARER: str = ""

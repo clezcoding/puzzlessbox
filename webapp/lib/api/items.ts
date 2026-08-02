@@ -1,5 +1,6 @@
 import {
   apiFetch,
+  apiHeaders,
   ApiError,
   type BoardItem,
   type ConflictDetails,
@@ -23,7 +24,7 @@ export async function updateItem(
   fields: ItemUpdateFields,
   options?: { force?: boolean },
 ): Promise<UpdateItemResult> {
-  const headers = new Headers({ "Content-Type": "application/json" });
+  const headers = await apiHeaders({ "Content-Type": "application/json" });
   if (options?.force) {
     headers.set("If-None-Match", "*");
   }

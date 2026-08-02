@@ -1,3 +1,5 @@
+import { authClient } from "@/lib/auth-client";
+
 export class ApiError extends Error {
   readonly code: string;
   readonly details?: unknown;
@@ -23,6 +25,8 @@ type ApiErrorBody = {
   };
 };
 
+export const API_ACCEPT = "application/vnd.puzzlessbox.v1+json";
+
 function parseApiError(body: ApiErrorBody): ApiError {
   const shaped = body.error ?? body.detail;
   if (shaped?.code && shaped?.message) {
@@ -31,12 +35,56 @@ function parseApiError(body: ApiErrorBody): ApiError {
   return new ApiError("UNKNOWN", "API request failed");
 }
 
+function jwtExp(token: string): number {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1] ?? "")) as { exp?: number };
+    return payload.exp ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+let cachedJwt: { token: string; exp: number } | null = null;
+
+/** Better Auth JWT for API Bearer auth (cross-origin; cookie domain won't reach :8000). */
+export async function getApiJwt(): Promise<string | null> {
+  const now = Date.now() / 1000;
+  if (cachedJwt && cachedJwt.exp > now + 30) {
+    return cachedJwt.token;
+  }
+  const { data, error } = await authClient.token();
+  if (error || !data?.token) {
+    cachedJwt = null;
+    return null;
+  }
+  cachedJwt = { token: data.token, exp: jwtExp(data.token) };
+  return data.token;
+}
+
+export function clearApiJwtCache(): void {
+  cachedJwt = null;
+}
+
+export async function apiHeaders(init?: HeadersInit): Promise<Headers> {
+  const headers = new Headers(init);
+  if (!headers.has("Accept")) {
+    headers.set("Accept", API_ACCEPT);
+  }
+  if (!headers.has("Authorization")) {
+    const token = await getApiJwt();
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+  }
+  return headers;
+}
+
 export async function apiFetch<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-  const headers = new Headers(options.headers);
+  const headers = await apiHeaders(options.headers);
 
   if (options.body !== undefined && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");

@@ -105,7 +105,7 @@ describe("LoginPage", () => {
     });
   });
 
-  it("redirects to /board after successful login", async () => {
+  it("redirects to / after successful login (HomeRedirect → welcome|board)", async () => {
     vi.mocked(authClient.signIn.email).mockResolvedValue({
       data: { user: { email: "test@example.com" } },
     } as Awaited<ReturnType<typeof authClient.signIn.email>>);
@@ -121,7 +121,7 @@ describe("LoginPage", () => {
     fireEvent.click(screen.getByRole("button", { name: "Anmelden" }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/board");
+      expect(mockPush).toHaveBeenCalledWith("/");
     });
   });
 
@@ -163,7 +163,7 @@ describe("LoginPage", () => {
     fireEvent.click(screen.getByRole("button", { name: "Anmelden" }));
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/board");
+      expect(mockPush).toHaveBeenCalledWith("/");
     });
   });
 });

@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 04
-current_phase_name: WebApp (UI)
-status: Phase 04 planned — 5 plans ready to execute
+current_phase_name: webapp
+status: executing
 stopped_at: Phase 4 planning complete
-last_updated: "2026-08-02T00:55:00.000Z"
+last_updated: "2026-08-01T23:15:03.903Z"
 progress:
   total_phases: 5
   completed_phases: 4
@@ -29,11 +29,13 @@ progress:
 
 ## Current Position
 
-- **Phase:** 04 (WebApp UI) — planned, 5 plans ready
+- **Phase:** 04 (webapp) — UAT (local OrbStack)
 - **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
-- **Plan:** 0/5 (planning complete, execution not started)
-- **Status:** 5 PLAN.md files (04-00..04-04); next `/gsd-execute-phase 4`
-- **Resume:** `.planning/phases/04-webapp/04-00-PLAN.md`
+- **Plan:** 5 of 5 executed; human UAT in progress
+- **Status:** UAT local fresh run (2026-08-02) — 1–4,6,8,9 pass; **5+7 blocked** (Coolify OAuth/Hermes)
+- **Resume:** Coolify for Tests 5+7, or Phase 5 deploy
+- **UAT login:** `uat@puzzless.local` / see `webapp/.env.local` (account reset + re-registered)
+- **UAT file:** `.planning/phases/04-webapp/04-UAT.md` (gsd-browser session `puzzless-uat-4`)
 
 ```
 [4/6] ██████████████░░░░░░  67% phases

@@ -13,8 +13,6 @@ from app.core.config import get_settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-COOKIE_DOMAIN = ".puzzlesstool.online"
-
 
 class SignupBody(BaseModel):
     email: str = Field(min_length=3)
@@ -29,13 +27,15 @@ class LoginBody(BaseModel):
 
 def _session_cookie_kwargs() -> dict[str, Any]:
     settings = get_settings()
-    return {
-        "domain": COOKIE_DOMAIN,
+    kwargs: dict[str, Any] = {
         "httponly": True,
         "samesite": "lax",
         "secure": settings.is_prod,
         "path": "/",
     }
+    if settings.SESSION_COOKIE_DOMAIN:
+        kwargs["domain"] = settings.SESSION_COOKIE_DOMAIN
+    return kwargs
 
 
 def _map_better_auth_error(resp: httpx.Response) -> HTTPException:
@@ -114,9 +114,14 @@ async def login(body: LoginBody, response: Response) -> dict[str, Any]:
             raise _map_better_auth_error(resp)
 
         login_data = resp.json()
-        jwt_token = login_data.get("token")
-        if not jwt_token:
-            jwt_token = await _fetch_jwt_token(client, resp.cookies)
+        # Prefer Better Auth /token (real JWT). sign-in "token" is usually the session id.
+        try:
+            cookies = resp.cookies
+        except RuntimeError:
+            cookies = httpx.Cookies()
+        jwt_token = await _fetch_jwt_token(client, cookies)
+        if not jwt_token and login_data.get("token"):
+            jwt_token = str(login_data["token"])
         if jwt_token:
             jwt_token = str(jwt_token)
 

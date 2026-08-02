@@ -49,7 +49,8 @@ export function LoginForm() {
         email: loginEmail,
         password: loginPassword,
       });
-      router.push(nextPath ?? "/board");
+      // "/" → HomeRedirect picks /welcome (first login) or /board (D-31)
+      router.push(nextPath ?? "/");
     } catch {
       setLoginError("Anmeldung fehlgeschlagen.");
     } finally {
@@ -68,7 +69,7 @@ export function LoginForm() {
         password: registerPassword,
         name: registerEmail.split("@")[0] ?? "Nutzer",
       });
-      router.push(nextPath ?? "/board");
+      router.push(nextPath ?? "/");
     } catch (error) {
       if (isSignupLockedError(error)) {
         setSignupLocked(true);
