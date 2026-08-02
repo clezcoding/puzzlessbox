@@ -170,7 +170,20 @@ Plans:
   3. PostgreSQL hat einen aktiven lokalen Backup-Schedule auf dem Coolify-Server
   4. Jede App hat einen Health-Check-Endpoint und Coolify ist so konfiguriert, dass abgestürzte Container nicht mehr geroutet werden
 
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+**Wave 1** *(parallel — no file overlap)*
+
+- [ ] 05-01-PLAN.md — Local Postgres backup schedule on puzzlessbox-db (cron 0 3 * * *, retention 14/14) + baseline backup trigger (OPS-03, D-09, D-10, D-11)
+- [ ] 05-02-PLAN.md — WebApp deploy artifacts: standalone Dockerfile + /api/health route + test + next.config standalone + deploy-web.yml GHCR workflow (OPS-02, OPS-04 web slice, D-05..D-08, D-13)
+
+**Wave 2** *(blocked on Wave 1 — 05-01)*
+
+- [ ] 05-03-PLAN.md — TRACER: API cutover dockerfile → dockerimage — deploy-api.yml + new Coolify dockerimage app + domain swap api.puzzlesstool.online + /health verify + stop old (OPS-01, OPS-02, OPS-04 API slice, D-02, D-12, D-14, D-15, D-16, D-17, D-18)
+
+**Wave 3** *(blocked on Wave 2 — 05-02 + 05-03)*
+
+- [ ] 05-04-PLAN.md — WebApp Coolify app + domain pbox.puzzlesstool.online + webhook + first deploy + /api/health verify + MCP health retune to D-14 + COVERAGE.md + final phase verification (OPS-01, OPS-02, OPS-04 web+MCP slice, D-01, D-03, D-13, D-14, D-15, D-19)
 
 ## Coverage
 
