@@ -31,4 +31,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 EXPOSE 3000
+# Better Auth schema is applied at process start via instrumentation.ts
+# (official getMigrations) when AUTH_MIGRATE_ON_START != false.
 CMD ["node", "server.js"]

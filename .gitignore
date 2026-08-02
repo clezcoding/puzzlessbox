@@ -1,11 +1,27 @@
 .DS_Store
+
+# Secrets
 .env
+.env.*
+!.env.example
 .env.local
+webapp/.env
+webapp/.env.*
 webapp/.env.local
-api/.venv/
-mcp-server/.venv/
+api/.env
+api/.env.*
+mcp-server/.env
+mcp-server/.env.*
+
+# Python
 __pycache__/
 *.pyc
+.pytest_cache/
+api/.venv/
+mcp-server/.venv/
+hermes-plugin/.venv/
+
+# Cursor / agents
 .cursor/*
 !.cursor/hooks/
 !.cursor/hooks/**
@@ -13,12 +29,23 @@ __pycache__/
 !.cursor/rules/
 .cursor/rules/*
 .agents/*
-.planning/ui-reviews/
 
+# Planning / graphify
+.planning/ui-reviews/
 .planning/research/.cache/
+.planning/spikes/**/events.json
+.planning/forensics/
 .graphify-out/
 graphify-out/
+
+# Node / webapp
 webapp/node_modules/
 webapp/.next/
+webapp/.turbo/
+webapp/coverage/
 webapp/package-lock.json
-.planning/spikes/**/events.json
+
+# Logs / IDE
+*.log
+.idea/
+.vscode/

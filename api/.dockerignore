@@ -1,0 +1,19 @@
+# Tests & sidecar (separate image)
+tests/
+camoufox-sidecar/
+.pytest_cache/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Secrets
+.env
+.env.*
+
+# Meta
+.git
+*.md
+.dockerignore
