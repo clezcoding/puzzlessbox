@@ -99,8 +99,9 @@ def test_login_persists_session(api_client, mock_jwks_keypair, owner_id_a) -> No
     assert response.json()["token"] == jwt_token
     cookie_header = response.headers.get("set-cookie", "")
     assert SESSION_COOKIE in cookie_header
-    assert "domain=.puzzlesstool.online" in cookie_header.lower()
     assert "httponly" in cookie_header.lower()
+    # Host-only cookie when SESSION_COOKIE_DOMAIN unset (local); prod sets domain via env
+    assert "domain=" not in cookie_header.lower()
 
 
 def test_cookie_session_replays_on_verify(api_client, mock_jwks_keypair, owner_id_a) -> None:

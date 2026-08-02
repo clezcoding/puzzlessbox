@@ -53,14 +53,14 @@
   --text-heading-leading: 1.2;
   --text-display-leading: 1.2;
 
-  /* Spacing scale */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-2xl: 48px;
-  --spacing-3xl: 64px;
+  /* Brand space scale — NOT --spacing-* (Tailwind v4 maps max-w-md → --spacing-md) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
 }
 
 @theme dark {

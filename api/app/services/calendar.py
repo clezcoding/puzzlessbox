@@ -204,6 +204,21 @@ class GoogleCalendarService:
         db.add(row)
         db.commit()
 
+    def disconnect(self, db: Session, owner_id: str) -> None:
+        row = db.get(CalendarToken, uuid.UUID(owner_id))
+        if row is not None:
+            db.delete(row)
+            db.commit()
+
+    def connection_status(self, db: Session, owner_id: str) -> dict[str, Any]:
+        row = db.get(CalendarToken, uuid.UUID(owner_id))
+        if row is None:
+            return {"connected": False, "selected_calendar_id": None}
+        return {
+            "connected": True,
+            "selected_calendar_id": row.selected_calendar_id,
+        }
+
     def create_event(
         self,
         db: Session,

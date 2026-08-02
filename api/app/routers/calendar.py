@@ -51,3 +51,20 @@ async def select_calendar(
 ) -> dict[str, str]:
     calendar_service.select_calendar(db, owner_id, calendar_id)
     return {"selected_calendar_id": calendar_id}
+
+
+@router.get("/auth/google/status")
+async def google_status(
+    db: Session = Depends(get_db_for_owner),
+    owner_id: str = Depends(get_current_owner),
+) -> dict[str, object]:
+    return calendar_service.connection_status(db, owner_id)
+
+
+@router.post("/auth/google/disconnect")
+async def google_disconnect(
+    db: Session = Depends(get_db_for_owner),
+    owner_id: str = Depends(get_current_owner),
+) -> dict[str, str]:
+    calendar_service.disconnect(db, owner_id)
+    return {"status": "disconnected"}

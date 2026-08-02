@@ -1,5 +1,7 @@
 .DS_Store
 .env
+.env.local
+webapp/.env.local
 api/.venv/
 mcp-server/.venv/
 __pycache__/
@@ -15,6 +17,8 @@ __pycache__/
 
 .planning/research/.cache/
 .graphify-out/
+graphify-out/
 webapp/node_modules/
 webapp/.next/
+webapp/package-lock.json
 .planning/spikes/**/events.json

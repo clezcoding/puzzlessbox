@@ -5,7 +5,7 @@
   "schedule": ["before 6am on Monday"],
   "labels": ["dependencies"],
   "prConcurrentLimit": 5,
-  "enabledManagers": ["github-actions"],
+  "enabledManagers": ["github-actions", "pnpm"],
   "pinDigests": true,
   "packageRules": [
     {
@@ -17,6 +17,21 @@
     },
     {
       "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies"],
+      "automerge": false
+    },
+    {
+      "matchManagers": ["pnpm"],
+      "matchFileNames": ["webapp/**"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "pinDigest"],
+      "groupName": "webapp (non-major)",
+      "labels": ["dependencies"],
+      "automerge": false
+    },
+    {
+      "matchManagers": ["pnpm"],
+      "matchFileNames": ["webapp/**"],
       "matchUpdateTypes": ["major"],
       "labels": ["dependencies"],
       "automerge": false

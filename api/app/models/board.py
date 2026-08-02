@@ -16,6 +16,7 @@ class BoardItem(BaseModel):
     title: str
     summary: str
     board_type: ItemType = Field(validation_alias="type", serialization_alias="type")
+    sort_order: int = 0
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime | None = None

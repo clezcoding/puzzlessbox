@@ -298,10 +298,12 @@ def list_board_items(db: Session = Depends(get_db_for_owner)) -> list[BoardItem]
         text(
             """
             SELECT id, owner_id, category_id, status, title, summary, type,
-                   created_at, updated_at, deleted_at
+                   sort_order, created_at, updated_at, deleted_at
             FROM board_items
             WHERE owner_id = :owner_id
-            ORDER BY created_at DESC
+              AND deleted_at IS NULL
+              AND status IN ('auto_saved', 'confirmed')
+            ORDER BY category_id ASC, sort_order ASC, created_at DESC
             """
         ),
         {"owner_id": owner_id},

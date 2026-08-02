@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.responses import Response
 
@@ -22,6 +23,8 @@ class AcceptVersionMiddleware(BaseHTTPMiddleware):
         self, request: Request, call_next: RequestResponseEndpoint
     ) -> Response:
         path = request.url.path
+        if request.method == "OPTIONS":
+            return await call_next(request)
         if any(path == prefix or path.startswith(f"{prefix}/") for prefix in _VERSION_SKIP_PREFIXES):
             return await call_next(request)
 
@@ -56,6 +59,14 @@ def create_app() -> FastAPI:
         lifespan=_lifespan,
         docs_url=docs_url,
         redoc_url=redoc_url,
+    )
+    cors_origins = [o.strip() for o in settings.CORS_ORIGINS.split(",") if o.strip()]
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=cors_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
     application.add_middleware(AcceptVersionMiddleware)
     application.include_router(health.router)

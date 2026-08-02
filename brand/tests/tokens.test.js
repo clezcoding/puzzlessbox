@@ -48,13 +48,13 @@ const fontVars = [
 ];
 
 const spacingVars = [
-  '--spacing-xs',
-  '--spacing-sm',
-  '--spacing-md',
-  '--spacing-lg',
-  '--spacing-xl',
-  '--spacing-2xl',
-  '--spacing-3xl',
+  '--space-xs',
+  '--space-sm',
+  '--space-md',
+  '--space-lg',
+  '--space-xl',
+  '--space-2xl',
+  '--space-3xl',
 ];
 
 const textScaleVars = [

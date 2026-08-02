@@ -1,29 +1,48 @@
 {
   "name": "puzzlessbox-webapp",
   "private": true,
+  "packageManager": "pnpm@11.15.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "auth:migrate": "DATABASE_URL=${DATABASE_URL:-postgresql://puzzless:puzzless@localhost:5432/puzzlessbox} npx @better-auth/cli migrate --config ./lib/auth.ts --yes"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
+    "@hookform/resolvers": "^3.10.0",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-slot": "^1.1.2",
     "better-auth": "1.6.25",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
     "next": "16.2.12",
     "pg": "^8.13.1",
+    "radix-ui": "^1.6.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
+    "sonner": "^1.7.4",
+    "tailwind-merge": "^3.0.2",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.10.2",
     "@types/pg": "^8.11.10",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "typescript": "^5.7.2"
-  },
-  "overrides": {
-    "next": {
-      "postcss": "^8.5.18",
-      "sharp": "^0.35.0"
-    }
+    "@vitejs/plugin-react": "^4.4.1",
+    "jsdom": "^26.1.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.7.2",
+    "vitest": "^3.1.2"
   }
 }

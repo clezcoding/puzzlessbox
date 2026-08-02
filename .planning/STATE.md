@@ -2,21 +2,21 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 03
-current_phase_name: Hermes-Plugin & Timeout-Spike
-status: "Phase 03 shipped — PR #20"
-stopped_at: Completed 03-04-PLAN.md
-last_updated: "2026-08-01T03:47:36.199Z"
+current_phase: 04
+current_phase_name: webapp
+status: "Phase 04 shipped — PR #21"
+stopped_at: Phase 4 planning complete
+last_updated: "2026-08-02T18:40:34.732Z"
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 4
-  total_plans: 16
+  total_plans: 21
   completed_plans: 16
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-07-31 (Phase 1 merged via PR #13)
+**Last updated:** 2026-08-02 (Phase 4 planned — 5 plans)
 **Current milestone:** v1 (initial release)
 
 ## Project Reference
@@ -29,14 +29,16 @@ progress:
 
 ## Current Position
 
-- **Phase:** 03 (Hermes-Plugin & Timeout-Spike) — COMPLETE (UAT passed)
-- **Prior:** 02 (MCP-Server) — PR #15 open (PR #14 partial merge on main)
-- **Plan:** 4 of 4 complete
-- **Status:** Phase 03 shipped — PR #20
-- **Progress Phase 3:** [██████████] 100% verified (4/4 plans)
+- **Phase:** 04 (webapp) — UAT (local OrbStack)
+- **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
+- **Plan:** 5 of 5 executed; human UAT in progress
+- **Status:** Phase 04 shipped — PR #21
+- **Resume:** Coolify for Tests 5+7, or Phase 5 deploy
+- **UAT login:** `uat@puzzless.local` / see `webapp/.env.local` (account reset + re-registered)
+- **UAT file:** `.planning/phases/04-webapp/04-UAT.md` (gsd-browser session `puzzless-uat-4`)
 
 ```
-[2/6] ██████░░░░░░░░░░░░░░  33% phases
+[4/6] ██████████████░░░░░░  67% phases
 ```
 
 ## Phase Plan
@@ -47,15 +49,15 @@ progress:
 | 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
 | 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete (4 plans, UAT passed) |
-| 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Not started |
+| 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Planned (5 plans) |
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
 
 ## Performance Metrics
 
-- Phases complete: 0
-- Phases planned: 1
-- Plans executed: 0
-- Verifications passed: 0
+- Phases complete: 4
+- Phases planned: 6
+- Plans executed: 16
+- Verifications passed: 4
 
 **Per-Plan Metrics:**
 
@@ -117,14 +119,14 @@ progress:
 | 260728-8an | GitHub-Repo puzzlessbox (privat) erstellen und einrichten | 2026-07-28 | 369af29 | [260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi](./quick/260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi/) |
 | 260729-vmg | Platform Bootstrap: Dependabot, Kodiak, CI, CodeQL, Coolify Postgres | 2026-07-29 | 634d1fc | [260729-vmg-platform-bootstrap-dependabot-branch-pro](./quick/260729-vmg-platform-bootstrap-dependabot-branch-pro/) |
 
-**Last updated:** 2026-07-29 (session resumed)
+**Last updated:** 2026-08-01 (GSD health/forensics cleanup)
 
 ## Session Continuity
 
-- **Last session:** 2026-08-01T03:19:20.845Z
-- **Stopped at:** Completed 03-04-PLAN.md
-- **Resume file:** None
-- **Next recommended action:** `/gsd-plan-phase 4` or `/gsd-execute-phase 4`
+- **Last session:** 2026-08-02T00:55:00.000Z
+- **Stopped at:** Phase 4 planning complete (5 PLAN.md: 04-00..04-04)
+- **Resume file:** /Users/puzzless/Desktop/puzzlessbox/.planning/phases/04-webapp/04-00-PLAN.md
+- **Next recommended action:** `/gsd-execute-phase 4`
 - **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.

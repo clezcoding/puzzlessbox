@@ -12,6 +12,12 @@ export const authConfig = {
   emailAndPassword: {
     enabled: true,
   },
+  advanced: {
+    database: {
+      // owner_id columns are UUID — must match API CAST(... AS uuid)
+      generateId: () => crypto.randomUUID(),
+    },
+  },
   plugins: [jwt()],
   databaseHooks: {
     user: {
