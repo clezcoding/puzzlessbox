@@ -3,13 +3,15 @@ FROM node:24-alpine AS base
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY package.json pnpm-lock.yaml* ./
+COPY webapp/package.json webapp/pnpm-lock.yaml webapp/pnpm-workspace.yaml ./
 RUN corepack enable pnpm && pnpm i --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
+ENV CI=true
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY brand /brand
+COPY webapp/ .
 RUN corepack enable pnpm && pnpm run build
 
 FROM base AS runner
