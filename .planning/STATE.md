@@ -121,15 +121,16 @@ progress:
 |---|-------------|------|--------|-----------|
 | 260728-8an | GitHub-Repo puzzlessbox (privat) erstellen und einrichten | 2026-07-28 | 369af29 | [260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi](./quick/260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi/) |
 | 260729-vmg | Platform Bootstrap: Dependabot, Kodiak, CI, CodeQL, Coolify Postgres | 2026-07-29 | 634d1fc | [260729-vmg-platform-bootstrap-dependabot-branch-pro](./quick/260729-vmg-platform-bootstrap-dependabot-branch-pro/) |
+| 260803-001 | Coolify 3-app GHCR/env audit + Renovate/Dependabot PRs (latest stable) | 2026-08-03 | e1197bd | [260803-001-coolify-3-apps-latest-ghcr-build-deploy-](./quick/260803-001-coolify-3-apps-latest-ghcr-build-deploy-/) |
 
-**Last updated:** 2026-08-01 (GSD health/forensics cleanup)
+**Last updated:** 2026-08-03 (quick 260803-001 Coolify audit + dep PRs)
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T21:17:18.931Z
-- **Stopped at:** Completed 05-04-PLAN.md
+- **Last session:** 2026-08-02T22:42:00Z
+- **Stopped at:** Completed quick 260803-001 (Coolify audit + Renovate PRs)
 - **Resume file:** None
-- **Next recommended action:** `/gsd-execute-phase 5`
+- **Next recommended action:** milestone close / next milestone when ready
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.

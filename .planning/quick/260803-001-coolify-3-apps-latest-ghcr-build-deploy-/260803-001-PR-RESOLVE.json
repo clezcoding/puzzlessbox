@@ -1,0 +1,30 @@
+{
+  "task": "260803-001 Task 2 — resolve Renovate/Dependabot chore PRs",
+  "repo": "clezcoding/puzzlessbox",
+  "policy": "ALWAYS latest STABLE; never ignore/close-as-duplicate without git/gh proof bump on main; no merge on red CI",
+  "executed_at": "2026-08-02T22:35:00Z",
+  "finalized_at": "2026-08-02T22:41:00Z",
+  "prs": [
+    {"number": 30, "title": "chore(deps): update dependency @testing-library/jest-dom to v7", "result": "merged", "ci": "green"},
+    {"number": 31, "title": "chore(deps): update dependency @types/node to v24", "result": "merged", "ci": "green"},
+    {"number": 32, "title": "chore(deps): update dependency @vitejs/plugin-react to v6", "result": "superseded_by_43", "ci": "was_red", "notes": "Closed after #43 landed vite^8 + plugin-react^6"},
+    {"number": 33, "title": "chore(deps): update dependency jsdom to v30", "result": "merged", "ci": "green"},
+    {"number": 34, "title": "chore(deps): update dependency typescript to v7", "result": "superseded_by_43", "ci": "was_red", "notes": "Closed after #43 landed TS7 + experimental.useTypeScriptCli"},
+    {"number": 35, "title": "chore(deps): update dependency vitest to v4", "result": "merged", "ci": "green"},
+    {"number": 36, "title": "chore(deps): update pnpm/action-setup action to v6", "result": "merged", "ci": "green"},
+    {"number": 37, "title": "fix(deps): update dependency @hookform/resolvers to v5", "result": "merged", "ci": "green"},
+    {"number": 38, "title": "fix(deps): update dependency lucide-react to v1", "result": "merged", "ci": "green"},
+    {"number": 39, "title": "fix(deps): update dependency sonner to v2", "result": "merged", "ci": "green"},
+    {"number": 40, "title": "fix(deps): update dependency zod to v4", "result": "merged", "ci": "green_after_lockfile_fix"},
+    {"number": 41, "title": "fix(deploy-mcp): add workflow_dispatch for manual GHCR rebuild", "result": "merged", "ci": "green", "notes": "Unblocked MCP rebuild (E-MCP-WORKFLOW-DISPATCH)"},
+    {"number": 42, "title": "chore(deps): update dependency @hookform/resolvers to v5.7.1", "result": "superseded_by_43", "ci": "was_red", "notes": "Closed after #43 + minimumReleaseAgeExclude"},
+    {"number": 43, "title": "fix(deps): unblock Renovate majors (vite8/plugin-react6, TS7, hookform 5.7.1)", "result": "merged", "ci": "green", "url": "https://github.com/clezcoding/puzzlessbox/pull/43"}
+  ],
+  "summary": {
+    "merged": [30, 31, 33, 35, 36, 37, 38, 39, 40, 41, 43],
+    "superseded_closed": [32, 34, 42],
+    "escalated_remaining": [],
+    "still_open": []
+  },
+  "final_open_chore_pr_numbers": []
+}
