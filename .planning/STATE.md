@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
-status: executing
+status: "Phase 04 shipped — PR #21"
 stopped_at: Phase 4 planning complete
-last_updated: "2026-08-01T23:15:03.903Z"
+last_updated: "2026-08-02T18:40:34.732Z"
 progress:
   total_phases: 5
   completed_phases: 4
@@ -32,7 +32,7 @@ progress:
 - **Phase:** 04 (webapp) — UAT (local OrbStack)
 - **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
 - **Plan:** 5 of 5 executed; human UAT in progress
-- **Status:** UAT local fresh run (2026-08-02) — 1–4,6,8,9 pass; **5+7 blocked** (Coolify OAuth/Hermes)
+- **Status:** Phase 04 shipped — PR #21
 - **Resume:** Coolify for Tests 5+7, or Phase 5 deploy
 - **UAT login:** `uat@puzzless.local` / see `webapp/.env.local` (account reset + re-registered)
 - **UAT file:** `.planning/phases/04-webapp/04-UAT.md` (gsd-browser session `puzzless-uat-4`)
