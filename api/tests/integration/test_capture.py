@@ -85,10 +85,14 @@ def test_draft_roundtrip(
     assert body["type"] == item_type
     assert body["id"]
 
+    fetched = api_client.get(f"/drafts/{body['id']}", headers=headers)
+    assert fetched.status_code == 200
+    assert fetched.json()["type"] == item_type
+
     listed = api_client.get("/board-items", headers=headers)
     assert listed.status_code == 200
-    items = listed.json()
-    assert any(item["id"] == body["id"] and item["type"] == item_type for item in items)
+    # D-04: draft items stay chat-only; board shows auto_saved/confirmed only
+    assert not any(item["id"] == body["id"] for item in listed.json())
 
 
 def test_cross_tenant_board_items_empty(
@@ -115,6 +119,10 @@ def test_cross_tenant_board_items_empty(
     )
     assert created.status_code == 201
     created_id = created.json()["id"]
+    postgres_connection.execute(
+        text("UPDATE notes SET status = 'auto_saved' WHERE id = CAST(:id AS uuid)"),
+        {"id": created_id},
+    )
 
     own_items = api_client.get("/board-items", headers=headers_a).json()
     assert any(item["id"] == created_id for item in own_items)
@@ -123,7 +131,9 @@ def test_cross_tenant_board_items_empty(
     assert not any(item["id"] == created_id for item in foreign_items)
 
 
-def test_idempotency(api_client, category_id, mock_jwks_keypair, owner_id_a) -> None:
+def test_idempotency(
+    api_client, postgres_connection, category_id, mock_jwks_keypair, owner_id_a
+) -> None:
     token = mint_test_jwt(mock_jwks_keypair["private_key"], owner_id_a)
     idem_key = f"draft-create-{uuid.uuid4()}"
     headers = {
@@ -144,6 +154,12 @@ def test_idempotency(api_client, category_id, mock_jwks_keypair, owner_id_a) -> 
     assert first.status_code == 201
     assert second.status_code == 201
     assert first.json() == second.json()
+
+    draft_id = first.json()["id"]
+    postgres_connection.execute(
+        text("UPDATE notes SET status = 'auto_saved' WHERE id = CAST(:id AS uuid)"),
+        {"id": draft_id},
+    )
 
     listed = api_client.get(
         "/board-items",
