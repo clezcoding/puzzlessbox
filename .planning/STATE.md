@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 05
-current_phase_name: coolify-deployment-ci-cd-h-rtung
-status: executing
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-08-02T20:25:39.078Z"
+current_phase: 4
+current_phase_name: WebApp
+status: "Phase 5 shipped — PR #28"
+stopped_at: Completed 05-04-PLAN.md
+last_updated: "2026-08-02T21:35:43.442Z"
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 25
-  completed_plans: 23
+  completed_plans: 25
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05 (coolify-deployment-ci-cd-h-rtung) — EXECUTING
+- **Phase:** 4 — WebApp
 - **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Plan:** 3 of 4
-- **Status:** Ready to execute
+- **Plan:** Not started
+- **Status:** Phase 5 shipped — PR #28
 - **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
 - **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
 - **UAT file:** `.planning/phases/04-webapp/04-UAT.md`
@@ -82,6 +82,7 @@ progress:
 | Phase 03 P04 | 6min | 2 tasks | 3 files |
 | Phase 05-coolify-deployment-ci-cd-h-rtung P01 | 4min | 2 tasks | 2 files |
 | Phase 05-coolify-deployment-ci-cd-h-rtung P02 | 5min | 2 tasks | 5 files |
+| Phase 05 P04 | 40min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -125,8 +126,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T20:25:39.063Z
-- **Stopped at:** Completed 05-02-PLAN.md
+- **Last session:** 2026-08-02T21:17:18.931Z
+- **Stopped at:** Completed 05-04-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 5`
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
@@ -177,3 +178,7 @@ progress:
 - [Phase ?]: Coolify MCP get_database_backups fallback when CLI backup list unmarshals retention_max_storage_locally
 - [Phase ?]: WebApp health at /api/health only — no /ready Traefik gate (D-12, D-13)
 - [Phase ?]: Coolify trigger uses GET + status assert, mirroring deploy-api pattern not MCP POST
+- [Phase ?]: WebApp UUID qxpgv6p1rp3vupue9al8hbzz — ghcr.io/clezcoding/puzzlessbox-web:latest @ pbox
+- [Phase ?]: COOLIFY_WEB_WEBHOOK via deploy API URL pattern (D-19)
+- [Phase ?]: MCP n5frtiupale5c2zjm9fyk1qc health retuned 10s/5s/5/15s via REST PATCH
+- [Phase ?]: Docker build context repo-root; brand/ required for globals.css import

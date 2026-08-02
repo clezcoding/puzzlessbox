@@ -16,7 +16,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS (completed 2026-07-31)
 - [x] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan (completed 2026-08-01)
 - [ ] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige
-- [ ] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks
+- [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
 
 ## Phase Details
 
@@ -170,7 +170,7 @@ Plans:
   3. PostgreSQL hat einen aktiven lokalen Backup-Schedule auf dem Coolify-Server
   4. Jede App hat einen Health-Check-Endpoint und Coolify ist so konfiguriert, dass abgestürzte Container nicht mehr geroutet werden
 
-**Plans**: 2/4 plans executed
+**Plans**: 4/4 plans executed
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
@@ -179,11 +179,11 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 — 05-01)*
 
-- [ ] 05-03-PLAN.md — TRACER: API cutover dockerfile → dockerimage — deploy-api.yml + new Coolify dockerimage app + domain swap api.puzzlesstool.online + /health verify + stop old (OPS-01, OPS-02, OPS-04 API slice, D-02, D-12, D-14, D-15, D-16, D-17, D-18)
+- [x] 05-03-PLAN.md — TRACER: API cutover dockerfile → dockerimage — deploy-api.yml + new Coolify dockerimage app + domain swap api.puzzlesstool.online + /health verify + stop old (OPS-01, OPS-02, OPS-04 API slice, D-02, D-12, D-14, D-15, D-16, D-17, D-18)
 
 **Wave 3** *(blocked on Wave 2 — 05-02 + 05-03)*
 
-- [ ] 05-04-PLAN.md — WebApp Coolify app + domain pbox.puzzlesstool.online + webhook + first deploy + /api/health verify + MCP health retune to D-14 + COVERAGE.md + final phase verification (OPS-01, OPS-02, OPS-04 web+MCP slice, D-01, D-03, D-13, D-14, D-15, D-19)
+- [x] 05-04-PLAN.md — WebApp Coolify app + domain pbox.puzzlesstool.online + webhook + first deploy + /api/health verify + MCP health retune to D-14 + COVERAGE.md + final phase verification (OPS-01, OPS-02, OPS-04 web+MCP slice, D-01, D-03, D-13, D-14, D-15, D-19)
 
 ## Coverage
 
@@ -229,7 +229,7 @@ Plans:
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
 | 4. WebApp | 5/5 | In Progress|  |
-| 5. Coolify-Deployment, CI/CD & Härtung | 2/4 | In Progress|  |
+| 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 
 ---
 *Roadmap created: 2026-07-28*

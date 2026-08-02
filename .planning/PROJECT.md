@@ -20,6 +20,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 ### Validated
 
 - [x] Einheitliches Branding (Hallmark: clean + warm, kein AI-Slop) inkl. Design-Tokens vor WebApp-Bau — **Phase 0** (`brand/` kit: 25 Apollo PNGs, `tokens.css`, Tailwind preset, `BRAND.md`, `VOICE.md`)
+- [x] Coolify-Deploy (Docker-Image via GHCR + GitHub Actions), lokale DB-Backups, Health Checks — **Phase 5** (API/MCP/WebApp dockerimage apps, deploy-*.yml, backup schedule)
 
 ### Active
 
@@ -30,7 +31,6 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [ ] WebApp-Auth: Better Auth — Email/Password Register + Login; nach erstem Account `disableSignUp: true`
 - [ ] MCP-Server (FastMCP) für Hermes: create/list/move/confirm/update Items & Categories; Bearer-Token-Auth
 - [ ] Hermes-Plugin: Bestätigungs-Flow, 30s-Timeout, Kategorisierungs-Vorschlag, MCP-Client
-- [ ] Coolify-Deploy (Docker-Image via GHCR + GitHub Actions), lokale DB-Backups, Health Checks
 
 ### Out of Scope
 
@@ -62,7 +62,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - **Auth MCP**: Statisches Bearer-Token (rotierbar, Coolify Secret); keine IP-Allowlist
 - **Tenancy**: Jede Kerntabelle mit `owner_id` von Tag 1; Queries immer filtern
 - **Repo**: Privat; AGPL-3.0 + Commercial Dual-Lizenz; Monorepo (`api/`, `mcp-server/`, `webapp/`, `hermes-plugin/`)
-- **Domains (dev)**: `app.` / `api.` / `mcp.` unter `puzzlesstool.online`
+- **Domains**: `pbox.` / `api.` / `mcp.` unter `puzzlesstool.online` (Phase 5)
 - **Backups**: Nur lokal auf Coolify-Server (Phase 5)
 - **Branding**: Hallmark — kein AI-Slop; Design-Entscheidungen in Discuss Phase 0
 
@@ -77,7 +77,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 | MCP: nur Bearer, keine IP-Allowlist | Einfacher Ops; Token rotierbar; Single-Client | — Pending |
 | Branding via Hallmark (clean+warm) vor WebApp | Kein AI-Slop; Tokens füttern `/gsd-ui-phase` | ✓ Phase 0 |
 | Dual-Lizenz AGPL-3.0 + Commercial jetzt | Verhindert 1:1 SaaS-Kopie; alleiniger Autor → jetzt einfach | — Pending |
-| Coolify Docker-Image + GH Actions (nicht Nixpacks-Build) | Build extern; Coolify-Server nicht überlasten | — Pending |
+| Coolify Docker-Image + GH Actions (nicht Nixpacks-Build) | Build extern; Coolify-Server nicht überlasten | ✓ Phase 5 |
 | Alle Hermes-Messaging-Kanäle in v1 | Kein Kanal-Lock; Capture überall wo Hermes erreichbar | — Pending |
 | Default-Kategorien: Inbox · Notizen · Links · Tasks · Termine | Sofort nutzbares Board ohne Setup-Reibung | — Pending |
 | Bestätigungs-Payload: Titel + Typ + Kategorie + Kurz-Zusammenfassung | Editierbar ohne Voll-Draft-Überladung | — Pending |
@@ -100,4 +100,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-29 after Phase 0 completion*
+*Last updated: 2026-08-02 after Phase 5 completion*
