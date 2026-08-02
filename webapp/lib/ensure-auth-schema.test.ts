@@ -43,7 +43,7 @@ describe("ensureAuthSchema", () => {
   it("runs migrations when tables missing", async () => {
     const runMigrations = vi.fn().mockResolvedValue(undefined);
     vi.mocked(getMigrations).mockResolvedValue({
-      toBeCreated: [{ table: "user" }],
+      toBeCreated: [{ table: "user", fields: {}, order: 0 }],
       toBeAdded: [],
       runMigrations,
       compileMigrations: vi.fn(),
