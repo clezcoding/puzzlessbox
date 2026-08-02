@@ -16,7 +16,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS (completed 2026-07-31)
 - [x] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan (completed 2026-08-01)
 - [ ] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige
-- [ ] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks
+- [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
 
 ## Phase Details
 
@@ -229,7 +229,7 @@ Plans:
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
 | 4. WebApp | 5/5 | In Progress|  |
-| 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | In Progress|  |
+| 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 
 ---
 *Roadmap created: 2026-07-28*
