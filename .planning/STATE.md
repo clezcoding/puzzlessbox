@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 04
-current_phase_name: webapp
-status: "Phase 04 shipped — PR #21"
-stopped_at: Phase 4 planning complete
-last_updated: "2026-08-02T18:40:34.732Z"
+current_phase: 05
+current_phase_name: coolify-deployment-ci-cd-h-rtung
+status: executing
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-08-02T20:25:39.078Z"
 progress:
-  total_phases: 5
-  completed_phases: 4
-  total_plans: 21
-  completed_plans: 16
+  total_phases: 6
+  completed_phases: 5
+  total_plans: 25
+  completed_plans: 23
 ---
 
 # State: Puzzlessbox
@@ -29,13 +29,13 @@ progress:
 
 ## Current Position
 
-- **Phase:** 04 (webapp) — UAT (local OrbStack)
-- **Prior:** 03 (Hermes-Plugin & Timeout-Spike) — PR #20 merged; 02 (MCP-Server) — PR #15 merged
-- **Plan:** 5 of 5 executed; human UAT in progress
-- **Status:** Phase 04 shipped — PR #21
-- **Resume:** Coolify for Tests 5+7, or Phase 5 deploy
-- **UAT login:** `uat@puzzless.local` / see `webapp/.env.local` (account reset + re-registered)
-- **UAT file:** `.planning/phases/04-webapp/04-UAT.md` (gsd-browser session `puzzless-uat-4`)
+- **Phase:** 05 (coolify-deployment-ci-cd-h-rtung) — EXECUTING
+- **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
+- **Plan:** 3 of 4
+- **Status:** Ready to execute
+- **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
+- **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
+- **UAT file:** `.planning/phases/04-webapp/04-UAT.md`
 
 ```
 [4/6] ██████████████░░░░░░  67% phases
@@ -50,7 +50,7 @@ progress:
 | 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete (4 plans, UAT passed) |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Planned (5 plans) |
-| 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
+| 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Planned (4 plans) |
 
 ## Performance Metrics
 
@@ -80,6 +80,8 @@ progress:
 | Phase 03-hermes-plugin-timeout-spike P01 | 15min | 3 tasks | 9 files |
 | Phase 03-hermes-plugin-timeout-spike P04 | 6min | 2 tasks | 3 files |
 | Phase 03 P04 | 6min | 2 tasks | 3 files |
+| Phase 05-coolify-deployment-ci-cd-h-rtung P01 | 4min | 2 tasks | 2 files |
+| Phase 05-coolify-deployment-ci-cd-h-rtung P02 | 5min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -123,11 +125,11 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T00:55:00.000Z
-- **Stopped at:** Phase 4 planning complete (5 PLAN.md: 04-00..04-04)
-- **Resume file:** /Users/puzzless/Desktop/puzzlessbox/.planning/phases/04-webapp/04-00-PLAN.md
-- **Next recommended action:** `/gsd-execute-phase 4`
-- **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
+- **Last session:** 2026-08-02T20:25:39.063Z
+- **Stopped at:** Completed 05-02-PLAN.md
+- **Resume file:** None
+- **Next recommended action:** `/gsd-execute-phase 5`
+- **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
@@ -172,3 +174,6 @@ progress:
 - [Phase ?]: Confirm ACK uses live call_mcp_get_item_status not session snapshot (D-08)
 - [Phase ?]: setup.sh enforces HTTPS MCP_URL and MCP_BEARER min 20 chars (D-12)
 - [Phase ?]: CAP-04 channel tests use MockSession adapters without render logic
+- [Phase ?]: Coolify MCP get_database_backups fallback when CLI backup list unmarshals retention_max_storage_locally
+- [Phase ?]: WebApp health at /api/health only — no /ready Traefik gate (D-12, D-13)
+- [Phase ?]: Coolify trigger uses GET + status assert, mirroring deploy-api pattern not MCP POST

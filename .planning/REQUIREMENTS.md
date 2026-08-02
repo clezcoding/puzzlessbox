@@ -55,9 +55,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Deployment & Ops
 
 - [ ] **OPS-01**: API, MCP und WebApp laufen als separate Coolify Docker-Image-Apps unter `*.puzzlesstool.online`
-- [ ] **OPS-02**: GitHub Actions baut Images nach GHCR (`:latest` + `:sha-<sha>`) und triggert Coolify-Deploy-Webhooks
-- [ ] **OPS-03**: PostgreSQL hat lokalen Backup-Schedule auf dem Coolify-Server
-- [ ] **OPS-04**: Jede App hat Health-Check-Endpoint und Coolify Health-Check konfiguriert
+- [x] **OPS-02**: GitHub Actions baut Images nach GHCR (`:latest` + `:sha-<sha>`) und triggert Coolify-Deploy-Webhooks
+- [x] **OPS-03**: PostgreSQL hat lokalen Backup-Schedule auf dem Coolify-Server
+- [x] **OPS-04**: Jede App hat Health-Check-Endpoint und Coolify Health-Check konfiguriert
 
 ## v2 Requirements
 
@@ -127,9 +127,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAP-05 | Phase 4 | Pending |
 | CAL-01 | Phase 4 | Pending |
 | OPS-01 | Phase 5 | Pending |
-| OPS-02 | Phase 5 | Pending |
-| OPS-03 | Phase 5 | Pending |
-| OPS-04 | Phase 5 | Pending |
+| OPS-02 | Phase 5 | Complete |
+| OPS-03 | Phase 5 | Complete |
+| OPS-04 | Phase 5 | Complete |
 
 **Coverage:**
 
