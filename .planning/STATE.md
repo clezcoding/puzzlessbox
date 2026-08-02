@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05
 current_phase_name: coolify-deployment-ci-cd-h-rtung
-status: "Phase 05 planned — Ready to execute"
-stopped_at: Phase 5 planned (4 plans verified)
-last_updated: "2026-08-02T19:50:00.000Z"
+status: executing
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-08-02T20:23:55.403Z"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 25
-  completed_plans: 21
+  completed_plans: 22
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05 (Coolify-Deployment, CI/CD & Härtung) — Planned, ready to execute
+- **Phase:** 05 (coolify-deployment-ci-cd-h-rtung) — EXECUTING
 - **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Plan:** 0 of 4 executed
-- **Status:** Phase 05 planned — Ready to execute
+- **Plan:** 2 of 4
+- **Status:** Ready to execute
 - **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
 - **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
 - **UAT file:** `.planning/phases/04-webapp/04-UAT.md`
@@ -80,6 +80,7 @@ progress:
 | Phase 03-hermes-plugin-timeout-spike P01 | 15min | 3 tasks | 9 files |
 | Phase 03-hermes-plugin-timeout-spike P04 | 6min | 2 tasks | 3 files |
 | Phase 03 P04 | 6min | 2 tasks | 3 files |
+| Phase 05-coolify-deployment-ci-cd-h-rtung P01 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -123,9 +124,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T19:45:00.000Z
-- **Stopped at:** Phase 5 planned (4 plans, verified)
-- **Resume file:** .planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-01-PLAN.md
+- **Last session:** 2026-08-02T20:23:55.395Z
+- **Stopped at:** Completed 05-01-PLAN.md
+- **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 5`
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
@@ -172,3 +173,4 @@ progress:
 - [Phase ?]: Confirm ACK uses live call_mcp_get_item_status not session snapshot (D-08)
 - [Phase ?]: setup.sh enforces HTTPS MCP_URL and MCP_BEARER min 20 chars (D-12)
 - [Phase ?]: CAP-04 channel tests use MockSession adapters without render logic
+- [Phase ?]: Coolify MCP get_database_backups fallback when CLI backup list unmarshals retention_max_storage_locally
