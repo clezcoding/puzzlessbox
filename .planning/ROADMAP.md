@@ -170,7 +170,7 @@ Plans:
   3. PostgreSQL hat einen aktiven lokalen Backup-Schedule auf dem Coolify-Server
   4. Jede App hat einen Health-Check-Endpoint und Coolify ist so konfiguriert, dass abgestürzte Container nicht mehr geroutet werden
 
-**Plans**: 2/4 plans executed
+**Plans**: 3/4 plans executed
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
@@ -183,7 +183,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 — 05-02 + 05-03)*
 
-- [ ] 05-04-PLAN.md — WebApp Coolify app + domain pbox.puzzlesstool.online + webhook + first deploy + /api/health verify + MCP health retune to D-14 + COVERAGE.md + final phase verification (OPS-01, OPS-02, OPS-04 web+MCP slice, D-01, D-03, D-13, D-14, D-15, D-19)
+- [x] 05-04-PLAN.md — WebApp Coolify app + domain pbox.puzzlesstool.online + webhook + first deploy + /api/health verify + MCP health retune to D-14 + COVERAGE.md + final phase verification (OPS-01, OPS-02, OPS-04 web+MCP slice, D-01, D-03, D-13, D-14, D-15, D-19)
 
 ## Coverage
 
@@ -229,7 +229,7 @@ Plans:
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
 | 4. WebApp | 5/5 | In Progress|  |
-| 5. Coolify-Deployment, CI/CD & Härtung | 2/4 | In Progress|  |
+| 5. Coolify-Deployment, CI/CD & Härtung | 3/4 | In Progress|  |
 
 ---
 *Roadmap created: 2026-07-28*
