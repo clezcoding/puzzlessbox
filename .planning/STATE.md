@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 4
 current_phase_name: WebApp
-status: planning
+status: "Phase 5 shipped — PR #28"
 stopped_at: Completed 05-04-PLAN.md
-last_updated: "2026-08-02T21:21:58.362Z"
+last_updated: "2026-08-02T21:35:43.442Z"
 progress:
   total_phases: 6
   completed_phases: 6
@@ -32,7 +32,7 @@ progress:
 - **Phase:** 4 — WebApp
 - **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
 - **Plan:** Not started
-- **Status:** Ready to plan
+- **Status:** Phase 5 shipped — PR #28
 - **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
 - **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
 - **UAT file:** `.planning/phases/04-webapp/04-UAT.md`
