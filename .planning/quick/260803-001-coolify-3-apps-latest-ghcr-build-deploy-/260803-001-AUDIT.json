@@ -1,0 +1,221 @@
+{
+  "plan": "260803-001",
+  "task": 1,
+  "audited_at": "2026-08-02T22:06:30Z",
+  "project_uuid": "nlm9h0u5lh2rnf2fg10vuf16",
+  "network": "rmj3pan623pikht2yqq2efsd",
+  "cli_context": "hostunlimited",
+  "apps": [
+    {
+      "uuid": "pasmduuzitoh21qipyq3ay1l",
+      "name": "puzzlessbox-api-ghcr",
+      "role": "api",
+      "status": "running:healthy",
+      "fqdn": "https://api.puzzlesstool.online",
+      "build_pack": "dockerimage",
+      "image": "ghcr.io/clezcoding/puzzlessbox-api:latest",
+      "ghcr_digest": "sha256:755ed3dad9b6a58d504e3ff8dde553ffe36478bb980a3f5aedbf6b2c803af17a",
+      "deploy_run_id": 30765847051,
+      "head_sha": "85bb8f909b7bc439a80b3e4dd891247fc612a868",
+      "coolify_deploy_uuid_after": "gsjmp9iy7oxb0cxnq3w3lt1x",
+      "in_sync_before": false,
+      "in_sync_after": true,
+      "in_sync_before_reason": "GH Actions push 20:33; Coolify deploy f14d86a0b466nrp5foujbwbs status=failed (cleanup race) after pull; prior finished deploy 20:31 predated new digest",
+      "actions": [
+        "update_application_env BETTER_AUTH_BASE_URL",
+        "deploy_application gsjmp9iy7oxb0cxnq3w3lt1x → finished"
+      ],
+      "live_health_http_code": 200,
+      "health_path": "/health",
+      "health_timings": {
+        "enabled": true,
+        "interval": 10,
+        "timeout": 5,
+        "retries": 5,
+        "start_period": 15
+      },
+      "env_fixes": [
+        {
+          "key": "BETTER_AUTH_BASE_URL",
+          "old": "https://app.puzzlesstool.online/api/auth",
+          "new": "https://pbox.puzzlesstool.online/api/auth",
+          "preview_also": true
+        }
+      ],
+      "env_presence": {
+        "BETTER_AUTH_JWKS_URL": {"present": true, "value": "https://pbox.puzzlesstool.online/.well-known/jwks.json"},
+        "BETTER_AUTH_BASE_URL": {"present": true, "value": "https://pbox.puzzlesstool.online/api/auth"},
+        "DATABASE_URL": {"present": true, "length": 139},
+        "SERVICE_BEARER_TOKEN": {"present": true, "length": 64},
+        "SERVICE_OWNER_ID": {"present": true, "length": 36},
+        "ENCRYPTION_KEY": {"present": true, "length": 32},
+        "FIRECRAWL_BEARER": {"present": true, "length": 64},
+        "CAMOUFOX_BEARER": {"present": true, "length": 64}
+      }
+    },
+    {
+      "uuid": "n5frtiupale5c2zjm9fyk1qc",
+      "name": "puzzlessbox-mcp",
+      "role": "mcp",
+      "status": "running:healthy",
+      "fqdn": "https://mcp.puzzlesstool.online",
+      "build_pack": "dockerimage",
+      "image": "ghcr.io/clezcoding/puzzlessbox-mcp:latest",
+      "ghcr_digest": "sha256:1cae29efe772bc4483cd8a80bab314916e7f55bd060b3309e3230376ea12bff3",
+      "deploy_run_id": 30602010809,
+      "head_sha": "ec40c7a2542539b029522c68b31702ae8240140f",
+      "coolify_deploy_uuid_after": "zphw1auksx5u6rz5l2756s7d",
+      "in_sync_before": true,
+      "in_sync_after": true,
+      "in_sync_note": "Coolify matches GHCR :latest and last successful deploy-mcp run. main mcp-server code ahead (9ee13b2 get_draft_status) but deploy-mcp.yml has no workflow_dispatch — rebuild blocked without push.",
+      "actions": [
+        "update_application_env MCP_API_BASE_URL → puzzlessbox-api-ghcr hostname",
+        "deploy_application zphw1auksx5u6rz5l2756s7d → finished (same GHCR digest, new env)",
+        "gh workflow run deploy-mcp.yml FAILED: HTTP 422 no workflow_dispatch"
+      ],
+      "live_health_http_code": 200,
+      "health_path": "/health",
+      "health_timings": {
+        "enabled": true,
+        "interval": 10,
+        "timeout": 5,
+        "retries": 5,
+        "start_period": 15
+      },
+      "env_fixes": [
+        {
+          "key": "MCP_API_BASE_URL",
+          "old": "http://puzzlessbox-api-rmj3pan623pikht2yqq2efsd:8000",
+          "new": "http://puzzlessbox-api-ghcr-rmj3pan623pikht2yqq2efsd:8000",
+          "preview_also": true
+        }
+      ],
+      "env_presence": {
+        "SERVICE_BEARER_TOKEN": {"present": true, "length": 64},
+        "MCP_API_BASE_URL": {"present": true, "value": "http://puzzlessbox-api-ghcr-rmj3pan623pikht2yqq2efsd:8000"},
+        "ENV": {"present": true, "value": "prod"},
+        "DATABASE_URL": {"present": false, "note": "N/A by design (mcp-server D-06; no DB direct access)"},
+        "MCP_CATEGORY_ID": {"present": false, "note": "hermes-plugin optional_env, not mcp-server Settings"}
+      }
+    },
+    {
+      "uuid": "qxpgv6p1rp3vupue9al8hbzz",
+      "name": "puzzlessbox-web",
+      "role": "web",
+      "status": "running:healthy",
+      "fqdn": "https://pbox.puzzlesstool.online",
+      "build_pack": "dockerimage",
+      "image": "ghcr.io/clezcoding/puzzlessbox-web:latest",
+      "ghcr_digest": "sha256:d0389f8aed977e6d0993ddad262a12d722eb61bd1180877f7d991b07577a2fdb",
+      "deploy_run_id": 30769289455,
+      "head_sha": "bbf6b642661a4f4d9103e11f8242ea3bae774d05",
+      "coolify_deploy_uuid_after": "mufqkk8nlfn7rc4u36wrxqbe",
+      "in_sync_before": true,
+      "in_sync_after": true,
+      "in_sync_before_note": "At audit start matched run 30769107418 digest sha256:492ab295…; during audit run 30769289455 (#30) pushed newer :latest; Coolify mufqkk8 finished 22:05:56",
+      "actions": [
+        "no env changes required",
+        "observed GH Actions deploy-web 30769289455 + Coolify pull finished"
+      ],
+      "live_health_http_code": 200,
+      "health_path": "/api/health",
+      "health_timings": {
+        "enabled": true,
+        "interval": 10,
+        "timeout": 5,
+        "retries": 5,
+        "start_period": 15
+      },
+      "env_fixes": [],
+      "env_presence": {
+        "BETTER_AUTH_URL": {"present": true, "value": "https://pbox.puzzlesstool.online"},
+        "NEXT_PUBLIC_APP_URL": {"present": true, "value": "https://pbox.puzzlesstool.online"},
+        "NEXT_PUBLIC_API_URL": {"present": true, "value": "https://api.puzzlesstool.online"},
+        "NEXT_PUBLIC_API_BASE_URL": {"present": false, "note": "app uses NEXT_PUBLIC_API_URL key"},
+        "DATABASE_URL": {"present": true, "length": 124},
+        "BETTER_AUTH_SECRET": {"present": true, "length": 44},
+        "NODE_ENV": {"present": true, "value": "production"}
+      }
+    }
+  ],
+  "old_app": {
+    "uuid": "dxoflgio67786lc4yilhce43",
+    "name": "puzzlessbox-api",
+    "status": "exited:unhealthy",
+    "stopped": true,
+    "fqdn": null
+  },
+  "backup": {
+    "database_uuid": "pfqgb5pcvgi9oh64bpe3shtn",
+    "schedule_uuid": "jl0skzwpd3ot7hgfmohlny9s",
+    "schedule_enabled": true,
+    "frequency": "0 3 * * *",
+    "retention_days_local": 14,
+    "retention_amount_local": 14,
+    "save_s3": false,
+    "baseline_success": true,
+    "baseline_execution_uuid": "ibaby40uszso4coqgxjtgp1b",
+    "baseline_status": "success",
+    "baseline_finished_at": "2026-08-02 20:21:00"
+  },
+  "secrets_present": [
+    "COOLIFY_API_WEBHOOK",
+    "COOLIFY_WEB_WEBHOOK",
+    "COOLIFY_MCP_WEBHOOK",
+    "COOLIFY_TOKEN"
+  ],
+  "webhook_pattern": "https://puzzlesstool.online/api/v1/deploy?uuid=<app-uuid>",
+  "advisory": {
+    "traefik": {
+      "current": "3.6.13",
+      "latest": "3.6.23",
+      "action": "record_only_do_not_upgrade"
+    }
+  },
+  "escalations": [
+    {
+      "id": "E-MCP-WORKFLOW-DISPATCH",
+      "severity": "high",
+      "summary": "deploy-mcp.yml lacked workflow_dispatch; mcp-server on main ahead of last image (9ee13b2). Fix PR opened.",
+      "evidence": "gh workflow run → HTTP 422; last success 30602010809 @ ec40c7a2",
+      "followup": {
+        "pr": 41,
+        "url": "https://github.com/clezcoding/puzzlessbox/pull/41",
+        "status": "merged",
+        "workflow_run": 30770444350,
+        "workflow_conclusion": "success",
+        "coolify_deploy_uuid": "gwgmrh7djed4jkshnp0apvj2",
+        "live_health_after": 200
+      }
+    },
+    {
+      "id": "E-MCP-CATEGORY-ID-HERMES",
+      "severity": "info",
+      "summary": "MCP_CATEGORY_ID is hermes-plugin optional_env (Hermes VPS), not Coolify mcp-server Settings. DATABASE_URL likewise N/A for MCP (D-06).",
+      "evidence": "hermes-plugin/plugin.yaml optional_env; mcp-server/app/config.py fields SERVICE_BEARER_TOKEN/MCP_API_BASE_URL/ENV only"
+    },
+    {
+      "id": "E-API-DEPLOY-FALSE-FAIL",
+      "severity": "low",
+      "summary": "Coolify API deploy f14d86a0 marked failed after healthy pull (No such container cleanup). Later redeploy gsjmp9iy finished clean.",
+      "evidence": "get_application_deployments pasmduuzitoh21qipyq3ay1l"
+    },
+    {
+      "id": "E-TRAEFIK-OUTDATED",
+      "severity": "advisory",
+      "summary": "Host Traefik 3.6.13 vs 3.6.23 patch — do not upgrade in this task.",
+      "evidence": "get_application destination.server.traefik_outdated_info"
+    }
+  ],
+  "verdicts": {
+    "all_apps_in_sync_after": true,
+    "all_live_health_200": true,
+    "old_app_stopped_no_fqdn": true,
+    "backup_enabled_with_baseline": true,
+    "d14_timings_ok": true,
+    "gh_webhook_secrets_present": true,
+    "env_locked_spec_ok": true,
+    "blocking_followups": [],
+    "blocking_followup_status": "E-MCP-WORKFLOW-DISPATCH resolved via #41 + run 30770444350"
+  }
+}
