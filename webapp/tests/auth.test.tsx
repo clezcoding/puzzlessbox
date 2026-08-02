@@ -47,11 +47,11 @@ vi.mock("@/lib/api-client", () => ({
 }));
 
 const mockCategories = [
-  { id: "cat-inbox", owner_id: null, name: "Inbox", created_at: null },
-  { id: "cat-notes", owner_id: null, name: "Notizen", created_at: null },
-  { id: "cat-links", owner_id: null, name: "Links", created_at: null },
-  { id: "cat-tasks", owner_id: null, name: "Tasks", created_at: null },
-  { id: "cat-termine", owner_id: null, name: "Termine", created_at: null },
+  { id: "cat-inbox", owner_id: null, name: "Inbox", color: null, sort_order: 0, created_at: null },
+  { id: "cat-notes", owner_id: null, name: "Notizen", color: null, sort_order: 1, created_at: null },
+  { id: "cat-links", owner_id: null, name: "Links", color: null, sort_order: 2, created_at: null },
+  { id: "cat-tasks", owner_id: null, name: "Tasks", color: null, sort_order: 3, created_at: null },
+  { id: "cat-termine", owner_id: null, name: "Termine", color: null, sort_order: 4, created_at: null },
 ];
 
 beforeEach(() => {

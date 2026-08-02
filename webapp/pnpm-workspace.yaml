@@ -5,6 +5,9 @@ allowBuilds:
   esbuild: true
   sharp: true
 
+minimumReleaseAgeExclude:
+  - '@hookform/resolvers'
+
 overrides:
   next>postcss: ^8.5.18
   next>sharp: ^0.35.0
