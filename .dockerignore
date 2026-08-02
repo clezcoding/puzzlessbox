@@ -32,6 +32,7 @@ webapp/node_modules/
 webapp/.next/
 webapp/.turbo/
 webapp/coverage/
+webapp/tests/
 
 # Python cruft
 **/__pycache__/
