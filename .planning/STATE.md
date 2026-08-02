@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 05
 current_phase_name: coolify-deployment-ci-cd-h-rtung
 status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-08-02T20:23:55.403Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-08-02T20:25:39.078Z"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 25
-  completed_plans: 22
+  completed_plans: 23
 ---
 
 # State: Puzzlessbox
@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 05 (coolify-deployment-ci-cd-h-rtung) — EXECUTING
 - **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Plan:** 2 of 4
+- **Plan:** 3 of 4
 - **Status:** Ready to execute
 - **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
 - **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
@@ -81,6 +81,7 @@ progress:
 | Phase 03-hermes-plugin-timeout-spike P04 | 6min | 2 tasks | 3 files |
 | Phase 03 P04 | 6min | 2 tasks | 3 files |
 | Phase 05-coolify-deployment-ci-cd-h-rtung P01 | 4min | 2 tasks | 2 files |
+| Phase 05-coolify-deployment-ci-cd-h-rtung P02 | 5min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -124,8 +125,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T20:23:55.395Z
-- **Stopped at:** Completed 05-01-PLAN.md
+- **Last session:** 2026-08-02T20:25:39.063Z
+- **Stopped at:** Completed 05-02-PLAN.md
 - **Resume file:** None
 - **Next recommended action:** `/gsd-execute-phase 5`
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
@@ -174,3 +175,5 @@ progress:
 - [Phase ?]: setup.sh enforces HTTPS MCP_URL and MCP_BEARER min 20 chars (D-12)
 - [Phase ?]: CAP-04 channel tests use MockSession adapters without render logic
 - [Phase ?]: Coolify MCP get_database_backups fallback when CLI backup list unmarshals retention_max_storage_locally
+- [Phase ?]: WebApp health at /api/health only — no /ready Traefik gate (D-12, D-13)
+- [Phase ?]: Coolify trigger uses GET + status assert, mirroring deploy-api pattern not MCP POST

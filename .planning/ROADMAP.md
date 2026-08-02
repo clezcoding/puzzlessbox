@@ -170,12 +170,12 @@ Plans:
   3. PostgreSQL hat einen aktiven lokalen Backup-Schedule auf dem Coolify-Server
   4. Jede App hat einen Health-Check-Endpoint und Coolify ist so konfiguriert, dass abgestürzte Container nicht mehr geroutet werden
 
-**Plans**: 1/4 plans executed
+**Plans**: 2/4 plans executed
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
 - [x] 05-01-PLAN.md — Local Postgres backup schedule on puzzlessbox-db (cron 0 3 * * *, retention 14/14) + baseline backup trigger (OPS-03, D-09, D-10, D-11)
-- [ ] 05-02-PLAN.md — WebApp deploy artifacts: standalone Dockerfile + /api/health route + test + next.config standalone + deploy-web.yml GHCR workflow (OPS-02, OPS-04 web slice, D-05..D-08, D-13)
+- [x] 05-02-PLAN.md — WebApp deploy artifacts: standalone Dockerfile + /api/health route + test + next.config standalone + deploy-web.yml GHCR workflow (OPS-02, OPS-04 web slice, D-05..D-08, D-13)
 
 **Wave 2** *(blocked on Wave 1 — 05-01)*
 
@@ -229,7 +229,7 @@ Plans:
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
 | 4. WebApp | 5/5 | In Progress|  |
-| 5. Coolify-Deployment, CI/CD & Härtung | 1/4 | In Progress|  |
+| 5. Coolify-Deployment, CI/CD & Härtung | 2/4 | In Progress|  |
 
 ---
 *Roadmap created: 2026-07-28*
