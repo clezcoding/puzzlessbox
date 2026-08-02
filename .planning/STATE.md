@@ -4,9 +4,11 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
-status: "Phase 04 shipped — PR #21"
-stopped_at: Phase 5 context gathered
-last_updated: "2026-08-02T19:45:09.393Z"
+status: "Phase 05 planned — Ready to execute"
+stopped_at: Phase 5 planned (4 plans verified)
+last_updated: "2026-08-02T19:50:00.000Z"
+current_phase: 05
+current_phase_name: coolify-deployment-ci-cd-h-rtung
 progress:
   total_phases: 6
   completed_phases: 5
@@ -50,7 +52,7 @@ progress:
 | 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
 | 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete (4 plans, UAT passed) |
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Planned (5 plans) |
-| 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Not started |
+| 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Planned (4 plans) |
 
 ## Performance Metrics
 
@@ -123,11 +125,11 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T19:24:32.491Z
-- **Stopped at:** Phase 5 context gathered
-- **Resume file:** .planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-CONTEXT.md
-- **Next recommended action:** `/gsd-execute-phase 4`
-- **Pre-execute artifacts:** `02-RESEARCH.md` (open Qs resolved), `02-VALIDATION.md` (populated), `02-DEPLOY-SPEC.md` (pinned GHCR workflow), D-23 `separate-image` pre-confirmed in deploy spec
+- **Last session:** 2026-08-02T19:45:00.000Z
+- **Stopped at:** Phase 5 planned (4 plans, verified)
+- **Resume file:** .planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-01-PLAN.md
+- **Next recommended action:** `/gsd-execute-phase 5`
+- **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
