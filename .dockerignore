@@ -1,0 +1,47 @@
+# Repo-root context for deploy-web.yml (COPY webapp/ + brand/).
+# webapp/.dockerignore is NOT read when context is `.` — keep secrets here.
+
+# Secrets
+.env
+.env.*
+**/.env
+**/.env.*
+
+# VCS / CI
+.git
+.github
+
+# Other services (web image only needs webapp/ + brand/)
+api/
+mcp-server/
+hermes-plugin/
+
+# Tooling / planning / agent
+.planning/
+.agents/
+.claude/
+.cursor/
+.hallmark/
+graphify-out/
+.graphify-out/
+docs/
+scripts/
+
+# Web build cruft (deps installed in-container)
+webapp/node_modules/
+webapp/.next/
+webapp/.turbo/
+webapp/coverage/
+
+# Python cruft
+**/__pycache__/
+**/*.py[cod]
+**/.venv/
+**/.pytest_cache/
+
+# Root noise
+*.md
+.DS_Store
+docker-compose*.yml
+renovate.json
+skills-lock.json
