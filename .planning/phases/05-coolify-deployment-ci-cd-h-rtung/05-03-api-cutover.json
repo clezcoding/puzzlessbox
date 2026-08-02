@@ -1,0 +1,22 @@
+{
+  "new_app_uuid": "pasmduuzitoh21qipyq3ay1l",
+  "new_app_name": "puzzlessbox-api-ghcr",
+  "old_app_uuid": "dxoflgio67786lc4yilhce43",
+  "old_app_stopped_at": "2026-08-02T20:31:23.000000Z",
+  "ghcr_image": "ghcr.io/clezcoding/puzzlessbox-api:latest",
+  "domain": "https://api.puzzlesstool.online",
+  "webhook_url_secret": "COOLIFY_API_WEBHOOK",
+  "webhook_deploy_url": "https://puzzlesstool.online/api/v1/deploy?uuid=pasmduuzitoh21qipyq3ay1l",
+  "last_workflow_run": "30765847051",
+  "last_workflow_status": "success",
+  "health_check": {
+    "path": "/health",
+    "interval_s": 10,
+    "timeout_s": 5,
+    "retries": 5,
+    "start_period_s": 15
+  },
+  "docker_network": "rmj3pan623pikht2yqq2efsd",
+  "better_auth_jwks_url": "https://pbox.puzzlesstool.online/.well-known/jwks.json",
+  "pr_merge": "https://github.com/clezcoding/puzzlessbox/pull/24"
+}
