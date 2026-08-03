@@ -115,6 +115,7 @@ export function BoardCard({
               onCheckedChange={(checked) => onSelect(item.id, checked === true)}
               aria-label={`${item.title} auswählen`}
               onClick={(event) => event.stopPropagation()}
+              onPointerDown={(event) => event.stopPropagation()}
             />
             <button
               type="button"

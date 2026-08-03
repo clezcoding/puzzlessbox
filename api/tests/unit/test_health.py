@@ -51,8 +51,9 @@ def test_docs_disabled_prod(monkeypatch):
     get_settings.cache_clear()
     prod_app = create_app()
     prod_client = TestClient(prod_app)
-    response = prod_client.get("/docs")
-    assert response.status_code == 404
+    assert prod_client.get("/docs").status_code == 404
+    assert prod_client.get("/redoc").status_code == 404
+    assert prod_client.get("/openapi.json").status_code == 404
     get_settings.cache_clear()
 
 

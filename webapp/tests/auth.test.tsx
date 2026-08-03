@@ -58,6 +58,7 @@ beforeEach(() => {
   mockPush.mockReset();
   mockRefresh.mockReset();
   mockSearchParams = new URLSearchParams();
+  sessionStorage.clear();
   vi.mocked(authClient.signIn.email).mockReset();
   vi.mocked(authClient.signUp.email).mockReset();
   vi.mocked(authClient.signOut).mockReset();
@@ -78,9 +79,10 @@ describe("LoginPage", () => {
   });
 
   it("shows SIGNUP_LOCKED VOICE copy when registration is locked", async () => {
-    vi.mocked(authClient.signUp.email).mockRejectedValue({
-      message: "SIGNUP_LOCKED",
-    });
+    vi.mocked(authClient.signUp.email).mockResolvedValue({
+      data: null,
+      error: { message: "SIGNUP_LOCKED", status: 409, statusText: "Conflict" },
+    } as Awaited<ReturnType<typeof authClient.signUp.email>>);
 
     render(<LoginForm />);
 
@@ -103,6 +105,47 @@ describe("LoginPage", () => {
         ),
       ).toBeInTheDocument();
     });
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(sessionStorage.getItem("pb.signup_locked")).toBe("1");
+  });
+
+  it("keeps SIGNUP_LOCKED copy sticky across remount via sessionStorage", async () => {
+    sessionStorage.setItem("pb.signup_locked", "1");
+    render(<LoginForm />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "Registrierung ist geschlossen. Apollo lässt nur den ersten Nutzer rein.",
+        ),
+      ).toBeInTheDocument();
+    });
+    expect(screen.getByRole("tab", { name: "Registrieren" })).toHaveAttribute(
+      "data-state",
+      "active",
+    );
+  });
+
+  it("does not redirect on failed login error object", async () => {
+    vi.mocked(authClient.signIn.email).mockResolvedValue({
+      data: null,
+      error: { message: "INVALID_PASSWORD", status: 401, statusText: "Unauthorized" },
+    } as Awaited<ReturnType<typeof authClient.signIn.email>>);
+
+    render(<LoginForm />);
+
+    fireEvent.change(document.getElementById("login-email")!, {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(document.getElementById("login-password")!, {
+      target: { value: "wrong" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Anmelden" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Anmeldung fehlgeschlagen.")).toBeInTheDocument();
+    });
+    expect(mockPush).not.toHaveBeenCalled();
   });
 
   it("redirects to / after successful login (HomeRedirect → welcome|board)", async () => {

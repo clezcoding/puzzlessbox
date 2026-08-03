@@ -123,6 +123,7 @@ progress:
 | 260728-8an | GitHub-Repo puzzlessbox (privat) erstellen und einrichten | 2026-07-28 | 369af29 | [260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi](./quick/260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi/) |
 | 260729-vmg | Platform Bootstrap: Dependabot, Kodiak, CI, CodeQL, Coolify Postgres | 2026-07-29 | 634d1fc | [260729-vmg-platform-bootstrap-dependabot-branch-pro](./quick/260729-vmg-platform-bootstrap-dependabot-branch-pro/) |
 | 260803-001 | Coolify 3-app GHCR/env audit + Renovate/Dependabot PRs (latest stable) | 2026-08-03 | e1197bd | [260803-001-coolify-3-apps-latest-ghcr-build-deploy-](./quick/260803-001-coolify-3-apps-latest-ghcr-build-deploy-/) |
+| 260803-3gu | Fix open UAT gaps G-04-4/G-04-6/G-05-4 (signup sticky, bulk click, openapi off) | 2026-08-03 | pending | [260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l](./quick/260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l/) |
 
 **Last updated:** 2026-08-03 (quick 260803-001 Coolify audit + dep PRs)
 
