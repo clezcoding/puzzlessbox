@@ -3,7 +3,7 @@ status: complete
 phase: 05-coolify-deployment-ci-cd-h-rtung
 source: [05-01-SUMMARY.md, 05-02-SUMMARY.md, 05-03-SUMMARY.md, 05-04-SUMMARY.md, 05-VERIFICATION.md]
 started: 2026-08-03T00:49:00Z
-updated: 2026-08-03T01:05:00Z
+updated: 2026-08-03T01:28:00Z
 environment: production (pbox / api / mcp *.puzzlesstool.online)
 tester: gsd-browser + curl + Coolify + dbhub + shell subagent
 suite: deep-prod-2026-08-03
@@ -119,19 +119,16 @@ notes: onboard/splash/wordmark/avatar 200.
 
 ### 16. MCP WWW-Authenticate Metadata Host
 expected: 401 WWW-Authenticate resource_metadata uses prod MCP/API host (not localhost)
-result: issue
-reported: "401 ok but WWW-Authenticate Bearer resource_metadata=\"http://localhost:8000/.well-known/oauth-protected-resource/mcp\""
-severity: minor
+result: pass
 tested_by: curl
 notes: |
-  Auth rejection works; header advertises localhost OAuth protected-resource URL.
-  Clients following RFC 9728 metadata discovery would hit wrong host.
+  RESOLVED 2026-08-03 via MCP_PUBLIC_BASE_URL (quick 260803-4ji, PR 49). Live curl 401 WWW-Authenticate contains mcp.puzzlesstool.online, no localhost. deploy-mcp.yml run 30776842021 success.
 
 ## Summary
 
 total: 16
-passed: 15
-issues: 1
+passed: 16
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
@@ -140,15 +137,16 @@ blocked: 0
 
 - gap_id: G-05-5
   truth: "MCP 401 WWW-Authenticate resource_metadata points at production host (mcp/api.puzzlesstool.online), not localhost:8000"
-  status: failed
+  status: resolved
+  resolved_at: 2026-08-03
+  evidence: "live curl https://mcp.puzzlesstool.online/mcp 401 www-authenticate mcp.puzzlesstool.online (no localhost); deploy-mcp.yml run 30776842021 success; Coolify MCP n5frtiupale5c2zjm9fyk1qc healthy"
   reason: "User reported: 401 ok but WWW-Authenticate Bearer resource_metadata=\"http://localhost:8000/.well-known/oauth-protected-resource/mcp\""
   severity: minor
   test: 16
   artifacts:
     - path: "mcp-server / Coolify MCP env"
       issue: "OAuth resource metadata base URL defaults to localhost:8000"
-  missing:
-    - "Set MCP public base URL / resource metadata env for prod FQDN"
+  missing: []
   root_cause: "MCP OAuth protected-resource metadata URL not wired to mcp.puzzlesstool.online in Coolify runtime; localhost bake/default leaks into WWW-Authenticate."
   debug_session: "deep-prod-uat-2026-08-03"
 
@@ -160,4 +158,4 @@ blocked: 0
 | G-05-2 | failed (JWKS path) | resolved |
 | G-05-3 | (CORS related) | resolved |
 | G-05-4 | failed (openapi public) | resolved (/openapi.json 404) |
-| G-05-5 | new | open (MCP WWW-Authenticate localhost) |
+| G-05-5 | new | resolved (live curl 401 mcp.puzzlesstool.online, no localhost) |
