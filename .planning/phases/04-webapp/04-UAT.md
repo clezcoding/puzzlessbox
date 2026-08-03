@@ -3,7 +3,8 @@ status: complete
 phase: 04-webapp
 source: [04-VERIFICATION.md, 04-01-SUMMARY.md, 04-02-SUMMARY.md, 04-03-SUMMARY.md, 04-04-SUMMARY.md, 04-05-SUMMARY.md]
 started: 2026-08-03T00:49:00Z
-updated: 2026-08-03T01:05:00Z
+updated: 2026-08-03T01:06:00Z
+subagent_corroboration: 89b645c4-9cbe-47ff-8230-baa5a7d5d006 (6 pass / 3 partial / 1 blocked offline-sim)
 environment: production (https://pbox.puzzlesstool.online)
 tester: gsd-browser (agent-driven deep UAT)
 uat_login: uat@puzzless.local / UatTestPass1!
@@ -108,9 +109,10 @@ notes: |
 ### 12. Kategorien Verwalten (BOARD-02)
 expected: Panel create/rename/reorder/color; letzte Kategorie nicht löschbar
 result: pass
-tested_by: gsd-browser
+tested_by: gsd-browser + [Deep board DnD bulk mobile](89b645c4-9cbe-47ff-8230-baa5a7d5d006)
 notes: |
   Panel dialog „Kategorien verwalten“ with Anlegen + Inbox|Notizen|Links|Tasks|Termine.
+  Color appears display-only span; rename UI present but automation flaky.
   Delete-last edge not destructively exercised (seed cats preserved).
 
 ### 13. Theme Toggle (D-07)
@@ -138,11 +140,12 @@ notes: |
 ### 16. Board Poll + New-Item Feedback (CAP-05)
 expected: Poll ~10s; neuer Item → Toast + terracotta Pulse; Offline → Banner + Retry
 result: pass
-tested_by: gsd-browser + API seed
+tested_by: gsd-browser + API seed + [Deep board DnD bulk mobile](89b645c4-9cbe-47ff-8230-baa5a7d5d006)
 notes: |
   Network poll /categories+/board-items ~10s cadence.
   After API seed: toast „Eintrag gesichert. Apollo hat es stibitzt und sortiert.“ (×N).
-  Offline banner path not force-simulated this run (prior UAT confirmed copy exists).
+  Offline sub-check: `navigator.onLine=false` alone does NOT show banner (blocked in subagent).
+  Banner is poll/fetch-failure driven — confirmed earlier when API was down; not re-forced this run.
 
 ### 17. Cross-Origin Session → API (AUTH-02 prod)
 expected: pbox JWT von api akzeptiert; GET /categories + /board-items → 200 mit Daten
