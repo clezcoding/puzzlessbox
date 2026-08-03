@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { useState } from "react";
 import { render, screen, waitFor, cleanup, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { DropResult } from "@hello-pangea/dnd";
@@ -206,19 +207,53 @@ describe("Board DnD", () => {
     await waitFor(() => expect(onLongPress).toHaveBeenCalled());
   });
 
-  it("shows bulk move bar when selection > 0", async () => {
+  it("bulk move: clicking destination fires moveItem per selected id, resets selection, and unmounts bulk bar", async () => {
     const { BulkMoveBar } = await import("@/components/board/bulk-move-bar");
+
+    function Harness({
+      initialCount,
+      selectedIds,
+      categories: cats,
+    }: {
+      initialCount: number;
+      selectedIds: string[];
+      categories: typeof categories;
+    }) {
+      const [count, setCount] = useState(initialCount);
+      const [ids, setIds] = useState(selectedIds);
+      return (
+        <BulkMoveBar
+          count={count}
+          categories={cats}
+          selectedIds={ids}
+          onMoved={() => {}}
+          onClear={() => {
+            setCount(0);
+            setIds([]);
+          }}
+        />
+      );
+    }
+
+    const user = userEvent.setup();
     render(
-      <BulkMoveBar
-        count={2}
-        categories={categories}
-        selectedIds={["item-1", "item-2"]}
-        onMoved={vi.fn()}
-        onClear={vi.fn()}
-      />,
+      <Harness initialCount={2} selectedIds={["item-1", "item-2"]} categories={categories} />,
     );
+
     expect(screen.getByTestId("bulk-move-bar")).toBeInTheDocument();
-    expect(screen.getByText("In Kategorie verschieben")).toBeInTheDocument();
+    await user.click(screen.getByTestId("bulk-move-trigger"));
+    await user.click(await screen.findByTestId("bulk-move-destination-cat-b"));
+
+    await waitFor(() => {
+      expect(vi.mocked(moveItem)).toHaveBeenCalledTimes(2);
+    });
+    expect(vi.mocked(moveItem)).toHaveBeenNthCalledWith(1, "item-1", "cat-b");
+    expect(vi.mocked(moveItem)).toHaveBeenNthCalledWith(2, "item-2", "cat-b");
+    expect(toast.success).toHaveBeenCalledWith("Eintrag verschoben.", undefined);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("bulk-move-bar")).not.toBeInTheDocument();
+    });
   });
 
   it("exposes a11y move menu with keyboard label", async () => {
