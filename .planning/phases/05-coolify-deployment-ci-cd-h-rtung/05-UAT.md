@@ -154,14 +154,15 @@ blocked: 1
 
 - gap_id: G-05-4
   truth: "Prod OpenAPI not publicly exposed (or intentionally documented)"
-  status: failed
-  reason: "/openapi.json returns 200 while /docs is 404"
+  status: resolved
+  resolved_by: quick/260803-3gu openapi_url=None in prod
+  resolved_at: 2026-08-03
+  reason: "/openapi.json returns 200 while /docs is 404 — fixed via openapi_url=None when is_prod"
   severity: minor
   test: 10
   artifacts:
     - path: "api/app/main.py"
-      issue: "openapi.json still served when docs disabled"
-  missing:
-    - "Disable openapi_url in prod or accept as known"
-  root_cause: ""
+      issue: "openapi_url now None in prod"
+  missing: []
+  root_cause: "docs_url=None but openapi_url still default"
   debug_session: ""

@@ -53,12 +53,14 @@ def create_app() -> FastAPI:
     settings = get_settings()
     docs_url = None if settings.is_prod else "/docs"
     redoc_url = None if settings.is_prod else "/redoc"
+    openapi_url = None if settings.is_prod else "/openapi.json"
 
     application = FastAPI(
         title="Puzzlessbox API",
         lifespan=_lifespan,
         docs_url=docs_url,
         redoc_url=redoc_url,
+        openapi_url=openapi_url,
     )
     cors_origins = [o.strip() for o in settings.CORS_ORIGINS.split(",") if o.strip()]
     application.add_middleware(

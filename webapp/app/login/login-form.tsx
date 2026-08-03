@@ -15,6 +15,11 @@ const SIGNUP_LOCKED_COPY =
   "Registrierung ist geschlossen. Apollo lässt nur den ersten Nutzer rein.";
 const SIGNUP_LOCKED_STORAGE_KEY = "pb.signup_locked";
 
+function readSignupLockedFlag(): boolean {
+  if (typeof window === "undefined") return false;
+  return sessionStorage.getItem(SIGNUP_LOCKED_STORAGE_KEY) === "1";
+}
+
 function isSignupLockedError(error: unknown): boolean {
   if (!error || typeof error !== "object") return false;
   const err = error as { message?: string; code?: string };
@@ -24,6 +29,15 @@ function isSignupLockedError(error: unknown): boolean {
     (typeof err.message === "string" && err.message.includes("SIGNUP_LOCKED")) ||
     JSON.stringify(error).includes("SIGNUP_LOCKED")
   );
+}
+
+function lockSignupUi(
+  setSignupLocked: (v: boolean) => void,
+  setActiveTab: (v: "login" | "register") => void,
+) {
+  sessionStorage.setItem(SIGNUP_LOCKED_STORAGE_KEY, "1");
+  setSignupLocked(true);
+  setActiveTab("register");
 }
 
 export function LoginForm() {
@@ -39,26 +53,43 @@ export function LoginForm() {
   const [registerLoading, setRegisterLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [registerError, setRegisterError] = useState<string | null>(null);
-  const [signupLocked, setSignupLocked] = useState(false);
-  const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+  // Sticky across remounts — Better Auth returns { error } (no throw); prior
+  // code pushed "/" on 409 and wiped the VOICE copy on the next remount.
+  const [signupLocked, setSignupLocked] = useState(readSignupLockedFlag);
+  const [activeTab, setActiveTab] = useState<"login" | "register">(() =>
+    readSignupLockedFlag() ? "register" : "login",
+  );
 
   useEffect(() => {
-    if (sessionStorage.getItem(SIGNUP_LOCKED_STORAGE_KEY) === "1") {
-      sessionStorage.removeItem(SIGNUP_LOCKED_STORAGE_KEY);
+    if (readSignupLockedFlag()) {
       setSignupLocked(true);
       setActiveTab("register");
     }
   }, []);
+
+  function handleTabChange(value: string) {
+    const tab = value as "login" | "register";
+    setActiveTab(tab);
+    if (tab === "login") {
+      sessionStorage.removeItem(SIGNUP_LOCKED_STORAGE_KEY);
+      setSignupLocked(false);
+    }
+  }
 
   async function handleLogin(event: React.FormEvent) {
     event.preventDefault();
     setLoginLoading(true);
     setLoginError(null);
     try {
-      await authClient.signIn.email({
+      // Better Auth client returns { data, error } — does not throw on 4xx.
+      const { error } = await authClient.signIn.email({
         email: loginEmail,
         password: loginPassword,
       });
+      if (error) {
+        setLoginError("Anmeldung fehlgeschlagen.");
+        return;
+      }
       // "/" → HomeRedirect picks /welcome (first login) or /board (D-31)
       router.push(nextPath ?? "/");
     } catch {
@@ -72,19 +103,25 @@ export function LoginForm() {
     event.preventDefault();
     setRegisterLoading(true);
     setRegisterError(null);
-    setSignupLocked(false);
     try {
-      await authClient.signUp.email({
+      const { error } = await authClient.signUp.email({
         email: registerEmail,
         password: registerPassword,
         name: registerEmail.split("@")[0] ?? "Nutzer",
       });
+      if (error) {
+        if (isSignupLockedError(error)) {
+          lockSignupUi(setSignupLocked, setActiveTab);
+        } else {
+          setRegisterError("Registrierung fehlgeschlagen.");
+        }
+        return;
+      }
+      sessionStorage.removeItem(SIGNUP_LOCKED_STORAGE_KEY);
       router.push(nextPath ?? "/");
     } catch (error) {
       if (isSignupLockedError(error)) {
-        sessionStorage.setItem(SIGNUP_LOCKED_STORAGE_KEY, "1");
-        setSignupLocked(true);
-        setActiveTab("register");
+        lockSignupUi(setSignupLocked, setActiveTab);
       } else {
         setRegisterError("Registrierung fehlgeschlagen.");
       }
@@ -110,7 +147,7 @@ export function LoginForm() {
       </div>
 
       <div className="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-sm">
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "login" | "register")}>
+        <Tabs value={activeTab} onValueChange={handleTabChange}>
           <TabsList className="mb-6 grid w-full grid-cols-2">
             <TabsTrigger value="login">Anmelden</TabsTrigger>
             <TabsTrigger value="register">Registrieren</TabsTrigger>
