@@ -13,12 +13,12 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CAP-02**: User sieht formatierte Bestätigung mit Edit-Option vor dem Speichern
 - [x] **CAP-03**: Nach 30s Inaktivität speichert System den Draft automatisch (Timeout-State-Machine serverseitig in der API, nicht nur Hermes-Cron)
 - [x] **CAP-04**: Capture funktioniert über alle Messaging-Kanäle, die Hermes bereits unterstützt (kein eigener Messenger in Puzzlessbox)
-- [ ] **CAP-05**: Gespeicherte Items erscheinen kategorisiert in der WebApp
+- [x] **CAP-05**: Gespeicherte Items erscheinen kategorisiert in der WebApp
 
 ### Board & Categories
 
-- [ ] **BOARD-01**: User sieht Kanban-/Board-Ansicht mit Default-Kategorien: Inbox, Notizen, Links, Tasks, Termine
-- [ ] **BOARD-02**: User kann eigene Kategorien anlegen, umbenennen, einfärben und sortieren
+- [x] **BOARD-01**: User sieht Kanban-/Board-Ansicht mit Default-Kategorien: Inbox, Notizen, Links, Tasks, Termine
+- [x] **BOARD-02**: User kann eigene Kategorien anlegen, umbenennen, einfärben und sortieren
 - [ ] **BOARD-03**: User verschiebt Items per Drag & Drop zwischen Kategorien
 - [ ] **BOARD-04**: User öffnet Item-Detail und bearbeitet Felder in der WebApp
 
@@ -43,7 +43,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Calendar
 
-- [ ] **CAL-01**: User verbindet Google Calendar in WebApp-Settings via separatem OAuth (nicht Better Auth Social)
+- [x] **CAL-01**: User verbindet Google Calendar in WebApp-Settings via separatem OAuth (nicht Better Auth Social)
 - [x] **CAL-02**: Aus Nachrichten extrahierte Termine werden als Calendar-Events lesbar und schreibbar mit Google Calendar synchronisiert
 - [x] **CAL-03**: Calendar-Writes nutzen Optimistic Concurrency (ETag / If-Match); Konflikte werden nicht still überschrieben
 
@@ -120,12 +120,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAP-04 | Phase 3 | Complete |
 | MCP-03 | Phase 3 | Complete |
 | MCP-04 | Phase 3 | Complete |
-| BOARD-01 | Phase 4 | Pending |
-| BOARD-02 | Phase 4 | Pending |
+| BOARD-01 | Phase 4 | Complete |
+| BOARD-02 | Phase 4 | Complete |
 | BOARD-03 | Phase 4 | Pending |
 | BOARD-04 | Phase 4 | Pending |
-| CAP-05 | Phase 4 | Pending |
-| CAL-01 | Phase 4 | Pending |
+| CAP-05 | Phase 4 | Complete |
+| CAL-01 | Phase 4 | Complete |
 | OPS-01 | Phase 5 | Complete |
 | OPS-02 | Phase 5 | Complete |
 | OPS-03 | Phase 5 | Complete |
