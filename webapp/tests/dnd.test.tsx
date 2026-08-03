@@ -209,6 +209,8 @@ describe("Board DnD", () => {
 
   it("bulk move: clicking destination fires moveItem per selected id, resets selection, and unmounts bulk bar", async () => {
     const { BulkMoveBar } = await import("@/components/board/bulk-move-bar");
+    const onMoved = vi.fn();
+    const onClear = vi.fn();
 
     function Harness({
       initialCount,
@@ -221,16 +223,17 @@ describe("Board DnD", () => {
     }) {
       const [count, setCount] = useState(initialCount);
       const [ids, setIds] = useState(selectedIds);
+      onClear.mockImplementation(() => {
+        setCount(0);
+        setIds([]);
+      });
       return (
         <BulkMoveBar
           count={count}
           categories={cats}
           selectedIds={ids}
-          onMoved={() => {}}
-          onClear={() => {
-            setCount(0);
-            setIds([]);
-          }}
+          onMoved={onMoved}
+          onClear={onClear}
         />
       );
     }
@@ -250,6 +253,14 @@ describe("Board DnD", () => {
     expect(vi.mocked(moveItem)).toHaveBeenNthCalledWith(1, "item-1", "cat-b");
     expect(vi.mocked(moveItem)).toHaveBeenNthCalledWith(2, "item-2", "cat-b");
     expect(toast.success).toHaveBeenCalledWith("Eintrag verschoben.", undefined);
+
+    await waitFor(() => {
+      expect(onMoved).toHaveBeenCalledTimes(1);
+      expect(onClear).toHaveBeenCalledTimes(1);
+    });
+    expect(onMoved.mock.invocationCallOrder[0]).toBeLessThan(
+      onClear.mock.invocationCallOrder[0],
+    );
 
     await waitFor(() => {
       expect(screen.queryByTestId("bulk-move-bar")).not.toBeInTheDocument();
