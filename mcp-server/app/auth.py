@@ -15,10 +15,15 @@ class OwnerResolvingVerifier(TokenVerifier):
         settings: Settings | None = None,
         client: httpx.AsyncClient | None = None,
         *,
-        base_url: str = "http://localhost:8000",
+        base_url: str | None = None,
     ) -> None:
-        super().__init__(base_url=base_url)
         self._settings = settings or get_settings()
+        resolved_base_url = (
+            base_url
+            or self._settings.mcp_public_base_url
+            or "http://localhost:8000"
+        )
+        super().__init__(base_url=resolved_base_url)
         self._client = client
 
     async def verify_token(self, token: str) -> AccessToken | None:

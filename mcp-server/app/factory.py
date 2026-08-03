@@ -17,7 +17,11 @@ def build_mcp_stack(
 ) -> tuple[object, FastMCP, httpx.AsyncClient]:
     settings = settings or get_settings()
     client = make_client(settings, transport=api_transport)
-    verifier = OwnerResolvingVerifier(settings, client=client)
+    verifier = OwnerResolvingVerifier(
+        settings,
+        client=client,
+        base_url=settings.mcp_public_base_url,
+    )
     mcp = FastMCP(name="Puzzlessbox MCP", auth=verifier)
     register_health(mcp, lambda: make_client(settings, transport=api_transport))
     register_tools(mcp, client)
