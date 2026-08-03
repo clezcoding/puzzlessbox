@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
 status: executing
-stopped_at: Phase 5 local deep UAT complete (30/30) — tooling follow-up G-05-6/7
-last_updated: "2026-08-03T02:37:00.000Z"
+stopped_at: Phase 5 post-merge prod UAT r3 complete (PR #52 shipped)
+last_updated: "2026-08-03T02:52:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 6
