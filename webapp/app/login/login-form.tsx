@@ -20,15 +20,51 @@ function readSignupLockedFlag(): boolean {
   return sessionStorage.getItem(SIGNUP_LOCKED_STORAGE_KEY) === "1";
 }
 
+function getNestedMessage(error: unknown): string | undefined {
+  if (!error || typeof error !== "object") return undefined;
+  const err = error as {
+    body?: { message?: unknown };
+    response?: { body?: { message?: unknown } };
+    json?: { message?: unknown };
+  };
+  const candidates = [
+    err.body?.message,
+    err.response?.body?.message,
+    err.json?.message,
+  ];
+  for (const candidate of candidates) {
+    if (typeof candidate === "string") return candidate;
+  }
+  return undefined;
+}
+
+function messageMatchesSignupLocked(value: string): boolean {
+  return value === "SIGNUP_LOCKED" || value.includes("SIGNUP_LOCKED");
+}
+
 export function isSignupLockedError(error: unknown): boolean {
-  if (!error || typeof error !== "object") return false;
-  const err = error as { message?: string; code?: string };
-  return (
-    err.message === "SIGNUP_LOCKED" ||
-    err.code === "SIGNUP_LOCKED" ||
-    (typeof err.message === "string" && err.message.includes("SIGNUP_LOCKED")) ||
-    JSON.stringify(error).includes("SIGNUP_LOCKED")
-  );
+  if (error == null) return false;
+
+  if (typeof error === "string") {
+    return messageMatchesSignupLocked(error);
+  }
+
+  if (typeof error !== "object") return false;
+
+  const err = error as { message?: unknown; code?: unknown };
+  if (err.message === "SIGNUP_LOCKED" || err.code === "SIGNUP_LOCKED") return true;
+  if (typeof err.message === "string" && messageMatchesSignupLocked(err.message)) {
+    return true;
+  }
+
+  const nested = getNestedMessage(error);
+  if (nested && messageMatchesSignupLocked(nested)) return true;
+
+  try {
+    return JSON.stringify(error).includes("SIGNUP_LOCKED");
+  } catch {
+    return false;
+  }
 }
 
 function lockSignupUi(
@@ -113,6 +149,7 @@ export function LoginForm() {
         if (isSignupLockedError(error)) {
           lockSignupUi(setSignupLocked, setActiveTab);
         } else {
+          console.warn("[signup-locked] unrecognized error shape:", error);
           setRegisterError("Registrierung fehlgeschlagen.");
         }
         return;
@@ -123,6 +160,7 @@ export function LoginForm() {
       if (isSignupLockedError(error)) {
         lockSignupUi(setSignupLocked, setActiveTab);
       } else {
+        console.warn("[signup-locked] unrecognized error shape:", error);
         setRegisterError("Registrierung fehlgeschlagen.");
       }
     } finally {
