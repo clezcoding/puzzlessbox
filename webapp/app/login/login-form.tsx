@@ -20,7 +20,7 @@ function readSignupLockedFlag(): boolean {
   return sessionStorage.getItem(SIGNUP_LOCKED_STORAGE_KEY) === "1";
 }
 
-function isSignupLockedError(error: unknown): boolean {
+export function isSignupLockedError(error: unknown): boolean {
   if (!error || typeof error !== "object") return false;
   const err = error as { message?: string; code?: string };
   return (
