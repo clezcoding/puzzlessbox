@@ -258,19 +258,21 @@ After PR #52 squash-merge + Deploy WebApp run 30780220321 success + Coolify `puz
 | T14 signup lock | pass | 409 SIGNUP_LOCKED |
 | T15 route guard | pass | /board → 307 /login |
 
-### Browser — gsd-browser session `uat-prod-05-main`
+### Browser — gsd-browser + [Prod browser UAT](11b97702-d75e-4d77-9a92-1d573d043d69)
 
 | Check | Result | Evidence |
 |-------|--------|----------|
 | Login → welcome → board | pass | uat@puzzless.local |
 | Board columns | pass | Inbox/Notizen/Links/Tasks/Termine (empty — expected post-incident) |
-| Network FQDN | pass | `https://api.puzzlesstool.online/categories` + `board-items` 200 |
+| Network FQDN | pass | `https://api.puzzlesstool.online/categories` + `board-items` 200; no localhost |
 | Settings | pass | Account + Google Calendar + Darstellung |
+| Logout guard | pass | Abmelden → `/board` → `/login?next=/board` |
+| Console/network | pass | 0 console errors; no 5xx/CORS |
 | Coolify | pass | uuid `qxpgv6p1rp3vupue9al8hbzz` status `running:healthy` |
 
 ### Prod summary
 
-total: 15 curl + 5 browser
+total: 15 curl + 6 browser
 passed: all
 issues: 0
 board_items: empty (seed lost in incident; capture path still healthy)
