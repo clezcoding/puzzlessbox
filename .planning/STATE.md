@@ -125,15 +125,17 @@ progress:
 | 260803-001 | Coolify 3-app GHCR/env audit + Renovate/Dependabot PRs (latest stable) | 2026-08-03 | e1197bd | [260803-001-coolify-3-apps-latest-ghcr-build-deploy-](./quick/260803-001-coolify-3-apps-latest-ghcr-build-deploy-/) |
 | 260803-3gu | Fix open UAT gaps G-04-4/G-04-6/G-05-4 (signup sticky, bulk click, openapi off) | 2026-08-03 | b5c6a90 | [260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l](./quick/260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l/) |
 | 260803-4ji | Fix G-05-5: MCP 401 WWW-Authenticate resource_metadata must use production FQDN (mcp.puzzlesstool.online), not localhost:8000 | 2026-08-03 | 754c102 | [260803-4ji-fix-g-05-5-mcp-401-www-authenticate-reso](./quick/260803-4ji-fix-g-05-5-mcp-401-www-authenticate-reso/) |
+| 260803-4nq | Create PR for G-05-5 MCP_PUBLIC_BASE_URL fix, monitor CI + Coolify MCP deploy, re-run UAT curl | 2026-08-03 | df4e488 | [260803-4nq-create-pr-for-g-05-5-mcp-public-base-url](./quick/260803-4nq-create-pr-for-g-05-5-mcp-public-base-url/) |
 
-**Last updated:** 2026-08-03 (quick 260803-4ji G-05-5 MCP_PUBLIC_BASE_URL)
+**Last updated:** 2026-08-03 (quick 260803-4nq G-05-5 shipped + UAT closed)
 
 ## Session Continuity
 
-- **Last session:** 2026-08-03T01:16:00.000Z
-- **Stopped at:** quick 260803-4ji G-05-5 code fix complete — Coolify env + redeploy pending
-- **Resume file:** .planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md
-- **Next recommended action:** Coolify MCP env `MCP_PUBLIC_BASE_URL=https://mcp.puzzlesstool.online` + redeploy; curl-verify WWW-Authenticate; mark G-05-5 resolved
+- **Last session:** 2026-08-03T01:31:00.000Z
+- **Stopped at:** quick 260803-4nq complete — G-05-5 live resolved (PR #49 + #50)
+- **Resume file:** .planning/phases/04-webapp/04-UAT.md
+- **Next recommended action:** mark Phase 4 complete / `/gsd-transition` or continue remaining Phase 4 wrap-up
+- **G-05-5 evidence:** PR #49 merged `df4e488`; deploy-mcp run 30776842021 success; curl 401 `www-authenticate` → `mcp.puzzlesstool.online` (no localhost); 05-UAT 16/16
 - **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `01557773-532f-4606-aec3-a7a3613231be`)
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
