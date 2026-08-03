@@ -9,6 +9,10 @@ RUN corepack enable pnpm && pnpm i --frozen-lockfile
 FROM base AS builder
 WORKDIR /app
 ENV CI=true
+ARG NEXT_PUBLIC_API_URL=https://api.puzzlesstool.online
+ARG NEXT_PUBLIC_APP_URL=https://pbox.puzzlesstool.online
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY brand /brand
 COPY webapp/ .
