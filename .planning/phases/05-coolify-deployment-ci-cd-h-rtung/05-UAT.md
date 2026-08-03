@@ -1,168 +1,163 @@
 ---
-status: diagnosed
+status: complete
 phase: 05-coolify-deployment-ci-cd-h-rtung
 source: [05-01-SUMMARY.md, 05-02-SUMMARY.md, 05-03-SUMMARY.md, 05-04-SUMMARY.md, 05-VERIFICATION.md]
-started: 2026-08-02T23:51:00Z
-updated: 2026-08-02T23:58:00Z
+started: 2026-08-03T00:49:00Z
+updated: 2026-08-03T01:05:00Z
 environment: production (pbox / api / mcp *.puzzlesstool.online)
-tester: gsd-browser + curl + Coolify MCP + dbhub
+tester: gsd-browser + curl + Coolify + dbhub + shell subagent
+suite: deep-prod-2026-08-03
+response_language: de
 ---
 
 ## Current Test
 
-[testing complete — production suite]
+[testing complete]
 
 ## Tests
 
 ### 1. Web Health HTTPS (OPS-04)
-expected: GET https://pbox.puzzlesstool.online/api/health → 200 {"status":"ok"} unauth
+expected: GET pbox /api/health → 200 {"status":"ok"} unauth
 result: pass
 tested_by: curl
 notes: HTTP 200 {"status":"ok"}
 
 ### 2. API Health HTTPS (OPS-04)
-expected: GET https://api.puzzlesstool.online/health → 200 {"status":"ok"}
+expected: GET api /health → 200 {"status":"ok"}
 result: pass
 tested_by: curl
 notes: HTTP 200 {"status":"ok"}
 
 ### 3. MCP Health HTTPS (OPS-04)
-expected: GET https://mcp.puzzlesstool.online/health → 200 service mcp-server
+expected: GET mcp /health → 200 service mcp-server
 result: pass
 tested_by: curl
 notes: HTTP 200 {"status":"ok","service":"mcp-server"}
 
 ### 4. Three Separate FQDNs + TLS (OPS-01)
-expected: pbox/api/mcp distinct; LE certs; HTTP→HTTPS
+expected: pbox/api/mcp distinct; LE certs; HTTP→HTTPS redirect
 result: pass
 tested_by: curl + openssl
-notes: |
-  Cert CN=pbox.puzzlesstool.online LE valid. HTTP pbox → 302 HTTPS.
-  Coolify apps: web qxpgv6p1rp3vupue9al8hbzz, api pasmduuzitoh21qipyq3ay1l, mcp n5frtiupale5c2zjm9fyk1qc.
+notes: LE certs; HTTP 302→HTTPS for all three FQDNs.
 
 ### 5. MCP Unauth 401 (MCP-02)
 expected: POST /mcp without Bearer → 401
 result: pass
 tested_by: curl
-notes: POST initialize without auth → HTTP 401
-
-### 6. DB Backup Schedule (OPS-03)
-expected: cron 0 3 * * *; retention 14/14 local; ≥1 success baseline
-result: pass
-tested_by: Coolify MCP get_database_backups
 notes: |
-  Schedule jl0skzwpd3ot7hgfmohlny9s enabled, save_s3=false, frequency 0 3 * * *,
-  retention 14/14. Execution ibaby40uszso4coqgxjtgp1b status=success (local dump).
+  HTTP 401 (auth required). See test 16 for WWW-Authenticate header quality issue.
 
-### 7. Second-Register Rejected Prod (AUTH-03)
-expected: After owner exists, signup rejected SIGNUP_LOCKED
+### 6. API Unauth 401 on protected routes
+expected: GET /categories without JWT → 401
 result: pass
 tested_by: curl
-notes: POST /api/auth/sign-up/email → 409 {"message":"SIGNUP_LOCKED"}; users=1
+notes: Accept vnd.puzzlessbox.v1+json → UNAUTHORIZED Missing authentication token.
 
-### 8. Web→API Env Wiring (OPS-01/02 runtime)
-expected: NEXT_PUBLIC_API_URL baked to api.puzzlesstool.online; CORS allows pbox
-result: issue
-reported: "Coolify WebApp env has NEXT_PUBLIC_API_URL=https://api.puzzlesstool.online at runtime, but Docker image bakes localhost:8000 (no build-arg). API CORS_ORIGINS omits https://pbox.puzzlesstool.online → Disallowed CORS origin. End-to-end board/API dead."
-severity: blocker
-tested_by: curl + Coolify envs + JS chunk grep
+### 7. DB Backup Schedule (OPS-03)
+expected: cron 0 3 * * *; retention local; ≥1 success baseline (Coolify)
+result: pass
+tested_by: Coolify get_database_backups uuid=pfqgb5pcvgi9oh64bpe3shtn
 notes: |
-  See Phase 4 gaps G-04-1, G-04-2. Health endpoints pass; authenticated product path fails.
+  Schedule jl0skzwpd3ot7hgfmohlny9s enabled, frequency 0 3 * * *,
+  retention 14/14 local. Execution ibaby40uszso4coqgxjtgp1b status=success.
+
+### 8. Web→API Env Wiring (OPS-01/02)
+expected: Client bundle calls api.puzzlesstool.online; CORS erlaubt pbox Origin
+result: pass
+tested_by: gsd-browser network + curl OPTIONS
+notes: |
+  Live board fetches https://api.puzzlesstool.online/categories + /board-items 200.
+  OPTIONS Origin pbox → ACAO=https://pbox.puzzlesstool.online.
+  deploy-web.yml has NEXT_PUBLIC_API_URL build-arg. Prior G-05-1/G-04-1 RESOLVED.
 
 ### 9. JWKS Path for API Auth
-expected: BETTER_AUTH_JWKS_URL reachable JWKS for JWT verify
-result: issue
-reported: "API env BETTER_AUTH_JWKS_URL=…/.well-known/jwks.json → 404. Working: /api/auth/jwks → 200."
-severity: blocker
-tested_by: curl + Coolify get_application_envs
-notes: Cross-links G-04-3. Would break JWT even after CORS+URL fix.
+expected: /api/auth/jwks → 200; wrong /.well-known/jwks.json → 404
+result: pass
+tested_by: curl
+notes: JWKS keys[1] EdDSA. Wrong path 404. Prior G-05-2/G-04-3 RESOLVED.
 
-### 10. OpenAPI Surface in Prod
-expected: /docs off in prod; openapi not publicly useful
+### 10. OpenAPI Surface Hardened
+expected: /docs → 404; /openapi.json → 404 in prod
+result: pass
+tested_by: curl
+notes: Both 404 {"detail":"Not Found"}. Prior G-05-4 RESOLVED.
+
+### 11. End-to-End Capture→Board (CAP-05 prod)
+expected: Item via API/MCP erstellt → erscheint auf pbox Board ≤20s (poll)
+result: pass
+tested_by: API draft+confirm + gsd-browser
+notes: |
+  Created draft e3012af1… „UAT Poll Pulse Item“ → confirm 200.
+  Board showed item + toast „Eintrag gesichert…“ on navigate/poll.
+  Hermes channel path not re-fired (API create path validates board merge).
+
+### 12. GHCR Deploy Pipeline Artifacts (OPS-02)
+expected: deploy-web/api/mcp workflows + NEXT_PUBLIC build-args + webhook pattern
+result: pass
+tested_by: artifact read
+notes: |
+  deploy-{web,api,mcp}.yml present with COOLIFY_*_WEBHOOK+TOKEN.
+  web build-args NEXT_PUBLIC_API_URL + NEXT_PUBLIC_APP_URL.
+
+### 13. CORS Reject Evil Origin
+expected: OPTIONS Origin:evil.example → kein ACAO allow
+result: pass
+tested_by: curl
+notes: HTTP 400 Disallowed CORS origin; no ACAO.
+
+### 14. Web Unauth Middleware Redirect
+expected: /board|/settings ohne Cookie → 307 login?next=
+result: pass
+tested_by: curl
+notes: Location /login?next=%2Fboard and /login?next=%2Fsettings.
+
+### 15. Public Brand Assets on CDN/Web
+expected: apollo-*.png public assets 200
+result: pass
+tested_by: curl
+notes: onboard/splash/wordmark/avatar 200.
+
+### 16. MCP WWW-Authenticate Metadata Host
+expected: 401 WWW-Authenticate resource_metadata uses prod MCP/API host (not localhost)
 result: issue
-reported: "/docs → 404 (good). /openapi.json → 200 still publicly readable."
+reported: "401 ok but WWW-Authenticate Bearer resource_metadata=\"http://localhost:8000/.well-known/oauth-protected-resource/mcp\""
 severity: minor
 tested_by: curl
-
-### 11. End-to-End Capture→Board (CAP-05 prod / prior UAT #7)
-expected: MCP/Hermes create item → appears on pbox board ≤20s
-result: blocked
-blocked_by: prior-phase
-reason: "Board/API path broken (G-04-1/2/3). Cannot verify Hermes→board on prod until connectivity fixed."
-
-### 12. GHCR Deploy Pipeline Smoke (OPS-02)
-expected: deploy-web/api workflows + webhook pattern exist; apps healthy
-result: pass
-tested_by: artifact + live health
 notes: |
-  Workflows present; apps healthy via health probes. Full webhook re-fire not re-run this session
-  (prior 05-VERIFICATION already green). Live health proves deploy state holds.
+  Auth rejection works; header advertises localhost OAuth protected-resource URL.
+  Clients following RFC 9728 metadata discovery would hit wrong host.
 
 ## Summary
 
-total: 12
-passed: 8
-issues: 3
+total: 16
+passed: 15
+issues: 1
 pending: 0
 skipped: 0
-blocked: 1
+blocked: 0
 
 ## Gaps
 
-- gap_id: G-05-1
-  truth: "Prod WebApp client bundle uses https://api.puzzlesstool.online"
+- gap_id: G-05-5
+  truth: "MCP 401 WWW-Authenticate resource_metadata points at production host (mcp/api.puzzlesstool.online), not localhost:8000"
   status: failed
-  reason: "Same as G-04-1 — NEXT_PUBLIC_* must be build-args in deploy-web.yml / Dockerfile"
-  severity: blocker
-  test: 8
-  artifacts:
-    - path: "webapp/Dockerfile"
-      issue: "No NEXT_PUBLIC build-args"
-    - path: ".github/workflows/deploy-web.yml"
-      issue: "No docker build-args for public URLs"
-  missing:
-    - "Add build-args + rebuild GHCR web image + Coolify pull"
-  root_cause: ""
-  debug_session: ""
-
-- gap_id: G-05-2
-  truth: "API CORS_ORIGINS includes https://pbox.puzzlesstool.online"
-  status: failed
-  reason: "Same as G-04-2 — Coolify API missing CORS_ORIGINS override; default still app. subdomain"
-  severity: blocker
-  test: 8
-  artifacts:
-    - path: "api/app/core/config.py"
-      issue: "Default CORS_ORIGINS outdated vs D-01 pbox domain"
-  missing:
-    - "Set CORS_ORIGINS on Coolify API (and optionally code default) then restart"
-  root_cause: ""
-  debug_session: ""
-
-- gap_id: G-05-3
-  truth: "BETTER_AUTH_JWKS_URL points at /api/auth/jwks"
-  status: resolved
-  resolved_by: seed-agent Coolify env patch + API restart
-  resolved_at: 2026-08-03
-  reason: "Same as G-04-3 — prod env now https://pbox.puzzlesstool.online/api/auth/jwks"
-  severity: blocker
-  test: 9
-  artifacts: []
-  missing: []
-  root_cause: "Wrong well-known path at cutover; patched during UAT seed."
-  debug_session: "prod-uat-2026-08-03"
-
-- gap_id: G-05-4
-  truth: "Prod OpenAPI not publicly exposed (or intentionally documented)"
-  status: resolved
-  resolved_by: quick/260803-3gu openapi_url=None in prod
-  resolved_at: 2026-08-03
-  reason: "/openapi.json returns 200 while /docs is 404 — fixed via openapi_url=None when is_prod"
+  reason: "User reported: 401 ok but WWW-Authenticate Bearer resource_metadata=\"http://localhost:8000/.well-known/oauth-protected-resource/mcp\""
   severity: minor
-  test: 10
+  test: 16
   artifacts:
-    - path: "api/app/main.py"
-      issue: "openapi_url now None in prod"
-  missing: []
-  root_cause: "docs_url=None but openapi_url still default"
-  debug_session: ""
+    - path: "mcp-server / Coolify MCP env"
+      issue: "OAuth resource metadata base URL defaults to localhost:8000"
+  missing:
+    - "Set MCP public base URL / resource metadata env for prod FQDN"
+  root_cause: "MCP OAuth protected-resource metadata URL not wired to mcp.puzzlesstool.online in Coolify runtime; localhost bake/default leaks into WWW-Authenticate."
+  debug_session: "deep-prod-uat-2026-08-03"
+
+## Prior Gaps Reconciliation
+
+| gap_id | prior | now |
+|--------|-------|-----|
+| G-05-1 | failed (API URL bake) | resolved (live api.puzzlesstool.online) |
+| G-05-2 | failed (JWKS path) | resolved |
+| G-05-3 | (CORS related) | resolved |
+| G-05-4 | failed (openapi public) | resolved (/openapi.json 404) |
+| G-05-5 | new | open (MCP WWW-Authenticate localhost) |

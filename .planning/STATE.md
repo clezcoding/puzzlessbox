@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
 status: executing
-stopped_at: 04-05 gap closure done — human_needed
-last_updated: "2026-08-03T00:13:10.555Z"
+stopped_at: deep prod UAT 04+05 complete — G-05-5 open
+last_updated: "2026-08-03T01:05:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 6
@@ -124,16 +124,17 @@ progress:
 | 260729-vmg | Platform Bootstrap: Dependabot, Kodiak, CI, CodeQL, Coolify Postgres | 2026-07-29 | 634d1fc | [260729-vmg-platform-bootstrap-dependabot-branch-pro](./quick/260729-vmg-platform-bootstrap-dependabot-branch-pro/) |
 | 260803-001 | Coolify 3-app GHCR/env audit + Renovate/Dependabot PRs (latest stable) | 2026-08-03 | e1197bd | [260803-001-coolify-3-apps-latest-ghcr-build-deploy-](./quick/260803-001-coolify-3-apps-latest-ghcr-build-deploy-/) |
 | 260803-3gu | Fix open UAT gaps G-04-4/G-04-6/G-05-4 (signup sticky, bulk click, openapi off) | 2026-08-03 | b5c6a90 | [260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l](./quick/260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l/) |
+| 260803-4ji | Fix G-05-5: MCP 401 WWW-Authenticate resource_metadata must use production FQDN (mcp.puzzlesstool.online), not localhost:8000 | 2026-08-03 | 754c102 | [260803-4ji-fix-g-05-5-mcp-401-www-authenticate-reso](./quick/260803-4ji-fix-g-05-5-mcp-401-www-authenticate-reso/) |
 
-**Last updated:** 2026-08-03 (quick 260803-001 Coolify audit + dep PRs)
+**Last updated:** 2026-08-03 (quick 260803-4ji G-05-5 MCP_PUBLIC_BASE_URL)
 
 ## Session Continuity
 
-- **Last session:** 2026-08-03T00:13:10.545Z
-- **Stopped at:** 04-05 gap closure done — human_needed
-- **Resume file:** .planning/phases/04-webapp/04-UAT.md
-- **Next recommended action:** `/gsd-execute-phase 4 --gaps-only` after gap plans (or fix Coolify env + rebuild web image)
-- **Prod UAT account:** `uat@puzzless.local` (first user after dbhub wipe)
+- **Last session:** 2026-08-03T01:16:00.000Z
+- **Stopped at:** quick 260803-4ji G-05-5 code fix complete — Coolify env + redeploy pending
+- **Resume file:** .planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md
+- **Next recommended action:** Coolify MCP env `MCP_PUBLIC_BASE_URL=https://mcp.puzzlesstool.online` + redeploy; curl-verify WWW-Authenticate; mark G-05-5 resolved
+- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `01557773-532f-4606-aec3-a7a3613231be`)
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
