@@ -58,7 +58,7 @@ export function BulkMoveBar({
       <span className="text-sm font-medium">{count} ausgewählt</span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button type="button" size="sm">
+          <Button type="button" size="sm" data-testid="bulk-move-trigger">
             In Kategorie verschieben
           </Button>
         </DropdownMenuTrigger>
@@ -66,6 +66,7 @@ export function BulkMoveBar({
           {categories.map((category) => (
             <DropdownMenuItem
               key={category.id}
+              data-testid={`bulk-move-destination-${category.id}`}
               onClick={() => void handleBulkMove(category.id)}
             >
               {category.name}
