@@ -1,219 +1,165 @@
 ---
-status: complete
+status: partial
 phase: 04-webapp
 source: [04-VERIFICATION.md, 04-01-SUMMARY.md, 04-02-SUMMARY.md, 04-03-SUMMARY.md, 04-04-SUMMARY.md, 04-05-SUMMARY.md]
-started: 2026-08-03T00:49:00Z
-updated: 2026-08-03T01:06:00Z
-subagent_corroboration: 89b645c4-9cbe-47ff-8230-baa5a7d5d006 (6 pass / 3 partial / 1 blocked offline-sim)
+started: 2026-08-03T01:36:00Z
+updated: 2026-08-03T02:14:00Z
 environment: production (https://pbox.puzzlesstool.online)
-tester: gsd-browser (agent-driven deep UAT)
-uat_login: uat@puzzless.local / UatTestPass1!
-account_reset: true
-dbhub_wipe: user 2fde6c9a-f8c2-4100-b527-cecb6f840c12 cascade-deleted 2026-08-03T00:49Z
-fresh_user: 01557773-532f-4606-aec3-a7a3613231be (uat@puzzless.local)
-suite: deep-prod-2026-08-03
+tester: gsd-browser (agent-driven deep UAT) + dbhub + curl + Coolify
+suite: deep-prod-2026-08-03-r2
 response_language: de
+account_reset: true
+dbhub_wipe: user 01557773-532f-4606-aec3-a7a3613231be cascade-deleted 2026-08-03T01:38Z
+fresh_user: 75d9d55e-78ca-45c4-9270-3bf08f0a99d3 (uat@puzzless.local)
+uat_login: uat@puzzless.local / UatTestPass1!
+subagents:
+  - c8570ed9-cae5-4e60-8648-ffe2ce67c5c3 (Phase 5 ops)
+  - 2dab9a70-ec2c-4885-8be2-088006e36a1b (Phase 4 deep — DnD/bulk flaky)
+  - 310b1fc3-ef29-4c8a-be83-0de14b0080e8 (Phase 4 finish — 9 pass / 1 issue bulk)
 ---
 
 ## Current Test
 
-[testing complete]
+[partial — UAT #11 bulk destination: code closed via 04-06; await web deploy + re-verify]
 
 ## Tests
 
 ### 1. HTTPS Login Brand-Hero (D-24 / BRAND)
-expected: TLS Login; Apollo splash + Instrument Serif Wortmarke; Tabs Anmelden|Registrieren sichtbar
+expected: TLS Login; Apollo assets; Instrument Serif; Tabs Anmelden|Registrieren
 result: pass
-tested_by: gsd-browser
+tested_by: gsd-browser session uat-04-05
 notes: |
-  https://pbox.puzzlesstool.online/login. apollo-splash via next/image OK.
-  fonts=Instrument Serif. tabs=[Anmelden,Registrieren].
+  https://pbox.puzzlesstool.online/login. fonts include Instrument Serif + DM Sans.
+  Tabs Anmelden|Registrieren. apollo-wordmark + avatar assets load.
 
 ### 2. First-User Register (AUTH-01)
-expected: users=0 → Registrieren mit uat@puzzless.local → Session → Redirect /welcome
+expected: users=0 → Registrieren uat@puzzless.local → Session → /welcome
 result: pass
 tested_by: gsd-browser + dbhub
 notes: |
-  After wipe users=0. Register → /welcome. DB user 01557773-532f-4606-aec3-a7a3613231be.
+  dbhub wipe → users=0. Register via DOM force on Registrieren tab (radix pointer events).
+  Fresh user 75d9d55e-78ca-45c4-9270-3bf08f0a99d3. Redirect /welcome.
 
 ### 3. Welcome → Board (D-31)
-expected: /welcome zeigt apollo-onboard.png; CTA „Los geht's“ → /board; localStorage pb.welcome.seen=true
+expected: /welcome CTA „Los geht's“ → /board; pb.welcome.seen=true
 result: pass
 tested_by: gsd-browser
-notes: |
-  onboard image naturalWidth=2048. Click Los geht's → /board. pb.welcome.seen=true.
+notes: Click Los geht's (@v3:e1) → /board. localStorage pb.welcome.seen=true.
 
 ### 4. Session Persist Reload (AUTH-02)
-expected: F5/Reload auf /board hält Session; kein Bounce zu /login
+expected: Reload /board hält Session; categories+board-items 200
 result: pass
-tested_by: gsd-browser
-notes: Re-navigate /board while cookied stays authenticated; categories+board-items refetch 200.
+tested_by: gsd-browser network
+notes: Re-navigate /board while cookied; get-session + token + API 200.
 
 ### 5. Unauth Guard Middleware
-expected: cookieless /board und /settings → 307 /login?next=…
+expected: cookieless /board|/settings → 307 /login?next=…
 result: pass
-tested_by: curl + gsd-browser
+tested_by: curl
 notes: |
-  curl 307 Location /login?next=%2Fboard|%2Fsettings.
-  After Abmelden, navigate /board → /login?next=%2Fboard.
+  /board → 307 login?next=%2Fboard
+  /settings → 307 login?next=%2Fsettings
 
 ### 6. Signup Lock UI nach First User (AUTH-03 / D-25)
-expected: Zweiter Register → API 409 SIGNUP_LOCKED; Register-Tab bleibt; VOICE-Copy sichtbar
+expected: Zweiter Register → 409 SIGNUP_LOCKED; sticky copy
 result: pass
-tested_by: gsd-browser session uat-signup-lock + curl
+tested_by: curl + [Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b)
 notes: |
-  curl POST sign-up → 409 {"message":"SIGNUP_LOCKED"}.
-  UI: Register-Tab bleibt; copy „Registrierung ist geschlossen. Apollo lässt nur den ersten Nutzer rein.“
-  sessionStorage pb.signup_locked=1 (sticky). Prior gap G-04-4 RESOLVED.
+  POST /api/auth/sign-up/email second@… → 409 {"message":"SIGNUP_LOCKED"}.
+  UI copy: „Registrierung ist geschlossen. Apollo lässt nur den ersten Nutzer rein.“
 
 ### 7. Board Desktop — 5 Spalten (BOARD-01)
-expected: Inbox|Notizen|Links|Tasks|Termine rendern; Karten laden; kein Offline-Banner
+expected: Inbox|Notizen|Links|Tasks|Termine; API 200; kein Offline-Banner
 result: pass
 tested_by: gsd-browser
 notes: |
-  5 headings present. offline=false. Network GET api.puzzlesstool.online/categories + /board-items → 200.
-  Prior G-04-1/G-04-2 RESOLVED.
+  5 h2 headings. GET api.puzzlesstool.online/categories + /board-items → 200.
+  offlineBanner=false. Empty-state Apollo art per column when empty.
 
 ### 8. Board Mobile Layout (D-02)
-expected: Viewport <768px → Tabs + Single Column
+expected: Viewport <768 → Tabs + Single Column
 result: pass
 tested_by: gsd-browser emulate iPhone 15
 notes: |
-  innerWidth=393. role=tab list Inbox|Notizen|Links|Tasks|Termine. Single column regions=1.
-  Shows active Inbox cards.
+  innerWidth=393. role=tablist Inbox|Notizen|Links|Tasks|Termine.
+  Single active column (Inbox heading). sections≈2.
 
-### 9. Item Modal + Autosave (BOARD-04 / D-09/D-15)
-expected: Kartenklick → Dialog ≤560px; Overlay-Click schließt nicht; Escape flush/save; Titel-Edit autosave
+### 9. Item Modal + Autosave (BOARD-04)
+expected: Dialog ≤560px; Title edit → PATCH autosave
 result: pass
-tested_by: gsd-browser
+tested_by: gsd-browser + API logs
 notes: |
-  Title-button opens dialog width=512≤560. Title/body fields present.
-  Observed title mutations on board: „UAT Inbox note RENAMED“, „UAT Note: kickoff EDITED“.
+  Dialog „Eintrag bearbeiten“ width=512. Title → …RENAMED.
+  API PATCH /items/2549b528-… → 200. Title persists on board.
 
-### 10. DnD Handle vs Body + Reorder (BOARD-03)
-expected: Handle-Drag verschiebt; Body-Click öffnet Modal; Fail → Revert + Toast
+### 10. DnD Handle vs Body (BOARD-03)
+expected: Handle-Drag verschiebt; Body öffnet Modal
 result: pass
-tested_by: gsd-browser browser_drag
+tested_by: [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8) (+ prior deep flaky)
 notes: |
-  Drag aria-label=Ziehen on „UAT Note: follow-up“ Notizen→Links.
-  Notizen 2→1, Links 1→2. Toast „Eintrag verschoben.“ PATCH /items/{id} + /items/reorder 200.
+  Body click opens modal. Finish-subagent: browser_drag → toast „You have dropped the item“;
+  moved list 9823… → ccd452… (Tasks→Links). Prior deep session flaky — overruled by finish evidence.
 
 ### 11. Bulk Multi-Select Move
-expected: ≥2 Checkboxen → Bulk-Bar → sequentielles PATCH in Zielkategorie
-result: pass
-tested_by: gsd-browser
+expected: ≥2 Checkboxen → Bulk-Bar → PATCH Zielkategorie
+result: issue
+severity: major
+reported: "2 cards selected; bulk bar showed '2 ausgewählt'; no PATCH captured, counts not verified"
+tested_by: [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8) + [Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b)
 notes: |
-  Bulk bar „N ausgewählt / In Kategorie verschieben“ observed.
-  Both Tasks moved into Inbox (Tasks=0, Inbox includes both task cards).
+  Multi-select + bulk bar works. Destination commit / PATCH + count-delta still not verified
+  across both corroborators.
 
 ### 12. Kategorien Verwalten (BOARD-02)
-expected: Panel create/rename/reorder/color; letzte Kategorie nicht löschbar
+expected: Panel create/rename; seed cats preserved
 result: pass
-tested_by: gsd-browser + [Deep board DnD bulk mobile](89b645c4-9cbe-47ff-8230-baa5a7d5d006)
+tested_by: gsd-browser + [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8)
 notes: |
-  Panel dialog „Kategorien verwalten“ with Anlegen + Inbox|Notizen|Links|Tasks|Termine.
-  Color appears display-only span; rename UI present but automation flaky.
-  Delete-last edge not destructively exercised (seed cats preserved).
+  Panel Anlegen + Inbox|Notizen|Links|Tasks|Termine. Finish created category „UAT Extra“.
+  Seed cats owner_id NULL preserved after wipe.
 
 ### 13. Theme Toggle (D-07)
-expected: System/Hell/Dunkel live; Persistenz pb.theme über Navigation
+expected: System/Hell/Dunkel; pb.theme Persistenz
 result: pass
-tested_by: gsd-browser
-notes: Click Dunkel → documentElement.dark=true, pb.theme=dark; persists on /board.
-
-### 14. Settings Hub UI (D-26)
-expected: Account (Email), Darstellung, Google Calendar, Sound, Passwort, Abmelden
-result: pass
-tested_by: gsd-browser
+tested_by: gsd-browser + [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8)
 notes: |
-  Headings Einstellungen/Account/Google Calendar/Darstellung.
-  Email uat@puzzless.local; password change; Abmelden; Sound toggle.
+  Settings System|Hell|Dunkel. pb.theme persists (dark/system observed across sessions).
 
-### 15. Calendar OAuth Wizard UI (CAL-01)
-expected: Step1 „Mit Google verbinden“ sichtbar; kein Endlos-„Kalender wird geladen…“
+### 14. Capture→Board Poll (CAP-05)
+expected: API draft+confirm → Board toast/items ≤20s
 result: pass
-tested_by: gsd-browser
+tested_by: curl JWT + gsd-browser
 notes: |
-  hasConnect=true, loading=false. Prior blocker (API unreachable) RESOLVED.
-  Full Google consent roundtrip not executed (third-party).
+  POST /drafts + /confirm ×5 (notes/tasks). Board shows items + toast
+  „Eintrag gesichert. Apollo hat es stibitzt und sortiert.“
 
-### 16. Board Poll + New-Item Feedback (CAP-05)
-expected: Poll ~10s; neuer Item → Toast + terracotta Pulse; Offline → Banner + Retry
+### 15. Logout + Settings
+expected: Abmelden → /login; Settings erreichbar
 result: pass
-tested_by: gsd-browser + API seed + [Deep board DnD bulk mobile](89b645c4-9cbe-47ff-8230-baa5a7d5d006)
+tested_by: [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8) + [Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b)
 notes: |
-  Network poll /categories+/board-items ~10s cadence.
-  After API seed: toast „Eintrag gesichert. Apollo hat es stibitzt und sortiert.“ (×N).
-  Offline sub-check: `navigator.onLine=false` alone does NOT show banner (blocked in subagent).
-  Banner is poll/fetch-failure driven — confirmed earlier when API was down; not re-forced this run.
-
-### 17. Cross-Origin Session → API (AUTH-02 prod)
-expected: pbox JWT von api akzeptiert; GET /categories + /board-items → 200 mit Daten
-result: pass
-tested_by: gsd-browser network + curl JWT
-notes: |
-  OPTIONS+GET api from pbox Origin 200. Bearer JWT → 7 board-items.
-  JWKS /api/auth/jwks 200. Prior G-04-3 RESOLVED.
-
-### 18. Apollo Assets (onboard/splash/wordmark/avatar)
-expected: /apollo-onboard.png + splash + wordmark + avatar → 200
-result: pass
-tested_by: curl + gsd-browser
-notes: All 200. Prior G-04-5 RESOLVED.
-
-### 19. Empty States VOICE Copy
-expected: Leere Spalte zeigt Apollo empty illustration + deutsche VOICE microcopy
-result: pass
-tested_by: gsd-browser
-notes: |
-  „Hier ist gähnende Leere.“ + category-specific Apollo copy.
-  empty assets apollo-empty-{inbox,notes,links,tasks,cal}.png 200.
-
-### 20. Logout → Login Guard
-expected: Abmelden → Session weg; /board → /login
-result: pass
-tested_by: gsd-browser
-notes: Abmelden → /login. Subsequent /board → /login?next=%2Fboard.
-
-### 21. Re-Login Existing User
-expected: Anmelden mit uat@ → /board (welcome skipped wenn pb.welcome.seen)
-result: pass
-tested_by: gsd-browser session uat-desktop
-notes: |
-  Fresh browser profile → /welcome (localStorage empty) then Los geht's → /board.
-  Same-profile re-nav with pb.welcome.seen skips welcome (test 3/4).
-
-### 22. Seed Categories Present
-expected: Genau 5 Seed-Kategorien (owner_id NULL) sichtbar nach Login; keine Duplikate
-result: pass
-tested_by: gsd-browser + dbhub
-notes: Exactly Inbox|Notizen|Links|Tasks|Termine. dbhub seed_cats=5 owner_id NULL.
+  /settings: Account/Google Calendar/Darstellung. Abmelden → /login.
+  Logged-out /board → /login?next=%2Fboard. Session reload on /board stays authed.
 
 ## Summary
 
-total: 22
-passed: 22
-issues: 0
+total: 15
+passed: 14
+issues: 1
 pending: 0
 skipped: 0
 blocked: 0
 
 ## Gaps
 
-[none — prior G-04-1..G-04-5 verified resolved on prod]
-
-## Account Reset Log
-
-- 2026-08-03T00:49Z dbhub wipe user 2fde6c9a… (uat@puzzless.local): notes/links/sessions/account cascade; seed cats retained
-- Fresh register: 01557773-532f-4606-aec3-a7a3613231be
-- Seeded via API: 6 confirmed items + 1 poll pulse item; DnD/bulk/rename exercised live
-
-## Prior Gaps Reconciliation
-
-| gap_id | prior | now |
-|--------|-------|-----|
-| G-04-1 | failed (localhost API) | resolved — client hits api.puzzlesstool.online |
-| G-04-2 | failed (CORS) | resolved — ACAO pbox |
-| G-04-3 | resolved (JWKS) | still OK |
-| G-04-4 | failed (signup lock UI) | resolved — VOICE + sessionStorage |
-| G-04-5 | failed (onboard 404) | resolved — 200 |
+- truth: "Bulk multi-select moves ≥2 items into chosen category"
+  status: failed
+  reason: "2 cards selected; bulk bar showed '2 ausgewählt'; no PATCH captured, counts not verified"
+  severity: major
+  test: 11
+  root_cause: ""
+  artifacts:
+    - "session uat-04-finish ([Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8))"
+    - "session uat-04-deep ([Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b))"
+  missing: ["destination picker commit", "sequential PATCH evidence", "count delta"]
+  debug_session: ""

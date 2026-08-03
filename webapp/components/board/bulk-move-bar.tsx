@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { toast } from "sonner";
 
 import type { Category } from "@/lib/api-client";
@@ -27,9 +28,12 @@ export function BulkMoveBar({
   onMoved,
   onClear,
 }: BulkMoveBarProps) {
+  const [busy, setBusy] = useState(false);
   if (count === 0) return null;
 
   async function handleBulkMove(categoryId: string) {
+    if (busy) return;
+    setBusy(true);
     const total = selectedIds.length;
     let done = 0;
     const toastId =
@@ -41,12 +45,22 @@ export function BulkMoveBar({
         done += 1;
         if (toastId) toast.loading(`Verschiebe ${done}/${total}…`, { id: toastId });
       }
-      toast.success("Eintrag verschoben.", toastId ? { id: toastId } : undefined);
+      toast.success(
+        total > 1 ? "Einträge verschoben." : "Eintrag verschoben.",
+        toastId ? { id: toastId } : undefined,
+      );
       onMoved();
       onClear();
     } catch {
       if (toastId) toast.dismiss(toastId);
-      toast.error("Verschieben fehlgeschlagen. Eintrag ist zurück.");
+      if (done > 0) onMoved();
+      toast.error(
+        done > 0
+          ? `${done}/${total} verschoben, Rest fehlgeschlagen.`
+          : "Verschieben fehlgeschlagen. Eintrag ist zurück.",
+      );
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -58,7 +72,7 @@ export function BulkMoveBar({
       <span className="text-sm font-medium">{count} ausgewählt</span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button type="button" size="sm">
+          <Button type="button" size="sm" disabled={busy} data-testid="bulk-move-trigger">
             In Kategorie verschieben
           </Button>
         </DropdownMenuTrigger>
@@ -66,6 +80,8 @@ export function BulkMoveBar({
           {categories.map((category) => (
             <DropdownMenuItem
               key={category.id}
+              data-testid={`bulk-move-destination-${category.id}`}
+              disabled={busy}
               onClick={() => void handleBulkMove(category.id)}
             >
               {category.name}

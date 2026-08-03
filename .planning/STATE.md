@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
 status: executing
-stopped_at: deep prod UAT 04+05 complete — G-05-5 open
-last_updated: "2026-08-03T01:05:00.000Z"
+stopped_at: Phase 5 local deep UAT complete (30/30) — tooling follow-up G-05-6/7
+last_updated: "2026-08-03T02:37:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 6
-  total_plans: 26
-  completed_plans: 26
+  total_plans: 27
+  completed_plans: 27
 ---
 
 # State: Puzzlessbox
@@ -31,7 +31,7 @@ progress:
 
 - **Phase:** 04 (webapp) — EXECUTING
 - **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Plan:** 2 of 6
+- **Plan:** 2 of 7
 - **Status:** Ready to execute
 - **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
 - **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
@@ -84,6 +84,7 @@ progress:
 | Phase 05-coolify-deployment-ci-cd-h-rtung P02 | 5min | 2 tasks | 5 files |
 | Phase 05 P04 | 40min | 3 tasks | 5 files |
 | Phase 04-webapp P05 | 5min | 5 tasks | 5 files |
+| Phase 04-webapp P06 | 2min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -123,21 +124,18 @@ progress:
 | 260728-8an | GitHub-Repo puzzlessbox (privat) erstellen und einrichten | 2026-07-28 | 369af29 | [260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi](./quick/260728-8an-bevor-ich-phase-0-angehe-erstelle-via-gi/) |
 | 260729-vmg | Platform Bootstrap: Dependabot, Kodiak, CI, CodeQL, Coolify Postgres | 2026-07-29 | 634d1fc | [260729-vmg-platform-bootstrap-dependabot-branch-pro](./quick/260729-vmg-platform-bootstrap-dependabot-branch-pro/) |
 | 260803-001 | Coolify 3-app GHCR/env audit + Renovate/Dependabot PRs (latest stable) | 2026-08-03 | e1197bd | [260803-001-coolify-3-apps-latest-ghcr-build-deploy-](./quick/260803-001-coolify-3-apps-latest-ghcr-build-deploy-/) |
-| 260803-3gu | Fix open UAT gaps G-04-4/G-04-6/G-05-4 (signup sticky, bulk click, openapi off) | 2026-08-03 | b5c6a90 | [260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l](./quick/260803-3gu-fix-open-uat-gaps-g-04-4-sticky-signup-l/) |
-| 260803-4ji | Fix G-05-5: MCP 401 WWW-Authenticate resource_metadata must use production FQDN (mcp.puzzlesstool.online), not localhost:8000 | 2026-08-03 | 754c102 | [260803-4ji-fix-g-05-5-mcp-401-www-authenticate-reso](./quick/260803-4ji-fix-g-05-5-mcp-401-www-authenticate-reso/) |
-| 260803-4nq | Create PR for G-05-5 MCP_PUBLIC_BASE_URL fix, monitor CI + Coolify MCP deploy, re-run UAT curl | 2026-08-03 | df4e488 | [260803-4nq-create-pr-for-g-05-5-mcp-public-base-url](./quick/260803-4nq-create-pr-for-g-05-5-mcp-public-base-url/) |
 
-**Last updated:** 2026-08-03 (quick 260803-4nq G-05-5 shipped + UAT closed)
+**Last updated:** 2026-08-03 (quick 260803-001 Coolify audit + dep PRs)
 
 ## Session Continuity
 
-- **Last session:** 2026-08-03T01:31:00.000Z
-- **Stopped at:** quick 260803-4nq complete — G-05-5 live resolved (PR #49 + #50)
-- **Resume file:** .planning/phases/04-webapp/04-UAT.md
-- **Next recommended action:** mark Phase 4 complete / `/gsd-transition` or continue remaining Phase 4 wrap-up
-- **G-05-5 evidence:** PR #49 merged `df4e488`; deploy-mcp run 30776842021 success; curl 401 `www-authenticate` → `mcp.puzzlesstool.online` (no localhost); 05-UAT 16/16
-- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `01557773-532f-4606-aec3-a7a3613231be`)
-- **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
+- **Last session:** 2026-08-03T02:11:02.307Z
+- **Stopped at:** Completed 04-06-PLAN.md
+- **Resume file:** None
+- **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` (11/12 pass)
+- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `2fde6c9a…` after dbhub wipe)
+- **Open minor gaps:** G-04-4 sticky SIGNUP_LOCKED copy; G-04-6 bulk bar automation; G-05-4 openapi.json public
+- **Next recommended action:** merge/deploy web → `/gsd-verify-work 04` for UAT #11
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
@@ -192,3 +190,4 @@ progress:
 - [Phase ?]: CORS_ORIGINS in Coolify API env + config.py default includes pbox
 - [Phase ?]: NEXT_PUBLIC_* baked via Dockerfile ARG and deploy-web build-args
 - [Phase ?]: SIGNUP_LOCKED sessionStorage survives login remount on 409
+- [Phase ?]: toast.success bulk move test asserts second undefined arg when total <= 5 items
