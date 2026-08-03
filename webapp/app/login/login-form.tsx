@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import { getSafeNextPath } from "@/lib/redirect";
 
 const SIGNUP_LOCKED_COPY =
   "Registrierung ist geschlossen. Apollo lässt nur den ersten Nutzer rein.";
+const SIGNUP_LOCKED_STORAGE_KEY = "pb.signup_locked";
 
 function isSignupLockedError(error: unknown): boolean {
   if (!error || typeof error !== "object") return false;
@@ -39,6 +40,15 @@ export function LoginForm() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [registerError, setRegisterError] = useState<string | null>(null);
   const [signupLocked, setSignupLocked] = useState(false);
+  const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+
+  useEffect(() => {
+    if (sessionStorage.getItem(SIGNUP_LOCKED_STORAGE_KEY) === "1") {
+      sessionStorage.removeItem(SIGNUP_LOCKED_STORAGE_KEY);
+      setSignupLocked(true);
+      setActiveTab("register");
+    }
+  }, []);
 
   async function handleLogin(event: React.FormEvent) {
     event.preventDefault();
@@ -72,7 +82,9 @@ export function LoginForm() {
       router.push(nextPath ?? "/");
     } catch (error) {
       if (isSignupLockedError(error)) {
+        sessionStorage.setItem(SIGNUP_LOCKED_STORAGE_KEY, "1");
         setSignupLocked(true);
+        setActiveTab("register");
       } else {
         setRegisterError("Registrierung fehlgeschlagen.");
       }
@@ -98,7 +110,7 @@ export function LoginForm() {
       </div>
 
       <div className="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-sm">
-        <Tabs defaultValue="login">
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "login" | "register")}>
           <TabsList className="mb-6 grid w-full grid-cols-2">
             <TabsTrigger value="login">Anmelden</TabsTrigger>
             <TabsTrigger value="register">Registrieren</TabsTrigger>
