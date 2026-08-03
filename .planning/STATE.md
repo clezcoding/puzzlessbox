@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
 status: executing
-stopped_at: 04-05 gap closure done — human_needed
-last_updated: "2026-08-03T00:13:10.555Z"
+stopped_at: deep prod UAT 04+05 complete — G-05-5 open
+last_updated: "2026-08-03T01:05:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 6
@@ -130,10 +130,10 @@ progress:
 ## Session Continuity
 
 - **Last session:** 2026-08-03T00:13:10.545Z
-- **Stopped at:** 04-05 gap closure done — human_needed
+- **Stopped at:** deep prod UAT Phase 4+5 complete (2026-08-03)
 - **Resume file:** .planning/phases/04-webapp/04-UAT.md
-- **Next recommended action:** `/gsd-execute-phase 4 --gaps-only` after gap plans (or fix Coolify env + rebuild web image)
-- **Prod UAT account:** `uat@puzzless.local` (first user after dbhub wipe)
+- **Next recommended action:** `/gsd-verify-work` gap G-05-5 (MCP WWW-Authenticate localhost) or mark Phase 4 complete / transition
+- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `01557773-532f-4606-aec3-a7a3613231be`)
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
