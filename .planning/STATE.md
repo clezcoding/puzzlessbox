@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
 status: executing
-stopped_at: Completed 04-05-PLAN.md
-last_updated: "2026-08-03T00:06:51.211Z"
+stopped_at: 04-05 gap closure done — human_needed
+last_updated: "2026-08-03T00:13:10.555Z"
 progress:
   total_phases: 6
   completed_phases: 6
@@ -128,9 +128,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-03T00:06:51.202Z
-- **Stopped at:** Completed 04-05-PLAN.md
-- **Resume file:** None
+- **Last session:** 2026-08-03T00:13:10.545Z
+- **Stopped at:** 04-05 gap closure done — human_needed
+- **Resume file:** .planning/phases/04-webapp/04-UAT.md
 - **Next recommended action:** `/gsd-execute-phase 4 --gaps-only` after gap plans (or fix Coolify env + rebuild web image)
 - **Prod UAT account:** `uat@puzzless.local` (first user after dbhub wipe)
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
