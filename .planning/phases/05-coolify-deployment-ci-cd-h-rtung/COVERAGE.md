@@ -1,6 +1,6 @@
 # Phase 05 — Coolify / GHCR / GitHub Actions API Coverage
 
-Capability matrix for Phase 5 deployment automation. Classifications: **INTEGRATE** (used in phase), **OPT-OUT** (evaluated, not used), **MANUAL** (human/UI step per D-19).
+Capability matrix for Phase 5 deployment automation. Classifications: **INTEGRATE** (used in phase), **OPT-OUT** (evaluated, not used — includes human/UI-only steps).
 
 | Capability | Class | Reason |
 |------------|-------|--------|
@@ -18,8 +18,8 @@ Capability matrix for Phase 5 deployment automation. Classifications: **INTEGRAT
 | `gh secret set` | INTEGRATE | `COOLIFY_API_WEBHOOK`, `COOLIFY_WEB_WEBHOOK` (D-16). |
 | `gh workflow run deploy-web.yml` / `deploy-api.yml` | INTEGRATE | First GHCR push before Coolify app pull (D-03 workflow_dispatch). |
 | GHCR `docker/build-push-action` | INTEGRATE | `puzzlessbox-api`, `puzzlessbox-web`, `puzzlessbox-mcp` :latest + :sha-* (D-07). |
-| GHCR package visibility → Public (API) | MANUAL | GitHub Packages UI after first push (D-17); `gh api` package visibility returned 404 for org packages — user must confirm Public in UI. |
-| Coolify Deploy Webhook URL discovery | MANUAL | Pattern `https://puzzlesstool.online/api/v1/deploy?uuid={app-uuid}` documented; no dedicated list API in CLI/MCP (D-19). |
+| GHCR package visibility → Public (API) | OPT-OUT | GitHub Packages UI after first push (D-17); `gh api` package visibility returned 404 for org packages — human confirms Public in UI; no API integration. |
+| Coolify Deploy Webhook URL discovery | OPT-OUT | Pattern `https://puzzlesstool.online/api/v1/deploy?uuid={app-uuid}` documented; no dedicated list API in CLI/MCP (D-19) — human copies webhook URL. |
 | `execute_command` (MCP) | OPT-OUT | Documented as unavailable in Coolify API; not used. |
 | MCP `update_application` — health timings only | OPT-OUT | Schema exposes name/description only; timings via REST PATCH instead. |
 | `deploy-mcp.yml` POST webhook | OPT-OUT | Left as-is; API/Web use GET per D-06 (optional later align). |
@@ -29,5 +29,5 @@ Capability matrix for Phase 5 deployment automation. Classifications: **INTEGRAT
 ## Notes
 
 - **Health timings:** All three apps target D-14 (10s / 5s / 5 / 15s). MCP retuned in 05-04 via REST PATCH on `n5frtiupale5c2zjm9fyk1qc`.
-- **MANUAL fallbacks:** If PATCH/CLI unavailable, Coolify UI → app → Health Checks (D-19).
+- **UI fallbacks (OPT-OUT):** If PATCH/CLI unavailable, Coolify UI → app → Health Checks (D-19).
 - **Phase verification:** Final human checkpoint in 05-04-PLAN.md Task 3.
