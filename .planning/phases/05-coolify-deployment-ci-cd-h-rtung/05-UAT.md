@@ -3,15 +3,21 @@ status: complete
 phase: 05-coolify-deployment-ci-cd-h-rtung
 source: [05-01-SUMMARY.md, 05-02-SUMMARY.md, 05-03-SUMMARY.md, 05-04-SUMMARY.md, 05-VERIFICATION.md, docker-compose.yml, webapp/.env.local]
 started: 2026-08-03T02:26:00Z
-updated: 2026-08-03T02:37:00Z
-environment: local (OrbStack docker-compose + Next.js :3000)
+updated: 2026-08-03T02:52:00Z
+environment: local (OrbStack) + post-merge prod re-verify
 base_urls:
   web: http://localhost:3000
   api: http://localhost:8000
   mcp: http://localhost:8001
   postgres: 127.0.0.1:5433
+prod_urls:
+  web: https://pbox.puzzlesstool.online
+  api: https://api.puzzlesstool.online
+  mcp: https://mcp.puzzlesstool.online
 tester: gsd-browser + curl + local psql + shell subagent
-suite: deep-local-2026-08-03
+suite: deep-local-2026-08-03 + post-merge-prod-r3
+pr: https://github.com/clezcoding/puzzlessbox/pull/52
+deploy_web: https://github.com/clezcoding/puzzlessbox/actions/runs/30780220321
 response_language: de
 account_reset: |
   LOCAL wipe via psql 127.0.0.1:5433 then fresh signup
@@ -25,8 +31,10 @@ incident: |
   Board seed data on prod lost (notes/tasks) unless restored from Coolify
   backup ibaby40uszso4coqgxjtgp1b (2026-08-02).
 subagents:
-  - de93c176-c3bd-4514-8213-81afeac0243a (shell curl/artifacts)
-  - 0b69392b-4ab0-410d-8c01-0cd4fa6825a9 (browser board)
+  - de93c176-c3bd-4514-8213-81afeac0243a (shell curl/artifacts local)
+  - 0b69392b-4ab0-410d-8c01-0cd4fa6825a9 (browser board local)
+  - 1b5f96b2-0d7a-440b-a834-d92cf961b68f (shell curl prod post-merge)
+  - 11b97702-d75e-4d77-9a92-1d573d043d69 (browser prod post-merge)
 ---
 
 ## Current Test
@@ -222,7 +230,7 @@ notes: |
   Board fetch 200 only. Console: Next image aspect warning on apollo-wordmark
   (cosmetic). No 5xx, no CORS failures, JWKS/token 200.
 
-## Summary
+## Summary (local suite)
 
 total: 30
 passed: 30
@@ -230,6 +238,42 @@ issues: 0
 pending: 0
 skipped: 0
 blocked: 0
+
+## Post-merge Prod Re-verify (2026-08-03 r3)
+
+After PR #52 squash-merge + Deploy WebApp run 30780220321 success + Coolify `puzzlessbox-web` `running:healthy`.
+
+### Curl (15/15) — [Prod curl UAT](1b5f96b2-0d7a-440b-a834-d92cf961b68f)
+
+| ID | Result | Evidence |
+|----|--------|----------|
+| T1–T4 health | pass | pbox/api/mcp /health|/ready 200 |
+| T5 TLS redirect | pass | HTTP 302 → HTTPS all three FQDNs |
+| T6 API unauth | pass | categories 401 |
+| T7 MCP WWW-Auth | pass | `mcp.puzzlesstool.online` (no localhost) — G-05-5 holds |
+| T8–T9 login+JWT | pass | `__Secure-better-auth.session_token` HttpOnly Secure; token JWT |
+| T10–T11 API auth | pass | categories + board-items 200 (board empty []) |
+| T12 CORS | pass | ACAO `https://pbox.puzzlesstool.online` |
+| T13 JWKS | pass | EdDSA keys |
+| T14 signup lock | pass | 409 SIGNUP_LOCKED |
+| T15 route guard | pass | /board → 307 /login |
+
+### Browser — gsd-browser session `uat-prod-05-main`
+
+| Check | Result | Evidence |
+|-------|--------|----------|
+| Login → welcome → board | pass | uat@puzzless.local |
+| Board columns | pass | Inbox/Notizen/Links/Tasks/Termine (empty — expected post-incident) |
+| Network FQDN | pass | `https://api.puzzlesstool.online/categories` + `board-items` 200 |
+| Settings | pass | Account + Google Calendar + Darstellung |
+| Coolify | pass | uuid `qxpgv6p1rp3vupue9al8hbzz` status `running:healthy` |
+
+### Prod summary
+
+total: 15 curl + 5 browser
+passed: all
+issues: 0
+board_items: empty (seed lost in incident; capture path still healthy)
 
 ## Gaps
 
