@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 4
-current_phase_name: WebApp
-status: "Phase 5 shipped — PR #28"
-stopped_at: Completed 05-04-PLAN.md
-last_updated: "2026-08-02T21:35:43.442Z"
+current_phase: 04
+current_phase_name: webapp
+status: executing
+stopped_at: Completed 04-05-PLAN.md
+last_updated: "2026-08-03T00:06:51.211Z"
 progress:
   total_phases: 6
   completed_phases: 6
-  total_plans: 25
-  completed_plans: 25
+  total_plans: 26
+  completed_plans: 26
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 4 — WebApp
+- **Phase:** 04 (webapp) — EXECUTING
 - **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Plan:** Not started
-- **Status:** Phase 5 shipped — PR #28
+- **Plan:** 2 of 6
+- **Status:** Ready to execute
 - **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
 - **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
 - **UAT file:** `.planning/phases/04-webapp/04-UAT.md`
@@ -83,6 +83,7 @@ progress:
 | Phase 05-coolify-deployment-ci-cd-h-rtung P01 | 4min | 2 tasks | 2 files |
 | Phase 05-coolify-deployment-ci-cd-h-rtung P02 | 5min | 2 tasks | 5 files |
 | Phase 05 P04 | 40min | 3 tasks | 5 files |
+| Phase 04-webapp P05 | 5min | 5 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -127,10 +128,11 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-02T22:42:00Z
-- **Stopped at:** Completed quick 260803-001 (Coolify audit + Renovate PRs)
+- **Last session:** 2026-08-03T00:06:51.202Z
+- **Stopped at:** Completed 04-05-PLAN.md
 - **Resume file:** None
-- **Next recommended action:** milestone close / next milestone when ready
+- **Next recommended action:** `/gsd-execute-phase 4 --gaps-only` after gap plans (or fix Coolify env + rebuild web image)
+- **Prod UAT account:** `uat@puzzless.local` (first user after dbhub wipe)
 - **Phase 5 artifacts:** `05-CONTEXT.md`, `05-RESEARCH.md`, `05-VALIDATION.md`, `05-PATTERNS.md`, `05-01`..`05-04-PLAN.md`
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
@@ -183,3 +185,6 @@ progress:
 - [Phase ?]: COOLIFY_WEB_WEBHOOK via deploy API URL pattern (D-19)
 - [Phase ?]: MCP n5frtiupale5c2zjm9fyk1qc health retuned 10s/5s/5/15s via REST PATCH
 - [Phase ?]: Docker build context repo-root; brand/ required for globals.css import
+- [Phase ?]: CORS_ORIGINS in Coolify API env + config.py default includes pbox
+- [Phase ?]: NEXT_PUBLIC_* baked via Dockerfile ARG and deploy-web build-args
+- [Phase ?]: SIGNUP_LOCKED sessionStorage survives login remount on 409

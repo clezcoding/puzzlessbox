@@ -139,8 +139,11 @@ Plans:
   4. User kann sich über die WebApp-UI mit Email/Passwort einloggen (Better Auth) und bleibt über Browser-Refresh eingeloggt
   5. User kann in den Settings Google Calendar über separatem OAuth verbinden (nicht Better Auth Social)
 
-**Plans**: 5/5 plans executed
+**Plans**: 6/6 plans executed
 Plans:
+
+- [x] 04-05-PLAN.md
+
 **Wave 1** *(parallel — no file overlap)*
 
 - [x] 04-00-PLAN.md — Infra: Wave 0 Vitest/RTL config + shadcn init + Brand-Token-Wiring + api-client + auth-client + middleware (BOARD-01, CAP-05)
@@ -228,7 +231,7 @@ Plans:
 | 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
-| 4. WebApp | 5/5 | In Progress|  |
+| 4. WebApp | 6/6 | In Progress|  |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 
 ---
