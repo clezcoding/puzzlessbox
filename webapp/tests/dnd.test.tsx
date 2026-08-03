@@ -252,7 +252,7 @@ describe("Board DnD", () => {
     });
     expect(vi.mocked(moveItem)).toHaveBeenNthCalledWith(1, "item-1", "cat-b");
     expect(vi.mocked(moveItem)).toHaveBeenNthCalledWith(2, "item-2", "cat-b");
-    expect(toast.success).toHaveBeenCalledWith("Eintrag verschoben.", undefined);
+    expect(toast.success).toHaveBeenCalledWith("Einträge verschoben.", undefined);
 
     await waitFor(() => {
       expect(onMoved).toHaveBeenCalledTimes(1);

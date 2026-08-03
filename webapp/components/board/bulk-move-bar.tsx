@@ -41,12 +41,20 @@ export function BulkMoveBar({
         done += 1;
         if (toastId) toast.loading(`Verschiebe ${done}/${total}…`, { id: toastId });
       }
-      toast.success("Eintrag verschoben.", toastId ? { id: toastId } : undefined);
+      toast.success(
+        total > 1 ? "Einträge verschoben." : "Eintrag verschoben.",
+        toastId ? { id: toastId } : undefined,
+      );
       onMoved();
       onClear();
     } catch {
       if (toastId) toast.dismiss(toastId);
-      toast.error("Verschieben fehlgeschlagen. Eintrag ist zurück.");
+      if (done > 0) onMoved();
+      toast.error(
+        done > 0
+          ? `${done}/${total} verschoben, Rest fehlgeschlagen.`
+          : "Verschieben fehlgeschlagen. Eintrag ist zurück.",
+      );
     }
   }
 
