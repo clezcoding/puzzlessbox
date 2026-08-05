@@ -15,7 +15,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 1: Datenmodell & Backend-API** - Postgres-Schema mit `owner_id`, FastAPI-CRUD, Better Auth, Link-Scraper, Google-Calendar-Sync (completed 2026-07-30)
 - [x] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS (completed 2026-07-31)
 - [x] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan (completed 2026-08-01)
-- [ ] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige
+- [x] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige (completed 2026-08-05)
 - [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
 
 ## Phase Details
@@ -236,7 +236,7 @@ Plans:
 | 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
-| 4. WebApp | 8/8 | In Progress|  |
+| 4. WebApp | 8/8 | Complete    | 2026-08-05 |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 
 ---
