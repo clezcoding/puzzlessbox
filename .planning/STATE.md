@@ -5,12 +5,12 @@ milestone_name: milestone
 current_phase: 04
 current_phase_name: webapp
 status: executing
-stopped_at: Phase 5 post-merge prod UAT r3 complete (PR #52 shipped)
-last_updated: "2026-08-03T02:52:00.000Z"
+stopped_at: Deep prod UAT r3 complete — bulk pass; SIGNUP_LOCKED VOICE copy gap
+last_updated: "2026-08-03T03:39:35.307Z"
 progress:
   total_phases: 6
   completed_phases: 6
-  total_plans: 27
+  total_plans: 28
   completed_plans: 27
 ---
 
@@ -132,10 +132,12 @@ progress:
 - **Last session:** 2026-08-03T02:11:02.307Z
 - **Stopped at:** Completed 04-06-PLAN.md
 - **Resume file:** None
-- **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` (11/12 pass)
-- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `2fde6c9a…` after dbhub wipe)
-- **Open minor gaps:** G-04-4 sticky SIGNUP_LOCKED copy; G-04-6 bulk bar automation; G-05-4 openapi.json public
-- **Next recommended action:** merge/deploy web → `/gsd-verify-work 04` for UAT #11
+- **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` + ops r3 (17 pass / 1 warn)
+- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `d7744538…` after dbhub wipe r3)
+- **Phase 4 UAT r3:** `.planning/phases/04-webapp/04-UAT.md` — 17/18 pass; bulk #11 closed
+- **Open gaps:** G-04-4 sticky SIGNUP_LOCKED VOICE copy (major)
+- **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404)
+- **Next recommended action:** `/gsd-plan-phase 04 --gaps` for SIGNUP_LOCKED UI fix
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor, fireEvent, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { LoginForm } from "@/app/login/login-form";
+import { LoginForm, isSignupLockedError } from "@/app/login/login-form";
 import BoardPage from "@/app/board/page";
 import { BoardHeader } from "@/components/board/board-header";
 import { getBoardItems, getCategories } from "@/lib/api-client";
@@ -68,6 +68,78 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+});
+
+describe("isSignupLockedError envelope shapes", () => {
+  it("detects flat message field", () => {
+    expect(
+      isSignupLockedError({ message: "SIGNUP_LOCKED", status: 409, statusText: "Conflict" }),
+    ).toBe(true);
+  });
+
+  it("detects code field instead of message", () => {
+    expect(isSignupLockedError({ code: "SIGNUP_LOCKED", status: 409 })).toBe(true);
+  });
+
+  it("detects nested body.message", () => {
+    expect(isSignupLockedError({ status: 409, body: { message: "SIGNUP_LOCKED" } })).toBe(
+      true,
+    );
+  });
+
+  it("detects response-wrapped body.message", () => {
+    expect(
+      isSignupLockedError({
+        status: 409,
+        response: { body: { message: "SIGNUP_LOCKED" } },
+      }),
+    ).toBe(true);
+  });
+
+  it("detects json field variant", () => {
+    expect(isSignupLockedError({ status: 409, json: { message: "SIGNUP_LOCKED" } })).toBe(
+      true,
+    );
+  });
+
+  it("detects plain string SIGNUP_LOCKED", () => {
+    expect(isSignupLockedError("SIGNUP_LOCKED")).toBe(true);
+  });
+
+  it("detects deep stringify fallback for uncommon nesting", () => {
+    expect(
+      isSignupLockedError({ status: 409, data: { error: { reason: "SIGNUP_LOCKED" } } }),
+    ).toBe(true);
+  });
+
+  it("detects nested body on circular refs without throwing", () => {
+    const error: Record<string, unknown> = {
+      status: 409,
+      body: { message: "SIGNUP_LOCKED" },
+    };
+    error.self = error;
+    expect(isSignupLockedError(error)).toBe(true);
+  });
+
+  it("returns false for null", () => {
+    expect(isSignupLockedError(null)).toBe(false);
+  });
+
+  it("returns false for undefined", () => {
+    expect(isSignupLockedError(undefined)).toBe(false);
+  });
+
+  it("returns false for empty object", () => {
+    expect(isSignupLockedError({})).toBe(false);
+  });
+
+  it("returns false for INVALID_PASSWORD", () => {
+    expect(isSignupLockedError({ message: "INVALID_PASSWORD" })).toBe(false);
+  });
+
+  it("returns false for status 500 without SIGNUP_LOCKED", () => {
+    expect(isSignupLockedError({ status: 500, message: "Internal Server Error" })).toBe(false);
+  });
 });
 
 describe("LoginPage", () => {
