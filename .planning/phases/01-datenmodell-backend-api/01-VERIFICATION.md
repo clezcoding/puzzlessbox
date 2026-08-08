@@ -1,6 +1,6 @@
 ---
 phase: 01-datenmodell-backend-api
-verified: 2026-07-31T00:42:00Z
+verified: 2026-08-05T19:40:00Z
 status: passed
 score: 5/5 must-haves verified
 behavior_unverified: 0
@@ -8,19 +8,19 @@ overrides_applied: 0
 human_verification:
   - test: "Production Better Auth signup lock (live webapp)"
     expected: "First signup on webapp succeeds; second signup returns SIGNUP_LOCKED/409"
-    why_human: "Deferred — webapp not deployed; hook covered by mocked integration tests"
+    why_human: "Covered by Phase 4 webapp UAT; Phase 1 keeps mocked signup-lock integration tests"
   - test: "Production Google Calendar full browser OAuth"
     expected: "Browser connect → callback → calendars list"
-    why_human: "Deferred — API connect returns 302; full UAT needs webapp + Google Console"
+    why_human: "Deferred — API connect returns 302; full browser UAT in Phase 4 webapp + Google Console"
 ---
 
 # Phase 1: Datenmodell & Backend-API Verification Report
 
 **Phase Goal:** Backend-API und Datenmodell stehen mit Mehrmandantenfähigkeit (`owner_id`) von Tag 1, Auth ist integriert, und Capture/Link/Kalender-Backendlösungen sind end-to-end über die API nutzbar.
 
-**Verified:** 2026-07-31T00:42:00Z  
+**Verified:** 2026-08-05T19:40:00Z  
 **Status:** passed  
-**Re-verification:** Yes — 2026-07-31 automated UAT + cookie replay test + prod smoke
+**Re-verification:** Yes — 2026-08-05 automated `/gsd-verify-work 1`: local pytest 73 passed (cold wipe + alembic), prod health/ready/links/OAuth-302/Accept-415/scraper-public-503; COVERAGE.md added for api-coverage gate
 
 ## Goal Achievement
 

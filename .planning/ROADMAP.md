@@ -17,6 +17,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan (completed 2026-08-01)
 - [x] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige (completed 2026-08-05)
 - [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
+- [x] **Phase 05.1: Address tech debt: G-05-7 + security harden advisories** (INSERTED) - Local MCP bootstrap + security harden advisories
 
 ## Phase Details
 
@@ -193,6 +194,23 @@ Plans:
 
 - [x] 05-04-PLAN.md — WebApp Coolify app + domain pbox.puzzlesstool.online + webhook + first deploy + /api/health verify + MCP health retune to D-14 + COVERAGE.md + final phase verification (OPS-01, OPS-02, OPS-04 web+MCP slice, D-01, D-03, D-13, D-14, D-15, D-19)
 
+### Phase 05.1: Address tech debt: G-05-7 + security harden advisories (INSERTED)
+
+**Goal:** Close milestone tech debt from Phase 5 / v1.0 audit: (1) local MCP bootstrap so first-user → MCP initialize works without manual SQL (G-05-7), (2) production security harden advisories — HSTS on Coolify/Traefik for pbox/api/mcp, strip Server/X-Powered-By banners (proxy + Next.js poweredByHeader: false), and serve minimal RFC 9728 protected-resource metadata stub at URL already advertised in MCP WWW-Authenticate.
+**Requirements**: TBD (covered by CONTEXT D-01..D-12)
+**Depends on:** Phase 5
+**Plans:** 3/3 plans executed
+
+Plans:
+**Wave 1** *(parallel — no file overlap)*
+
+- [x] 05.1-01-PLAN.md — TRACER: local MCP auto-bootstrap on /internal/mcp-auth (G-05-7, D-01..D-05) — atomic count+insert, prod refuse, never log plaintext, lifespan ensure_* preserved
+- [x] 05.1-02-PLAN.md — TRACER: RFC 9728 well-known stub at /.well-known/oauth-protected-resource/mcp (D-10..D-12) — no fake authorization_servers, closes advertised-URL 404
+
+**Wave 2** *(blocked on Wave 1 — live prod verify depends on deployed code)*
+
+- [x] 05.1-03-PLAN.md — HSTS + banner strip Coolify/Traefik for pbox/api/mcp + Next.js poweredByHeader: false (D-06..D-09) — runbook + Coolify MCP label attempt + checkpoint:human-verify live curl
+
 ## Coverage
 
 | Requirement | Phase |
@@ -238,7 +256,8 @@ Plans:
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
 | 4. WebApp | 8/8 | Complete    | 2026-08-05 |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
+| 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
 
 ---
 *Roadmap created: 2026-07-28*
-*Next: `/gsd-plan-phase 0` (oder `/gsd-discuss-phase 0` für Branding-Entscheidungen)*
+*Next: `/gsd-plan-phase 05.1`*

@@ -6,6 +6,7 @@ const repoRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  poweredByHeader: false,
   // webapp lives under repo root; brand/tokens.css is imported from globals.css.
   turbopack: {
     root: repoRoot,

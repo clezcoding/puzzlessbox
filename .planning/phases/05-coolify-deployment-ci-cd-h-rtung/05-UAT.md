@@ -3,8 +3,8 @@ status: complete
 phase: 05-coolify-deployment-ci-cd-h-rtung
 source: [05-01-SUMMARY.md, 05-02-SUMMARY.md, 05-03-SUMMARY.md, 05-04-SUMMARY.md, 05-VERIFICATION.md, docker-compose.yml, webapp/.env.local]
 started: 2026-08-03T02:26:00Z
-updated: 2026-08-03T02:52:00Z
-environment: local (OrbStack) + post-merge prod re-verify
+updated: 2026-08-05T20:10:00Z
+environment: local (OrbStack) + post-merge prod re-verify + deep-prod-r5 + deep-prod-r6
 base_urls:
   web: http://localhost:3000
   api: http://localhost:8000
@@ -299,7 +299,7 @@ board_items: empty (seed lost in incident; capture path still healthy)
     or add local profile; unset shell DATABASE_URL when developing webapp.
 
 - truth: "docker-compose should bootstrap MCP client for local first user"
-  status: open
+  status: resolved
   reason: "SERVICE_OWNER_ID + MCP_BOOTSTRAP_TOKEN absent; MCP initialize fails until manual INSERT"
   severity: minor
   test: 18
@@ -310,6 +310,12 @@ board_items: empty (seed lost in incident; capture path still healthy)
   missing:
     - "Document post-signup bootstrap or add compose env after first user exists"
   debug_session: ""
+  resolved_at: "2026-08-08"
+  resolution: |
+    Closed by Phase 05.1 Plan 01: check_and_bootstrap_first_user on /internal/mcp-auth
+    auto-creates mcp_clients + service_principals for first Better Auth user when
+    mcp_clients empty. Prod still requires MCP_BOOTSTRAP_TOKEN (D-02). Deploy of
+    API image to prod still pending (gsd branch not yet on main).
 
 ## Prior Gaps Reconciliation (prod baseline)
 
@@ -317,7 +323,7 @@ board_items: empty (seed lost in incident; capture path still healthy)
 |-----|--------|
 | G-05-1..G-05-5 | resolved in prior prod UAT (reference only) |
 | G-05-6 dbhub/prod DSN | new — tooling follow-up (see Gaps) |
-| G-05-7 local MCP bootstrap | open minor |
+| G-05-7 local MCP bootstrap | resolved via 05.1-01 (deploy pending) |
 
 ## Incident Log
 
@@ -325,3 +331,204 @@ board_items: empty (seed lost in incident; capture path still healthy)
 2. **Emergency recovery**: POST https://pbox.puzzlesstool.online/api/auth/sign-up/email → user 5ee91aa3…; signup locked.
 3. **Optional**: Restore Coolify backup `ibaby40uszso4coqgxjtgp1b` if prior board seed required (will rewind DB to 2026-08-02).
 4. **Local path corrected**: all subsequent DB ops via `PGPASSWORD=… psql -h 127.0.0.1 -p 5433`.
+
+---
+
+## Prod Ops Re-Verify r3 (2026-08-03T03:01Z)
+
+tester: [Ops curl UAT](417ca262-164c-4280-91a8-465f67ecd6c2) + Coolify MCP/CLI  
+suite: deep-prod-ops-2026-08-03-r3
+
+| Check | Result | Evidence |
+|-------|--------|----------|
+| api/mcp/web Coolify status | pass | all `running:healthy` (pasmduuz… / n5frtiup… / qxpgv6p1…) |
+| Live /health ×3 | pass | 200 ok |
+| api /ready | pass | 200 ready |
+| docs/redoc/openapi.json | pass | 404 (prod hardened) |
+| MCP no-auth + wrong bearer | pass | 401; WWW-Authenticate uses mcp.puzzlesstool.online |
+| TLS LE all hosts | pass | ssl_verify_result 0 |
+| Old API `dxoflgio67786lc4yilhce43` | pass | already deleted (404 Application not found) — no delete needed |
+| Env completeness | pass | API auth/DB/service/scraper/CORS/MCP_BOOTSTRAP; MCP SERVICE_BEARER+MCP_API_BASE_URL+MCP_PUBLIC_BASE_URL; Web BETTER_AUTH_*+NEXT_PUBLIC_*+DATABASE_URL |
+| JWKS | pass | `/api/auth/jwks` 200 EdDSA; `/.well-known/jwks.json` 404 (expected) |
+| categories bare GET | warn | 415 without Accept; with Accept v1 → 401 |
+
+ops_summary: 17 pass / 1 warn / 0 fail
+
+---
+
+## Prod Deep UAT r5 (2026-08-05)
+
+tester: main session (gsd-browser `uat-r5`) + [Ops curl UAT](a195555d-a2fe-40ab-8c39-5050c0cae67f) + Coolify MCP/CLI + dbhub coolify  
+suite: deep-prod-2026-08-05-r5  
+prod_urls: pbox / api / mcp @ puzzlesstool.online  
+account_reset: true  
+wipe: cascade-deleted prior first user `d7744538…` (+ race `second@` `686f5c2c…`)  
+fresh_user: `a37a33c9-1a59-4f84-96bd-9ebdc842aeaa` (`uat@puzzless.local` / `UatTestPass1!`)
+
+### Task 2 — Coolify inventory + env
+
+| Check | Result | Evidence |
+|-------|--------|----------|
+| puzzlessbox-api-ghcr `pasmduuz…` | pass | `running:healthy` · `ghcr.io/clezcoding/puzzlessbox-api:latest` · `/health` |
+| puzzlessbox-mcp `n5frtiup…` | pass | `running:healthy` · `/health` |
+| puzzlessbox-web `qxpgv6p1…` | pass | `running:healthy` · `/api/health` |
+| Live health ×4 | pass | api `/health`+`/ready`, mcp `/health`, web `/api/health` → 200 |
+| Old API `dxoflgio67786lc4yilhce43` | pass | already deleted (MCP+CLI 404) — delete noop |
+| API env complete | pass | DATABASE_URL, GOOGLE_*, ENCRYPTION_KEY, BETTER_AUTH_JWKS/BASE, CORS_ORIGINS (pbox), SERVICE_*, SCRAPER/FIRECRAWL/CAMOUFOX, MCP_BOOTSTRAP_TOKEN |
+| Web env complete | pass | DATABASE_URL, BETTER_AUTH_URL/SECRET, NEXT_PUBLIC_APP/API_URL, NODE_ENV=production |
+| MCP env complete | pass | SERVICE_BEARER_TOKEN, MCP_API_BASE_URL, MCP_PUBLIC_BASE_URL, ENV=prod |
+| Advisory MCP_API_BASE_URL | warn | prod value public `https://api…` (works); preview still internal docker hostname |
+| Traefik | warn | host 3.6.13 vs latest 3.6.23 — record only |
+
+### Task 1 — Account wipe + first signup
+
+| Check | Result | Evidence |
+|-------|--------|----------|
+| Cascade wipe | pass | sessions/account/notes/tasks/owner-cats/user → 0; seed cats 5 preserved |
+| First-user signup | pass | gsd-browser register fill+`requestSubmit` (Radix tab `click_ref` flake) → `/welcome` |
+| Fresh owner | pass | `a37a33c9…` / `uat@puzzless.local` |
+
+### Ops curl suite ([Ops](a195555d-a2fe-40ab-8c39-5050c0cae67f)) — 18 pass / 1 fail / 4 warn
+
+| ID | Result | Notes |
+|----|--------|-------|
+| Health/ready/JWKS/CORS/401/415/guards/Apollo assets/TLS | pass | as listed in subagent JSON |
+| Homepage bundle host smoke | fail→**reclassified pass** | homepage entry chunks lack literal host; **board chunks** `apiHost=1 localhost8000=0` |
+| Signup probe second@ | warn | raced wipe (created first user briefly); wiped again before real signup |
+| MCP invalid bearer root | warn | bare GET 404; POST `/mcp` → **401** + WWW-Authenticate mcp FQDN (deep recheck pass) |
+| Security headers | warn | HSTS + x-content-type-options present; fuller CSP not required v1 |
+| Coolify from shell | warn | MCP/CLI used instead — inventory confirmed |
+
+### Browser deep (gsd-browser session `uat-r5`)
+
+| # | Test | Result | Evidence |
+|---|------|--------|----------|
+| 1 | HTTPS login brand | pass | Apollo splash; Instrument Serif h1; tabs Anmelden\|Registrieren |
+| 2 | First-user register | pass | → `/welcome`; session cookie |
+| 3 | Welcome → board | pass | „Los geht's“ → `/board`; `pb.welcome.seen=true` |
+| 4 | 5 columns desktop | pass | Inbox\|Notizen\|Links\|Tasks\|Termine; offline=false |
+| 5 | API XHR host | pass | network: `api.puzzlesstool.online/categories` + `/board-items` 200 |
+| 6 | Signup lock API | pass | POST second@ → 409 `SIGNUP_LOCKED` |
+| 7 | Signup lock UI | pass | VOICE copy sticky; `pb.signup_locked=1`; no generic fail copy |
+| 8 | Capture→board poll | pass | seeded 3 notes+2 tasks via `/drafts`+confirm; 5× toast „Eintrag gesichert…“ |
+| 9 | Item modal + autosave | pass | dialog w=512≤560; title DB `UAT Note 1 edited` |
+| 10 | Bulk move (API + UI) | pass | API: Note2/3 → Links. UI ([Board deep UAT](a0571636-d583-4a66-af43-42d505460668)): 2 ausgewählt → Links; DB notes `55baeec3…`+`85229b33…` → `ccd452ba…` |
+| 11 | Categories create | pass/warn | API create `UAT-Cat-R5` owner=`a37a33c9…`; seed NULL=5. UI panel: create skipped (already existed) — ownership invariants verified |
+| 12 | Settings surface | pass | Account / Google Calendar („Mit Google verbinden“) / Darstellung |
+| 13 | Theme dark | pass | `pb.theme=dark`; `html.dark`; persists after logout |
+| 14 | Logout | pass | Abmelden → `/login` |
+| 15 | Mobile iPhone 15 | pass | w=393; tablist 5 cats; single column h2=Inbox |
+| 16 | MCP unauth | pass | POST `/mcp` 401; WWW-Authenticate mcp FQDN |
+| 17 | Unauth guards | pass | `/board`+`/settings` → 307 `/login?next=` |
+
+### Browser board2 suite ([Board deep UAT](a0571636-d583-4a66-af43-42d505460668)) — 8 pass / 1 warn
+
+| ID | Result | Notes |
+|----|--------|-------|
+| login→board | pass | session `uat-r5-board2` |
+| 5 columns + no offline | pass | Inbox\|Notizen\|Links\|Tasks\|Termine |
+| modal body click + autosave | pass | title toggle persisted DB `55baeec3…` |
+| bulk select → Links | pass | bar `2 ausgewählt`; DB category_id Links |
+| categories panel create | warn | `UAT-Cat-R5` pre-existed; owner + seed NULL verified |
+| theme dark | pass | `pb.theme=dark` + `html.dark` |
+| logout | pass | → `/login` |
+| signup lock UI | pass | 409 + VOICE copy + `pb.signup_locked=1` |
+| mobile iPhone 15 | pass | tablist + single column Inbox |
+
+### Browser notes / flakes
+
+- Radix Tabs `Registrieren`/`Anmelden`: `browser_click_ref` often leaves `data-state=inactive`. Workaround: native InputEvent fill + `form.requestSubmit()` on forceMounted panels.
+- Capture endpoint is `/drafts` (not `/capture/drafts`).
+- Homepage-only chunk grep misses baked `NEXT_PUBLIC_API_URL`; verify board-route chunks or live XHR host.
+
+### r5 summary
+
+| Bucket | pass | fail | warn |
+|--------|------|------|------|
+| Coolify Task 2 | 10 | 0 | 2 |
+| Account wipe/signup | 3 | 0 | 0 |
+| Ops curl (after reclass) | 19 | 0 | 3 |
+| Browser deep (main) | 17 | 0 | 0 |
+| Browser board2 | 8 | 0 | 1 |
+| **Total** | **57** | **0** | **6** |
+
+open_gaps_unchanged:
+- G-05-7 local MCP bootstrap — resolved in Phase 05.1 (code); prod API image deploy still pending
+- dbhub DSN still points at prod — intentional for this prod UAT; keep caution for local work
+
+---
+
+## Prod Deep UAT r6 (2026-08-05) — milestone audit companion
+
+tester: main + [curl ops](3f08a9bf-2a49-4e44-be47-18e60382b1fe) + [integration](de8bfc90-f5bf-4a77-9cd3-12dd2c30a377) + gsd-browser `uat-r6`  
+suite: deep-prod-2026-08-05-r6 /gsd-audit-milestone  
+prod_urls: pbox / api / mcp @ puzzlesstool.online  
+wipe: cascade `a37a33c9…` + accidental probe `f89a50aa…`  
+fresh_user: `1ac8eb47-6526-472a-8267-bbf7b02eff73` (`uat@puzzless.local` / `UatTestPass1!`)  
+SERVICE_OWNER_ID: updated to fresh user + API restart → `/ready` 200
+
+### Task 1 — Wipe + first account
+
+| Check | Result | Evidence |
+|-------|--------|----------|
+| Cascade wipe | pass | users/accounts/sessions=0; seed cats 5 |
+| Probe race wipe | pass | curl probe stole slot briefly → wiped |
+| First signup | pass | POST `/api/auth/sign-up/email` 200 → `1ac8eb47…` |
+| Signup lock | pass | 2nd+ → 409 `SIGNUP_LOCKED` |
+
+### Task 2 — Coolify
+
+| Check | Result | Evidence |
+|-------|--------|----------|
+| api/mcp/web healthy | pass | CLI+MCP `running:healthy`; live health×4 200 |
+| Env keys complete | pass | API 17 / MCP 4 / Web 6 (values not logged) |
+| Old API `dxoflgio…` | pass | already 404 — delete noop |
+| SERVICE_OWNER_ID retarget | pass | → new first user; restart queued; ready OK |
+
+### Curl deep — 16 pass / 0 fail / 4 warn
+
+docs 404, JWKS, CORS, unauth 401, MCP WWW-Auth prod host, workflows. Warns: HSTS, Server banners, oauth well-known 404, Accept 415 nuance.
+
+### Browser deep (`uat-r6`)
+
+| # | Test | Result | Evidence |
+|---|------|--------|----------|
+| 1 | Login → welcome → board | pass | Apollo + Los geht's |
+| 2 | 5 seed columns + empty VOICE | pass | Inbox…Termine |
+| 3 | Create `UAT-Cat` | pass | sheet Anlegen → column |
+| 4 | Draft note/task + link scrape | pass | board cards; Example Domain metadata |
+| 5 | Move via PATCH `/items/{id}` | pass | link → Inbox |
+| 6 | Item detail edit Verstauen | pass | title DB `UAT Note Edited` |
+| 7 | Settings Google CTA | pass | Mit Google verbinden |
+| 8 | XHR api host | pass | `api…/categories`+`/board-items` 200; no localhost |
+| 9 | Logout | pass | Abmelden → /login |
+| 10 | Signup sticky VOICE | pass | „Registrierung ist geschlossen…“ + `pb.signup_locked=1` |
+
+### Browser board suite ([Deep browser board UAT](e09ab167-17a9-419b-b4d3-5c4b6bfc772f) session `uat-r6-a2`) — 16 pass / 0 fail / 2 warn
+
+| ID | Result | Notes |
+|----|--------|-------|
+| login UI | warn | Anmelden fill flake; XHR sign-in 200 → /welcome OK |
+| welcome→board | pass | Los geht's |
+| signup sticky VOICE | pass | closed copy + `pb.signup_locked=1` + 409 |
+| re-login | warn | UI bounce once; XHR session + /board OK |
+| 5 columns | pass | Inbox…Termine |
+| note/task/link create | pass | drafts+confirm; scrape titles on board |
+| single-item Radix move | warn | menu flake; PATCH `/items/{id}` 200 |
+| bulk move | pass | 2 ausgewählt → Inbox |
+| modal autosave | pass | Eintrag bearbeiten title EDITED |
+| empty VOICE / settings / GCal CTA | pass | as listed |
+| XHR api host / health / brand | pass | api.puzzlesstool.online; no localhost; console critical=0 |
+
+### r6 summary
+
+| Bucket | pass | fail | warn |
+|--------|------|------|------|
+| Task 1 account | 4 | 0 | 0 |
+| Task 2 Coolify | 4 | 0 | 0 |
+| Curl | 16 | 0 | 4 |
+| Browser main | 10 | 0 | 0 |
+| Browser board a2 | 16 | 0 | 2 |
+| **Total** | **50** | **0** | **6** |
+
+Audit report: `.planning/v1.0-MILESTONE-AUDIT.md` (`tech_debt` — 28/28 reqs; Nyquist NOT-VALIDATED ×5)

@@ -3,10 +3,11 @@ phase: 5
 slug: coolify-deployment-ci-cd-h-rtung
 # status lifecycle: draft (seeded by plan-phase) → validated (set by validate-phase §6)
 # audit-milestone §5.5 distinguishes NOT-VALIDATED (draft) from PARTIAL (validated + nyquist_compliant: false) (#2117)
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-08-02
+validated: 2026-08-05
 ---
 
 # Phase 5 — Validation Strategy
@@ -19,31 +20,33 @@ created: 2026-08-02
 
 | Property | Value |
 |----------|-------|
-| **Framework** | Vitest (webapp) & pytest (api) |
-| **Config file** | `webapp/vitest.config.ts`, `api/pytest.ini` |
-| **Quick run command** | `pnpm --filter puzzlessbox-webapp test` / `pytest api/ -q` |
-| **Full suite command** | `pnpm --filter puzzlessbox-webapp test && pytest api/ -q` |
+| **Framework** | Vitest (webapp) & pytest (api) & node:test (workflows) |
+| **Config file** | `webapp/vitest.config.ts`, `api/pytest.ini`, `tests/deploy-workflows.test.js` |
+| **Quick run command** | `pnpm --filter puzzlessbox-webapp test` / `pytest api/ -q` / `node --test tests/deploy-workflows.test.js` |
+| **Full suite command** | `pnpm --filter puzzlessbox-webapp test && pytest api/ -q && node --test tests/deploy-workflows.test.js` |
 | **Estimated runtime** | ~60–120 seconds |
 
 ---
 
 ## Sampling Rate
 
-- **After every task commit:** Run relevant quick suite (webapp health route → vitest; API/Dockerfile → pytest smoke if touched)
+- **After every task commit:** Run relevant quick suite (webapp health route → vitest; API/Dockerfile → pytest smoke if touched; workflows → node:test)
 - **After every plan wave:** Full suite green
 - **Before `/gsd-verify-work`:** Full suite must be green + live OPS smoke curls
 - **Max feedback latency:** 120 seconds
 
 ---
 
-## Per-Task Verification Map
+Per-Task Verification Map
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|----------------|-----------------|-----------|-------------------|-------------|--------|
-| 05-*-* | TBD | TBD | OPS-01 | T-05-01 | Webhook URLs only in GitHub Secrets | smoke | `curl -sS -o /dev/null -w '%{http_code}' https://api.puzzlesstool.online/health` | ✅ Live | ⬜ pending |
-| 05-*-* | TBD | TBD | OPS-02 | T-05-01 | No hardcoded Coolify webhook in YAML | smoke | `actionlint` / `gh workflow view` | ✅ Live | ⬜ pending |
-| 05-*-* | TBD | TBD | OPS-03 | T-05-02 | Local backup schedule enabled | smoke | `coolify --context hostunlimited database backup list pfqgb5pcvgi9oh64bpe3shtn` | ✅ Live | ⬜ pending |
-| 05-*-* | TBD | TBD | OPS-04 | — | Unauth `/health` liveness only (not `/ready` gate) | smoke | `curl -sS https://pbox.puzzlesstool.online/api/health` | ❌ W0 | ⬜ pending |
+| 05-01-01 | 05-01 | W0 | OPS-03 | T-05-02 | Local backup schedule enabled | manual | `coolify --context hostunlimited database backup list pfqgb5pcvgi9oh64bpe3shtn` | ✅ Live | ✅ green |
+| 05-03-01 | 05-03 | W0 | OPS-01 | T-05-01 | Webhook URLs only in GitHub Secrets (API) | manual | `curl -sS -o /dev/null -w '%{http_code}' https://api.puzzlesstool.online/health` | ✅ Live | ✅ green |
+| 05-03-02 | 05-03 | W0 | OPS-02 | T-05-01 | No hardcoded Coolify webhook in YAML (API) | unit | `node --test tests/deploy-workflows.test.js` | ✅ Live | ✅ green |
+| 05-04-01 | 05-04 | W0 | OPS-01 | T-05-01 | Webhook URLs only in GitHub Secrets (Web) | manual | `curl -sS -o /dev/null -w '%{http_code}' https://pbox.puzzlesstool.online/api/health` | ✅ Live | ✅ green |
+| 05-04-02 | 05-04 | W0 | OPS-02 | T-05-01 | No hardcoded Coolify webhook in YAML (Web) | unit | `node --test tests/deploy-workflows.test.js` | ✅ Live | ✅ green |
+| 05-02-01 | 05-02 | W0 | OPS-04 | — | Unauth `/health` liveness only (not `/ready` gate) | unit | `pnpm --filter puzzlessbox-webapp test run app/api/health/route.test.ts` | ✅ Live | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -53,8 +56,8 @@ created: 2026-08-02
 
 ## Wave 0 Requirements
 
-- [ ] WebApp unauthenticated health route test (e.g. `webapp` route handler returns 200) — if not covered by existing vitest
-- [ ] Workflow files present: `.github/workflows/deploy-api.yml`, `deploy-web.yml` — syntax via `actionlint` when installed
+- [x] WebApp unauthenticated health route test (e.g. `webapp` route handler returns 200) — if not covered by existing vitest
+- [x] Workflow files present: `.github/workflows/deploy-api.yml`, `deploy-web.yml` — syntax via `actionlint` when installed
 - Existing infrastructure: `api` `/health`+`/ready`, `deploy-mcp.yml` pattern, Coolify CLI/MCP for live smoke
 
 ---
@@ -72,11 +75,11 @@ created: 2026-08-02
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 120s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 120s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved

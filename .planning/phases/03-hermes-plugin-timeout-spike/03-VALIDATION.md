@@ -3,10 +3,11 @@ phase: 3
 slug: hermes-plugin-timeout-spike
 # status lifecycle: draft (seeded by plan-phase) → validated (set by validate-phase §6)
 # audit-milestone §5.5 distinguishes NOT-VALIDATED (draft) from PARTIAL (validated + nyquist_compliant: false) (#2117)
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-08-01
+validated: 2026-08-05
 ---
 
 # Phase 3 — Validation Strategy
@@ -25,6 +26,8 @@ created: 2026-08-01
 | **Full suite command** | `pytest api/tests/ mcp-server/tests/ hermes-plugin/tests/` |
 | **Estimated runtime** | ~60 seconds |
 
+> **Note on API testing:** API tests require `PATH=api/.venv/bin:$PATH` and a `postgresql+psycopg2` DATABASE_URL (not `postgres://`).
+
 ---
 
 ## Sampling Rate
@@ -40,11 +43,11 @@ created: 2026-08-01
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 03-W0 | 01 | 0 | CAP-02 | — | N/A | unit | `pytest hermes-plugin/tests/test_formatter.py -x` | ❌ W0 | ⬜ pending |
-| 03-CAP02 | 01 | 1 | CAP-02 | — | N/A | unit | `pytest hermes-plugin/tests/test_formatter.py -x` | ❌ W0 | ⬜ pending |
-| 03-CAP04 | 02 | 1 | CAP-04 | — | N/A | integration | `pytest hermes-plugin/tests/test_channels.py -x` | ❌ W0 | ⬜ pending |
-| 03-MCP03 | 02 | 2 | MCP-03 | T-03-01 | Bearer only via env; no DB from VPS | integration | `pytest hermes-plugin/tests/test_orchestration.py -x` | ❌ W0 | ⬜ pending |
-| 03-MCP04 | 03 | 1 | MCP-04 | — | N/A | integration | `pytest api/tests/integration/test_capture.py::test_autosave -x` | ✅ | ⬜ pending |
+| 03-W0 | 01 | 0 | CAP-02 | — | N/A | unit | `pytest hermes-plugin/tests/test_formatter.py -x` | ✅ | ✅ green |
+| 03-CAP02 | 01 | 1 | CAP-02 | — | N/A | unit | `pytest hermes-plugin/tests/test_formatter.py -x` | ✅ | ✅ green |
+| 03-CAP04 | 02 | 1 | CAP-04 | — | N/A | integration | `pytest hermes-plugin/tests/test_channels.py -x` | ✅ | ✅ green |
+| 03-MCP03 | 02 | 2 | MCP-03 | T-03-01 | Bearer only via env; no DB from VPS | integration | `pytest hermes-plugin/tests/test_orchestration.py -x` | ✅ | ✅ green |
+| 03-MCP04 | 03 | 1 | MCP-04 | — | N/A | integration | `pytest api/tests/integration/test_capture.py::test_autosave -x` | ✅ | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -52,10 +55,10 @@ created: 2026-08-01
 
 ## Wave 0 Requirements
 
-- [ ] `hermes-plugin/tests/test_formatter.py` — stubs for CAP-02 template generation
-- [ ] `hermes-plugin/tests/test_orchestration.py` — stubs for MCP-03 tool call chains
-- [ ] `hermes-plugin/tests/test_channels.py` — stubs for CAP-04 channel-agnostic flow
-- [ ] `hermes-plugin/tests/conftest.py` — shared fixtures / MCP client mocks
+- [x] `hermes-plugin/tests/test_formatter.py` — stubs for CAP-02 template generation
+- [x] `hermes-plugin/tests/test_orchestration.py` — stubs for MCP-03 tool call chains
+- [x] `hermes-plugin/tests/test_channels.py` — stubs for CAP-04 channel-agnostic flow
+- [x] `hermes-plugin/tests/conftest.py` — shared fixtures / MCP client mocks
 
 ---
 
@@ -69,11 +72,21 @@ created: 2026-08-01
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 60s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 60s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved
+
+---
+
+## Validation Audit 2026-08-05
+
+- **Gaps:** 0
+- **Resolved:** 0
+- **Escalated:** 0
+- **Auditor:** Nyquist Auditor
+- **Status:** green
