@@ -42,10 +42,19 @@ def test_deploy_workflow_valid() -> None:
     on_push = data.get(on_key, {}).get("push", {})
     paths = on_push.get("paths", [])
     assert any("mcp-server" in path for path in paths), f"Workflow on.push.paths lacks mcp-server, found {paths}"
-    
+
+    def _workflow_logs_into_ghcr(workflow: dict) -> bool:
+        for job in workflow.get("jobs", {}).values():
+            for step in job.get("steps", []):
+                if not str(step.get("uses", "")).startswith("docker/login-action"):
+                    continue
+                if step.get("with", {}).get("registry") == "ghcr.io":
+                    return True
+        return False
+
+    assert _workflow_logs_into_ghcr(data), "Workflow lacks docker/login-action for ghcr.io registry"
+
     steps_str = yaml.dump(data)
-    assert "ghcr.io" in steps_str, "Workflow lacks login reference to ghcr.io"
-    
     assert "COOLIFY_MCP_WEBHOOK" in steps_str or "COOLIFY_TOKEN" in steps_str, "Workflow lacks COOLIFY secrets reference"
     
     for job in data.get("jobs", {}).values():
