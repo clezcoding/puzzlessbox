@@ -133,6 +133,8 @@ export interface BoardItem {
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
+  image?: string | null;
+  scrape_status?: string | null;
 }
 
 export type ItemUpdateFields = {

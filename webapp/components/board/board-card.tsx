@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
 import { GripVertical, Link2, MoreHorizontal } from "lucide-react";
 import { Draggable } from "@hello-pangea/dnd";
 
@@ -24,6 +24,14 @@ function formatRelativeTime(iso: string): string {
   if (hours < 24) return `vor ${hours} Std.`;
   const days = Math.floor(hours / 24);
   return `vor ${days} Tg.`;
+}
+
+function linkHostname(summary: string): string {
+  try {
+    return new URL(summary).hostname;
+  } catch {
+    return summary.length > 40 ? `${summary.slice(0, 37)}…` : summary;
+  }
 }
 
 export type BoardCardProps = {
@@ -54,7 +62,8 @@ export function BoardCard({
   onLongPress,
 }: BoardCardProps) {
   const isLink = item.type === "link";
-  const thumbnailUrl = isLink && item.summary.startsWith("http") ? item.summary : null;
+  const [thumbBroken, setThumbBroken] = useState(false);
+  const showThumb = isLink && item.image && !thumbBroken;
   const longPressTimer = { current: null as ReturnType<typeof setTimeout> | null };
 
   function handleTouchStart() {
@@ -68,6 +77,10 @@ export function BoardCard({
       longPressTimer.current = null;
     }
   }
+
+  const metaLine = isLink
+    ? `${linkHostname(item.summary)} · ${formatRelativeTime(item.created_at)}`
+    : `${item.type} · ${formatRelativeTime(item.created_at)}`;
 
   return (
     <Draggable draggableId={item.id} index={index}>
@@ -93,14 +106,13 @@ export function BoardCard({
         >
           {isLink && (
             <div className="relative aspect-[16/9] w-full bg-muted">
-              {thumbnailUrl ? (
-                <Image
-                  src={thumbnailUrl}
+              {showThumb ? (
+                <img
+                  src={item.image!}
                   alt=""
-                  fill
-                  className="object-cover"
-                  sizes="240px"
-                  unoptimized
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                  onError={() => setThumbBroken(true)}
                 />
               ) : (
                 <div className="flex h-full items-center justify-center bg-muted">
@@ -125,9 +137,7 @@ export function BoardCard({
               <h3 className="line-clamp-2 text-sm font-semibold text-foreground">
                 {item.title}
               </h3>
-              <p className="text-xs text-muted-foreground">
-                {item.type} · {formatRelativeTime(item.created_at)}
-              </p>
+              <p className="text-xs text-muted-foreground">{metaLine}</p>
             </button>
             <div className="flex shrink-0 items-center gap-1">
               <DropdownMenu>
