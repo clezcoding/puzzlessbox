@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: complete
+status: human_verification
 stopped_at: Completed 05.2-03-PLAN.md
 last_updated: "2026-08-08T20:02:00.000Z"
 progress:
@@ -32,8 +32,8 @@ progress:
 
 - **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE (4/4 plans)
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Phase 05.2 complete — ready for verify
-- **Resume:** None
+- **Status:** Human verification — UAT pending (05.2-UAT.md)
+- **Resume:** `/gsd-verify-work 05.2`
 - **UAT login:** `uat@puzzless.local` / see `webapp/.env.local`
 
 ```
@@ -152,7 +152,7 @@ progress:
 - **05.1 closed:** G-05-7 local MCP bootstrap; HSTS/banner advisories; well-known stub — all 3 plans complete
 - **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404); SERVICE_OWNER_ID → new first user
 - **Nyquist:** phases 0–5 compliant; 05.1 VALIDATION.md draft ready
-- **Next recommended action:** /gsd-verify-phase 05.1 or milestone ship
+- **Next recommended action:** `/gsd-verify-work 05.2`
 - **Phase 1 deferred (not blockers):** Google browser OAuth full round-trip → Phase 4 webapp (API 302 verified)
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
