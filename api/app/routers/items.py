@@ -3,16 +3,17 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlalchemy import text
 from sqlmodel import Field, Session, SQLModel
 
 from app.auth.jwt import get_db_for_owner
 from app.core.database import current_owner_id
-from app.models import ItemType
+from app.models import Event, ItemType
+from app.services.calendar import calendar_service, sync_local_event_to_google
 from app.services.timeout import table_for_item_type
 
 router = APIRouter(tags=["items"])
@@ -256,14 +257,77 @@ def _update_item_fields(
         )
 
 
+def _event_calendar_fields_changed(payload: ItemUpdate) -> bool:
+    return any(
+        value is not None
+        for value in (payload.title, payload.body, payload.event_start, payload.event_end)
+    )
+
+
+def _sync_event_after_local_update(
+    db: Session,
+    owner_id: str,
+    item_id: str,
+    payload: ItemUpdate,
+    *,
+    force: bool,
+) -> None:
+    event_row = db.get(Event, uuid.UUID(item_id))
+    if event_row is None:
+        return
+
+    calendar_changed = _event_calendar_fields_changed(payload)
+    status_info = calendar_service.connection_status(db, owner_id)
+    connected = bool(status_info.get("connected") and status_info.get("selected_calendar_id"))
+
+    if not event_row.google_event_id:
+        if connected and calendar_changed:
+            sync_local_event_to_google(db, owner_id, event_row)
+        return
+
+    if not calendar_changed:
+        return
+
+    calendar_id = status_info["selected_calendar_id"]
+    body: dict[str, Any] = {}
+    if payload.title is not None:
+        body["summary"] = payload.title
+    if payload.body is not None:
+        body["description"] = payload.body
+    if payload.event_start is not None and payload.event_end is not None:
+        body["start"] = {"dateTime": payload.event_start.isoformat()}
+        body["end"] = {"dateTime": payload.event_end.isoformat()}
+    elif payload.event_start is not None:
+        body["start"] = {"dateTime": payload.event_start.isoformat()}
+    elif payload.event_end is not None:
+        body["end"] = {"dateTime": payload.event_end.isoformat()}
+
+    client_etag = "*" if force else (event_row.etag or "")
+    remote = calendar_service.update_event_with_etag(
+        db,
+        owner_id,
+        calendar_id=calendar_id,
+        google_event_id=event_row.google_event_id,
+        client_etag=client_etag,
+        event_body=body,
+        force=force,
+    )
+    event_row.etag = remote.get("etag")
+    event_row.updated_at = datetime.now(timezone.utc)
+    db.add(event_row)
+    db.commit()
+
+
 @router.patch("/items/{item_id}")
 def update_item(
     item_id: str,
     payload: ItemUpdate,
     db: Session = Depends(get_db_for_owner),
+    if_none_match: str | None = Header(default=None, alias="If-None-Match"),
 ) -> dict[str, str]:
     owner_id = current_owner_id.get()
     current_type = _lookup_item_type(db, owner_id, item_id)
+    force = if_none_match == "*"
 
     if payload.type is not None and payload.type != current_type:
         current = _fetch_item_row(db, table_for_item_type(current_type), item_id, owner_id)
@@ -272,6 +336,10 @@ def update_item(
         _update_item_fields(db, current_type, item_id, owner_id, payload)
 
     db.commit()
+
+    if current_type == ItemType.event:
+        _sync_event_after_local_update(db, owner_id, item_id, payload, force=force)
+
     return {"id": item_id}
 
 
@@ -283,6 +351,16 @@ def delete_item(
     owner_id = current_owner_id.get()
     item_type = _lookup_item_type(db, owner_id, item_id)
     table = table_for_item_type(item_type)
+
+    if item_type == ItemType.event:
+        event_row = db.get(Event, uuid.UUID(item_id))
+        if event_row is not None and event_row.google_event_id:
+            calendar_service.delete_remote_event(
+                db,
+                owner_id,
+                google_event_id=event_row.google_event_id,
+            )
+
     result = db.execute(
         text(
             f"""
