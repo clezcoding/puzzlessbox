@@ -1,7 +1,16 @@
 import type { NextConfig } from "next";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const repoRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // webapp lives under repo root; brand/tokens.css is imported from globals.css.
+  turbopack: {
+    root: repoRoot,
+  },
+  outputFileTracingRoot: repoRoot,
   experimental: {
     // TypeScript 7 has no JS compiler API yet; next build must use local tsc CLI.
     useTypeScriptCli: true,
