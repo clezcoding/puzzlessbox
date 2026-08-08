@@ -18,6 +18,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige (completed 2026-08-05)
 - [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
 - [x] **Phase 05.1: Address tech debt: G-05-7 + security harden advisories** (INSERTED) - Local MCP bootstrap + security harden advisories
+- [ ] **Phase 05.2: Fix LINK/CAL integration wiring B1-B4** (INSERTED) - Close milestone audit gaps B1–B4
 
 ## Phase Details
 
@@ -211,6 +212,27 @@ Plans:
 
 - [x] 05.1-03-PLAN.md — HSTS + banner strip Coolify/Traefik for pbox/api/mcp + Next.js poweredByHeader: false (D-06..D-09) — runbook + Coolify MCP label attempt + checkpoint:human-verify live curl
 
+### Phase 05.2: Fix LINK/CAL integration wiring B1-B4 (INSERTED)
+
+**Goal:** Close audit blockers B1–B4 — wire existing scrape + Google Calendar into Hermes capture + board/edit UI so LINK-01/02 and CAL-02/03 work end-to-end (not only orphaned POST /links and POST /events).
+**Requirements**: LINK-01, LINK-02, CAL-02, CAL-03
+**Depends on:** Phase 05.1
+**Plans:** 1/4 plans executed
+
+Plans:
+**Wave 1**
+
+- [x] 05.2-00-PLAN.md — Wave 0 Nyquist stubs (async scrape + calendar sync + board Vitest)
+- [ ] 05.2-01-PLAN.md — Tracer: link draft→async scrape→VIEW image/summary→BoardCard (D-08 checkpoint)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 05.2-02-PLAN.md — B1/B2 expansion: retries, rescrape API, BoardCard scrape_status states
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 05.2-03-PLAN.md — B3/B4: Google sync on board-visible + PATCH/DELETE ETag/412 + modal CTAs
+
 ## Coverage
 
 | Requirement | Phase |
@@ -257,7 +279,8 @@ Plans:
 | 4. WebApp | 8/8 | Complete    | 2026-08-05 |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 | 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
+| 5.2 Fix LINK/CAL integration wiring B1-B4 | 1/4 | In Progress |  |
 
 ---
 *Roadmap created: 2026-07-28*
-*Next: `/gsd-plan-phase 05.1`*
+*Next: `/gsd-execute-phase 05.2` (plan 01 opens with D-08 VIEW checkpoint)*

@@ -16,7 +16,7 @@ progress:
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-08 (05.1 complete — 3/3 plans)
+**Last updated:** 2026-08-08 (05.2 plan 00 complete — 1/4 plans)
 **Current milestone:** v1.0 (initial release) — audit `tech_debt`
 
 ## Project Reference
