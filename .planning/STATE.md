@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
 status: executing
-stopped_at: Completed 05.2-00-PLAN.md
-last_updated: "2026-08-08T19:48:21.685Z"
+stopped_at: Completed 05.2-01-PLAN.md
+last_updated: "2026-08-08T19:52:30.113Z"
 progress:
-  total_phases: 7
+  total_phases: 8
   completed_phases: 7
-  total_plans: 31
-  completed_plans: 31
+  total_plans: 35
+  completed_plans: 33
 ---
 
 # State: Puzzlessbox
@@ -90,6 +90,7 @@ progress:
 | Phase 05.1-address-tech-debt-g-05-7-security-harden-advisories P02 | 4min | 1 task | 3 files |
 | Phase 05.1 P03 | 45min | 3 tasks | 5 files |
 | Phase 05.2 P00 | 3min | 2 tasks | 5 files |
+| Phase 05.2 P01 | 12 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -138,8 +139,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-08T19:48:21.673Z
-- **Stopped at:** Completed 05.2-00-PLAN.md
+- **Last session:** 2026-08-08T19:52:30.098Z
+- **Stopped at:** Completed 05.2-01-PLAN.md
 - **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — was `tech_debt` (Nyquist debt); phases 0/2/3/4/5 now `validated` + `nyquist_compliant: true` (2026-08-05)
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn; board a2 confirmed)
@@ -213,3 +214,5 @@ progress:
 - [Phase ?]: HSTS per leaf FQDN only; apex excluded from includeSubDomains (D-07)
 - [Phase ?]: Defense in depth: Traefik banner strip + Next.js poweredByHeader false
 - [Phase ?]: Wave 0 xfail/it.todo stubs lock LINK/CAL test names before plans 01-03
+- [Phase ?]: LinkScrapeManager 12s soft timeout; partial when title without image
+- [Phase ?]: BoardCard native img referrerPolicy no-referrer; remotePatterns unchanged
