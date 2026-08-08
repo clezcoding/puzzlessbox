@@ -17,7 +17,15 @@ from fastapi import HTTPException, status
 
 from app.core.config import Settings, get_settings
 
-ScrapeStatus = Literal["ok", "failed"]
+ScrapeStatus = Literal[
+    "pending",
+    "scraping",
+    "ok",
+    "partial",
+    "timed_out",
+    "failed",
+    "skipped",
+]
 
 _BLOCKED_NETWORKS = (
     ipaddress.ip_network("10.0.0.0/8"),

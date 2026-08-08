@@ -19,6 +19,7 @@ from sqlmodel import Session
 from app.auth.jwt import get_db_for_owner
 from app.core.database import current_owner_id
 from app.models import BoardItem, DraftCreate, DraftUpdate, Event, ItemType, Link, Note, Task
+from app.services.link_scrape import scrape_manager
 from app.services.timeout import table_for_item_type, timeout_manager
 
 router = APIRouter(tags=["capture"])
@@ -167,6 +168,8 @@ async def create_draft(
         db.commit()
 
     timeout_manager.schedule_timeout(str(row.id), owner_id, item_type)
+    if item_type == ItemType.link:
+        scrape_manager.schedule_scrape(str(row.id), owner_id, row.url)
     return response_body
 
 
@@ -298,7 +301,7 @@ def list_board_items(db: Session = Depends(get_db_for_owner)) -> list[BoardItem]
         text(
             """
             SELECT id, owner_id, category_id, status, title, summary, type,
-                   sort_order, created_at, updated_at, deleted_at
+                   sort_order, created_at, updated_at, deleted_at, image, scrape_status
             FROM board_items
             WHERE owner_id = :owner_id
               AND deleted_at IS NULL
