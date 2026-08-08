@@ -217,7 +217,7 @@ Plans:
 **Goal:** Close audit blockers B1–B4 — wire existing scrape + Google Calendar into Hermes capture + board/edit UI so LINK-01/02 and CAL-02/03 work end-to-end (not only orphaned POST /links and POST /events).
 **Requirements**: LINK-01, LINK-02, CAL-02, CAL-03
 **Depends on:** Phase 05.1
-**Plans:** 2/4 plans executed
+**Plans:** 3/4 plans executed
 
 Plans:
 **Wave 1**
@@ -227,7 +227,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 05.2-02-PLAN.md — B1/B2 expansion: retries, rescrape API, BoardCard scrape_status states
+- [x] 05.2-02-PLAN.md — B1/B2 expansion: retries, rescrape API, BoardCard scrape_status states
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -279,7 +279,7 @@ Plans:
 | 4. WebApp | 8/8 | Complete    | 2026-08-05 |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 | 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
-| 5.2 Fix LINK/CAL integration wiring B1-B4 | 2/4 | In Progress|  |
+| 5.2 Fix LINK/CAL integration wiring B1-B4 | 3/4 | In Progress|  |
 
 ---
 *Roadmap created: 2026-07-28*
