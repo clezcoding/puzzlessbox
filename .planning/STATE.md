@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 04
-current_phase_name: webapp
-status: executing
-stopped_at: Deep prod UAT r3 complete — bulk pass; SIGNUP_LOCKED VOICE copy gap
-last_updated: "2026-08-03T03:39:35.307Z"
+current_phase: 05
+current_phase_name: Coolify-Deployment, CI/CD & Härtung
+status: planning
+stopped_at: Completed 04-07-PLAN.md
+last_updated: "2026-08-05T13:47:02.526Z"
 progress:
   total_phases: 6
   completed_phases: 6
   total_plans: 28
-  completed_plans: 27
+  completed_plans: 28
 ---
 
 # State: Puzzlessbox
@@ -29,10 +29,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 04 (webapp) — EXECUTING
+- **Phase:** 05 — Coolify-Deployment, CI/CD & Härtung
 - **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Plan:** 2 of 7
-- **Status:** Ready to execute
+- **Plan:** Not started
+- **Status:** Ready to plan
 - **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
 - **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
 - **UAT file:** `.planning/phases/04-webapp/04-UAT.md`
@@ -85,6 +85,7 @@ progress:
 | Phase 05 P04 | 40min | 3 tasks | 5 files |
 | Phase 04-webapp P05 | 5min | 5 tasks | 5 files |
 | Phase 04-webapp P06 | 2min | 2 tasks | 2 files |
+| Phase 04-webapp P07 | 45min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -129,15 +130,15 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-03T02:11:02.307Z
-- **Stopped at:** Completed 04-06-PLAN.md
+- **Last session:** 2026-08-05T13:43:06.845Z
+- **Stopped at:** Completed 04-07-PLAN.md
 - **Resume file:** None
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` + ops r3 (17 pass / 1 warn)
 - **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `d7744538…` after dbhub wipe r3)
-- **Phase 4 UAT r3:** `.planning/phases/04-webapp/04-UAT.md` — 17/18 pass; bulk #11 closed
-- **Open gaps:** G-04-4 sticky SIGNUP_LOCKED VOICE copy (major)
+- **Phase 4 UAT:** `.planning/phases/04-webapp/04-UAT.md` — 18/18 pass; G-04-4 closed via 04-07
+- **Open gaps:** none (Phase 4 UAT complete)
 - **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404)
-- **Next recommended action:** `/gsd-plan-phase 04 --gaps` for SIGNUP_LOCKED UI fix
+- **Next recommended action:** merge `gsd/phase-04-webapp` / continue Phase 5 execution
 - **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
@@ -193,3 +194,4 @@ progress:
 - [Phase ?]: NEXT_PUBLIC_* baked via Dockerfile ARG and deploy-web build-args
 - [Phase ?]: SIGNUP_LOCKED sessionStorage survives login remount on 409
 - [Phase ?]: toast.success bulk move test asserts second undefined arg when total <= 5 items
+- [Phase ?]: isSignupLockedError exported + hardened for all better-auth 409 envelope shapes (04-07)

@@ -15,7 +15,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 1: Datenmodell & Backend-API** - Postgres-Schema mit `owner_id`, FastAPI-CRUD, Better Auth, Link-Scraper, Google-Calendar-Sync (completed 2026-07-30)
 - [x] **Phase 2: MCP-Server** - Remote-FastMCP-Server mit Bearer-Token-Auth über HTTPS (completed 2026-07-31)
 - [x] **Phase 3: Hermes-Plugin & Timeout-Spike** - Bestätigungs-Flow, 30s-API-Timeout-State-Machine, Spike vor Plan (completed 2026-08-01)
-- [ ] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige
+- [x] **Phase 4: WebApp** - Next.js-Kategorien-Board, Drag & Drop, Auth-UI, Google-OAuth-Settings, Link-Anzeige (completed 2026-08-05)
 - [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
 
 ## Phase Details
@@ -139,7 +139,7 @@ Plans:
   4. User kann sich über die WebApp-UI mit Email/Passwort einloggen (Better Auth) und bleibt über Browser-Refresh eingeloggt
   5. User kann in den Settings Google Calendar über separatem OAuth verbinden (nicht Better Auth Social)
 
-**Plans**: 7/7 plans executed
+**Plans**: 8/8 plans executed
 Plans:
 
 - [x] 04-05-PLAN.md
@@ -164,7 +164,7 @@ Plans:
 **Gap Closure** *(post-execution)*
 
 - [x] 04-06-PLAN.md — Bulk-move destination commit testid + strengthened dnd.test.tsx bulk destination-click test (G-04-bulk-move / UAT #11, BOARD-03)
-- [ ] 04-07-PLAN.md — Harden isSignupLockedError against better-auth client envelope shapes + envelope-shape tests + prod UAT #6 re-run checkpoint (G-04-4, AUTH-03)
+- [x] 04-07-PLAN.md — Harden isSignupLockedError against better-auth client envelope shapes + envelope-shape tests + prod UAT #6 re-run checkpoint (G-04-4, AUTH-03)
 
 ### Phase 5: Coolify-Deployment, CI/CD & Härtung
 
@@ -236,7 +236,7 @@ Plans:
 | 1. Datenmodell & Backend-API | 6/6 | Complete    | 2026-07-30 |
 | 2. MCP-Server | 4/4 | Complete    | 2026-07-31 |
 | 3. Hermes-Plugin & Timeout-Spike | 4/4 | In Progress|  |
-| 4. WebApp | 6/6 | In Progress|  |
+| 4. WebApp | 8/8 | Complete    | 2026-08-05 |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 
 ---

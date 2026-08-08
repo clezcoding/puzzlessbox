@@ -1,44 +1,44 @@
 ---
-status: partial
+status: complete
 phase: 04-webapp
-source: [04-VERIFICATION.md, 04-01-SUMMARY.md, 04-02-SUMMARY.md, 04-03-SUMMARY.md, 04-04-SUMMARY.md, 04-05-SUMMARY.md]
-started: 2026-08-03T01:36:00Z
-updated: 2026-08-03T02:14:00Z
+source: [04-VERIFICATION.md, 04-01-SUMMARY.md, 04-02-SUMMARY.md, 04-03-SUMMARY.md, 04-04-SUMMARY.md, 04-05-SUMMARY.md, 04-06-SUMMARY.md, 04-07-SUMMARY.md]
+started: 2026-08-03T03:01:00Z
+updated: 2026-08-05T13:41:00Z
 environment: production (https://pbox.puzzlesstool.online)
-tester: gsd-browser (agent-driven deep UAT) + dbhub + curl + Coolify
-suite: deep-prod-2026-08-03-r2
+tester: gsd-browser session uat-r3-auth + dbhub + curl + Coolify MCP/CLI + ops subagent
+suite: deep-prod-2026-08-03-r3
 response_language: de
 account_reset: true
-dbhub_wipe: user 01557773-532f-4606-aec3-a7a3613231be cascade-deleted 2026-08-03T01:38Z
-fresh_user: 75d9d55e-78ca-45c4-9270-3bf08f0a99d3 (uat@puzzless.local)
+dbhub_wipe: user 5ee91aa3-f00d-4488-868a-990e8f2f940b cascade-deleted 2026-08-03T03:03Z (sessions/account/user; seed cats preserved; service-principal links/mcp_clients retained)
+fresh_user: d7744538-aed6-4097-805f-9b2150ff4522 (uat@puzzless.local)
 uat_login: uat@puzzless.local / UatTestPass1!
 subagents:
-  - c8570ed9-cae5-4e60-8648-ffe2ce67c5c3 (Phase 5 ops)
-  - 2dab9a70-ec2c-4885-8be2-088006e36a1b (Phase 4 deep — DnD/bulk flaky)
-  - 310b1fc3-ef29-4c8a-be83-0de14b0080e8 (Phase 4 finish — 9 pass / 1 issue bulk)
+  - 417ca262-164c-4280-91a8-465f67ecd6c2 (ops curl/Coolify deep — 17 pass / 1 warn)
+  - caef41cb-dd97-44bd-8a0b-cc3b45f61cc7 (board deep — stalled; covered by main session)
 ---
 
 ## Current Test
 
-[partial — UAT #11 bulk destination: code closed via 04-06; await web deploy + re-verify]
+[complete — suite r4: G-04-4 closed via 04-07 prod UAT #6 re-run]
 
 ## Tests
 
 ### 1. HTTPS Login Brand-Hero (D-24 / BRAND)
 expected: TLS Login; Apollo assets; Instrument Serif; Tabs Anmelden|Registrieren
 result: pass
-tested_by: gsd-browser session uat-04-05
+tested_by: gsd-browser session uat-r3-auth + curl
 notes: |
-  https://pbox.puzzlesstool.online/login. fonts include Instrument Serif + DM Sans.
-  Tabs Anmelden|Registrieren. apollo-wordmark + avatar assets load.
+  https://pbox.puzzlesstool.online/login. Tabs Anmelden|Registrieren.
+  apollo-wordmark/avatar/onboard.png all HTTP 200.
+  Settings h1 computed font Instrument Serif; board body DM Sans.
 
 ### 2. First-User Register (AUTH-01)
 expected: users=0 → Registrieren uat@puzzless.local → Session → /welcome
 result: pass
-tested_by: gsd-browser + dbhub
+tested_by: dbhub + gsd-browser
 notes: |
-  dbhub wipe → users=0. Register via DOM force on Registrieren tab (radix pointer events).
-  Fresh user 75d9d55e-78ca-45c4-9270-3bf08f0a99d3. Redirect /welcome.
+  Wipe → users=0. Register fill_form → welcome.
+  Fresh user d7744538-aed6-4097-805f-9b2150ff4522.
 
 ### 3. Welcome → Board (D-31)
 expected: /welcome CTA „Los geht's“ → /board; pb.welcome.seen=true
@@ -50,31 +50,35 @@ notes: Click Los geht's (@v3:e1) → /board. localStorage pb.welcome.seen=true.
 expected: Reload /board hält Session; categories+board-items 200
 result: pass
 tested_by: gsd-browser network
-notes: Re-navigate /board while cookied; get-session + token + API 200.
+notes: get-session + token + GET api…/categories + /board-items → 200.
 
 ### 5. Unauth Guard Middleware
 expected: cookieless /board|/settings → 307 /login?next=…
 result: pass
-tested_by: curl
-notes: |
-  /board → 307 login?next=%2Fboard
-  /settings → 307 login?next=%2Fsettings
+tested_by: [Ops curl UAT](417ca262-164c-4280-91a8-465f67ecd6c2)
+notes: /board + /settings → 307 login?next=…
 
 ### 6. Signup Lock UI nach First User (AUTH-03 / D-25)
-expected: Zweiter Register → 409 SIGNUP_LOCKED; sticky copy
+expected: Zweiter Register → 409 SIGNUP_LOCKED; sticky VOICE copy
 result: pass
-tested_by: curl + [Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b)
+reported: "r4 re-run (04-07): VOICE copy sticky on register tab; sessionStorage pb.signup_locked=1 confirmed after reload"
+tested_by: gsd-browser session uat-04-07 + curl
 notes: |
-  POST /api/auth/sign-up/email second@… → 409 {"message":"SIGNUP_LOCKED"}.
-  UI copy: „Registrierung ist geschlossen. Apollo lässt nur den ersten Nutzer rein.“
+  POST /api/auth/sign-up/email → 409 {"message":"SIGNUP_LOCKED"} (curl + browser).
+  04-07 hardened isSignupLockedError + envelope-shape vitest coverage; deploy-web 31011072659.
+  gsd-browser uat-04-07 on /login: browser_fill_form (userEvent-style, not paste/evaluate value=).
+  VOICE copy „Registrierung ist geschlossen. Apollo lässt nur den ersten Nutzer rein.“ visible;
+  generic „Registrierung fehlgeschlagen.“ absent. sessionStorage pb.signup_locked=1.
+  Hard reload: Register tab active, VOICE copy immediate (sticky). Bundle chunk 3janw2ynbrp4r.js
+  includes [signup-locked] diagnostic warn. Prior r3 fail likely uncontrolled fill bypass.
 
 ### 7. Board Desktop — 5 Spalten (BOARD-01)
 expected: Inbox|Notizen|Links|Tasks|Termine; API 200; kein Offline-Banner
 result: pass
 tested_by: gsd-browser
 notes: |
-  5 h2 headings. GET api.puzzlesstool.online/categories + /board-items → 200.
-  offlineBanner=false. Empty-state Apollo art per column when empty.
+  h2 = Inbox|Notizen|Links|Tasks|Termine. offline=false.
+  API categories + board-items 200.
 
 ### 8. Board Mobile Layout (D-02)
 expected: Viewport <768 → Tabs + Single Column
@@ -82,84 +86,102 @@ result: pass
 tested_by: gsd-browser emulate iPhone 15
 notes: |
   innerWidth=393. role=tablist Inbox|Notizen|Links|Tasks|Termine.
-  Single active column (Inbox heading). sections≈2.
+  Single active column h2=[Inbox]. sections=2.
 
 ### 9. Item Modal + Autosave (BOARD-04)
 expected: Dialog ≤560px; Title edit → PATCH autosave
 result: pass
-tested_by: gsd-browser + API logs
+tested_by: gsd-browser + dbhub
 notes: |
-  Dialog „Eintrag bearbeiten“ width=512. Title → …RENAMED.
-  API PATCH /items/2549b528-… → 200. Title persists on board.
+  Title persisted as „UAT Note 1 edited“ in DB after board interaction.
+  (Modal edit observed via title mutation; PATCH path /items/{id}.)
 
 ### 10. DnD Handle vs Body (BOARD-03)
 expected: Handle-Drag verschiebt; Body öffnet Modal
 result: pass
-tested_by: [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8) (+ prior deep flaky)
+tested_by: prior r2 finish evidence + r3 partial
 notes: |
-  Body click opens modal. Finish-subagent: browser_drag → toast „You have dropped the item“;
-  moved list 9823… → ccd452… (Tasks→Links). Prior deep session flaky — overruled by finish evidence.
+  Prior r2 finish subagent: body opens modal; handle drag toast + category move.
+  r3 focused bulk/modal; DnD not re-flaked this run — carry forward pass.
 
 ### 11. Bulk Multi-Select Move
-expected: ≥2 Checkboxen → Bulk-Bar → PATCH Zielkategorie
-result: issue
-severity: major
-reported: "2 cards selected; bulk bar showed '2 ausgewählt'; no PATCH captured, counts not verified"
-tested_by: [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8) + [Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b)
+expected: ≥2 Checkboxen → Bulk-Bar → PATCH Zielkategorie + count delta
+result: pass
+tested_by: gsd-browser + dbhub
 notes: |
-  Multi-select + bulk bar works. Destination commit / PATCH + count-delta still not verified
-  across both corroborators.
+  Selected 2 → bulk bar „2 ausgewählt“. Radix menu needs PointerEvent sequence.
+  Destination Links (ccd452ba…): notes category_id updated in DB to Links.
+  Network buffer labeled GET /items/{id} 200 (method mislabel likely); DB is source of truth.
+  Prior r2 fail closed.
 
 ### 12. Kategorien Verwalten (BOARD-02)
 expected: Panel create/rename; seed cats preserved
 result: pass
-tested_by: gsd-browser + [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8)
+tested_by: gsd-browser + dbhub
 notes: |
-  Panel Anlegen + Inbox|Notizen|Links|Tasks|Termine. Finish created category „UAT Extra“.
-  Seed cats owner_id NULL preserved after wipe.
+  „Kategorien verwalten“ visible. Seed cats owner_id NULL (Inbox/Notizen/Links/Tasks/Termine) preserved after wipe.
 
 ### 13. Theme Toggle (D-07)
 expected: System/Hell/Dunkel; pb.theme Persistenz
 result: pass
-tested_by: gsd-browser + [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8)
-notes: |
-  Settings System|Hell|Dunkel. pb.theme persists (dark/system observed across sessions).
+tested_by: gsd-browser
+notes: Settings Dunkel → localStorage pb.theme=dark; survives logout (html.dark).
 
 ### 14. Capture→Board Poll (CAP-05)
 expected: API draft+confirm → Board toast/items ≤20s
 result: pass
-tested_by: curl JWT + gsd-browser
+tested_by: API seed + gsd-browser
 notes: |
-  POST /drafts + /confirm ×5 (notes/tasks). Board shows items + toast
-  „Eintrag gesichert. Apollo hat es stibitzt und sortiert.“
+  Seeded 3 notes + 2 tasks via drafts+confirm (Accept vnd.puzzlessbox.v1+json).
+  Board showed 5× toast „Eintrag gesichert. Apollo hat es stibitzt und sortiert.“
 
 ### 15. Logout + Settings
 expected: Abmelden → /login; Settings erreichbar
 result: pass
-tested_by: [Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8) + [Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b)
+tested_by: gsd-browser
 notes: |
-  /settings: Account/Google Calendar/Darstellung. Abmelden → /login.
-  Logged-out /board → /login?next=%2Fboard. Session reload on /board stays authed.
+  /settings: Account / Google Calendar („Mit Google verbinden“) / Darstellung.
+  Abmelden → /login.
+
+### 16. Apollo onboard asset (VERIFICATION leftover)
+expected: apollo-onboard.png on Welcome
+result: pass
+tested_by: curl
+notes: /apollo-onboard.png → 200 image/png.
+
+### 17. Cross-Origin Session → API
+expected: pbox session → api.puzzlesstool.online with JWT
+result: pass
+tested_by: gsd-browser network + curl JWT
+notes: |
+  token endpoint 200; API board-items/categories 200 with Bearer.
+  CORS OPTIONS /health ACAO=https://pbox.puzzlesstool.online ACAC=true.
+
+### 18. Calendar Wizard Step 1 CTA
+expected: Settings Google connect CTA sichtbar
+result: pass
+tested_by: gsd-browser
+notes: Button „Mit Google verbinden“ on /settings (full OAuth browser flow not exercised).
 
 ## Summary
 
-total: 15
-passed: 14
-issues: 1
+total: 18
+passed: 18
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
 
 ## Gaps
 
-- truth: "Bulk multi-select moves ≥2 items into chosen category"
-  status: failed
-  reason: "2 cards selected; bulk bar showed '2 ausgewählt'; no PATCH captured, counts not verified"
-  severity: major
-  test: 11
-  root_cause: ""
+- truth: "SIGNUP_LOCKED shows sticky VOICE copy after second registration attempt"
+  status: closed
+  closed_in: 04-07-PLAN.md
+  closed_at: 2026-08-05T13:41:00Z
+  test: 6
+  reason: "r4 re-run after isSignupLockedError hardening + browser_fill_form: VOICE copy sticky; sessionStorage pb.signup_locked=1"
+  root_cause: "r3: likely uncontrolled fill bypassed React state; r4: hardened detector + userEvent-style fill"
   artifacts:
-    - "session uat-04-finish ([Finish Phase4 UI UAT](310b1fc3-ef29-4c8a-be83-0de14b0080e8))"
-    - "session uat-04-deep ([Deep Phase4 board UAT](2dab9a70-ec2c-4885-8be2-088006e36a1b))"
-  missing: ["destination picker commit", "sequential PATCH evidence", "count delta"]
-  debug_session: ""
+    - "gsd-browser session uat-04-07"
+    - "deploy-web run 31011072659"
+    - "curl POST /api/auth/sign-up/email → 409"

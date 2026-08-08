@@ -19,8 +19,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **BOARD-01**: User sieht Kanban-/Board-Ansicht mit Default-Kategorien: Inbox, Notizen, Links, Tasks, Termine
 - [x] **BOARD-02**: User kann eigene Kategorien anlegen, umbenennen, einfärben und sortieren
-- [ ] **BOARD-03**: User verschiebt Items per Drag & Drop zwischen Kategorien
-- [ ] **BOARD-04**: User öffnet Item-Detail und bearbeitet Felder in der WebApp
+- [x] **BOARD-03**: User verschiebt Items per Drag & Drop zwischen Kategorien
+- [x] **BOARD-04**: User öffnet Item-Detail und bearbeitet Felder in der WebApp
 
 ### Authentication & Tenancy
 
@@ -122,8 +122,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MCP-04 | Phase 3 | Complete |
 | BOARD-01 | Phase 4 | Complete |
 | BOARD-02 | Phase 4 | Complete |
-| BOARD-03 | Phase 4 | Pending |
-| BOARD-04 | Phase 4 | Pending |
+| BOARD-03 | Phase 4 | Complete |
+| BOARD-04 | Phase 4 | Complete |
 | CAP-05 | Phase 4 | Complete |
 | CAL-01 | Phase 4 | Complete |
 | OPS-01 | Phase 5 | Complete |
