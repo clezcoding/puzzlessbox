@@ -4,19 +4,19 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: executing
-stopped_at: Completed 05.2-02-PLAN.md
-last_updated: "2026-08-08T19:56:35.194Z"
+status: complete
+stopped_at: Completed 05.2-03-PLAN.md
+last_updated: "2026-08-08T20:02:00.000Z"
 progress:
   total_phases: 8
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 35
-  completed_plans: 34
+  completed_plans: 35
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-08 (05.2 plan 02 complete — 3/4 plans)
+**Last updated:** 2026-08-08 (05.2 plan 03 complete — 4/4 plans)
 **Current milestone:** v1.0 (initial release) — audit `tech_debt`
 
 ## Project Reference
@@ -30,9 +30,9 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — EXECUTING
+- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE (4/4 plans)
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Executing Phase 05.2
+- **Status:** Phase 05.2 complete — ready for verify
 - **Resume:** None
 - **UAT login:** `uat@puzzless.local` / see `webapp/.env.local`
 
@@ -93,6 +93,7 @@ progress:
 | Phase 05.2 P01 | 12 | 2 tasks | 11 files |
 | Phase 05.2 P02 | 3min | 3 tasks | 5 files |
 | Phase 05.2-fix-link-cal-integration-wiring-b1-b4 P02 | 3min | 3 tasks | 5 files |
+| Phase 05.2 P03 | 12min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -141,8 +142,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-08T19:56:35.184Z
-- **Stopped at:** Completed 05.2-02-PLAN.md
+- **Last session:** 2026-08-08T20:01:44.237Z
+- **Stopped at:** Completed 05.2-03-PLAN.md
 - **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — was `tech_debt` (Nyquist debt); phases 0/2/3/4/5 now `validated` + `nyquist_compliant: true` (2026-08-05)
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn; board a2 confirmed)
@@ -220,3 +221,5 @@ progress:
 - [Phase ?]: BoardCard native img referrerPolicy no-referrer; remotePatterns unchanged
 - [Phase ?]: Cancel race fix: _active_tasks pop only when current_task matches map entry
 - [Phase ?]: POST /links uses apply_scrape_to_link after pending row insert (D-04)
+- [Phase ?]: board-items google_event_id via events JOIN not VIEW migration
+- [Phase ?]: Modal Google sync via updateItem title PATCH create-on-edit path
