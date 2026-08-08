@@ -7,7 +7,7 @@ import uuid
 from sqlmodel import Session
 
 from app.models import Category
-from app.routers.links import _links_category_id
+from app.services.categories import links_category_id
 
 
 def test_default_cat(mock_db: Session) -> None:
@@ -15,4 +15,4 @@ def test_default_cat(mock_db: Session) -> None:
     mock_db.add(Category(id=links_id, name="Links"))
     mock_db.commit()
 
-    assert _links_category_id(mock_db) == links_id
+    assert links_category_id(mock_db) == links_id
