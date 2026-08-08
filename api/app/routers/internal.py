@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from sqlalchemy import text
 from sqlmodel import Session
 
+from app.core.bootstrap import check_and_bootstrap_first_user
 from app.core.config import get_settings
 from app.core.database import get_engine
 
@@ -23,11 +24,20 @@ class MCPAuthRequest(BaseModel):
 async def resolve_mcp_auth(payload: MCPAuthRequest, request: Request) -> dict[str, str]:
     settings = get_settings()
     service_bearer = request.headers.get("X-Service-Bearer")
-    if not service_bearer or not hmac.compare_digest(service_bearer, settings.SERVICE_BEARER_TOKEN):
+    expected = settings.SERVICE_BEARER_TOKEN
+    if (
+        not service_bearer
+        or len(service_bearer) != len(expected)
+        or not hmac.compare_digest(service_bearer, expected)
+    ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail={"code": "UNAUTHORIZED", "message": "Invalid service bearer token."},
         )
+
+    with Session(get_engine()) as session:
+        check_and_bootstrap_first_user(session, settings)
+        session.commit()
 
     with Session(get_engine()) as session:
         owner_id = session.execute(

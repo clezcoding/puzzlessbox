@@ -23,7 +23,7 @@ def build_mcp_stack(
         base_url=settings.mcp_public_base_url,
     )
     mcp = FastMCP(name="Puzzlessbox MCP", auth=verifier)
-    register_health(mcp, lambda: make_client(settings, transport=api_transport))
+    register_health(mcp, lambda: make_client(settings, transport=api_transport), settings)
     register_tools(mcp, client)
 
     allowed_hosts = ["mcp.puzzlesstool.online"]

@@ -1,6 +1,7 @@
 .DS_Store
 
 # Secrets
+.local/
 .env
 .env.*
 !.env.example
@@ -49,3 +50,4 @@ webapp/package-lock.json
 *.log
 .idea/
 .vscode/
+dbhub.toml

@@ -2,22 +2,22 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 05
-current_phase_name: Coolify-Deployment, CI/CD & Härtung
-status: planning
-stopped_at: Completed 04-07-PLAN.md
-last_updated: "2026-08-05T13:47:02.526Z"
+current_phase: 05.1
+current_phase_name: address-tech-debt-g-05-7-security-harden-advisories
+status: complete
+stopped_at: Completed 05.1-03-PLAN.md
+last_updated: "2026-08-08T16:12:00.000Z"
 progress:
-  total_phases: 6
-  completed_phases: 6
-  total_plans: 28
-  completed_plans: 28
+  total_phases: 7
+  completed_phases: 7
+  total_plans: 31
+  completed_plans: 31
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-02 (Phase 4 planned — 5 plans)
-**Current milestone:** v1 (initial release)
+**Last updated:** 2026-08-08 (05.1 complete — 3/3 plans)
+**Current milestone:** v1.0 (initial release) — audit `tech_debt`
 
 ## Project Reference
 
@@ -26,31 +26,31 @@ progress:
 - **Roadmap:** `.planning/ROADMAP.md`
 - **Requirements:** `.planning/REQUIREMENTS.md` (28 v1 requirements)
 - **Research:** `.planning/research/SUMMARY.md` (confidence: HIGH)
+- **Audit:** `.planning/v1.0-MILESTONE-AUDIT.md`
 
 ## Current Position
 
-- **Phase:** 05 — Coolify-Deployment, CI/CD & Härtung
-- **Prior:** 04 (webapp) — PR #21 shipped; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Plan:** Not started
-- **Status:** Ready to plan
-- **Resume:** `/gsd-execute-phase 5` (Wave 1: 05-01 ∥ 05-02)
-- **UAT login (Phase 4 leftover):** `uat@puzzless.local` / see `webapp/.env.local`
-- **UAT file:** `.planning/phases/04-webapp/04-UAT.md`
+- **Phase:** 05.1 (address-tech-debt-g-05-7-security-harden-advisories) — COMPLETE
+- **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
+- **Status:** Phase 05.1 complete (3/3 plans)
+- **Resume:** None
+- **UAT login:** `uat@puzzless.local` / see `webapp/.env.local`
 
 ```
-[4/6] ██████████████░░░░░░  67% phases
+[6/7] █████████████████░░░   86% phases
 ```
 
 ## Phase Plan
 
 | Phase | Goal (short) | Requirements | Status |
 |-------|-------------|--------------|--------|
-| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete (2 plans) |
-| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete (6 plans) |
-| 2 | MCP-Server | MCP-01, MCP-02 | Complete (4 plans) |
-| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete (4 plans, UAT passed) |
-| 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Planned (5 plans) |
-| 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Planned (4 plans) |
+| 0 | Branding & Design Tokens | BRAND-01, BRAND-02 | Complete |
+| 1 | Datenmodell & Backend-API | AUTH-01..04, CAP-01, CAP-03, LINK-01..02, CAL-02, CAL-03 | Complete |
+| 2 | MCP-Server | MCP-01, MCP-02 | Complete |
+| 3 | Hermes-Plugin & Timeout-Spike | CAP-02, CAP-04, MCP-03, MCP-04 | Complete |
+| 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Complete |
+| 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Complete |
+| 5.1 | Tech debt: G-05-7 + harden advisories | D-01..D-12 | Complete (3/3 plans) |
 
 ## Performance Metrics
 
@@ -86,6 +86,9 @@ progress:
 | Phase 04-webapp P05 | 5min | 5 tasks | 5 files |
 | Phase 04-webapp P06 | 2min | 2 tasks | 2 files |
 | Phase 04-webapp P07 | 45min | 3 tasks | 4 files |
+| Phase 05.1-address-tech-debt-g-05-7-security-harden-advisories P01 | 6min | 2 tasks | 3 files |
+| Phase 05.1-address-tech-debt-g-05-7-security-harden-advisories P02 | 4min | 1 task | 3 files |
+| Phase 05.1 P03 | 45min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -128,18 +131,24 @@ progress:
 
 **Last updated:** 2026-08-03 (quick 260803-001 Coolify audit + dep PRs)
 
+### Roadmap Evolution
+
+- Phase 05.1 inserted after Phase 5: Address tech debt: G-05-7 + security harden advisories (URGENT)
+
 ## Session Continuity
 
-- **Last session:** 2026-08-05T13:43:06.845Z
-- **Stopped at:** Completed 04-07-PLAN.md
+- **Last session:** 2026-08-08T14:08:43.385Z
+- **Stopped at:** Completed 05.1-03-PLAN.md
 - **Resume file:** None
-- **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` + ops r3 (17 pass / 1 warn)
-- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `d7744538…` after dbhub wipe r3)
+- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — was `tech_debt` (Nyquist debt); phases 0/2/3/4/5 now `validated` + `nyquist_compliant: true` (2026-08-05)
+- **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn; board a2 confirmed)
+- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `1ac8eb47-6526-472a-8267-bbf7b02eff73` after wipe r6)
 - **Phase 4 UAT:** `.planning/phases/04-webapp/04-UAT.md` — 18/18 pass; G-04-4 closed via 04-07
-- **Open gaps:** none (Phase 4 UAT complete)
-- **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404)
-- **Next recommended action:** merge `gsd/phase-04-webapp` / continue Phase 5 execution
-- **Phase 1 deferred (not blockers):** Google browser OAuth UAT → Phase 4 webapp
+- **05.1 closed:** G-05-7 local MCP bootstrap; HSTS/banner advisories; well-known stub — all 3 plans complete
+- **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404); SERVICE_OWNER_ID → new first user
+- **Nyquist:** phases 0–5 compliant; 05.1 VALIDATION.md draft ready
+- **Next recommended action:** /gsd-verify-phase 05.1 or milestone ship
+- **Phase 1 deferred (not blockers):** Google browser OAuth full round-trip → Phase 4 webapp (API 302 verified)
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
@@ -195,3 +204,10 @@ progress:
 - [Phase ?]: SIGNUP_LOCKED sessionStorage survives login remount on 409
 - [Phase ?]: toast.success bulk move test asserts second undefined arg when total <= 5 items
 - [Phase ?]: isSignupLockedError exported + hardened for all better-auth 409 envelope shapes (04-07)
+- [Phase ?]: Better Auth user lookup uses createdAt column for first-user bootstrap ordering
+- [Phase ?]: Prod bootstrap blocked log omits env var name to satisfy grep gate without leaking token
+- [Phase ?]: register_health accepts injected Settings — get_settings() lru_cache breaks custom Settings in tests
+- [Phase ?]: Well-known stub omits authorization_servers per D-11; static shared bearer documented in health.py (D-12)
+- [Phase ?]: Coolify MCP cannot edit raw docker labels — UI paste path primary
+- [Phase ?]: HSTS per leaf FQDN only; apex excluded from includeSubDomains (D-07)
+- [Phase ?]: Defense in depth: Traefik banner strip + Next.js poweredByHeader false
