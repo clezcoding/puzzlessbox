@@ -19,6 +19,7 @@ from sqlmodel import Session
 from app.auth.jwt import get_db_for_owner
 from app.core.database import current_owner_id
 from app.models import BoardItem, DraftCreate, DraftUpdate, Event, ItemType, Link, Note, Task
+from app.services.calendar import sync_local_event_to_google
 from app.services.link_scrape import scrape_manager
 from app.services.timeout import table_for_item_type, timeout_manager
 
@@ -221,6 +222,10 @@ async def confirm_draft(
         )
     db.commit()
     timeout_manager.cancel_timeout(draft_id)
+    if item_type == ItemType.event:
+        event_row = db.get(Event, uuid.UUID(draft_id))
+        if event_row is not None:
+            sync_local_event_to_google(db, owner_id, event_row)
     return {"id": draft_id, "type": item_type.value, "status": "confirmed"}
 
 
@@ -300,12 +305,14 @@ def list_board_items(db: Session = Depends(get_db_for_owner)) -> list[BoardItem]
     rows = db.execute(
         text(
             """
-            SELECT id, owner_id, category_id, status, title, summary, type,
-                   sort_order, created_at, updated_at, deleted_at, image, scrape_status
-            FROM board_items
-            WHERE owner_id = :owner_id
-              AND deleted_at IS NULL
-              AND status IN ('auto_saved', 'confirmed')
+            SELECT b.id, b.owner_id, b.category_id, b.status, b.title, b.summary, b.type,
+                   b.sort_order, b.created_at, b.updated_at, b.deleted_at, b.image, b.scrape_status,
+                   e.google_event_id
+            FROM board_items b
+            LEFT JOIN events e ON e.id = b.id AND b.type = 'event'
+            WHERE b.owner_id = :owner_id
+              AND b.deleted_at IS NULL
+              AND b.status IN ('auto_saved', 'confirmed')
             ORDER BY category_id ASC, sort_order ASC, created_at DESC
             """
         ),
