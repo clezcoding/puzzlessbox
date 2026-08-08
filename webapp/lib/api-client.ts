@@ -135,6 +135,7 @@ export interface BoardItem {
   deleted_at: string | null;
   image?: string | null;
   scrape_status?: string | null;
+  google_event_id?: string | null;
 }
 
 export type ItemUpdateFields = {

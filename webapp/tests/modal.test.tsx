@@ -4,6 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 
 import { ItemModal } from "@/components/board/item-modal";
+import { getCalendarStatus } from "@/lib/api/calendar";
+import { rescrapeLink } from "@/lib/api/links";
 import { deleteItem, restoreItem, updateItem } from "@/lib/api/items";
 
 vi.mock("sonner", () => ({
@@ -23,6 +25,14 @@ vi.mock("@/lib/api/items", () => ({
   updateItem: vi.fn(),
   deleteItem: vi.fn(),
   restoreItem: vi.fn(),
+}));
+
+vi.mock("@/lib/api/links", () => ({
+  rescrapeLink: vi.fn(),
+}));
+
+vi.mock("@/lib/api/calendar", () => ({
+  getCalendarStatus: vi.fn(),
 }));
 
 const categories = [
@@ -49,6 +59,15 @@ const linkItem = {
   type: "link",
   title: "Link Title",
   summary: "https://example.com",
+  image: "https://example.com/og.png",
+  scrape_status: "failed",
+};
+
+const eventItem = {
+  ...item,
+  id: "item-event",
+  type: "event",
+  google_event_id: null,
 };
 
 beforeEach(() => {
@@ -56,6 +75,11 @@ beforeEach(() => {
   vi.mocked(updateItem).mockResolvedValue({ ok: true });
   vi.mocked(deleteItem).mockResolvedValue(undefined);
   vi.mocked(restoreItem).mockResolvedValue({ id: "item-1", status: "restored" });
+  vi.mocked(rescrapeLink).mockResolvedValue({ id: "item-link", scrape_status: "pending" });
+  vi.mocked(getCalendarStatus).mockResolvedValue({
+    connected: true,
+    selected_calendar_id: "primary",
+  });
 });
 
 afterEach(() => cleanup());
@@ -293,5 +317,83 @@ describe("ItemModal", () => {
     await triggerConflict();
     await user.click(screen.getByRole("button", { name: "Übernehmen" }));
     await waitFor(() => expect(onUpdated).toHaveBeenCalled());
+  });
+
+  it("shows scrape retry CTA with German label for failed links", async () => {
+    const user = userEvent.setup();
+    render(
+      <ItemModal
+        item={linkItem}
+        categories={categories}
+        open
+        onClose={vi.fn()}
+        onDeleted={vi.fn()}
+        onUpdated={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Vorschau fehlgeschlagen")).toBeInTheDocument();
+    const retry = screen.getByRole("button", { name: "Vorschau erneut laden" });
+    await user.click(retry);
+    await waitFor(() => expect(rescrapeLink).toHaveBeenCalledWith("item-link"));
+    expect(toast.error).not.toHaveBeenCalled();
+  });
+
+  it("toasts only on manual scrape retry failure", async () => {
+    vi.mocked(rescrapeLink).mockRejectedValueOnce(new Error("fail"));
+    const user = userEvent.setup();
+    render(
+      <ItemModal
+        item={linkItem}
+        categories={categories}
+        open
+        onClose={vi.fn()}
+        onDeleted={vi.fn()}
+        onUpdated={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Vorschau erneut laden" }));
+    await waitFor(() =>
+      expect(toast.error).toHaveBeenCalledWith("Vorschau konnte nicht neu geladen werden."),
+    );
+  });
+
+  it("shows Google sync CTA when calendar connected and event unsynced", async () => {
+    const user = userEvent.setup();
+    render(
+      <ItemModal
+        item={eventItem}
+        categories={categories}
+        open
+        onClose={vi.fn()}
+        onDeleted={vi.fn()}
+        onUpdated={vi.fn()}
+      />,
+    );
+
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Mit Google synchronisieren" })).toBeInTheDocument(),
+    );
+    await user.click(screen.getByRole("button", { name: "Mit Google synchronisieren" }));
+    await waitFor(() => expect(updateItem).toHaveBeenCalled());
+    expect(toast.error).not.toHaveBeenCalled();
+  });
+
+  it("uses native img with no-referrer in OG preview", () => {
+    render(
+      <ItemModal
+        item={linkItem}
+        categories={categories}
+        open
+        onClose={vi.fn()}
+        onDeleted={vi.fn()}
+        onUpdated={vi.fn()}
+      />,
+    );
+    const img = screen.getByTestId("og-preview").querySelector("img");
+    expect(img).not.toBeNull();
+    expect(img).toHaveAttribute("referrerPolicy", "no-referrer");
+    expect(img).toHaveAttribute("src", "https://example.com/og.png");
   });
 });
