@@ -7,6 +7,9 @@ allowBuilds:
 
 minimumReleaseAgeExclude:
   - '@hookform/resolvers'
+  - 'lucide-react'
+  - 'react-hook-form'
+  - '@types/pg'
 
 overrides:
   next>postcss: ^8.5.18
