@@ -45,12 +45,14 @@ const baseLinkItem: BoardItem = {
   deleted_at: null,
 };
 
+const RAW_STATUS_TOKENS = ["pending", "scraping", "timed_out", "failed", "partial", "skipped"] as const;
+
 function renderLinkCard(item: BoardItem) {
   const onSelect = vi.fn();
   const onOpen = vi.fn();
   const onMove = vi.fn();
 
-  render(
+  const view = render(
     <BoardCard
       item={item}
       accentColor="#c45c3e"
@@ -65,7 +67,16 @@ function renderLinkCard(item: BoardItem) {
     />,
   );
 
-  return { onSelect, onOpen, onMove };
+  return { onSelect, onOpen, onMove, ...view };
+}
+
+function expectNoRawStatusCopy(container: HTMLElement) {
+  for (const token of RAW_STATUS_TOKENS) {
+    expect(screen.queryByText(new RegExp(`\\b${token}\\b`, "i"))).toBeNull();
+  }
+  expect(container.textContent?.toLowerCase() ?? "").not.toMatch(
+    /\b(pending|scraping|timed_out|failed|partial|skipped)\b/,
+  );
 }
 
 describe("BoardCard link scrape states", () => {
@@ -82,7 +93,7 @@ describe("BoardCard link scrape states", () => {
   });
 
   it("shows hostname meta from summary, not summary URL as image src", () => {
-    renderLinkCard({
+    const { container } = renderLinkCard({
       ...baseLinkItem,
       image: null,
       scrape_status: "failed",
@@ -90,11 +101,36 @@ describe("BoardCard link scrape states", () => {
 
     expect(document.querySelector("img")).toBeNull();
     expect(screen.getByText(/example\.com/)).toBeInTheDocument();
+    expectNoRawStatusCopy(container);
   });
 
-  it.todo(
-    "shows spinner affordance when scrape_status is pending or scraping (D-22)",
-  );
+  it("shows spinner affordance when scrape_status is pending or scraping (D-22)", () => {
+    const pending = renderLinkCard({
+      ...baseLinkItem,
+      scrape_status: "pending",
+    });
+    expect(pending.container.querySelector('[data-thumb-state="loading"]')).not.toBeNull();
+    expect(pending.container.querySelector(".motion-safe\\:animate-spin")).not.toBeNull();
 
-  it.todo("never renders raw scrape_status code string in the DOM (D-20)");
+    cleanup();
+
+    const scraping = renderLinkCard({
+      ...baseLinkItem,
+      scrape_status: "scraping",
+    });
+    expect(scraping.container.querySelector('[data-thumb-state="loading"]')).not.toBeNull();
+    expect(scraping.container.querySelector(".motion-safe\\:animate-spin")).not.toBeNull();
+  });
+
+  it("never renders raw scrape_status code string in the DOM (D-20)", () => {
+    for (const scrape_status of RAW_STATUS_TOKENS) {
+      const { container } = renderLinkCard({
+        ...baseLinkItem,
+        scrape_status,
+        image: scrape_status === "ok" ? "https://cdn.example.com/og.png" : null,
+      });
+      expectNoRawStatusCopy(container);
+      cleanup();
+    }
+  });
 });

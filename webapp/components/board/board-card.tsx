@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GripVertical, Link2, MoreHorizontal } from "lucide-react";
+import { GripVertical, Link2, Loader2, MoreHorizontal } from "lucide-react";
 import { Draggable } from "@hello-pangea/dnd";
 
 import type { BoardItem, Category } from "@/lib/api-client";
@@ -34,6 +34,22 @@ function linkHostname(summary: string): string {
   }
 }
 
+type LinkThumbState = "loading" | "placeholder" | "image";
+
+function linkThumbState(item: BoardItem, thumbBroken: boolean): LinkThumbState {
+  const status = item.scrape_status;
+  if (status === "pending" || status === "scraping") {
+    return "loading";
+  }
+  if (status === "failed" || status === "timed_out") {
+    return "placeholder";
+  }
+  if (item.image && !thumbBroken) {
+    return "image";
+  }
+  return "placeholder";
+}
+
 export type BoardCardProps = {
   item: BoardItem;
   accentColor: string;
@@ -63,7 +79,7 @@ export function BoardCard({
 }: BoardCardProps) {
   const isLink = item.type === "link";
   const [thumbBroken, setThumbBroken] = useState(false);
-  const showThumb = isLink && item.image && !thumbBroken;
+  const thumbState = isLink ? linkThumbState(item, thumbBroken) : null;
   const longPressTimer = { current: null as ReturnType<typeof setTimeout> | null };
 
   function handleTouchStart() {
@@ -105,8 +121,11 @@ export function BoardCard({
           onTouchMove={handleTouchEnd}
         >
           {isLink && (
-            <div className="relative aspect-[16/9] w-full bg-muted">
-              {showThumb ? (
+            <div
+              className="relative aspect-[16/9] w-full bg-muted transition-opacity duration-200 ease-out motion-reduce:transition-none"
+              data-thumb-state={thumbState ?? undefined}
+            >
+              {thumbState === "image" ? (
                 <img
                   src={item.image!}
                   alt=""
@@ -114,6 +133,14 @@ export function BoardCard({
                   referrerPolicy="no-referrer"
                   onError={() => setThumbBroken(true)}
                 />
+              ) : thumbState === "loading" ? (
+                <div className="flex h-full items-center justify-center bg-muted">
+                  <Loader2
+                    className="size-5 text-muted-foreground motion-safe:animate-spin"
+                    aria-hidden
+                  />
+                  <span className="sr-only">Vorschau wird geladen</span>
+                </div>
               ) : (
                 <div className="flex h-full items-center justify-center bg-muted">
                   <Link2 className="size-5 text-muted-foreground" aria-hidden />
