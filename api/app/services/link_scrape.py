@@ -176,7 +176,9 @@ class LinkScrapeManager:
                     scrape_status=scrape_status,
                 )
         except asyncio.CancelledError:
-            pass
+            if self._active_tasks.get(link_id) is asyncio.current_task():
+                await self._set_scrape_status(link_id, owner_id, "pending")
+            raise
         finally:
             current = asyncio.current_task()
             if self._active_tasks.get(link_id) is current:
