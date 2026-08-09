@@ -1,23 +1,23 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
-current_phase: 05.3
-status: "Milestone v1.0 audit passed"
-stopped_at: Completed /gsd-audit-milestone (passed)
-last_updated: "2026-08-09T11:58:23Z"
+milestone_name: audit polish
+current_phase: 05.4
+current_phase_name: address-residual-v1-0-audit-polish-cal-title-only-sync-stale
+status: executing
+stopped_at: Phase 05.4 planned — 3 plans
+last_updated: "2026-08-09T12:59:10.067Z"
 progress:
-  total_phases: 9
+  total_phases: 10
   completed_phases: 9
-  total_plans: 38
+  total_plans: 41
   completed_plans: 38
-current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-09 (Phase 05.3 inserted — Nyquist/WR tech debt)
-**Current milestone:** v1.0 (initial release) — Phase 05.3 inserted (urgent)
+**Last updated:** 2026-08-09 (Phase 05.4 planned — 3 plans)
+**Current milestone:** v1.0 (initial release) — Phase 05.4 ready to execute
 
 ## Project Reference
 
@@ -30,16 +30,16 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 
 ## Current Position
 
-- **Phase:** 05.3
+- **Phase:** 05.4 (address-residual-v1-0-audit-polish-cal-title-only-sync-stale) — EXECUTING
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Milestone v1.0 audit passed — 28/28 REQ; Nyquist 9/9 COMPLIANT
-- **Resume:** /gsd-complete-milestone v1.0
-- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `passed` (28/28 REQ; Nyquist 0–5 + 05.1/05.2/05.3 COMPLIANT)
+- **Status:** Executing Phase 05.4
+- **Resume:** /gsd-execute-phase 05.4
+- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `passed`; residual polish → Phase 05.4
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
 - **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip; #65 Phase 05.3
 
 ```
-[████████████████████] 36/36 plans (100%)
+[████████████████████] 38/41 plans (planned 05.4: 3)
 ```
 
 ## Phase Plan
@@ -55,6 +55,7 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 | 5.1 | Tech debt: G-05-7 + harden advisories | D-01..D-12 | Complete (3/3 plans) |
 | 5.2 | Fix LINK/CAL integration wiring B1-B4 | LINK/CAL B1–B4 | Complete (5/5 plans) |
 | 5.3 | Tech debt: Nyquist 05.1/05.2 + WR-01..04 | D-01..D-09 | Complete (2/2 plans) |
+| 5.4 | Residual audit polish (CAL/docs/dbhub/test) | audit polish | Planned (3/3) |
 
 ## Performance Metrics
 
@@ -147,12 +148,13 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 
 - Phase 05.1 inserted after Phase 5: Address tech debt: G-05-7 + security harden advisories (URGENT)
 - Phase 05.3 inserted after Phase 05.2: Address tech debt: Nyquist 05.1/05.2 + WR-01..04 (URGENT)
+- Phase 05.4 inserted after Phase 05.3: Address residual v1.0 audit polish (CAL title-only sync, stale 05.1 VERIFICATION FM, dbhub DSN, Hermes test warning) (URGENT)
 
 ## Session Continuity
 
-- **Last session:** 2026-08-09T08:42:06.021Z
-- **Stopped at:** Completed 05.3-02-PLAN.md
-- **Resume file:** None
+- **Last session:** 2026-08-09T12:39:00.000Z
+- **Stopped at:** Phase 05.4 planned — 3 plans verified
+- **Resume file:** .planning/phases/05.4-address-residual-v1-0-audit-polish-cal-title-only-sync-stale/05.4-01-PLAN.md
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `passed`; 28/28 REQ; integration [d2e34867](d2e34867-8471-4866-9fc0-ab81380dd36e); Nyquist 9/9 COMPLIANT
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn)
 - **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!`
@@ -161,7 +163,7 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 - **05.2 UAT:** complete (Connect Google + conflict panel pass); VALIDATION validated + nyquist_compliant
 - **Coolify:** api/mcp/web healthy under `*.puzzlesstool.online`
 - **Nyquist:** phases 0–5 + 05.1 + 05.2 + 05.3 COMPLIANT
-- **Next recommended action:** /gsd-complete-milestone v1.0
+- **Next recommended action:** /gsd-execute-phase 05.4
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
