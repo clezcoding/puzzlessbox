@@ -19,10 +19,10 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   disconnectCalendar,
-  getCalendarConnectUrl,
   getCalendarStatus,
   listCalendars,
   selectCalendar,
+  startCalendarConnect,
   type GoogleCalendar,
 } from "@/lib/api/calendar";
 import { ApiError } from "@/lib/api-client";
@@ -79,8 +79,16 @@ export function CalendarWizard() {
     void loadStatus();
   }, [loadStatus]);
 
-  function handleConnect() {
-    window.location.href = getCalendarConnectUrl();
+  async function handleConnect() {
+    try {
+      await startCalendarConnect();
+    } catch (error) {
+      if (error instanceof ApiError) {
+        toast.error("Google-Verbindung konnte nicht gestartet werden.");
+      } else {
+        toast.error("Google-Verbindung konnte nicht gestartet werden.");
+      }
+    }
   }
 
   async function handleComplete() {
@@ -190,7 +198,7 @@ export function CalendarWizard() {
         height={160}
         className="h-40 w-auto"
       />
-      <Button type="button" onClick={handleConnect}>
+      <Button type="button" onClick={() => void handleConnect()}>
         Mit Google verbinden
       </Button>
     </div>

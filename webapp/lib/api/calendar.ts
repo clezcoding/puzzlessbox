@@ -11,10 +11,11 @@ export type CalendarStatus = {
   selected_calendar_id: string | null;
 };
 
-const apiBase = () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-
-export function getCalendarConnectUrl(): string {
-  return `${apiBase()}/auth/google/connect`;
+export async function startCalendarConnect(): Promise<void> {
+  const { authorization_url } = await apiFetch<{ authorization_url: string }>(
+    "/auth/google/connect",
+  );
+  window.location.href = authorization_url;
 }
 
 export function getCalendarStatus(): Promise<CalendarStatus> {

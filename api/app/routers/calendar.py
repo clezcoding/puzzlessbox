@@ -16,9 +16,9 @@ router = APIRouter(tags=["calendar"])
 
 
 @router.get("/auth/google/connect")
-async def google_connect(owner_id: str = Depends(get_current_owner)) -> RedirectResponse:
+async def google_connect(owner_id: str = Depends(get_current_owner)) -> dict[str, str]:
     url, _state = calendar_service.authorization_url(owner_id)
-    return RedirectResponse(url=url, status_code=302)
+    return {"authorization_url": url}
 
 
 @router.get("/auth/google/callback")
