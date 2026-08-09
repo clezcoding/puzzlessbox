@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: complete
-stopped_at: Completed 05.2-04-PLAN.md
-last_updated: "2026-08-09T05:45:34.140Z"
+status: human_verification_needed
+stopped_at: "Phase 05.2 human_needed — deploy then /gsd-verify-work 05.2"
+last_updated: "2026-08-09T05:52:00.000Z"
 progress:
   total_phases: 8
   completed_phases: 8
@@ -16,7 +16,7 @@ progress:
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-08 (05.2 plan 03 complete — 4/4 plans)
+**Last updated:** 2026-08-09 (05.2 plan 04 complete — 5/5 plans)
 **Current milestone:** v1.0 (initial release) — audit `tech_debt`
 
 ## Project Reference
@@ -30,10 +30,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — EXECUTING
+- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Executing Phase 05.2
-- **Resume:** `/gsd-execute-phase 05.2 --gaps-only` → deploy → re-UAT Settings → Connect Google
+- **Status:** human_verification_needed
+- **Resume:** Deploy → confirm `WEBAPP_URL` on API → re-UAT Settings → Connect Google
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
 - **PR:** https://github.com/clezcoding/puzzlessbox/pull/61
 
