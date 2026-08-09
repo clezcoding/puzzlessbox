@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
 status: human_verification
-stopped_at: Completed 05.2-03-PLAN.md
-last_updated: "2026-08-08T20:02:00.000Z"
+stopped_at: "05.2 UAT partial — 2/3 pass, Google OAuth blocked"
+last_updated: "2026-08-09T04:59:00.000Z"
 progress:
   total_phases: 8
   completed_phases: 8
