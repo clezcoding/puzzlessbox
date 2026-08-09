@@ -5,8 +5,8 @@ milestone_name: audit polish
 current_phase: 05.4
 current_phase_name: address-residual-v1-0-audit-polish-cal-title-only-sync-stale
 status: executing
-stopped_at: Completed 05.4-03-PLAN.md
-last_updated: "2026-08-09T13:03:14.607Z"
+stopped_at: Completed 05.4-01-PLAN.md
+last_updated: "2026-08-09T13:05:08.761Z"
 progress:
   total_phases: 9
   completed_phases: 9
@@ -104,6 +104,7 @@ progress:
 | Phase 05.3 P02 | 8min | 3 tasks | 3 files |
 | Phase 05.4 P02 | 8min | 2 tasks | 2 files |
 | Phase 05.4 P03 | 4min | 2 tasks | 3 files |
+| Phase 05.4 P01 | 8min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -154,8 +155,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-09T13:03:14.595Z
-- **Stopped at:** Completed 05.4-03-PLAN.md
+- **Last session:** 2026-08-09T13:05:08.749Z
+- **Stopped at:** Completed 05.4-01-PLAN.md
 - **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `passed`; 28/28 REQ; integration [d2e34867](d2e34867-8471-4866-9fc0-ab81380dd36e); Nyquist 9/9 COMPLIANT
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn)
@@ -242,3 +243,4 @@ progress:
 - [Phase ?]: D-05: 05.1-VERIFICATION flipped to passed using Phase 05.3 deploy evidence — no new curl in 05.4
 - [Phase ?]: D-07/D-08: dbhub dual-source posture declared in 05.4-COVERAGE.md — no credential redesign
 - [Phase ?]: mock_create_task fixture uses name= alias so module function and pytest fixture coexist
+- [Phase ?]: D-01 option-a: title-only events derive 1h UTC window, persist locally, sync to Google with dateTime schema
