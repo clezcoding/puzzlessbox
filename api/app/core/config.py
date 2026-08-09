@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_ID: str = ""
     GOOGLE_CLIENT_SECRET: str = ""
     GOOGLE_REDIRECT_URI: str = "https://api.puzzlesstool.online/auth/google/callback"
+    WEBAPP_URL: str = "http://localhost:3000"
     ENV: str = "dev"
     # Comma-separated browser origins allowed for credentialed CORS
     CORS_ORIGINS: str = "http://localhost:3000,https://pbox.puzzlesstool.online,https://app.puzzlesstool.online"
