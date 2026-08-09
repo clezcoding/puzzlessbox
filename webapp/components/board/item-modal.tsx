@@ -197,7 +197,13 @@ export function ItemModal({
         setConflict(result.conflict);
         return;
       }
-      onUpdated({ ...item!, title });
+      const items = await getBoardItems();
+      const updated = items.find((row) => row.id === item!.id);
+      onUpdated({
+        ...item!,
+        title,
+        google_event_id: updated?.google_event_id ?? item!.google_event_id,
+      });
     } catch {
       toast.error("Synchronisation mit Google fehlgeschlagen.");
     } finally {
