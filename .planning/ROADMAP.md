@@ -243,12 +243,12 @@ Plans:
 **Goal:** Close residual v1.0 milestone tech debt: (1) flip Phase 05.1 and 05.2 Nyquist VALIDATION.md from `status: draft` / `nyquist_compliant: false` to validated + compliant using existing tests (no new product features), (2) fix code-review warnings WR-01..04 in MCP bootstrap / service-bearer HMAC paths with regression tests (WR-01/02 already code-correct — re-verified; WR-03 second call site jwt.py + WR-04 multi-user owner binding fixed), (3) refresh stale 05.1-UAT.md well-known row that live curl already proves 200.
 **Requirements**: D-01..D-09 (CONTEXT locked decisions — not REQUIREMENTS.md rows)
 **Depends on:** Phase 05.2
-**Plans:** 2/2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 05.3-01-PLAN.md — TRACER: WR-03 jwt.py length-guarded service bearer (401 not 500) + WR-04 multi-user SERVICE_OWNER_ID bootstrap check + WR-01/02 re-verify (D-04..D-08)
+- [x] 05.3-01-PLAN.md — TRACER: WR-03 jwt.py length-guarded service bearer (401 not 500) + WR-04 multi-user SERVICE_OWNER_ID bootstrap check + WR-01/02 re-verify (D-04..D-08)
 
 **Wave 2** *(blocked on Wave 1 — green suites feed Nyquist sign-off)*
 
@@ -301,7 +301,7 @@ Plans:
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 | 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
 | 5.2 Fix LINK/CAL integration wiring B1-B4 | 5/5 | Complete    | 2026-08-09 |
-| 5.3 Address tech debt: Nyquist 05.1/05.2 + WR-01..04 | 0/2 | Planned |  |
+| 5.3 Address tech debt: Nyquist 05.1/05.2 + WR-01..04 | 1/2 | In Progress|  |
 
 ---
 *Roadmap created: 2026-07-28*

@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.3
 status: Not started — plan next
-stopped_at: Phase 05.3 plans verified
-last_updated: "2026-08-09T08:34:29.074Z"
+stopped_at: Completed 05.3-01-PLAN.md
+last_updated: "2026-08-09T08:39:13.156Z"
 progress:
   total_phases: 9
   completed_phases: 8
   total_plans: 38
-  completed_plans: 36
+  completed_plans: 37
 current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 ---
 
@@ -99,6 +99,7 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 | Phase 05.2-fix-link-cal-integration-wiring-b1-b4 P02 | 3min | 3 tasks | 5 files |
 | Phase 05.2 P03 | 12min | 3 tasks | 10 files |
 | Phase 05.2 P04 | 3min | 3 tasks | 9 files |
+| Phase 05.3 P01 | 12 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -148,9 +149,9 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 
 ## Session Continuity
 
-- **Last session:** 2026-08-09T08:34:22.483Z
-- **Stopped at:** Phase 05.3 plans verified
-- **Resume file:** .planning/phases/05.3-address-tech-debt-nyquist-05-1-05-2-wr-01-04/05.3-01-PLAN.md
+- **Last session:** 2026-08-09T08:39:13.143Z
+- **Stopped at:** Completed 05.3-01-PLAN.md
+- **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt`; 28/28 REQ; integration [703f3f74](703f3f74-7742-4488-bc9a-151c3ba146b3); prior ops debt (G-05-7/HSTS/well-known/LINK-CAL) closed
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn)
 - **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!`
@@ -231,3 +232,4 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 - [Phase ?]: Modal Google sync via updateItem title PATCH create-on-edit path
 - [Phase ?]: OAuth browser paths skip Accept; connect via JSON authorization_url + apiFetch Bearer
 - [Phase ?]: OAuth callback RedirectResponse to WEBAPP_URL/settings without query tokens
+- [Phase ?]: User id existence check uses text comparison for user.id text column
