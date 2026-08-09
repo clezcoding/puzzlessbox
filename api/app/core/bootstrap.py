@@ -100,8 +100,7 @@ def ensure_mcp_client(settings: Settings) -> None:
 def check_and_bootstrap_first_user(session: Session, settings: Settings) -> None:
     """Auto-bootstrap MCP client + service principal for first registered user (D-01..D-05).
 
-    When mcp_clients is empty but multiple users exist (e.g. after manual table wipe),
-    binds the earliest account by createdAt ASC — not the latest signup.
+    Single-user: auto-bind first account. Multi-user: require SERVICE_OWNER_ID (WR-04 / D-08).
     """
     # ponytail: EXCLUSIVE lock serializes first-boot; acceptable for v1; upgrade: NOWAIT + retry
     session.execute(text("LOCK TABLE mcp_clients IN EXCLUSIVE MODE"))
@@ -113,6 +112,30 @@ def check_and_bootstrap_first_user(session: Session, settings: Settings) -> None
         text('SELECT id FROM "user" ORDER BY "createdAt" ASC LIMIT 1')
     ).scalar_one_or_none()
     if first_user_id is None:
+        return
+
+    user_count = session.execute(text('SELECT count(*) FROM "user"')).scalar_one()
+    if user_count == 1:
+        bootstrap_owner_id = str(first_user_id)
+    elif user_count > 1:
+        owner_id_env = settings.SERVICE_OWNER_ID.strip()
+        if not owner_id_env:
+            logger.error(
+                "Multi-user setup detected but SERVICE_OWNER_ID is empty. Aborting bootstrap."
+            )
+            return
+        exists = session.execute(
+            text('SELECT 1 FROM "user" WHERE id = :oid LIMIT 1'),
+            {"oid": owner_id_env},
+        ).scalar_one_or_none()
+        if not exists:
+            logger.error(
+                "SERVICE_OWNER_ID %s does not exist in 'user' table. Aborting bootstrap.",
+                owner_id_env,
+            )
+            return
+        bootstrap_owner_id = owner_id_env
+    else:
         return
 
     bootstrap_token = _resolve_bootstrap_token(settings)
@@ -132,7 +155,7 @@ def check_and_bootstrap_first_user(session: Session, settings: Settings) -> None
                     ON CONFLICT (owner_id) DO NOTHING
                     """
                 ),
-                {"owner_id": str(first_user_id), "sp_hash": sp_hash},
+                {"owner_id": bootstrap_owner_id, "sp_hash": sp_hash},
             )
 
     mcp_hash = hashlib.sha256(bootstrap_token.encode()).hexdigest()
@@ -150,5 +173,5 @@ def check_and_bootstrap_first_user(session: Session, settings: Settings) -> None
             )
             """
         ),
-        {"owner_id": str(first_user_id), "mcp_hash": mcp_hash},
+        {"owner_id": bootstrap_owner_id, "mcp_hash": mcp_hash},
     )

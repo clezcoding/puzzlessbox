@@ -69,7 +69,12 @@ def _extract_bearer_token(
 
 def _resolve_service_owner(service_bearer: str) -> str:
     settings = get_settings()
-    if not hmac.compare_digest(service_bearer, settings.SERVICE_BEARER_TOKEN):
+    expected = settings.SERVICE_BEARER_TOKEN
+    if (
+        not service_bearer
+        or len(service_bearer) != len(expected)
+        or not hmac.compare_digest(service_bearer, expected)
+    ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail={"code": "UNAUTHORIZED", "message": "Invalid service bearer token."},

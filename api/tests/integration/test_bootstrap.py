@@ -41,17 +41,36 @@ def _clear_bootstrap_tables(conn) -> None:
     conn.commit()
 
 
-def _insert_user(conn, user_id: str, *, email: str = "first@example.com") -> None:
+def _clear_users(conn) -> None:
+    _ensure_user_table(conn)
+    conn.execute(text('DELETE FROM "user"'))
+    conn.commit()
+
+
+def _insert_user(
+    conn,
+    user_id: str,
+    *,
+    email: str = "first@example.com",
+    created_offset_days: int = 0,
+) -> None:
     _ensure_user_table(conn)
     conn.execute(
         text(
             """
             INSERT INTO "user" (id, name, email, "emailVerified", "createdAt", "updatedAt")
-            VALUES (:id, 'First User', :email, true, timezone('Europe/Berlin', now()), timezone('Europe/Berlin', now()))
+            VALUES (
+                :id,
+                'First User',
+                :email,
+                true,
+                timezone('Europe/Berlin', now()) + (:offset_days * interval '1 day'),
+                timezone('Europe/Berlin', now())
+            )
             ON CONFLICT (id) DO NOTHING
             """
         ),
-        {"id": user_id, "email": email},
+        {"id": user_id, "email": email, "offset_days": created_offset_days},
     )
     conn.commit()
 
@@ -82,6 +101,7 @@ def test_happy_path_first_user_bootstraps(
     owner_id_a: str,
 ) -> None:
     _clear_bootstrap_tables(postgres_connection)
+    _clear_users(postgres_connection)
     _insert_user(postgres_connection, owner_id_a)
 
     response = api_client.post(
@@ -111,6 +131,7 @@ def test_no_op_when_mcp_clients_not_empty(
     owner_id_a: str,
 ) -> None:
     _clear_bootstrap_tables(postgres_connection)
+    _clear_users(postgres_connection)
     _insert_user(postgres_connection, owner_id_a)
     bearer_hash = hashlib.sha256(MCP_BOOTSTRAP.encode()).hexdigest()
     postgres_connection.execute(
@@ -170,6 +191,7 @@ def test_prod_refuse_when_env_token_empty(
     get_settings.cache_clear()
 
     _clear_bootstrap_tables(postgres_connection)
+    _clear_users(postgres_connection)
     _insert_user(postgres_connection, owner_id_a)
 
     with caplog.at_level(logging.ERROR):
@@ -204,6 +226,7 @@ def test_dev_generate_when_env_token_empty(
     monkeypatch.chdir(tmp_path)
 
     _clear_bootstrap_tables(postgres_connection)
+    _clear_users(postgres_connection)
     _insert_user(postgres_connection, owner_id_a)
 
     with caplog.at_level(logging.DEBUG):
@@ -240,6 +263,7 @@ async def test_race_only_one_row(
     owner_id_a: str,
 ) -> None:
     _clear_bootstrap_tables(postgres_connection)
+    _clear_users(postgres_connection)
     _insert_user(postgres_connection, owner_id_a)
 
     async def _post() -> int:
@@ -298,4 +322,94 @@ def test_lifespan_ensure_paths_preserved(
 
     mcp_owner = postgres_connection.execute(text("SELECT owner_id FROM mcp_clients LIMIT 1")).scalar_one()
     assert str(mcp_owner) == owner_env
+    get_settings.cache_clear()
+
+
+def test_multi_user_bootstrap_requires_owner_id(
+    api_client,
+    postgres_connection,
+    monkeypatch: pytest.MonkeyPatch,
+    owner_id_a: str,
+    owner_id_b: str,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    monkeypatch.setenv("SERVICE_BEARER_TOKEN", SERVICE_BEARER)
+    monkeypatch.setenv("MCP_BOOTSTRAP_TOKEN", MCP_BOOTSTRAP)
+    monkeypatch.setenv("ENV", "dev")
+    monkeypatch.delenv("SERVICE_OWNER_ID", raising=False)
+    get_settings.cache_clear()
+
+    _clear_bootstrap_tables(postgres_connection)
+    _clear_users(postgres_connection)
+    _insert_user(
+        postgres_connection,
+        owner_id_a,
+        email="earliest@example.com",
+        created_offset_days=-1,
+    )
+    _insert_user(
+        postgres_connection,
+        owner_id_b,
+        email="later@example.com",
+        created_offset_days=0,
+    )
+
+    with caplog.at_level(logging.ERROR):
+        response = api_client.post(
+            "/internal/mcp-auth",
+            headers=_service_headers(),
+            json=_mcp_auth_payload(),
+        )
+
+    assert response.status_code == 401
+    mcp_count = postgres_connection.execute(text("SELECT count(*) FROM mcp_clients")).scalar_one()
+    sp_count = postgres_connection.execute(text("SELECT count(*) FROM service_principals")).scalar_one()
+    assert mcp_count == 0
+    assert sp_count == 0
+    assert "SERVICE_OWNER_ID is empty" in caplog.text
+    get_settings.cache_clear()
+
+
+def test_multi_user_bootstrap_uses_owner_id(
+    api_client,
+    postgres_connection,
+    monkeypatch: pytest.MonkeyPatch,
+    owner_id_a: str,
+    owner_id_b: str,
+) -> None:
+    monkeypatch.setenv("SERVICE_BEARER_TOKEN", SERVICE_BEARER)
+    monkeypatch.setenv("MCP_BOOTSTRAP_TOKEN", MCP_BOOTSTRAP)
+    monkeypatch.setenv("ENV", "dev")
+    monkeypatch.setenv("SERVICE_OWNER_ID", owner_id_b)
+    get_settings.cache_clear()
+
+    _clear_bootstrap_tables(postgres_connection)
+    _clear_users(postgres_connection)
+    _insert_user(
+        postgres_connection,
+        owner_id_a,
+        email="earliest@example.com",
+        created_offset_days=-1,
+    )
+    _insert_user(
+        postgres_connection,
+        owner_id_b,
+        email="later@example.com",
+        created_offset_days=0,
+    )
+
+    response = api_client.post(
+        "/internal/mcp-auth",
+        headers=_service_headers(),
+        json=_mcp_auth_payload(),
+    )
+
+    assert response.status_code == 200
+    assert response.json()["owner_id"] == owner_id_b
+
+    mcp_count = postgres_connection.execute(text("SELECT count(*) FROM mcp_clients")).scalar_one()
+    assert mcp_count == 1
+
+    mcp_owner = postgres_connection.execute(text("SELECT owner_id FROM mcp_clients LIMIT 1")).scalar_one()
+    assert str(mcp_owner) == owner_id_b
     get_settings.cache_clear()

@@ -19,6 +19,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
 - [x] **Phase 05.1: Address tech debt: G-05-7 + security harden advisories** (INSERTED) - Local MCP bootstrap + security harden advisories
 - [x] **Phase 05.2: Fix LINK/CAL integration wiring B1-B4** (INSERTED) - Close milestone audit gaps B1–B4
+- [x] **Phase 05.3: Address tech debt: Nyquist 05.1/05.2 + WR-01..04** (INSERTED) - Nyquist validation gaps + WR-01..04 (completed 2026-08-09)
 
 ## Phase Details
 
@@ -217,7 +218,7 @@ Plans:
 **Goal:** Close audit blockers B1–B4 — wire existing scrape + Google Calendar into Hermes capture + board/edit UI so LINK-01/02 and CAL-02/03 work end-to-end (not only orphaned POST /links and POST /events).
 **Requirements**: LINK-01, LINK-02, CAL-02, CAL-03
 **Depends on:** Phase 05.1
-**Plans:** 5/5 plans executed (4 executed + 1 gap-closure)
+**Plans:** 5/5 plans complete
 
 Plans:
 **Wave 1**
@@ -236,6 +237,22 @@ Plans:
 **Wave 4** *(gap closure — G-05.2-2)*
 
 - [x] 05.2-04-PLAN.md — Fix Google OAuth Accept 415: skip middleware + apiFetch connect + callback → Settings
+
+### Phase 05.3: Address tech debt: Nyquist 05.1/05.2 + WR-01..04 (INSERTED)
+
+**Goal:** Close residual v1.0 milestone tech debt: (1) flip Phase 05.1 and 05.2 Nyquist VALIDATION.md from `status: draft` / `nyquist_compliant: false` to validated + compliant using existing tests (no new product features), (2) fix code-review warnings WR-01..04 in MCP bootstrap / service-bearer HMAC paths with regression tests (WR-01/02 already code-correct — re-verified; WR-03 second call site jwt.py + WR-04 multi-user owner binding fixed), (3) refresh stale 05.1-UAT.md well-known row that live curl already proves 200.
+**Requirements**: D-01..D-09 (CONTEXT locked decisions — not REQUIREMENTS.md rows)
+**Depends on:** Phase 05.2
+**Plans:** 2/2 plans complete
+
+Plans:
+**Wave 1**
+
+- [x] 05.3-01-PLAN.md — TRACER: WR-03 jwt.py length-guarded service bearer (401 not 500) + WR-04 multi-user SERVICE_OWNER_ID bootstrap check + WR-01/02 re-verify (D-04..D-08)
+
+**Wave 2** *(blocked on Wave 1 — green suites feed Nyquist sign-off)*
+
+- [x] 05.3-02-PLAN.md — Flip 05.1 + 05.2 VALIDATION.md to validated + nyquist_compliant (D-01..D-03) + refresh stale 05.1-UAT well-known row to live 200 (D-09) + finalize 05.3-VALIDATION task IDs
 
 ## Coverage
 
@@ -283,8 +300,9 @@ Plans:
 | 4. WebApp | 8/8 | Complete    | 2026-08-05 |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 | 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
-| 5.2 Fix LINK/CAL integration wiring B1-B4 | 5/5 | In Progress|  |
+| 5.2 Fix LINK/CAL integration wiring B1-B4 | 5/5 | Complete    | 2026-08-09 |
+| 5.3 Address tech debt: Nyquist 05.1/05.2 + WR-01..04 | 2/2 | Complete    | 2026-08-09 |
 
 ---
 *Roadmap created: 2026-07-28*
-*Next: `/gsd-execute-phase 05.2 --gaps-only` (05.2-04 closes G-05.2-2 OAuth Accept 415)*
+*Next: `/gsd-plan-phase 05.3`*

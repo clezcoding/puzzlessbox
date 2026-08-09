@@ -2,22 +2,22 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 05.2
-current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: "Phase 05.2 shipped — PR #62"
-stopped_at: Phase 05.2 human_needed — deploy then /gsd-verify-work 05.2
-last_updated: "2026-08-09T06:10:41.646Z"
+current_phase: 05.3
+status: "Phase 05.3 shipped — PR #65"
+stopped_at: Completed 05.3-02-PLAN.md
+last_updated: "2026-08-09T08:49:05.728Z"
 progress:
-  total_phases: 8
-  completed_phases: 8
-  total_plans: 36
-  completed_plans: 36
+  total_phases: 9
+  completed_phases: 9
+  total_plans: 38
+  completed_plans: 38
+current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-09 (05.2 plan 04 complete — 5/5 plans)
-**Current milestone:** v1.0 (initial release) — audit `tech_debt`
+**Last updated:** 2026-08-09 (Phase 05.3 inserted — Nyquist/WR tech debt)
+**Current milestone:** v1.0 (initial release) — Phase 05.3 inserted (urgent)
 
 ## Project Reference
 
@@ -30,15 +30,16 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE
+- **Phase:** 05.3
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Phase 05.2 shipped — PR #62
-- **Resume:** Deploy → confirm `WEBAPP_URL` on API → re-UAT Settings → Connect Google
+- **Status:** Phase 05.3 shipped — PR #65
+- **Resume:** /gsd-validate-phase 05.3
+- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt` (28/28 REQ; Nyquist 05.1/05.2 now validated)
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
-- **PR:** https://github.com/clezcoding/puzzlessbox/pull/61
+- **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip
 
 ```
-[6/7] █████████████████░░░   86% phases
+[████████████████████] 36/36 plans (100%)
 ```
 
 ## Phase Plan
@@ -52,6 +53,8 @@ progress:
 | 4 | WebApp (UI) | BOARD-01..04, CAP-05, CAL-01 | Complete |
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Complete |
 | 5.1 | Tech debt: G-05-7 + harden advisories | D-01..D-12 | Complete (3/3 plans) |
+| 5.2 | Fix LINK/CAL integration wiring B1-B4 | LINK/CAL B1–B4 | Complete (5/5 plans) |
+| 5.3 | Tech debt: Nyquist 05.1/05.2 + WR-01..04 | D-01..D-09 | Complete (2/2 plans) |
 
 ## Performance Metrics
 
@@ -96,6 +99,8 @@ progress:
 | Phase 05.2-fix-link-cal-integration-wiring-b1-b4 P02 | 3min | 3 tasks | 5 files |
 | Phase 05.2 P03 | 12min | 3 tasks | 10 files |
 | Phase 05.2 P04 | 3min | 3 tasks | 9 files |
+| Phase 05.3 P01 | 12 | 2 tasks | 4 files |
+| Phase 05.3 P02 | 8min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -141,21 +146,22 @@ progress:
 ### Roadmap Evolution
 
 - Phase 05.1 inserted after Phase 5: Address tech debt: G-05-7 + security harden advisories (URGENT)
+- Phase 05.3 inserted after Phase 05.2: Address tech debt: Nyquist 05.1/05.2 + WR-01..04 (URGENT)
 
 ## Session Continuity
 
-- **Last session:** 2026-08-09T05:45:34.128Z
-- **Stopped at:** Completed 05.2-04-PLAN.md
+- **Last session:** 2026-08-09T08:42:06.021Z
+- **Stopped at:** Completed 05.3-02-PLAN.md
 - **Resume file:** None
-- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — was `tech_debt` (Nyquist debt); phases 0/2/3/4/5 now `validated` + `nyquist_compliant: true` (2026-08-05)
-- **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn; board a2 confirmed)
-- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!` (user `1ac8eb47-6526-472a-8267-bbf7b02eff73` after wipe r6)
-- **Phase 4 UAT:** `.planning/phases/04-webapp/04-UAT.md` — 18/18 pass; G-04-4 closed via 04-07
-- **05.1 closed:** G-05-7 local MCP bootstrap; HSTS/banner advisories; well-known stub — all 3 plans complete
-- **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404); SERVICE_OWNER_ID → new first user
-- **Nyquist:** phases 0–5 compliant; 05.1 VALIDATION.md draft ready
-- **Next recommended action:** Merge PR #61 → Coolify deploy → Google OAuth UAT → `/gsd-verify-work 05.2`
-- **Phase 1 deferred (not blockers):** Google browser OAuth full round-trip → Phase 4 webapp (API 302 verified)
+- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt`; 28/28 REQ; integration [703f3f74](703f3f74-7742-4488-bc9a-151c3ba146b3); prior ops debt (G-05-7/HSTS/well-known/LINK-CAL) closed
+- **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn)
+- **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!`
+- **Phase 4 UAT:** `.planning/phases/04-webapp/04-UAT.md` — 18/18 pass
+- **05.1:** UAT complete (15/15); VALIDATION validated + nyquist_compliant
+- **05.2 UAT:** complete (Connect Google + conflict panel pass); VALIDATION validated + nyquist_compliant
+- **Coolify:** api/mcp/web healthy under `*.puzzlesstool.online`
+- **Nyquist:** phases 0–5 + 05.1 + 05.2 COMPLIANT; 05.3 VALIDATION pending validate-phase
+- **Next recommended action:** /gsd-validate-phase 05.3
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
@@ -227,3 +233,5 @@ progress:
 - [Phase ?]: Modal Google sync via updateItem title PATCH create-on-edit path
 - [Phase ?]: OAuth browser paths skip Accept; connect via JSON authorization_url + apiFetch Bearer
 - [Phase ?]: OAuth callback RedirectResponse to WEBAPP_URL/settings without query tokens
+- [Phase ?]: User id existence check uses text comparison for user.id text column
+- [Phase ?]: 05.3-VALIDATION map IDs pre-filled by planner; Task 3 UAT-only edit

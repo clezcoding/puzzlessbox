@@ -21,12 +21,13 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 
 - [x] Einheitliches Branding (Hallmark: clean + warm, kein AI-Slop) inkl. Design-Tokens vor WebApp-Bau — **Phase 0** (`brand/` kit: 25 Apollo PNGs, `tokens.css`, Tailwind preset, `BRAND.md`, `VOICE.md`)
 - [x] Coolify-Deploy (Docker-Image via GHCR + GitHub Actions), lokale DB-Backups, Health Checks — **Phase 5** (API/MCP/WebApp dockerimage apps, deploy-*.yml, backup schedule)
+- [x] Link-Ablage mit Metadaten (Titel, Vorschaubild, Beschreibung), async scrape, rescrape, Board scrape_status — **Phase 05.2** (B1/B2)
+- [x] Google Calendar OAuth + create/sync/ETag-412 + delete wiring (CAL-02/03) — **Phase 05.2** (B3/B4 + OAuth Accept fix)
 
 ### Active
 
 - [ ] Capture-Flow: Sprach-/Textnachricht an Hermes → strukturierte Verarbeitung → Bestätigung (Titel, Typ, Kategorie, Kurz-Zusammenfassung) → Auto-Save nach 30s → Anzeige in WebApp
-- [ ] Link-Ablage mit Metadaten (Titel, Vorschaubild, Beschreibung) und automatischer Kategorisierung
-- [ ] Tasks & Kalender: Extraktion aus Nachrichten; intern speichern; Google Calendar lesen + schreiben (separater OAuth in Settings)
+- [ ] Tasks & Kalender: Extraktion aus Nachrichten; intern speichern (Google write path shipped Phase 05.2)
 - [ ] Kategorien-Board: Defaults Inbox · Notizen · Links · Tasks · Termine; frei erstellbar; Drag & Drop
 - [ ] WebApp-Auth: Better Auth — Email/Password Register + Login; nach erstem Account `disableSignUp: true`
 - [ ] MCP-Server (FastMCP) für Hermes: create/list/move/confirm/update Items & Categories; Bearer-Token-Auth
@@ -100,4 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-02 after Phase 5 completion*
+*Last updated: 2026-08-09 after Phase 05.2 completion*
