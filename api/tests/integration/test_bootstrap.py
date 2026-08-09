@@ -166,6 +166,7 @@ def test_prod_refuse_when_env_token_empty(
     monkeypatch.setenv("SERVICE_BEARER_TOKEN", SERVICE_BEARER)
     monkeypatch.setenv("MCP_BOOTSTRAP_TOKEN", "")
     monkeypatch.setenv("ENV", "prod")
+    monkeypatch.setenv("WEBAPP_URL", "https://pbox.puzzlesstool.online")
     get_settings.cache_clear()
 
     _clear_bootstrap_tables(postgres_connection)
