@@ -268,6 +268,20 @@ def test_delete_item_with_google_event_id_calls_events_delete(
         assert delete.status_code == 204
         mock_service.events.return_value.delete.assert_called()
 
+        cleared = postgres_connection.execute(
+            text("SELECT google_event_id, etag FROM events WHERE id = :id"),
+            {"id": draft_id},
+        ).fetchone()
+        assert cleared is not None
+        assert cleared[0] is None
+        assert cleared[1] is None
+
         restore = api_client.post(f"/items/{draft_id}/restore", headers=headers)
         assert restore.status_code == 200
         assert mock_service.events.return_value.insert.call_count == insert_count
+        restored = postgres_connection.execute(
+            text("SELECT google_event_id FROM events WHERE id = :id"),
+            {"id": draft_id},
+        ).fetchone()
+        assert restored is not None
+        assert restored[0] is None

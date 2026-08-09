@@ -373,19 +373,33 @@ def delete_item(
                 owner_id,
                 google_event_id=event_row.google_event_id,
             )
-
-    result = db.execute(
-        text(
-            f"""
-            UPDATE {table}
-            SET deleted_at = timezone('Europe/Berlin', now()),
-                updated_at = timezone('Europe/Berlin', now())
-            WHERE id = CAST(:item_id AS uuid) AND owner_id = CAST(:owner_id AS uuid)
-            RETURNING id
-            """
-        ),
-        {"item_id": item_id, "owner_id": owner_id},
-    )
+        # Clear remote linkage so restore cannot PATCH a deleted Google event.
+        result = db.execute(
+            text(
+                """
+                UPDATE events
+                SET google_event_id = NULL, etag = NULL,
+                    deleted_at = timezone('Europe/Berlin', now()),
+                    updated_at = timezone('Europe/Berlin', now())
+                WHERE id = CAST(:item_id AS uuid) AND owner_id = CAST(:owner_id AS uuid)
+                RETURNING id
+                """
+            ),
+            {"item_id": item_id, "owner_id": owner_id},
+        )
+    else:
+        result = db.execute(
+            text(
+                f"""
+                UPDATE {table}
+                SET deleted_at = timezone('Europe/Berlin', now()),
+                    updated_at = timezone('Europe/Berlin', now())
+                WHERE id = CAST(:item_id AS uuid) AND owner_id = CAST(:owner_id AS uuid)
+                RETURNING id
+                """
+            ),
+            {"item_id": item_id, "owner_id": owner_id},
+        )
     if result.scalar_one_or_none() is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
