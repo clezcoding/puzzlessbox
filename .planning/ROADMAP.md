@@ -287,4 +287,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-07-28*
-*Next: `/gsd-execute-phase 05.2` (plan 01 opens with D-08 VIEW checkpoint)*
+*Next: `/gsd-execute-phase 05.2 --gaps-only` (05.2-04 closes G-05.2-2 OAuth Accept 415)*
