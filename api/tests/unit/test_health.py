@@ -51,7 +51,7 @@ def test_oauth_connect_skips_accept_versioning(client):
         "/auth/google/connect",
         headers={"Accept": "text/html"},
     )
-    assert response.status_code != 415
+    assert response.status_code == 401
 
 
 def test_oauth_callback_skips_accept_versioning(client):
@@ -59,7 +59,7 @@ def test_oauth_callback_skips_accept_versioning(client):
         "/auth/google/callback",
         headers={"Accept": "text/html"},
     )
-    assert response.status_code != 415
+    assert response.status_code == 422
 
 
 def test_docs_disabled_prod(monkeypatch):
