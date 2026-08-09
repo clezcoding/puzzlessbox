@@ -9,7 +9,7 @@ import json
 import logging
 import secrets
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from fastapi import HTTPException, status
@@ -81,6 +81,20 @@ def _client_config(settings: Settings) -> dict[str, Any]:
             "redirect_uris": [settings.GOOGLE_REDIRECT_URI],
         }
     }
+
+
+def _normalize_times(
+    starts_at: datetime | None, ends_at: datetime | None
+) -> tuple[datetime, datetime]:
+    """Derive timed window when starts_at/ends_at partially or fully null (D-01)."""
+    if starts_at is not None and ends_at is not None:
+        return starts_at, ends_at
+    if starts_at is not None:
+        return starts_at, starts_at + timedelta(hours=1)
+    if ends_at is not None:
+        return ends_at - timedelta(hours=1), ends_at
+    now = datetime.now(timezone.utc)
+    return now, now + timedelta(hours=1)
 
 
 def concurrency_conflict(etag: str, remote_state: dict[str, Any]) -> HTTPException:
@@ -235,13 +249,13 @@ class GoogleCalendarService:
         calendar_id = self._selected_calendar_id(db, owner_id)
         service = self._calendar_service(db, owner_id)
 
+        normalized_start, normalized_end = _normalize_times(starts_at, ends_at)
         body: dict[str, Any] = {
             "summary": title,
             "description": summary,
+            "start": {"dateTime": normalized_start.isoformat()},
+            "end": {"dateTime": normalized_end.isoformat()},
         }
-        if starts_at and ends_at:
-            body["start"] = {"dateTime": starts_at.isoformat()}
-            body["end"] = {"dateTime": ends_at.isoformat()}
 
         remote = service.events().insert(calendarId=calendar_id, body=body).execute()
         now = datetime.now(timezone.utc)
@@ -250,8 +264,8 @@ class GoogleCalendarService:
             category_id=category_id,
             title=title,
             summary=summary,
-            starts_at=starts_at,
-            ends_at=ends_at,
+            starts_at=normalized_start,
+            ends_at=normalized_end,
             google_event_id=remote.get("id"),
             etag=remote.get("etag"),
             created_at=now,
@@ -359,13 +373,15 @@ def sync_local_event_to_google(db: Session, owner_id: str, event: Event) -> Even
         return event
 
     calendar_id = status["selected_calendar_id"]
+    normalized_start, normalized_end = _normalize_times(event.starts_at, event.ends_at)
+    event.starts_at = normalized_start
+    event.ends_at = normalized_end
     body: dict[str, Any] = {
         "summary": event.title,
         "description": event.summary,
+        "start": {"dateTime": event.starts_at.isoformat()},
+        "end": {"dateTime": event.ends_at.isoformat()},
     }
-    if event.starts_at and event.ends_at:
-        body["start"] = {"dateTime": event.starts_at.isoformat()}
-        body["end"] = {"dateTime": event.ends_at.isoformat()}
 
     try:
         service = calendar_service._calendar_service(db, owner_id)
