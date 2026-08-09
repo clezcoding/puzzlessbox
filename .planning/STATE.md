@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: human_verification
-stopped_at: "05.2 UAT partial — 2/3 pass, Google OAuth blocked"
-last_updated: "2026-08-09T04:59:00.000Z"
+status: shipping
+stopped_at: "Phase 05.2 shipped — PR #61 (Coolify UAT Test 2 pending)"
+last_updated: "2026-08-09T05:05:00.000Z"
 progress:
   total_phases: 8
   completed_phases: 8
@@ -32,9 +32,10 @@ progress:
 
 - **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE (4/4 plans)
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Human verification — UAT pending (05.2-UAT.md)
-- **Resume:** `/gsd-verify-work 05.2`
-- **UAT login:** `uat@puzzless.local` / see `webapp/.env.local`
+- **Status:** Shipped — PR #61 (awaiting CI → Coolify; Google UAT Test 2 pending on prod)
+- **Resume:** After merge+deploy → Google Calendar connect on pbox → `/gsd-verify-work 05.2` Test 2
+- **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
+- **PR:** https://github.com/clezcoding/puzzlessbox/pull/61
 
 ```
 [6/7] █████████████████░░░   86% phases
@@ -152,7 +153,7 @@ progress:
 - **05.1 closed:** G-05-7 local MCP bootstrap; HSTS/banner advisories; well-known stub — all 3 plans complete
 - **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404); SERVICE_OWNER_ID → new first user
 - **Nyquist:** phases 0–5 compliant; 05.1 VALIDATION.md draft ready
-- **Next recommended action:** `/gsd-verify-work 05.2`
+- **Next recommended action:** Merge PR #61 → Coolify deploy → Google OAuth UAT → `/gsd-verify-work 05.2`
 - **Phase 1 deferred (not blockers):** Google browser OAuth full round-trip → Phase 4 webapp (API 302 verified)
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
