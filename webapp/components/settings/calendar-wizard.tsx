@@ -19,10 +19,10 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   disconnectCalendar,
-  getCalendarConnectUrl,
   getCalendarStatus,
   listCalendars,
   selectCalendar,
+  startCalendarConnect,
   type GoogleCalendar,
 } from "@/lib/api/calendar";
 import { ApiError } from "@/lib/api-client";
@@ -41,6 +41,7 @@ export function CalendarWizard() {
   const [loading, setLoading] = useState(true);
   const [listLoading, setListLoading] = useState(false);
   const [disconnectOpen, setDisconnectOpen] = useState(false);
+  const [connecting, setConnecting] = useState(false);
 
   const loadStatus = useCallback(async () => {
     setLoading(true);
@@ -79,8 +80,16 @@ export function CalendarWizard() {
     void loadStatus();
   }, [loadStatus]);
 
-  function handleConnect() {
-    window.location.href = getCalendarConnectUrl();
+  async function handleConnect() {
+    if (connecting) return;
+    setConnecting(true);
+    try {
+      await startCalendarConnect();
+    } catch {
+      toast.error("Google-Verbindung konnte nicht gestartet werden.");
+    } finally {
+      setConnecting(false);
+    }
   }
 
   async function handleComplete() {
@@ -190,7 +199,11 @@ export function CalendarWizard() {
         height={160}
         className="h-40 w-auto"
       />
-      <Button type="button" onClick={handleConnect}>
+      <Button
+        type="button"
+        onClick={() => void handleConnect()}
+        disabled={connecting}
+      >
         Mit Google verbinden
       </Button>
     </div>

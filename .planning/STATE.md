@@ -4,19 +4,19 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: shipping
-stopped_at: "Phase 05.2 shipped — PR #61 (Coolify UAT Test 2 pending)"
-last_updated: "2026-08-09T05:05:00.000Z"
+status: "Phase 05.2 shipped — PR #62"
+stopped_at: Phase 05.2 human_needed — deploy then /gsd-verify-work 05.2
+last_updated: "2026-08-09T06:10:41.646Z"
 progress:
   total_phases: 8
   completed_phases: 8
-  total_plans: 35
-  completed_plans: 35
+  total_plans: 36
+  completed_plans: 36
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-08 (05.2 plan 03 complete — 4/4 plans)
+**Last updated:** 2026-08-09 (05.2 plan 04 complete — 5/5 plans)
 **Current milestone:** v1.0 (initial release) — audit `tech_debt`
 
 ## Project Reference
@@ -30,10 +30,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE (4/4 plans)
+- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Shipped — PR #61 (awaiting CI → Coolify; Google UAT Test 2 pending on prod)
-- **Resume:** After merge+deploy → Google Calendar connect on pbox → `/gsd-verify-work 05.2` Test 2
+- **Status:** Phase 05.2 shipped — PR #62
+- **Resume:** Deploy → confirm `WEBAPP_URL` on API → re-UAT Settings → Connect Google
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
 - **PR:** https://github.com/clezcoding/puzzlessbox/pull/61
 
@@ -95,6 +95,7 @@ progress:
 | Phase 05.2 P02 | 3min | 3 tasks | 5 files |
 | Phase 05.2-fix-link-cal-integration-wiring-b1-b4 P02 | 3min | 3 tasks | 5 files |
 | Phase 05.2 P03 | 12min | 3 tasks | 10 files |
+| Phase 05.2 P04 | 3min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -143,8 +144,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-08T20:01:44.237Z
-- **Stopped at:** Completed 05.2-03-PLAN.md
+- **Last session:** 2026-08-09T05:45:34.128Z
+- **Stopped at:** Completed 05.2-04-PLAN.md
 - **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — was `tech_debt` (Nyquist debt); phases 0/2/3/4/5 now `validated` + `nyquist_compliant: true` (2026-08-05)
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn; board a2 confirmed)
@@ -224,3 +225,5 @@ progress:
 - [Phase ?]: POST /links uses apply_scrape_to_link after pending row insert (D-04)
 - [Phase ?]: board-items google_event_id via events JOIN not VIEW migration
 - [Phase ?]: Modal Google sync via updateItem title PATCH create-on-edit path
+- [Phase ?]: OAuth browser paths skip Accept; connect via JSON authorization_url + apiFetch Bearer
+- [Phase ?]: OAuth callback RedirectResponse to WEBAPP_URL/settings without query tokens

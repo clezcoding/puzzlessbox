@@ -46,8 +46,25 @@ def test_versioning_415(client):
     assert API_VERSION_ACCEPT in body["error"]["message"]
 
 
+def test_oauth_connect_skips_accept_versioning(client):
+    response = client.get(
+        "/auth/google/connect",
+        headers={"Accept": "text/html"},
+    )
+    assert response.status_code == 401
+
+
+def test_oauth_callback_skips_accept_versioning(client):
+    response = client.get(
+        "/auth/google/callback",
+        headers={"Accept": "text/html"},
+    )
+    assert response.status_code == 422
+
+
 def test_docs_disabled_prod(monkeypatch):
     monkeypatch.setenv("ENV", "prod")
+    monkeypatch.setenv("WEBAPP_URL", "https://pbox.puzzlesstool.online")
     get_settings.cache_clear()
     prod_app = create_app()
     prod_client = TestClient(prod_app)

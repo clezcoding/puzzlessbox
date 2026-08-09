@@ -6,6 +6,7 @@ import base64
 import hashlib
 import hmac
 import json
+import logging
 import secrets
 import uuid
 from datetime import datetime, timezone
@@ -24,6 +25,7 @@ from app.core.security import decrypt_token, encrypt_token
 from app.models import CalendarToken, Event
 
 CALENDAR_SCOPES = ["https://www.googleapis.com/auth/calendar"]
+logger = logging.getLogger(__name__)
 
 
 def _state_key(settings: Settings) -> bytes:
@@ -375,6 +377,11 @@ def sync_local_event_to_google(db: Session, owner_id: str, event: Event) -> Even
         db.commit()
         db.refresh(event)
     except Exception:
+        logger.exception(
+            "sync_local_event_to_google failed for event_id=%s owner_id=%s",
+            event.id,
+            owner_id,
+        )
         db.rollback()
         db.add(event)
         db.commit()

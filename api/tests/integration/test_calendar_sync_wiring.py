@@ -40,8 +40,9 @@ def _connect_calendar(api_client, mock_jwks_keypair, owner_id_a: str, mock_servi
             "/auth/google/callback",
             params={"code": "mock-code", "state": "signed-state"},
             headers=API_HEADERS,
+            follow_redirects=False,
         )
-        assert callback.status_code == 200
+        assert callback.status_code == 302
         select = api_client.post(f"/calendars/{MOCK_CALENDAR_ID}/select", headers=headers)
         assert select.status_code == 200
     return headers
@@ -120,8 +121,9 @@ async def test_autosave_event_syncs_when_google_connected(
                 "/auth/google/callback",
                 params={"code": "mock-code", "state": "signed-state"},
                 headers=API_HEADERS,
+                follow_redirects=False,
             )
-            assert callback.status_code == 200
+            assert callback.status_code == 302
         select = await async_api_client.post(
             f"/calendars/{MOCK_CALENDAR_ID}/select", headers=headers
         )
@@ -266,6 +268,20 @@ def test_delete_item_with_google_event_id_calls_events_delete(
         assert delete.status_code == 204
         mock_service.events.return_value.delete.assert_called()
 
+        cleared = postgres_connection.execute(
+            text("SELECT google_event_id, etag FROM events WHERE id = :id"),
+            {"id": draft_id},
+        ).fetchone()
+        assert cleared is not None
+        assert cleared[0] is None
+        assert cleared[1] is None
+
         restore = api_client.post(f"/items/{draft_id}/restore", headers=headers)
         assert restore.status_code == 200
         assert mock_service.events.return_value.insert.call_count == insert_count
+        restored = postgres_connection.execute(
+            text("SELECT google_event_id FROM events WHERE id = :id"),
+            {"id": draft_id},
+        ).fetchone()
+        assert restored is not None
+        assert restored[0] is None

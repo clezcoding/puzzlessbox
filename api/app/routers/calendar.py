@@ -9,6 +9,7 @@ from fastapi.responses import RedirectResponse
 from sqlmodel import Session
 
 from app.auth.jwt import get_current_owner, get_db_for_owner
+from app.core.config import get_settings
 from app.core.database import apply_tenant_context, get_db, set_request_owner
 from app.services.calendar import calendar_service
 
@@ -16,9 +17,9 @@ router = APIRouter(tags=["calendar"])
 
 
 @router.get("/auth/google/connect")
-async def google_connect(owner_id: str = Depends(get_current_owner)) -> RedirectResponse:
+async def google_connect(owner_id: str = Depends(get_current_owner)) -> dict[str, str]:
     url, _state = calendar_service.authorization_url(owner_id)
-    return RedirectResponse(url=url, status_code=302)
+    return {"authorization_url": url}
 
 
 @router.get("/auth/google/callback")
@@ -26,12 +27,23 @@ async def google_callback(
     code: str,
     state: str,
     db: Session = Depends(get_db),
-) -> dict[str, str]:
-    owner_id, credentials = calendar_service.exchange_code(code, state)
-    set_request_owner(owner_id)
-    apply_tenant_context(db, owner_id)
-    calendar_service.upsert_tokens(db, owner_id, credentials)
-    return {"status": "connected", "owner_id": owner_id}
+) -> RedirectResponse:
+    settings = get_settings()
+    webapp_base = settings.WEBAPP_URL.rstrip("/")
+    try:
+        owner_id, credentials = calendar_service.exchange_code(code, state)
+        set_request_owner(owner_id)
+        apply_tenant_context(db, owner_id)
+        calendar_service.upsert_tokens(db, owner_id, credentials)
+    except Exception:
+        return RedirectResponse(
+            url=f"{webapp_base}/settings?calendar=error",
+            status_code=302,
+        )
+    return RedirectResponse(
+        url=f"{webapp_base}/settings",
+        status_code=302,
+    )
 
 
 @router.get("/calendars")

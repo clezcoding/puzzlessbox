@@ -105,6 +105,7 @@ def _insert_draft(owner_id: str, payload: DraftCreate) -> tuple[Note | Link | Ta
             category_id=payload.category_id,
             title=payload.title,
             url=payload.summary or payload.title,
+            scrape_status="pending",
         )
     elif payload.type == ItemType.task:
         row = Task(

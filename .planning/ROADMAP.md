@@ -217,7 +217,7 @@ Plans:
 **Goal:** Close audit blockers B1–B4 — wire existing scrape + Google Calendar into Hermes capture + board/edit UI so LINK-01/02 and CAL-02/03 work end-to-end (not only orphaned POST /links and POST /events).
 **Requirements**: LINK-01, LINK-02, CAL-02, CAL-03
 **Depends on:** Phase 05.1
-**Plans:** 4/4 plans executed
+**Plans:** 5/5 plans executed (4 executed + 1 gap-closure)
 
 Plans:
 **Wave 1**
@@ -232,6 +232,10 @@ Plans:
 **Wave 3** *(blocked on Wave 2 completion)*
 
 - [x] 05.2-03-PLAN.md — B3/B4: Google sync on board-visible + PATCH/DELETE ETag/412 + modal CTAs
+
+**Wave 4** *(gap closure — G-05.2-2)*
+
+- [x] 05.2-04-PLAN.md — Fix Google OAuth Accept 415: skip middleware + apiFetch connect + callback → Settings
 
 ## Coverage
 
@@ -279,8 +283,8 @@ Plans:
 | 4. WebApp | 8/8 | Complete    | 2026-08-05 |
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 | 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
-| 5.2 Fix LINK/CAL integration wiring B1-B4 | 4/4 | In Progress|  |
+| 5.2 Fix LINK/CAL integration wiring B1-B4 | 5/5 | In Progress|  |
 
 ---
 *Roadmap created: 2026-07-28*
-*Next: `/gsd-execute-phase 05.2` (plan 01 opens with D-08 VIEW checkpoint)*
+*Next: `/gsd-execute-phase 05.2 --gaps-only` (05.2-04 closes G-05.2-2 OAuth Accept 415)*

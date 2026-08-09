@@ -15,7 +15,15 @@ from app.core.errors import (
 from app.routers import auth, calendar, capture, categories, events, health, internal, items, links
 
 API_VERSION_ACCEPT = "application/vnd.puzzlessbox.v1+json"
-_VERSION_SKIP_PREFIXES = ("/health", "/ready", "/docs", "/redoc", "/openapi.json")
+_VERSION_SKIP_PREFIXES = (
+    "/health",
+    "/ready",
+    "/docs",
+    "/redoc",
+    "/openapi.json",
+    "/auth/google/connect",
+    "/auth/google/callback",
+)
 
 
 class AcceptVersionMiddleware(BaseHTTPMiddleware):
