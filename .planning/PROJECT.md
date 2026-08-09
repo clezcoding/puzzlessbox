@@ -23,6 +23,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] Coolify-Deploy (Docker-Image via GHCR + GitHub Actions), lokale DB-Backups, Health Checks — **Phase 5** (API/MCP/WebApp dockerimage apps, deploy-*.yml, backup schedule)
 - [x] Link-Ablage mit Metadaten (Titel, Vorschaubild, Beschreibung), async scrape, rescrape, Board scrape_status — **Phase 05.2** (B1/B2)
 - [x] Google Calendar OAuth + create/sync/ETag-412 + delete wiring (CAL-02/03) — **Phase 05.2** (B3/B4 + OAuth Accept fix)
+- [x] Residual v1.0 audit polish: title-only Calendar sync (1h default window), 05.1 verification closeout, dbhub posture docs, Hermes test mock hygiene — **Phase 05.4**
 
 ### Active
 
