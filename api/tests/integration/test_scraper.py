@@ -149,7 +149,9 @@ def test_camoufox_fallback(
     assert response.status_code == 201
     body = response.json()
     assert body["title"] == "Camoufox Title"
-    assert body["scrape_status"] == "ok"
+    # title without og:image → partial (map_scrape_status / D-partial)
+    assert body["scrape_status"] == "partial"
+    assert body["metadata"].get("image") is None
     assert body["category_id"] == links_category_id
 
 
