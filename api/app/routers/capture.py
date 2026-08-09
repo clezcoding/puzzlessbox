@@ -260,6 +260,8 @@ async def discard_draft(
         )
     db.commit()
     timeout_manager.cancel_timeout(draft_id)
+    if item_type == ItemType.link:
+        scrape_manager.cancel_scrape(draft_id)
     return {"id": draft_id, "type": item_type.value, "status": "discarded"}
 
 
