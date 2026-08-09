@@ -288,7 +288,7 @@ def _sync_event_after_local_update(
     if not calendar_changed:
         return
 
-    # Soft-skip when disconnected: local commit already succeeded (WR-06).
+    # Soft-skip remote update when calendar disconnected (mirrors delete_remote_event).
     if not connected:
         return
 
