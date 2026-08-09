@@ -32,11 +32,11 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 
 - **Phase:** 05.3
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Phase 05.3 shipped — PR #65
-- **Resume:** /gsd-validate-phase 05.3
-- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt` (28/28 REQ; Nyquist 05.1/05.2 now validated)
+- **Status:** Phase 05.3 shipped — PR #65; Nyquist validated
+- **Resume:** /gsd-audit-milestone
+- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt` (28/28 REQ; Nyquist 05.1/05.2/05.3 COMPLIANT)
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
-- **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip
+- **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip; #65 Phase 05.3
 
 ```
 [████████████████████] 36/36 plans (100%)
@@ -160,8 +160,8 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 - **05.1:** UAT complete (15/15); VALIDATION validated + nyquist_compliant
 - **05.2 UAT:** complete (Connect Google + conflict panel pass); VALIDATION validated + nyquist_compliant
 - **Coolify:** api/mcp/web healthy under `*.puzzlesstool.online`
-- **Nyquist:** phases 0–5 + 05.1 + 05.2 COMPLIANT; 05.3 VALIDATION pending validate-phase
-- **Next recommended action:** /gsd-validate-phase 05.3
+- **Nyquist:** phases 0–5 + 05.1 + 05.2 + 05.3 COMPLIANT
+- **Next recommended action:** /gsd-audit-milestone
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
