@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: "Phase 05.2 shipped — PR #62"
-stopped_at: Phase 05.2 human_needed — deploy then /gsd-verify-work 05.2
-last_updated: "2026-08-09T06:10:41.646Z"
+status: human_verification_needed
+stopped_at: "UAT 05.2 complete — all 5 tests pass; ready /gsd-verify-work closeout"
+last_updated: "2026-08-09T06:46:00.000Z"
 progress:
   total_phases: 8
   completed_phases: 8
@@ -30,12 +30,12 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE
+- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — human UAT remaining
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Phase 05.2 shipped — PR #62
-- **Resume:** Deploy → confirm `WEBAPP_URL` on API → re-UAT Settings → Connect Google
+- **Status:** human_verification_needed — UAT 5/5 pass; run `/gsd-verify-work 05.2` to close
+- **Resume:** Settings → Connect Google (hard refresh) → calendar create/412
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
-- **PR:** https://github.com/clezcoding/puzzlessbox/pull/61
+- **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip
 
 ```
 [6/7] █████████████████░░░   86% phases
