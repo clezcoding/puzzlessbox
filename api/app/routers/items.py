@@ -288,6 +288,10 @@ def _sync_event_after_local_update(
     if not calendar_changed:
         return
 
+    # Soft-skip when disconnected: local commit already succeeded (WR-06).
+    if not connected:
+        return
+
     calendar_id = status_info["selected_calendar_id"]
     body: dict[str, Any] = {}
     if payload.title is not None:
@@ -330,6 +334,14 @@ def update_item(
     force = if_none_match == "*"
 
     if payload.type is not None and payload.type != current_type:
+        if current_type == ItemType.event:
+            event_row = db.get(Event, uuid.UUID(item_id))
+            if event_row is not None and event_row.google_event_id:
+                calendar_service.delete_remote_event(
+                    db,
+                    owner_id,
+                    google_event_id=event_row.google_event_id,
+                )
         current = _fetch_item_row(db, table_for_item_type(current_type), item_id, owner_id)
         _apply_type_change(db, item_id, owner_id, current_type, payload.type, payload, current)
     else:
@@ -337,7 +349,8 @@ def update_item(
 
     db.commit()
 
-    if current_type == ItemType.event:
+    effective_type = payload.type if payload.type is not None else current_type
+    if effective_type == ItemType.event:
         _sync_event_after_local_update(db, owner_id, item_id, payload, force=force)
 
     return {"id": item_id}
