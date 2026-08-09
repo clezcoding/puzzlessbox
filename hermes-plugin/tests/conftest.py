@@ -1,4 +1,17 @@
+from unittest.mock import MagicMock
+
 import pytest
+
+
+def mock_create_task(coro, *args, **kwargs):
+    if hasattr(coro, "close"):
+        coro.close()
+    return MagicMock()
+
+
+@pytest.fixture(name="mock_create_task")
+def _mock_create_task_fixture():
+    return mock_create_task
 
 TEST_OWNER = "11111111-1111-4111-8111-111111111111"
 TEST_CATEGORY = "33333333-3333-4333-8333-333333333333"
