@@ -40,8 +40,9 @@ def _connect_calendar(api_client, mock_jwks_keypair, owner_id_a: str, mock_servi
             "/auth/google/callback",
             params={"code": "mock-code", "state": "signed-state"},
             headers=API_HEADERS,
+            follow_redirects=False,
         )
-        assert callback.status_code == 200
+        assert callback.status_code == 302
         select = api_client.post(f"/calendars/{MOCK_CALENDAR_ID}/select", headers=headers)
         assert select.status_code == 200
     return headers
@@ -120,8 +121,9 @@ async def test_autosave_event_syncs_when_google_connected(
                 "/auth/google/callback",
                 params={"code": "mock-code", "state": "signed-state"},
                 headers=API_HEADERS,
+                follow_redirects=False,
             )
-            assert callback.status_code == 200
+            assert callback.status_code == 302
         select = await async_api_client.post(
             f"/calendars/{MOCK_CALENDAR_ID}/select", headers=headers
         )

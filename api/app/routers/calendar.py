@@ -9,6 +9,7 @@ from fastapi.responses import RedirectResponse
 from sqlmodel import Session
 
 from app.auth.jwt import get_current_owner, get_db_for_owner
+from app.core.config import get_settings
 from app.core.database import apply_tenant_context, get_db, set_request_owner
 from app.services.calendar import calendar_service
 
@@ -26,12 +27,16 @@ async def google_callback(
     code: str,
     state: str,
     db: Session = Depends(get_db),
-) -> dict[str, str]:
+) -> RedirectResponse:
     owner_id, credentials = calendar_service.exchange_code(code, state)
     set_request_owner(owner_id)
     apply_tenant_context(db, owner_id)
     calendar_service.upsert_tokens(db, owner_id, credentials)
-    return {"status": "connected", "owner_id": owner_id}
+    settings = get_settings()
+    return RedirectResponse(
+        url=f"{settings.WEBAPP_URL.rstrip('/')}/settings",
+        status_code=302,
+    )
 
 
 @router.get("/calendars")

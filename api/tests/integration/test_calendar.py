@@ -108,9 +108,10 @@ def _run_sync_flow(
             "/auth/google/callback",
             params={"code": "mock-code", "state": "signed-state"},
             headers=API_HEADERS,
+            follow_redirects=False,
         )
-        assert callback.status_code == 200
-        assert callback.json()["status"] == "connected"
+        assert callback.status_code == 302
+        assert "/settings" in callback.headers["location"]
 
         row = postgres_connection.execute(
             text(
