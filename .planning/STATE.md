@@ -4,9 +4,9 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: shipping
-stopped_at: "Phase 05.2 shipped — PR #61 (Coolify UAT Test 2 pending)"
-last_updated: "2026-08-09T05:05:00.000Z"
+status: planning
+stopped_at: "Phase 05.2 gap-closure plan 05.2-04 created for G-05.2-2"
+last_updated: "2026-08-09T05:35:00.000Z"
 progress:
   total_phases: 8
   completed_phases: 8
@@ -30,10 +30,10 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE (4/4 plans)
+- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — gap-closure planned (05.2-04 for G-05.2-2)
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Shipped — PR #61 (awaiting CI → Coolify; Google UAT Test 2 pending on prod)
-- **Resume:** After merge+deploy → Google Calendar connect on pbox → `/gsd-verify-work 05.2` Test 2
+- **Status:** UAT blocker G-05.2-2 (Accept 415 on /auth/google/connect) — plan ready
+- **Resume:** `/gsd-execute-phase 05.2 --gaps-only` → deploy → re-UAT Settings → Connect Google
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
 - **PR:** https://github.com/clezcoding/puzzlessbox/pull/61
 

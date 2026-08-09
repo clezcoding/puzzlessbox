@@ -217,7 +217,7 @@ Plans:
 **Goal:** Close audit blockers B1–B4 — wire existing scrape + Google Calendar into Hermes capture + board/edit UI so LINK-01/02 and CAL-02/03 work end-to-end (not only orphaned POST /links and POST /events).
 **Requirements**: LINK-01, LINK-02, CAL-02, CAL-03
 **Depends on:** Phase 05.1
-**Plans:** 4/4 plans executed
+**Plans:** 5 plans (4 executed + 1 gap-closure)
 
 Plans:
 **Wave 1**
@@ -232,6 +232,10 @@ Plans:
 **Wave 3** *(blocked on Wave 2 completion)*
 
 - [x] 05.2-03-PLAN.md — B3/B4: Google sync on board-visible + PATCH/DELETE ETag/412 + modal CTAs
+
+**Wave 4** *(gap closure — G-05.2-2)*
+
+- [ ] 05.2-04-PLAN.md — Fix Google OAuth Accept 415: skip middleware + apiFetch connect + callback → Settings
 
 ## Coverage
 
