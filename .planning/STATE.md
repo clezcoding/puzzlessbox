@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: audit polish
 current_phase: 05.4
-current_phase_name: address-residual-v1-0-audit-polish-cal-title-only-sync-stale
-status: executing
+status: completed
 stopped_at: Completed 05.4-01-PLAN.md
-last_updated: "2026-08-09T13:05:08.761Z"
+last_updated: "2026-08-09T13:09:14.483Z"
 progress:
   total_phases: 9
   completed_phases: 9
   total_plans: 38
   completed_plans: 38
+current_phase_name: address-residual-v1-0-audit-polish-cal-title-only-sync-stale
 ---
 
 # State: Puzzlessbox
@@ -30,9 +30,9 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.4 (address-residual-v1-0-audit-polish-cal-title-only-sync-stale) — EXECUTING
+- **Phase:** 05.4
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Executing Phase 05.4
+- **Status:** All phases complete
 - **Resume:** /gsd-execute-phase 05.4
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `passed`; residual polish → Phase 05.4
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
