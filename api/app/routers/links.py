@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import asyncio
 import uuid
 from datetime import datetime, timezone
 from typing import Any
+from urllib.parse import urlparse
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, HttpUrl
@@ -17,6 +19,7 @@ from app.models import Link
 from app.models.enums import ItemStatus
 from app.services.categories import links_category_id
 from app.services.link_scrape import (
+    SOFT_SCRAPE_TIMEOUT,
     apply_scrape_to_link,
     scrape_fields_from_result,
     scrape_manager,
@@ -56,8 +59,20 @@ async def create_link(
     db.commit()
     db.refresh(row)
 
-    scraped = await scrape_service.scrape(url)
-    title, metadata, scrape_status = scrape_fields_from_result(url, scraped)
+    hostname = urlparse(url).netloc or url
+    try:
+        scraped = await asyncio.wait_for(
+            scrape_service.scrape(url),
+            timeout=SOFT_SCRAPE_TIMEOUT,
+        )
+    except asyncio.TimeoutError:
+        title, metadata, scrape_status = (
+            hostname,
+            {"title": hostname, "url": url},
+            "timed_out",
+        )
+    else:
+        title, metadata, scrape_status = scrape_fields_from_result(url, scraped)
     apply_scrape_to_link(
         db,
         link_id=str(row.id),
