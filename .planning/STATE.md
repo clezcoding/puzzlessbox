@@ -3,21 +3,21 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
-current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: human_verification_needed
-stopped_at: "UAT 05.2 complete — all 5 tests pass; ready /gsd-verify-work closeout"
-last_updated: "2026-08-09T06:46:00.000Z"
+status: completed
+stopped_at: Completed 05.2-04-PLAN.md
+last_updated: "2026-08-09T07:11:35.584Z"
 progress:
   total_phases: 8
   completed_phases: 8
   total_plans: 36
   completed_plans: 36
+current_phase_name: fix-link-cal-integration-wiring-b1-b4
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-09 (05.2 plan 04 complete — 5/5 plans)
-**Current milestone:** v1.0 (initial release) — audit `tech_debt`
+**Last updated:** 2026-08-09 (05.2 UAT complete — phase closed)
+**Current milestone:** v1.0 (initial release) — ready to complete
 
 ## Project Reference
 
@@ -30,15 +30,15 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — human UAT remaining
+- **Phase:** 05.2
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** human_verification_needed — UAT 5/5 pass; run `/gsd-verify-work 05.2` to close
-- **Resume:** Settings → Connect Google (hard refresh) → calendar create/412
+- **Status:** All phases complete — milestone ready to close
+- **Resume:** `/gsd-complete-milestone v1.0`
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
 - **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip
 
 ```
-[6/7] █████████████████░░░   86% phases
+[████████████████████] 36/36 plans (100%)
 ```
 
 ## Phase Plan
@@ -144,8 +144,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-09T05:45:34.128Z
-- **Stopped at:** Completed 05.2-04-PLAN.md
+- **Last session:** 2026-08-09T09:12:00Z
+- **Stopped at:** Phase 05.2 complete, milestone v1.0 ready to close
+- **Resume file:** None
 - **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — was `tech_debt` (Nyquist debt); phases 0/2/3/4/5 now `validated` + `nyquist_compliant: true` (2026-08-05)
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn; board a2 confirmed)
