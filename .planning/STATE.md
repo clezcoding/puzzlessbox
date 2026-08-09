@@ -5,18 +5,18 @@ milestone_name: audit polish
 current_phase: 05.4
 current_phase_name: address-residual-v1-0-audit-polish-cal-title-only-sync-stale
 status: executing
-stopped_at: Phase 05.4 planned — 3 plans
-last_updated: "2026-08-09T12:59:10.067Z"
+stopped_at: Completed 05.4-03-PLAN.md
+last_updated: "2026-08-09T13:03:14.607Z"
 progress:
-  total_phases: 10
+  total_phases: 9
   completed_phases: 9
-  total_plans: 41
+  total_plans: 38
   completed_plans: 38
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-09 (Phase 05.4 planned — 3 plans)
+**Last updated:** 2026-08-09 (Phase 05.4 Plan 02 complete)
 **Current milestone:** v1.0 (initial release) — Phase 05.4 ready to execute
 
 ## Project Reference
@@ -39,7 +39,7 @@ progress:
 - **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip; #65 Phase 05.3
 
 ```
-[████████████████████] 38/41 plans (planned 05.4: 3)
+[████████████████████] 39/41 plans (05.4: 1/3 complete)
 ```
 
 ## Phase Plan
@@ -55,7 +55,7 @@ progress:
 | 5.1 | Tech debt: G-05-7 + harden advisories | D-01..D-12 | Complete (3/3 plans) |
 | 5.2 | Fix LINK/CAL integration wiring B1-B4 | LINK/CAL B1–B4 | Complete (5/5 plans) |
 | 5.3 | Tech debt: Nyquist 05.1/05.2 + WR-01..04 | D-01..D-09 | Complete (2/2 plans) |
-| 5.4 | Residual audit polish (CAL/docs/dbhub/test) | audit polish | Planned (3/3) |
+| 5.4 | Residual audit polish (CAL/docs/dbhub/test) | audit polish | Executing (1/3 plans) |
 
 ## Performance Metrics
 
@@ -102,6 +102,8 @@ progress:
 | Phase 05.2 P04 | 3min | 3 tasks | 9 files |
 | Phase 05.3 P01 | 12 | 2 tasks | 4 files |
 | Phase 05.3 P02 | 8min | 3 tasks | 3 files |
+| Phase 05.4 P02 | 8min | 2 tasks | 2 files |
+| Phase 05.4 P03 | 4min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -152,9 +154,9 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-09T12:39:00.000Z
-- **Stopped at:** Phase 05.4 planned — 3 plans verified
-- **Resume file:** .planning/phases/05.4-address-residual-v1-0-audit-polish-cal-title-only-sync-stale/05.4-01-PLAN.md
+- **Last session:** 2026-08-09T13:03:14.595Z
+- **Stopped at:** Completed 05.4-03-PLAN.md
+- **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `passed`; 28/28 REQ; integration [d2e34867](d2e34867-8471-4866-9fc0-ab81380dd36e); Nyquist 9/9 COMPLIANT
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn)
 - **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!`
@@ -237,3 +239,6 @@ progress:
 - [Phase ?]: OAuth callback RedirectResponse to WEBAPP_URL/settings without query tokens
 - [Phase ?]: User id existence check uses text comparison for user.id text column
 - [Phase ?]: 05.3-VALIDATION map IDs pre-filled by planner; Task 3 UAT-only edit
+- [Phase ?]: D-05: 05.1-VERIFICATION flipped to passed using Phase 05.3 deploy evidence — no new curl in 05.4
+- [Phase ?]: D-07/D-08: dbhub dual-source posture declared in 05.4-COVERAGE.md — no credential redesign
+- [Phase ?]: mock_create_task fixture uses name= alias so module function and pytest fixture coexist

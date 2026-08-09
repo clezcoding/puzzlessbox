@@ -302,7 +302,6 @@ Plans:
 | 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
 | 5.2 Fix LINK/CAL integration wiring B1-B4 | 5/5 | Complete    | 2026-08-09 |
 | 5.3 Address tech debt: Nyquist 05.1/05.2 + WR-01..04 | 2/2 | Complete    | 2026-08-09 |
-
----
+| 5.4 Address residual v1.0 audit polish | 1/3 | In Progress |  |
 *Roadmap created: 2026-07-28*
 *Next: `/gsd-plan-phase 05.3`*
