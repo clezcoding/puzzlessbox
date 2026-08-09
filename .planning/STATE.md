@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 05.3
-status: completed
+status: "Phase 05.3 shipped — PR #65"
 stopped_at: Completed 05.3-02-PLAN.md
-last_updated: "2026-08-09T08:45:27.214Z"
+last_updated: "2026-08-09T08:49:05.728Z"
 progress:
   total_phases: 9
   completed_phases: 9
@@ -32,7 +32,7 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 
 - **Phase:** 05.3
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** All phases complete
+- **Status:** Phase 05.3 shipped — PR #65
 - **Resume:** /gsd-validate-phase 05.3
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt` (28/28 REQ; Nyquist 05.1/05.2 now validated)
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
