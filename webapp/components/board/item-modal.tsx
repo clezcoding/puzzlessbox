@@ -102,7 +102,8 @@ export function ItemModal({
   useEffect(() => {
     if (!item) return;
     setTitle(item.title);
-    setBody(item.summary);
+    // Links: summary is URL (board VIEW); Notizen empty — body ignored server-side for links.
+    setBody(item.type === "link" ? "" : item.summary);
     setUrl(item.type === "link" ? item.summary : "");
     setItemType(item.type);
     setCategoryId(item.category_id);
