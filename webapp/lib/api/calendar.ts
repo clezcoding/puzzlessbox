@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/api-client";
+import { ApiError, apiFetch } from "@/lib/api-client";
 
 export type GoogleCalendar = {
   id: string;
@@ -15,6 +15,15 @@ export async function startCalendarConnect(): Promise<void> {
   const { authorization_url } = await apiFetch<{ authorization_url: string }>(
     "/auth/google/connect",
   );
+  let host: string;
+  try {
+    host = new URL(authorization_url).hostname;
+  } catch {
+    throw new ApiError("INVALID_OAUTH_URL", "Ungültige OAuth-Weiterleitung.");
+  }
+  if (host !== "accounts.google.com") {
+    throw new ApiError("INVALID_OAUTH_URL", "Ungültige OAuth-Weiterleitung.");
+  }
   window.location.href = authorization_url;
 }
 
