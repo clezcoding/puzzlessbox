@@ -41,6 +41,7 @@ export function CalendarWizard() {
   const [loading, setLoading] = useState(true);
   const [listLoading, setListLoading] = useState(false);
   const [disconnectOpen, setDisconnectOpen] = useState(false);
+  const [connecting, setConnecting] = useState(false);
 
   const loadStatus = useCallback(async () => {
     setLoading(true);
@@ -80,14 +81,14 @@ export function CalendarWizard() {
   }, [loadStatus]);
 
   async function handleConnect() {
+    if (connecting) return;
+    setConnecting(true);
     try {
       await startCalendarConnect();
-    } catch (error) {
-      if (error instanceof ApiError) {
-        toast.error("Google-Verbindung konnte nicht gestartet werden.");
-      } else {
-        toast.error("Google-Verbindung konnte nicht gestartet werden.");
-      }
+    } catch {
+      toast.error("Google-Verbindung konnte nicht gestartet werden.");
+    } finally {
+      setConnecting(false);
     }
   }
 
@@ -198,7 +199,11 @@ export function CalendarWizard() {
         height={160}
         className="h-40 w-auto"
       />
-      <Button type="button" onClick={() => void handleConnect()}>
+      <Button
+        type="button"
+        onClick={() => void handleConnect()}
+        disabled={connecting}
+      >
         Mit Google verbinden
       </Button>
     </div>
