@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 05.3
-status: Not started — plan next
-stopped_at: Completed 05.3-01-PLAN.md
-last_updated: "2026-08-09T08:39:13.156Z"
+status: Plans complete — validate phase
+stopped_at: Completed 05.3-02-PLAN.md
+last_updated: "2026-08-09T08:42:06.032Z"
 progress:
   total_phases: 9
-  completed_phases: 8
+  completed_phases: 9
   total_plans: 38
-  completed_plans: 37
+  completed_plans: 38
 current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 ---
 
@@ -32,9 +32,9 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 
 - **Phase:** 05.3
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Not started — plan next
-- **Resume:** /gsd-plan-phase 05.3
-- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt` (28/28 REQ; Nyquist 05.1/05.2 draft)
+- **Status:** Plans complete — validate phase
+- **Resume:** /gsd-validate-phase 05.3
+- **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt` (28/28 REQ; Nyquist 05.1/05.2 now validated)
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
 - **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip
 
@@ -54,7 +54,7 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 | 5 | Coolify-Deployment, CI/CD & Härtung | OPS-01..04 | Complete |
 | 5.1 | Tech debt: G-05-7 + harden advisories | D-01..D-12 | Complete (3/3 plans) |
 | 5.2 | Fix LINK/CAL integration wiring B1-B4 | LINK/CAL B1–B4 | Complete (5/5 plans) |
-| 5.3 | Tech debt: Nyquist 05.1/05.2 + WR-01..04 | TBD | Not planned |
+| 5.3 | Tech debt: Nyquist 05.1/05.2 + WR-01..04 | D-01..D-09 | Complete (2/2 plans) |
 
 ## Performance Metrics
 
@@ -100,6 +100,7 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 | Phase 05.2 P03 | 12min | 3 tasks | 10 files |
 | Phase 05.2 P04 | 3min | 3 tasks | 9 files |
 | Phase 05.3 P01 | 12 | 2 tasks | 4 files |
+| Phase 05.3 P02 | 8min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -149,18 +150,18 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 
 ## Session Continuity
 
-- **Last session:** 2026-08-09T08:39:13.143Z
-- **Stopped at:** Completed 05.3-01-PLAN.md
+- **Last session:** 2026-08-09T08:42:06.021Z
+- **Stopped at:** Completed 05.3-02-PLAN.md
 - **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `tech_debt`; 28/28 REQ; integration [703f3f74](703f3f74-7742-4488-bc9a-151c3ba146b3); prior ops debt (G-05-7/HSTS/well-known/LINK-CAL) closed
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn)
 - **Prod UAT account:** `uat@puzzless.local` / `UatTestPass1!`
 - **Phase 4 UAT:** `.planning/phases/04-webapp/04-UAT.md` — 18/18 pass
-- **05.1:** code + live HSTS/banners/well-known 200; UAT doc still `partial` (stale); VALIDATION draft
-- **05.2 UAT:** complete (Connect Google + conflict panel pass); VALIDATION draft
+- **05.1:** UAT complete (15/15); VALIDATION validated + nyquist_compliant
+- **05.2 UAT:** complete (Connect Google + conflict panel pass); VALIDATION validated + nyquist_compliant
 - **Coolify:** api/mcp/web healthy under `*.puzzlesstool.online`
-- **Nyquist:** phases 0–5 COMPLIANT; 05.1 + 05.2 NOT-VALIDATED (`status: draft`)
-- **Next recommended action:** /gsd-plan-phase 05.3
+- **Nyquist:** phases 0–5 + 05.1 + 05.2 COMPLIANT; 05.3 VALIDATION pending validate-phase
+- **Next recommended action:** /gsd-validate-phase 05.3
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
@@ -233,3 +234,4 @@ current_phase_name: address-tech-debt-nyquist-05-1-05-2-wr-01-04
 - [Phase ?]: OAuth browser paths skip Accept; connect via JSON authorization_url + apiFetch Bearer
 - [Phase ?]: OAuth callback RedirectResponse to WEBAPP_URL/settings without query tokens
 - [Phase ?]: User id existence check uses text comparison for user.id text column
+- [Phase ?]: 05.3-VALIDATION map IDs pre-filled by planner; Task 3 UAT-only edit
