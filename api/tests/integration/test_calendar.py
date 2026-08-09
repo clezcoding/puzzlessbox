@@ -99,8 +99,9 @@ def _run_sync_flow(
         patch("app.services.calendar.verify_oauth_state", return_value=owner_id_a),
     ):
         connect = api_client.get("/auth/google/connect", headers=headers, follow_redirects=False)
-        assert connect.status_code == 302
-        location_host = urlparse(connect.headers["location"]).hostname
+        assert connect.status_code == 200
+        auth_url = connect.json()["authorization_url"]
+        location_host = urlparse(auth_url).hostname
         assert location_host == "accounts.google.com"
 
         callback = api_client.get(

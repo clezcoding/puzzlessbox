@@ -5,10 +5,10 @@ import userEvent from "@testing-library/user-event";
 import { CalendarWizard } from "@/components/settings/calendar-wizard";
 import {
   disconnectCalendar,
-  getCalendarConnectUrl,
   getCalendarStatus,
   listCalendars,
   selectCalendar,
+  startCalendarConnect,
 } from "@/lib/api/calendar";
 
 vi.mock("sonner", () => ({
@@ -28,9 +28,9 @@ vi.mock("next/image", () => ({
 }));
 
 vi.mock("@/lib/api/calendar", () => ({
-  getCalendarConnectUrl: vi.fn(
-    () => "http://localhost:8000/auth/google/connect",
-  ),
+  startCalendarConnect: vi.fn(async () => {
+    window.location.href = "https://accounts.google.com/o/oauth2/auth?mock=1";
+  }),
   getCalendarStatus: vi.fn(),
   listCalendars: vi.fn(),
   selectCalendar: vi.fn(),
@@ -79,7 +79,7 @@ describe("CalendarWizard", () => {
     });
   });
 
-  it("redirects to api calendar connect on connect click", async () => {
+  it("starts calendar connect via apiFetch then redirects to Google", async () => {
     render(<CalendarWizard />);
 
     await waitFor(() => {
@@ -90,8 +90,12 @@ describe("CalendarWizard", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Mit Google verbinden" }));
 
-    expect(getCalendarConnectUrl).toHaveBeenCalled();
-    expect(window.location.href).toBe("http://localhost:8000/auth/google/connect");
+    await waitFor(() => {
+      expect(startCalendarConnect).toHaveBeenCalled();
+    });
+    expect(window.location.href).toBe(
+      "https://accounts.google.com/o/oauth2/auth?mock=1",
+    );
   });
 
   it("loads calendar list on step 2 after OAuth return", async () => {
