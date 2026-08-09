@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 05.2
 current_phase_name: fix-link-cal-integration-wiring-b1-b4
-status: executing
+status: complete
 stopped_at: Completed 05.2-04-PLAN.md
 last_updated: "2026-08-09T05:45:34.140Z"
 progress:
