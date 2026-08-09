@@ -72,7 +72,9 @@ class DraftTimeoutManager:
         except asyncio.CancelledError:
             pass
         finally:
-            self._active_tasks.pop(draft_id, None)
+            current = asyncio.current_task()
+            if self._active_tasks.get(draft_id) is current:
+                self._active_tasks.pop(draft_id, None)
 
     async def _execute_autosave(
         self,
