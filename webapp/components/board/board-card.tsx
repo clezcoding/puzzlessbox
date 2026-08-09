@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GripVertical, Link2, Loader2, MoreHorizontal } from "lucide-react";
 import { Draggable } from "@hello-pangea/dnd";
 
@@ -80,7 +80,7 @@ export function BoardCard({
   const isLink = item.type === "link";
   const [thumbBroken, setThumbBroken] = useState(false);
   const thumbState = isLink ? linkThumbState(item, thumbBroken) : null;
-  const longPressTimer = { current: null as ReturnType<typeof setTimeout> | null };
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function handleTouchStart() {
     if (!isMobile || !onLongPress) return;
