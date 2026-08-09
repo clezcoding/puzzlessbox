@@ -93,3 +93,27 @@ async def test_service_bearer(postgres_connection, owner_id_a) -> None:
 
     owner_id = await get_current_owner(_FakeRequest(), credentials=None)
     assert owner_id == owner_id_a
+
+
+@pytest.mark.asyncio
+async def test_service_bearer_length_mismatch_returns_401() -> None:
+    settings = get_settings()
+
+    class _FakeRequest:
+        cookies: dict[str, str] = {}
+        headers: dict[str, str] = {"X-Service-Bearer": "short"}
+
+    with pytest.raises(HTTPException) as exc:
+        await get_current_owner(_FakeRequest(), credentials=None)
+    assert exc.value.status_code == 401
+
+
+@pytest.mark.asyncio
+async def test_service_bearer_empty_returns_401() -> None:
+    class _FakeRequest:
+        cookies: dict[str, str] = {}
+        headers: dict[str, str] = {"X-Service-Bearer": ""}
+
+    with pytest.raises(HTTPException) as exc:
+        await get_current_owner(_FakeRequest(), credentials=None)
+    assert exc.value.status_code == 401
