@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 
 import { ItemModal } from "@/components/board/item-modal";
+import { getBoardItems } from "@/lib/api-client";
 import { getCalendarStatus } from "@/lib/api/calendar";
 import { rescrapeLink } from "@/lib/api/links";
 import { deleteItem, restoreItem, updateItem } from "@/lib/api/items";
@@ -19,6 +20,10 @@ vi.mock("next/image", () => ({
   default: ({ alt, src }: { alt?: string; src: string }) => (
     <img alt={alt ?? ""} src={src} />
   ),
+}));
+
+vi.mock("@/lib/api-client", () => ({
+  getBoardItems: vi.fn(),
 }));
 
 vi.mock("@/lib/api/items", () => ({
@@ -76,6 +81,14 @@ beforeEach(() => {
   vi.mocked(deleteItem).mockResolvedValue(undefined);
   vi.mocked(restoreItem).mockResolvedValue({ id: "item-1", status: "restored" });
   vi.mocked(rescrapeLink).mockResolvedValue({ id: "item-link", scrape_status: "pending" });
+  vi.mocked(getBoardItems).mockResolvedValue([
+    {
+      ...linkItem,
+      scrape_status: "ok",
+      image: "https://example.com/og.png",
+      title: "Link Title refreshed",
+    },
+  ]);
   vi.mocked(getCalendarStatus).mockResolvedValue({
     connected: true,
     selected_calendar_id: "primary",

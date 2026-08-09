@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import type { BoardItem, Category, ConflictDetails } from "@/lib/api-client";
+import { getBoardItems } from "@/lib/api-client";
 import { getCalendarStatus } from "@/lib/api/calendar";
 import { rescrapeLink } from "@/lib/api/links";
 import { deleteItem, restoreItem, updateItem } from "@/lib/api/items";
@@ -49,10 +50,21 @@ const SCRAPE_STATUS_LABELS: Record<string, string> = {
 };
 
 const SCRAPE_RETRY_STATUSES = new Set(["failed", "timed_out", "partial"]);
+const SCRAPE_TERMINAL_STATUSES = new Set([
+  "ok",
+  "partial",
+  "failed",
+  "timed_out",
+  "skipped",
+]);
 
 function scrapeStatusLabel(status: string | null | undefined): string | null {
   if (!status) return null;
   return SCRAPE_STATUS_LABELS[status] ?? "Vorschau wird geladen…";
+}
+
+async function sleep(ms: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 type ItemModalProps = {
@@ -148,6 +160,27 @@ export function ItemModal({
     try {
       const result = await rescrapeLink(item!.id);
       setScrapeStatus(result.scrape_status);
+      let latest = result.scrape_status;
+      for (let i = 0; i < 24 && !SCRAPE_TERMINAL_STATUSES.has(latest); i++) {
+        if (i > 0) await sleep(500);
+        const items = await getBoardItems();
+        const updated = items.find((row) => row.id === item!.id);
+        if (!updated) break;
+        latest = updated.scrape_status ?? latest;
+        setScrapeStatus(latest);
+        if (SCRAPE_TERMINAL_STATUSES.has(latest)) {
+          setTitle(updated.title);
+          setOgBroken(false);
+          onUpdated({
+            ...item!,
+            title: updated.title,
+            summary: updated.summary,
+            image: updated.image,
+            scrape_status: latest,
+          });
+          break;
+        }
+      }
     } catch {
       toast.error("Vorschau konnte nicht neu geladen werden.");
     } finally {
