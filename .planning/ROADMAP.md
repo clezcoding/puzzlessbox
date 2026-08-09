@@ -19,7 +19,7 @@ Capture-Flow muss reibungslos sitzen: Nachricht rein → Bestätigung → Auto-S
 - [x] **Phase 5: Coolify-Deployment, CI/CD & Härtung** - Docker-Image-Apps, GitHub-Actions-Builds, GHCR, Backups, Health Checks (completed 2026-08-02)
 - [x] **Phase 05.1: Address tech debt: G-05-7 + security harden advisories** (INSERTED) - Local MCP bootstrap + security harden advisories
 - [x] **Phase 05.2: Fix LINK/CAL integration wiring B1-B4** (INSERTED) - Close milestone audit gaps B1–B4
-- [ ] **Phase 05.3: Address tech debt: Nyquist 05.1/05.2 + WR-01..04** (INSERTED) - Nyquist validation gaps + WR-01..04
+- [x] **Phase 05.3: Address tech debt: Nyquist 05.1/05.2 + WR-01..04** (INSERTED) - Nyquist validation gaps + WR-01..04 (completed 2026-08-09)
 
 ## Phase Details
 
@@ -243,7 +243,7 @@ Plans:
 **Goal:** Close residual v1.0 milestone tech debt: (1) flip Phase 05.1 and 05.2 Nyquist VALIDATION.md from `status: draft` / `nyquist_compliant: false` to validated + compliant using existing tests (no new product features), (2) fix code-review warnings WR-01..04 in MCP bootstrap / service-bearer HMAC paths with regression tests (WR-01/02 already code-correct — re-verified; WR-03 second call site jwt.py + WR-04 multi-user owner binding fixed), (3) refresh stale 05.1-UAT.md well-known row that live curl already proves 200.
 **Requirements**: D-01..D-09 (CONTEXT locked decisions — not REQUIREMENTS.md rows)
 **Depends on:** Phase 05.2
-**Plans:** 2/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -301,7 +301,7 @@ Plans:
 | 5. Coolify-Deployment, CI/CD & Härtung | 4/4 | Complete    | 2026-08-02 |
 | 5.1 Address tech debt: G-05-7 + harden advisories | 3/3 | Complete |  |
 | 5.2 Fix LINK/CAL integration wiring B1-B4 | 5/5 | Complete    | 2026-08-09 |
-| 5.3 Address tech debt: Nyquist 05.1/05.2 + WR-01..04 | 2/2 | In Progress|  |
+| 5.3 Address tech debt: Nyquist 05.1/05.2 + WR-01..04 | 2/2 | Complete    | 2026-08-09 |
 
 ---
 *Roadmap created: 2026-07-28*
