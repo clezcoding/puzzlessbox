@@ -174,6 +174,10 @@ class ScrapeService:
         if not base:
             return None
 
+        # Re-check immediately before handoff (narrows DNS-rebinding TOCTOU).
+        # ponytail: Firecrawl resolves hostname again — residual window until scraper-side SSRF.
+        validate_url_ssrf(url)
+
         try:
             async with httpx.AsyncClient(timeout=FIRECRAWL_TIMEOUT) as client:
                 response = await client.post(
@@ -192,12 +196,20 @@ class ScrapeService:
         if isinstance(data, dict):
             html = data.get("html") or ""
             metadata = data.get("metadata") or {}
-            if isinstance(metadata, dict) and metadata.get("title"):
-                return {
-                    "title": metadata.get("title"),
-                    "description": metadata.get("description"),
-                    "image": metadata.get("ogImage") or metadata.get("image"),
-                }
+            if isinstance(metadata, dict):
+                # Block trusting OG from a redirect that landed on a private host.
+                final_url = metadata.get("sourceURL") or metadata.get("url")
+                if isinstance(final_url, str) and final_url:
+                    try:
+                        validate_url_ssrf(final_url)
+                    except HTTPException:
+                        return None
+                if metadata.get("title"):
+                    return {
+                        "title": metadata.get("title"),
+                        "description": metadata.get("description"),
+                        "image": metadata.get("ogImage") or metadata.get("image"),
+                    }
 
         if not html:
             return None
@@ -211,6 +223,10 @@ class ScrapeService:
         base = self._settings.CAMOUFOX_URL.rstrip("/")
         if not base:
             return None
+
+        # Re-check immediately before handoff (narrows DNS-rebinding TOCTOU).
+        # ponytail: Camoufox resolves hostname again — residual window until scraper-side SSRF.
+        validate_url_ssrf(url)
 
         try:
             async with httpx.AsyncClient(timeout=CAMOUFOX_TIMEOUT) as client:
