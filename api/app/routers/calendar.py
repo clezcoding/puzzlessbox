@@ -28,13 +28,20 @@ async def google_callback(
     state: str,
     db: Session = Depends(get_db),
 ) -> RedirectResponse:
-    owner_id, credentials = calendar_service.exchange_code(code, state)
-    set_request_owner(owner_id)
-    apply_tenant_context(db, owner_id)
-    calendar_service.upsert_tokens(db, owner_id, credentials)
     settings = get_settings()
+    webapp_base = settings.WEBAPP_URL.rstrip("/")
+    try:
+        owner_id, credentials = calendar_service.exchange_code(code, state)
+        set_request_owner(owner_id)
+        apply_tenant_context(db, owner_id)
+        calendar_service.upsert_tokens(db, owner_id, credentials)
+    except Exception:
+        return RedirectResponse(
+            url=f"{webapp_base}/settings?calendar=error",
+            status_code=302,
+        )
     return RedirectResponse(
-        url=f"{settings.WEBAPP_URL.rstrip('/')}/settings",
+        url=f"{webapp_base}/settings",
         status_code=302,
     )
 
