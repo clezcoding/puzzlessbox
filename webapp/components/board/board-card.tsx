@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { GripVertical, Link2, MoreHorizontal } from "lucide-react";
+import { useRef, useState } from "react";
+import { GripVertical, Link2, Loader2, MoreHorizontal } from "lucide-react";
 import { Draggable } from "@hello-pangea/dnd";
 
 import type { BoardItem, Category } from "@/lib/api-client";
@@ -24,6 +24,30 @@ function formatRelativeTime(iso: string): string {
   if (hours < 24) return `vor ${hours} Std.`;
   const days = Math.floor(hours / 24);
   return `vor ${days} Tg.`;
+}
+
+function linkHostname(summary: string): string {
+  try {
+    return new URL(summary).hostname;
+  } catch {
+    return summary.length > 40 ? `${summary.slice(0, 37)}…` : summary;
+  }
+}
+
+type LinkThumbState = "loading" | "placeholder" | "image";
+
+function linkThumbState(item: BoardItem, thumbBroken: boolean): LinkThumbState {
+  const status = item.scrape_status;
+  if (status === "pending" || status === "scraping") {
+    return "loading";
+  }
+  if (status === "failed" || status === "timed_out") {
+    return "placeholder";
+  }
+  if (item.image && !thumbBroken) {
+    return "image";
+  }
+  return "placeholder";
 }
 
 export type BoardCardProps = {
@@ -54,8 +78,9 @@ export function BoardCard({
   onLongPress,
 }: BoardCardProps) {
   const isLink = item.type === "link";
-  const thumbnailUrl = isLink && item.summary.startsWith("http") ? item.summary : null;
-  const longPressTimer = { current: null as ReturnType<typeof setTimeout> | null };
+  const [thumbBroken, setThumbBroken] = useState(false);
+  const thumbState = isLink ? linkThumbState(item, thumbBroken) : null;
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function handleTouchStart() {
     if (!isMobile || !onLongPress) return;
@@ -68,6 +93,10 @@ export function BoardCard({
       longPressTimer.current = null;
     }
   }
+
+  const metaLine = isLink
+    ? `${linkHostname(item.summary)} · ${formatRelativeTime(item.created_at)}`
+    : `${item.type} · ${formatRelativeTime(item.created_at)}`;
 
   return (
     <Draggable draggableId={item.id} index={index}>
@@ -92,16 +121,26 @@ export function BoardCard({
           onTouchMove={handleTouchEnd}
         >
           {isLink && (
-            <div className="relative aspect-[16/9] w-full bg-muted">
-              {thumbnailUrl ? (
-                <Image
-                  src={thumbnailUrl}
+            <div
+              className="relative aspect-[16/9] w-full bg-muted transition-opacity duration-200 ease-out motion-reduce:transition-none"
+              data-thumb-state={thumbState ?? undefined}
+            >
+              {thumbState === "image" ? (
+                <img
+                  src={item.image!}
                   alt=""
-                  fill
-                  className="object-cover"
-                  sizes="240px"
-                  unoptimized
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                  onError={() => setThumbBroken(true)}
                 />
+              ) : thumbState === "loading" ? (
+                <div className="flex h-full items-center justify-center bg-muted">
+                  <Loader2
+                    className="size-5 text-muted-foreground motion-safe:animate-spin"
+                    aria-hidden
+                  />
+                  <span className="sr-only">Vorschau wird geladen</span>
+                </div>
               ) : (
                 <div className="flex h-full items-center justify-center bg-muted">
                   <Link2 className="size-5 text-muted-foreground" aria-hidden />
@@ -125,9 +164,7 @@ export function BoardCard({
               <h3 className="line-clamp-2 text-sm font-semibold text-foreground">
                 {item.title}
               </h3>
-              <p className="text-xs text-muted-foreground">
-                {item.type} · {formatRelativeTime(item.created_at)}
-              </p>
+              <p className="text-xs text-muted-foreground">{metaLine}</p>
             </button>
             <div className="flex shrink-0 items-center gap-1">
               <DropdownMenu>

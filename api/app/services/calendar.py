@@ -279,6 +279,7 @@ class GoogleCalendarService:
         google_event_id: str,
         client_etag: str,
         event_body: dict[str, Any],
+        force: bool = False,
     ) -> dict[str, Any]:
         service = self._calendar_service(db, owner_id)
         try:
@@ -297,7 +298,7 @@ class GoogleCalendarService:
             ) from exc
 
         remote_etag = remote.get("etag")
-        if client_etag != remote_etag:
+        if not force and client_etag != remote_etag:
             raise concurrency_conflict(remote_etag or "", remote)
 
         merged = {**remote, **event_body}
@@ -307,7 +308,7 @@ class GoogleCalendarService:
                 eventId=google_event_id,
                 body=merged,
             )
-            request.headers["If-Match"] = client_etag
+            request.headers["If-Match"] = "*" if force else client_etag
             return request.execute()
         except HttpError as exc:
             if exc.resp.status == 412:
@@ -327,6 +328,57 @@ class GoogleCalendarService:
                     "message": str(exc),
                 },
             ) from exc
+
+    def delete_remote_event(
+        self,
+        db: Session,
+        owner_id: str,
+        *,
+        google_event_id: str,
+    ) -> None:
+        status = self.connection_status(db, owner_id)
+        if not status.get("connected") or not status.get("selected_calendar_id"):
+            return
+        calendar_id = status["selected_calendar_id"]
+        service = self._calendar_service(db, owner_id)
+        try:
+            service.events().delete(calendarId=calendar_id, eventId=google_event_id).execute()
+        except HttpError:
+            pass  # ponytail: local soft-delete proceeds even if Google delete fails
+
+
+def sync_local_event_to_google(db: Session, owner_id: str, event: Event) -> Event:
+    """Push existing local Event row to Google (D-09–D-11). Updates row in place."""
+    if event.google_event_id:
+        return event
+
+    status = calendar_service.connection_status(db, owner_id)
+    if not status.get("connected") or not status.get("selected_calendar_id"):
+        return event
+
+    calendar_id = status["selected_calendar_id"]
+    body: dict[str, Any] = {
+        "summary": event.title,
+        "description": event.summary,
+    }
+    if event.starts_at and event.ends_at:
+        body["start"] = {"dateTime": event.starts_at.isoformat()}
+        body["end"] = {"dateTime": event.ends_at.isoformat()}
+
+    try:
+        service = calendar_service._calendar_service(db, owner_id)
+        remote = service.events().insert(calendarId=calendar_id, body=body).execute()
+        event.google_event_id = remote.get("id")
+        event.etag = remote.get("etag")
+        event.updated_at = datetime.now(timezone.utc)
+        db.add(event)
+        db.commit()
+        db.refresh(event)
+    except Exception:
+        db.rollback()
+        db.add(event)
+        db.commit()
+    return event
 
 
 def events_category_id(db: Session) -> uuid.UUID:

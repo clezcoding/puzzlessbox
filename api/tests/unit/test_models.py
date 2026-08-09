@@ -3,12 +3,41 @@
 from __future__ import annotations
 
 import uuid
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
 
-from app.models.enums import ItemType
+from app.models.board import BoardItem
+from app.models.enums import ItemStatus, ItemType
 from app.models.note import DraftCreate
+
+
+def test_board_item_optional_link_and_calendar_fields() -> None:
+    """Regression: google_event_id must be str | None (not JS null) so GET /board-items validates."""
+    now = datetime.now(UTC)
+    oid = uuid.uuid4()
+    item = BoardItem.model_validate(
+        {
+            "id": oid,
+            "owner_id": oid,
+            "category_id": oid,
+            "status": ItemStatus.confirmed,
+            "title": "Example",
+            "summary": "https://example.com",
+            "image": "https://cdn.example/og.png",
+            "scrape_status": "ok",
+            "google_event_id": None,
+            "type": ItemType.link,
+            "sort_order": 0,
+            "created_at": now,
+            "updated_at": now,
+            "deleted_at": None,
+        }
+    )
+    assert item.image == "https://cdn.example/og.png"
+    assert item.scrape_status == "ok"
+    assert item.google_event_id is None
 
 
 def test_draft_validation() -> None:

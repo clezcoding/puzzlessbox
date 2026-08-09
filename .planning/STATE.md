@@ -2,21 +2,21 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 05.1
-current_phase_name: address-tech-debt-g-05-7-security-harden-advisories
-status: complete
-stopped_at: Completed 05.1-03-PLAN.md
-last_updated: "2026-08-08T16:12:00.000Z"
+current_phase: 05.2
+current_phase_name: fix-link-cal-integration-wiring-b1-b4
+status: shipping
+stopped_at: "Phase 05.2 shipped — PR #61 (Coolify UAT Test 2 pending)"
+last_updated: "2026-08-09T05:05:00.000Z"
 progress:
-  total_phases: 7
-  completed_phases: 7
-  total_plans: 31
-  completed_plans: 31
+  total_phases: 8
+  completed_phases: 8
+  total_plans: 35
+  completed_plans: 35
 ---
 
 # State: Puzzlessbox
 
-**Last updated:** 2026-08-08 (05.1 complete — 3/3 plans)
+**Last updated:** 2026-08-08 (05.2 plan 03 complete — 4/4 plans)
 **Current milestone:** v1.0 (initial release) — audit `tech_debt`
 
 ## Project Reference
@@ -30,11 +30,12 @@ progress:
 
 ## Current Position
 
-- **Phase:** 05.1 (address-tech-debt-g-05-7-security-harden-advisories) — COMPLETE
+- **Phase:** 05.2 (fix-link-cal-integration-wiring-b1-b4) — COMPLETE (4/4 plans)
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** Phase 05.1 complete (3/3 plans)
-- **Resume:** None
-- **UAT login:** `uat@puzzless.local` / see `webapp/.env.local`
+- **Status:** Shipped — PR #61 (awaiting CI → Coolify; Google UAT Test 2 pending on prod)
+- **Resume:** After merge+deploy → Google Calendar connect on pbox → `/gsd-verify-work 05.2` Test 2
+- **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
+- **PR:** https://github.com/clezcoding/puzzlessbox/pull/61
 
 ```
 [6/7] █████████████████░░░   86% phases
@@ -89,6 +90,11 @@ progress:
 | Phase 05.1-address-tech-debt-g-05-7-security-harden-advisories P01 | 6min | 2 tasks | 3 files |
 | Phase 05.1-address-tech-debt-g-05-7-security-harden-advisories P02 | 4min | 1 task | 3 files |
 | Phase 05.1 P03 | 45min | 3 tasks | 5 files |
+| Phase 05.2 P00 | 3min | 2 tasks | 5 files |
+| Phase 05.2 P01 | 12 | 2 tasks | 11 files |
+| Phase 05.2 P02 | 3min | 3 tasks | 5 files |
+| Phase 05.2-fix-link-cal-integration-wiring-b1-b4 P02 | 3min | 3 tasks | 5 files |
+| Phase 05.2 P03 | 12min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -137,8 +143,8 @@ progress:
 
 ## Session Continuity
 
-- **Last session:** 2026-08-08T14:08:43.385Z
-- **Stopped at:** Completed 05.1-03-PLAN.md
+- **Last session:** 2026-08-08T20:01:44.237Z
+- **Stopped at:** Completed 05.2-03-PLAN.md
 - **Resume file:** None
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — was `tech_debt` (Nyquist debt); phases 0/2/3/4/5 now `validated` + `nyquist_compliant: true` (2026-08-05)
 - **Phase 5 UAT:** `.planning/phases/05-coolify-deployment-ci-cd-h-rtung/05-UAT.md` — r6 deep-prod (50 pass / 0 fail / 6 warn; board a2 confirmed)
@@ -147,7 +153,7 @@ progress:
 - **05.1 closed:** G-05-7 local MCP bootstrap; HSTS/banner advisories; well-known stub — all 3 plans complete
 - **Coolify:** api/mcp/web healthy; old `puzzlessbox-api` dxoflgio… already deleted (404); SERVICE_OWNER_ID → new first user
 - **Nyquist:** phases 0–5 compliant; 05.1 VALIDATION.md draft ready
-- **Next recommended action:** /gsd-verify-phase 05.1 or milestone ship
+- **Next recommended action:** Merge PR #61 → Coolify deploy → Google OAuth UAT → `/gsd-verify-work 05.2`
 - **Phase 1 deferred (not blockers):** Google browser OAuth full round-trip → Phase 4 webapp (API 302 verified)
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
@@ -211,3 +217,10 @@ progress:
 - [Phase ?]: Coolify MCP cannot edit raw docker labels — UI paste path primary
 - [Phase ?]: HSTS per leaf FQDN only; apex excluded from includeSubDomains (D-07)
 - [Phase ?]: Defense in depth: Traefik banner strip + Next.js poweredByHeader false
+- [Phase ?]: Wave 0 xfail/it.todo stubs lock LINK/CAL test names before plans 01-03
+- [Phase ?]: LinkScrapeManager 12s soft timeout; partial when title without image
+- [Phase ?]: BoardCard native img referrerPolicy no-referrer; remotePatterns unchanged
+- [Phase ?]: Cancel race fix: _active_tasks pop only when current_task matches map entry
+- [Phase ?]: POST /links uses apply_scrape_to_link after pending row insert (D-04)
+- [Phase ?]: board-items google_event_id via events JOIN not VIEW migration
+- [Phase ?]: Modal Google sync via updateItem title PATCH create-on-edit path

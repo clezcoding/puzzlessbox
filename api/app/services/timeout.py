@@ -12,8 +12,12 @@ from typing import Dict
 from sqlalchemy import text
 from sqlmodel import Session
 
+import uuid
+
 from app.core.database import get_engine
+from app.models import Event
 from app.models.enums import ItemType
+from app.services.calendar import sync_local_event_to_google
 
 _TABLE_BY_TYPE: dict[ItemType, str] = {
     ItemType.note: "notes",
@@ -68,7 +72,9 @@ class DraftTimeoutManager:
         except asyncio.CancelledError:
             pass
         finally:
-            self._active_tasks.pop(draft_id, None)
+            current = asyncio.current_task()
+            if self._active_tasks.get(draft_id) is current:
+                self._active_tasks.pop(draft_id, None)
 
     async def _execute_autosave(
         self,
@@ -83,7 +89,7 @@ class DraftTimeoutManager:
                 {"owner_id": owner_id},
             )
             session.execute(text("SET LOCAL ROLE puzzlessbox_app"))
-            session.execute(
+            updated = session.execute(
                 text(
                     f"""
                     UPDATE {table}
@@ -91,11 +97,16 @@ class DraftTimeoutManager:
                     WHERE id = :draft_id
                       AND owner_id = :owner_id
                       AND status = 'draft'
+                    RETURNING id
                     """
                 ),
                 {"draft_id": draft_id, "owner_id": owner_id},
-            )
+            ).scalar_one_or_none()
             session.commit()
+            if updated is not None and item_type == ItemType.event:
+                event_row = session.get(Event, uuid.UUID(draft_id))
+                if event_row is not None:
+                    sync_local_event_to_google(session, owner_id, event_row)
 
 
 timeout_manager = DraftTimeoutManager()

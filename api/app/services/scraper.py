@@ -17,7 +17,15 @@ from fastapi import HTTPException, status
 
 from app.core.config import Settings, get_settings
 
-ScrapeStatus = Literal["ok", "failed"]
+ScrapeStatus = Literal[
+    "pending",
+    "scraping",
+    "ok",
+    "partial",
+    "timed_out",
+    "failed",
+    "skipped",
+]
 
 _BLOCKED_NETWORKS = (
     ipaddress.ip_network("10.0.0.0/8"),
@@ -55,6 +63,19 @@ def _is_blocked_ip(ip_str: str) -> bool:
     try:
         addr = ipaddress.ip_address(ip_str)
     except ValueError:
+        return True
+    if isinstance(addr, ipaddress.IPv6Address) and addr.ipv4_mapped is not None:
+        addr = addr.ipv4_mapped
+    if (
+        addr.is_private
+        or addr.is_loopback
+        or addr.is_link_local
+        or addr.is_reserved
+        or addr.is_multicast
+        or addr.is_unspecified
+    ):
+        return True
+    if addr == ipaddress.ip_address("0.0.0.0"):
         return True
     return any(addr in network for network in _BLOCKED_NETWORKS)
 

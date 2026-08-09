@@ -15,6 +15,9 @@ class BoardItem(BaseModel):
     status: ItemStatus
     title: str
     summary: str
+    image: str | None = None
+    scrape_status: str | None = None
+    google_event_id: str | None = None
     board_type: ItemType = Field(validation_alias="type", serialization_alias="type")
     sort_order: int = 0
     created_at: datetime
