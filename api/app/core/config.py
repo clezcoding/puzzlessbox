@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -38,6 +38,16 @@ class Settings(BaseSettings):
         elif value.startswith("postgresql://"):
             value = "postgresql+psycopg2://" + value[len("postgresql://") :]
         return value
+
+    @model_validator(mode="after")
+    def reject_localhost_webapp_in_prod(self) -> "Settings":
+        if self.is_prod:
+            host = (self.WEBAPP_URL or "").lower()
+            if "localhost" in host or "127.0.0.1" in host:
+                raise ValueError(
+                    "WEBAPP_URL must not point at localhost when ENV=prod"
+                )
+        return self
 
     @property
     def is_prod(self) -> bool:
