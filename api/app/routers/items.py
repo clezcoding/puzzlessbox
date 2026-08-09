@@ -271,6 +271,7 @@ def _sync_event_after_local_update(
     payload: ItemUpdate,
     *,
     force: bool,
+    ensure_remote: bool = False,
 ) -> None:
     event_row = db.get(Event, uuid.UUID(item_id))
     if event_row is None:
@@ -281,7 +282,7 @@ def _sync_event_after_local_update(
     connected = bool(status_info.get("connected") and status_info.get("selected_calendar_id"))
 
     if not event_row.google_event_id:
-        if connected and calendar_changed:
+        if connected and (calendar_changed or ensure_remote):
             sync_local_event_to_google(db, owner_id, event_row)
         return
 
@@ -332,6 +333,11 @@ def update_item(
     owner_id = current_owner_id.get()
     current_type = _lookup_item_type(db, owner_id, item_id)
     force = if_none_match == "*"
+    type_changed_to_event = (
+        payload.type is not None
+        and payload.type == ItemType.event
+        and current_type != ItemType.event
+    )
 
     if payload.type is not None and payload.type != current_type:
         if current_type == ItemType.event:
@@ -351,7 +357,14 @@ def update_item(
 
     effective_type = payload.type if payload.type is not None else current_type
     if effective_type == ItemType.event:
-        _sync_event_after_local_update(db, owner_id, item_id, payload, force=force)
+        _sync_event_after_local_update(
+            db,
+            owner_id,
+            item_id,
+            payload,
+            force=force,
+            ensure_remote=type_changed_to_event,
+        )
 
     return {"id": item_id}
 
