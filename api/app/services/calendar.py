@@ -88,6 +88,8 @@ def _normalize_times(
 ) -> tuple[datetime, datetime]:
     """Derive timed window when starts_at/ends_at partially or fully null (D-01)."""
     if starts_at is not None and ends_at is not None:
+        if starts_at > ends_at:
+            starts_at, ends_at = ends_at, starts_at
         return starts_at, ends_at
     if starts_at is not None:
         return starts_at, starts_at + timedelta(hours=1)
