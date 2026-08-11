@@ -15,7 +15,9 @@ from tests.conftest import (
 
 
 @pytest.mark.asyncio
-async def test_handle_user_message_happy_path(mock_create_item_result, mock_categories):
+async def test_handle_user_message_happy_path(
+    mock_create_item_result, mock_categories, mock_create_task
+):
     session = MockSession()
     with (
         patch(
@@ -28,7 +30,7 @@ async def test_handle_user_message_happy_path(mock_create_item_result, mock_cate
             new_callable=AsyncMock,
             return_value=mock_create_item_result,
         ) as mock_create,
-        patch("dialog.asyncio.create_task"),
+        patch("dialog.asyncio.create_task", side_effect=mock_create_task),
     ):
         reply = await dialog.handle_user_message(session, "Meeting mit Team")
 
@@ -175,7 +177,7 @@ async def test_single_active_draft_wait_branch(active_draft_state):
 
 @pytest.mark.asyncio
 async def test_single_active_draft_sichern_branch(
-    active_draft_state, mock_create_item_result, mock_categories
+    active_draft_state, mock_create_item_result, mock_categories, mock_create_task
 ):
     session = MockSession(
         {
@@ -199,7 +201,7 @@ async def test_single_active_draft_sichern_branch(
             new_callable=AsyncMock,
             return_value=mock_create_item_result,
         ) as mock_create,
-        patch("dialog.asyncio.create_task"),
+        patch("dialog.asyncio.create_task", side_effect=mock_create_task),
     ):
         reply = await dialog.handle_user_message(session, "sichern")
 
@@ -211,7 +213,7 @@ async def test_single_active_draft_sichern_branch(
 
 @pytest.mark.asyncio
 async def test_single_active_draft_verwerfen_branch(
-    active_draft_state, mock_create_item_result, mock_categories
+    active_draft_state, mock_create_item_result, mock_categories, mock_create_task
 ):
     session = MockSession(
         {
@@ -235,7 +237,7 @@ async def test_single_active_draft_verwerfen_branch(
             new_callable=AsyncMock,
             return_value=mock_create_item_result,
         ) as mock_create,
-        patch("dialog.asyncio.create_task"),
+        patch("dialog.asyncio.create_task", side_effect=mock_create_task),
     ):
         reply = await dialog.handle_user_message(session, "verwerfen")
 
@@ -247,7 +249,7 @@ async def test_single_active_draft_verwerfen_branch(
 
 @pytest.mark.asyncio
 async def test_list_categories_called_before_create_item(
-    mock_create_item_result, mock_categories
+    mock_create_item_result, mock_categories, mock_create_task
 ):
     session = MockSession()
     call_order: list[str] = []
@@ -263,7 +265,7 @@ async def test_list_categories_called_before_create_item(
     with (
         patch("dialog.call_mcp_list_categories", side_effect=track_categories),
         patch("dialog.call_mcp_create_item", side_effect=track_create),
-        patch("dialog.asyncio.create_task"),
+        patch("dialog.asyncio.create_task", side_effect=mock_create_task),
     ):
         await dialog.handle_user_message(session, "Einkaufsliste")
 
