@@ -366,7 +366,13 @@ class GoogleCalendarService:
 
 
 def sync_local_event_to_google(db: Session, owner_id: str, event: Event) -> Event:
-    """Push existing local Event row to Google (D-09–D-11). Updates row in place."""
+    """Push existing local Event row to Google (D-09–D-11). Updates row in place.
+
+    D-01: derives a 1h window when starts_at/ends_at are null, persists normalized
+    times on the local row before the Google insert attempt, and keeps those times
+    even when insert fails (soft-fail). Clients may see scheduled times locally
+    without a google_event_id until a later sync succeeds.
+    """
     if event.google_event_id:
         return event
 
