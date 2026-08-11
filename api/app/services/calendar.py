@@ -83,7 +83,7 @@ def _client_config(settings: Settings) -> dict[str, Any]:
     }
 
 
-def _normalize_times(
+def normalize_times(
     starts_at: datetime | None, ends_at: datetime | None
 ) -> tuple[datetime, datetime]:
     """Derive timed window when starts_at/ends_at partially or fully null (D-01)."""
@@ -252,7 +252,7 @@ class GoogleCalendarService:
         calendar_id = self._selected_calendar_id(db, owner_id)
         service = self._calendar_service(db, owner_id)
 
-        normalized_start, normalized_end = _normalize_times(starts_at, ends_at)
+        normalized_start, normalized_end = normalize_times(starts_at, ends_at)
         body: dict[str, Any] = {
             "summary": title,
             "description": summary,
@@ -399,7 +399,7 @@ def sync_local_event_to_google(db: Session, owner_id: str, event: Event) -> Even
         return event
 
     calendar_id = status["selected_calendar_id"]
-    normalized_start, normalized_end = _normalize_times(event.starts_at, event.ends_at)
+    normalized_start, normalized_end = normalize_times(event.starts_at, event.ends_at)
     event.starts_at = normalized_start
     event.ends_at = normalized_end
     body: dict[str, Any] = {

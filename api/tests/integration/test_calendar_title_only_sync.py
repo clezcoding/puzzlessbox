@@ -9,7 +9,7 @@ from uuid import uuid4
 import pytest
 from sqlalchemy import text
 
-from app.services.calendar import _normalize_times
+from app.services.calendar import normalize_times
 from tests.conftest import API_HEADERS
 from tests.integration.test_calendar import (
     MOCK_CALENDAR_ID,
@@ -25,7 +25,7 @@ from tests.integration.test_calendar_sync_wiring import (
 
 def test_normalize_times_null_null_derives_one_hour_window() -> None:
     before = datetime.now(timezone.utc)
-    start, end = _normalize_times(None, None)
+    start, end = normalize_times(None, None)
     after = datetime.now(timezone.utc)
     assert start.tzinfo is not None
     assert end.tzinfo is not None
@@ -35,14 +35,14 @@ def test_normalize_times_null_null_derives_one_hour_window() -> None:
 
 def test_normalize_times_null_start_derives_start_from_end() -> None:
     end = datetime(2026, 8, 1, 11, 0, tzinfo=timezone.utc)
-    start, normalized_end = _normalize_times(None, end)
+    start, normalized_end = normalize_times(None, end)
     assert start == end - timedelta(hours=1)
     assert normalized_end == end
 
 
 def test_normalize_times_null_end_derives_end_from_start() -> None:
     start = datetime(2026, 8, 1, 10, 0, tzinfo=timezone.utc)
-    normalized_start, end = _normalize_times(start, None)
+    normalized_start, end = normalize_times(start, None)
     assert normalized_start == start
     assert end == start + timedelta(hours=1)
 
@@ -50,7 +50,13 @@ def test_normalize_times_null_end_derives_end_from_start() -> None:
 def test_normalize_times_both_provided_passthrough() -> None:
     start = datetime(2026, 8, 1, 10, 0, tzinfo=timezone.utc)
     end = datetime(2026, 8, 1, 11, 30, tzinfo=timezone.utc)
-    assert _normalize_times(start, end) == (start, end)
+    assert normalize_times(start, end) == (start, end)
+
+
+def test_normalize_times_inverted_range_swapped() -> None:
+    start = datetime(2026, 8, 1, 11, 30, tzinfo=timezone.utc)
+    end = datetime(2026, 8, 1, 10, 0, tzinfo=timezone.utc)
+    assert normalize_times(start, end) == (end, start)
 
 
 def test_sync_title_only_confirm_derives_persists_and_inserts_datetimes(
