@@ -248,6 +248,7 @@ class GoogleCalendarService:
         ends_at: datetime | None,
         category_id: uuid.UUID,
     ) -> tuple[Event, dict[str, Any]]:
+        """Create local Event and push to Google. Soft-fails like sync_local_event_to_google."""
         calendar_id = self._selected_calendar_id(db, owner_id)
         service = self._calendar_service(db, owner_id)
 
@@ -259,7 +260,6 @@ class GoogleCalendarService:
             "end": {"dateTime": normalized_end.isoformat()},
         }
 
-        remote = service.events().insert(calendarId=calendar_id, body=body).execute()
         now = datetime.now(timezone.utc)
         event = Event(
             owner_id=uuid.UUID(owner_id),
@@ -268,14 +268,32 @@ class GoogleCalendarService:
             summary=summary,
             starts_at=normalized_start,
             ends_at=normalized_end,
-            google_event_id=remote.get("id"),
-            etag=remote.get("etag"),
             created_at=now,
             updated_at=now,
         )
         db.add(event)
         db.commit()
         db.refresh(event)
+
+        remote: dict[str, Any] = {}
+        try:
+            remote = service.events().insert(calendarId=calendar_id, body=body).execute()
+            event.google_event_id = remote.get("id")
+            event.etag = remote.get("etag")
+            event.updated_at = datetime.now(timezone.utc)
+            db.add(event)
+            db.commit()
+            db.refresh(event)
+        except Exception:
+            logger.exception(
+                "create_event Google insert failed for owner_id=%s title=%r",
+                owner_id,
+                title,
+            )
+            db.rollback()
+            db.add(event)
+            db.commit()
+            db.refresh(event)
         return event, remote
 
     def get_remote_event(
