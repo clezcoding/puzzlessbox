@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: audit polish
 current_phase: 05.4
-status: completed
+status: "Phase 05.4 shipped — PR #67"
 stopped_at: Completed 05.4-01-PLAN.md
-last_updated: "2026-08-11T00:24:47.180Z"
+last_updated: "2026-08-11T00:27:22.266Z"
 progress:
   total_phases: 9
   completed_phases: 9
@@ -32,11 +32,11 @@ current_phase_name: address-residual-v1-0-audit-polish-cal-title-only-sync-stale
 
 - **Phase:** 05.4
 - **Prior:** 04 (webapp) — PR #21; 03 Hermes — PR #20; 02 MCP — PR #15
-- **Status:** All phases complete
+- **Status:** Phase 05.4 shipped — PR #67
 - **Resume:** /gsd-execute-phase 05.4
 - **Milestone audit:** `.planning/v1.0-MILESTONE-AUDIT.md` — `passed`; residual polish → Phase 05.4
 - **UAT login:** `uat@puzzless.local` / `UatTestPass1!` (prod + local)
-- **PR:** https://github.com/clezcoding/puzzlessbox/pull/64 (Dockerfile); #62 OAuth Accept skip; #65 Phase 05.3
+- **PR:** https://github.com/clezcoding/puzzlessbox/pull/67 (Phase 05.4); #65 Phase 05.3; #64 Dockerfile
 
 ```
 [████████████████████] 39/41 plans (05.4: 1/3 complete)
@@ -166,7 +166,7 @@ current_phase_name: address-residual-v1-0-audit-polish-cal-title-only-sync-stale
 - **05.2 UAT:** complete (Connect Google + conflict panel pass); VALIDATION validated + nyquist_compliant
 - **Coolify:** api/mcp/web healthy under `*.puzzlesstool.online`
 - **Nyquist:** phases 0–5 + 05.1 + 05.2 + 05.3 COMPLIANT
-- **Next recommended action:** /gsd-execute-phase 05.4
+- **Next recommended action:** /gsd-complete-milestone v1.0 (after PR #67 merge)
 - **Open assumptions** (aus Brief Abschnitt 11): WebApp-Auth-Umfang, FastAPI-Pin, Subdomain-Struktur, Backup-Retention — in den jeweiligen Discuss-Phasen klären.
 
 ---
